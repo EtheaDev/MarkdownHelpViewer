@@ -40,8 +40,6 @@ interface
     ;
 
 resourcestring
-  MARKDOWN_FILES = 'MarkDown text files';
-  HTML_FILES = 'HTML text files';
   PDF_FILES = 'PDF files';
 
   function GetTempDirectory: string;

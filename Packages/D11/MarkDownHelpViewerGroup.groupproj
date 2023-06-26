@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{F83FF37F-5213-4E1A-B153-BDE020C3DB2C}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="MarkDownViewer.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="dclMarkDownViewer.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="MarkDownViewer">
+        <MSBuild Projects="MarkDownViewer.dproj"/>
+    </Target>
+    <Target Name="MarkDownViewer:Clean">
+        <MSBuild Projects="MarkDownViewer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MarkDownViewer:Make">
+        <MSBuild Projects="MarkDownViewer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="dclMarkDownViewer">
+        <MSBuild Projects="dclMarkDownViewer.dproj"/>
+    </Target>
+    <Target Name="dclMarkDownViewer:Clean">
+        <MSBuild Projects="dclMarkDownViewer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dclMarkDownViewer:Make">
+        <MSBuild Projects="dclMarkDownViewer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="MarkDownViewer;dclMarkDownViewer"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="MarkDownViewer:Clean;dclMarkDownViewer:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="MarkDownViewer:Make;dclMarkDownViewer:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
