@@ -51,16 +51,19 @@ uses
   , MarkdownProcessor
   ;
 
+resourcestring
+  MARKDOWN_FILES = 'MarkDown text files';
+  HTML_FILES = 'HTML text files';
+
 Type
-  TMarkDownViewer = class(THTMLViewer)
+  TCustomMarkDownViewer = class(THTMLViewer)
   private
     FFileName: TFileName;
-    FFileContent: string;
-    FHTMLContent: string;
+    FMarkDownContent: TStringList;
+    FHTMLContent: TStringList;
+    FCssStyle: TStringList;
     FProcessorDialect: TMarkdownProcessorDialect;
-    FCssStyle: string;
     FRescalingImage: Boolean;
-    FMarkDownContent: string;
     FStream: TMemoryStream;
     FImageRequest: TGetImageEvent;
     procedure SetFileName(const AValue: TFileName);
@@ -68,15 +71,16 @@ Type
     function IsCssStyleStored: Boolean;
     function IsDefFontName: Boolean;
 
-    procedure SetCssStyle(const Value: string);
+    procedure SetCssStyle(const AValue: TStringList);
     procedure SetRescalingImage(const Value: Boolean);
-    procedure SetHTMLContent(const Value: string);
-    procedure SetMarkDownContent(const Value: string);
+    procedure SetHTMLContent(const AValue: TStringList);
+    procedure SetMarkDownContent(const AValue: TStringList);
     procedure HtmlViewerImageRequest(Sender: TObject;
       const ASource: UnicodeString; var AStream: TStream);
     procedure ConvertImage(AFileName: string; const AMaxWidth: Integer;
       const ABackgroundColor: TColor);
     function GetOnImageRequest: TGetImageEvent;
+    function IsHtmlContentStored: Boolean;
   protected
     procedure SetOnImageRequest(const AValue: TGetImageEvent); reintroduce;
   public
@@ -90,8 +94,17 @@ Type
     destructor Destroy; override;
     procedure RefreshViewer(const AReloadImages: Boolean;
       ARescalingImage: Boolean);
+
+    //specific properties
+    property CssStyle: TStringList read FCssStyle write SetCssStyle stored IsCssStyleStored;
+    property FileName: TFileName read FFileName write SetFileName;
+    property ProcessorDialect: TMarkdownProcessorDialect read FProcessorDialect write SetProcessorDialect default mdCommonMark;
+    property RescalingImage: Boolean read FRescalingImage write SetRescalingImage default False;
+    property HtmlContent: TStringList read FHTMLContent write SetHTMLContent stored IsHtmlContentStored;
+    property MarkDownContent: TStringList read FMarkDownContent write SetMarkDownContent;
+    property OnImageRequest: TGetImageEvent read GetOnImageRequest write SetOnImageRequest;
   published
-    //inherited properties
+    //inherited properties to change default
     property AlignWithMargins default True;
     property BorderStyle default htFocused;
     property DefBackground default clWindow;
@@ -99,15 +112,18 @@ Type
     property DefFontSize default 10;
     property NoSelect default False;
     property Text stored False;
+  end;
 
+  TMarkDownViewer = class(TCustomMarkDownViewer)
+  published
     //specific properties
-    property CssStyle: string read FCssStyle write SetCssStyle stored IsCssStyleStored;
-    property FileName: TFileName read FFileName write SetFileName;
-    property ProcessorDialect: TMarkdownProcessorDialect read FProcessorDialect write SetProcessorDialect default mdCommonMark;
-    property RescalingImage: Boolean read FRescalingImage write SetRescalingImage;
-    property HtmlContent: string read FHTMLContent write SetHTMLContent;
-    property MarkDownContent: string read FMarkDownContent write SetMarkDownContent;
-    property OnImageRequest: TGetImageEvent read GetOnImageRequest write SetOnImageRequest;
+    property CssStyle;
+    property FileName;
+    property ProcessorDialect;
+    property RescalingImage;
+    property HtmlContent;
+    property MarkDownContent;
+    property OnImageRequest;
   end;
 
 function TryLoadTextFile(const AFileName: TFileName): string;
@@ -194,12 +210,16 @@ begin
   end;
 end;
 
-{ TMarkDownViewer }
+{ TCustomMarkDownViewer }
 
-constructor TMarkDownViewer.Create(AOwner: TComponent);
+constructor TCustomMarkDownViewer.Create(AOwner: TComponent);
 begin
   inherited;
   FStream := TMemoryStream.Create;
+  FMarkDownContent := TStringList.Create;
+  FHTMLContent := TStringList.Create;
+  FCssStyle := TStringList.Create;
+
   inherited OnImageRequest := HtmlViewerImageRequest;
 
   //inherited properties: default changed
@@ -210,16 +230,21 @@ begin
   DefFontSize := 10;
   NoSelect := False;
 
-  FCssStyle := GetMarkDownDefaultCSS;
+  FProcessorDialect := mdCommonMark;
+  FCssStyle.Text := GetMarkDownDefaultCSS;
 end;
 
-destructor TMarkDownViewer.Destroy;
+destructor TCustomMarkDownViewer.Destroy;
 begin
   FreeAndNil(FStream);
+  FreeAndNil(FMarkDownContent);
+  FreeAndNil(FHTMLContent);
+  FreeAndNil(FCssStyle);
+
   inherited;
 end;
 
-procedure TMarkDownViewer.SetOnImageRequest(const AValue: TGetImageEvent);
+procedure TCustomMarkDownViewer.SetOnImageRequest(const AValue: TGetImageEvent);
 begin
   FImageRequest := AValue;
   if Assigned(FImageRequest) then
@@ -228,107 +253,112 @@ begin
     inherited OnImageRequest := HtmlViewerImageRequest;
 end;
 
-function TMarkDownViewer.GetOnImageRequest: TGetImageEvent;
+function TCustomMarkDownViewer.GetOnImageRequest: TGetImageEvent;
 begin
   Result := FImageRequest;
 end;
 
-function TMarkDownViewer.IsCssStyleStored: Boolean;
+function TCustomMarkDownViewer.IsCssStyleStored: Boolean;
 begin
-  Result := FCssStyle <> GetMarkDownDefaultCSS;
+  Result := FCssStyle.Text <> GetMarkDownDefaultCSS;
 end;
 
-function TMarkDownViewer.IsDefFontName: Boolean;
+function TCustomMarkDownViewer.IsDefFontName: Boolean;
 begin
   Result := DefFontName <> 'Arial';
 end;
 
-procedure TMarkDownViewer.LoadFromFile(const AFileName: TFileName);
+function TCustomMarkDownViewer.IsHtmlContentStored: Boolean;
+begin
+  Result := (FHTMLContent.Text <> '') and  (FMarkDownContent.Text = '');
+end;
+
+procedure TCustomMarkDownViewer.LoadFromFile(const AFileName: TFileName);
 begin
   //Load file
   LoadFromString(TryLoadTextFile(AFileName));
 end;
 
-procedure TMarkDownViewer.LoadFromStream(const AStream: TStringStream);
+procedure TCustomMarkDownViewer.LoadFromStream(const AStream: TStringStream);
 begin
   LoadFromString(AStream.DataString);
 end;
 
-procedure TMarkDownViewer.LoadFromString(const AValue: string);
+procedure TCustomMarkDownViewer.LoadFromString(const AValue: string);
 begin
   //Load file
-  FFileContent := AValue;
-  if not ContainsText(FFileContent, '<HTML>') then
+  if not ContainsText(AValue, '<HTML>') then
   begin
-    FMarkDownContent := FFileContent;
-    FHTMLContent := TransformContent(FMarkDownContent, FProcessorDialect, FCssStyle);
+    FMarkDownContent.Text := AValue;
+    FHTMLContent.Text := TransformContent(FMarkDownContent.Text, FProcessorDialect, FCssStyle.Text);
   end
   else
   begin
     //Do not trasform content
-    FHTMLContent := AValue;
-    FMarkDownContent := '';
+    FHTMLContent.Text := AValue;
+    FMarkDownContent.Text := '';
   end;
   //Load html content into HtmlViewer
   RefreshViewer(True, FRescalingImage);
 end;
 
-procedure TMarkDownViewer.RefreshViewer(const AReloadImages: Boolean;
+procedure TCustomMarkDownViewer.RefreshViewer(const AReloadImages: Boolean;
   ARescalingImage: Boolean);
 var
   LOldPos: Integer;
 begin
   if AReloadImages then
     Self.Clear;
-  if FHTMLContent = '' then
+  if FHTMLContent.Text = '' then
     Exit;
   //Load HTML content into HTML-Viewer
   LOldPos := Self.VScrollBarPosition;
   try
-    inherited LoadFromString(FHTMLContent);
+    inherited LoadFromString(FHTMLContent.Text);
   finally
     Self.VScrollBarPosition := LOldPos;
   end;
 end;
 
-procedure TMarkDownViewer.SetCssStyle(const Value: string);
+procedure TCustomMarkDownViewer.SetCssStyle(const AValue: TStringList);
 begin
-  FCssStyle := Value;
+  FCssStyle.Assign(AValue);
 end;
 
-procedure TMarkDownViewer.SetFileName(const AValue: TFileName);
+procedure TCustomMarkDownViewer.SetFileName(const AValue: TFileName);
 begin
   if FFileName <> AValue then
   begin
-    LoadFromFile(AValue);
+    if AValue <> '' then
+      LoadFromFile(AValue);
     FFileName := AValue;
   end;
 end;
 
-procedure TMarkDownViewer.SetHTMLContent(const Value: string);
+procedure TCustomMarkDownViewer.SetHTMLContent(const AValue: TStringList);
 begin
-  if FHTMLContent <> Value then
-    LoadFromString(Value);
+  if FHTMLContent.Text <> AValue.Text then
+    LoadFromString(AValue.Text);
 end;
 
-procedure TMarkDownViewer.SetMarkDownContent(const Value: string);
+procedure TCustomMarkDownViewer.SetMarkDownContent(const AValue: TStringList);
 begin
-  if FMarkDownContent <> Value then
-    LoadFromString(Value);
+  if FMarkDownContent.Text <> AValue.Text then
+    LoadFromString(AValue.Text);
 end;
 
-procedure TMarkDownViewer.SetProcessorDialect(
+procedure TCustomMarkDownViewer.SetProcessorDialect(
   const AValue: TMarkdownProcessorDialect);
 begin
   FProcessorDialect := AValue;
 end;
 
-procedure TMarkDownViewer.SetRescalingImage(const Value: Boolean);
+procedure TCustomMarkDownViewer.SetRescalingImage(const Value: Boolean);
 begin
   FRescalingImage := Value;
 end;
 
-function TMarkDownViewer.TransformContent(const AMarkDownContent: string;
+function TCustomMarkDownViewer.TransformContent(const AMarkDownContent: string;
   AProcessorDialect: TMarkdownProcessorDialect = mdCommonMark;
   const ACssStyle: string = ''): string;
 var
@@ -343,7 +373,7 @@ begin
   End;
 end;
 
-procedure TMarkDownViewer.ConvertImage(AFileName: string;
+procedure TCustomMarkDownViewer.ConvertImage(AFileName: string;
   const AMaxWidth: Integer; const ABackgroundColor: TColor);
 var
   {$if CompilerVersion > 33}
@@ -474,7 +504,7 @@ begin
   end;
 end;
 
-procedure TMarkDownViewer.HtmlViewerImageRequest(Sender: TObject;
+procedure TCustomMarkDownViewer.HtmlViewerImageRequest(Sender: TObject;
   const ASource: UnicodeString; var AStream: TStream);
 var
   LFullName: String;

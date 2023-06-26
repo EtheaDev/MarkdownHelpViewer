@@ -1,6 +1,7 @@
-package MarkDownViewer;
+package dclMarkDownViewer;
 
 {$R *.res}
+{$R 'MarkDownHelpViewer.dcr'}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
 {$ASSERTIONS ON}
@@ -9,31 +10,32 @@ package MarkDownViewer;
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
-{$LOCALSYMBOLS ON}
+{$LOCALSYMBOLS OFF}
 {$LONGSTRINGS ON}
 {$OPENSTRINGS ON}
-{$OPTIMIZATION OFF}
-{$OVERFLOWCHECKS ON}
-{$RANGECHECKS ON}
-{$REFERENCEINFO ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
 {$SAFEDIVIDE OFF}
-{$STACKFRAMES ON}
+{$STACKFRAMES OFF}
 {$TYPEDADDRESS OFF}
 {$VARSTRINGCHECKS ON}
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DEFINE DEBUG}
+{$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'Ethea - Markdown Viewer'}
-{$LIBSUFFIX AUTO}
-{$RUNONLY}
+{$DESCRIPTION 'Ethea Markdown Help Viewer Components'}
+{$LIBSUFFIX 'DXE6'}
+{$DESIGNONLY}
 {$IMPLICITBUILD ON}
 
 requires
-  rtl;
+  DesignIDE,
+  MarkDownViewer;
 
 contains
-  MarkDownHelpViewerComponents in '..\Components\MarkDownHelpViewerComponents.pas';
+  MarkDownViewerRegister in '..\..\Components\MarkDownViewerRegister.pas';
 
 end.
