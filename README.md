@@ -233,6 +233,18 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 ***To simpilfy compilation of projects they are added into ext folder***
 
+[SVGIconImageList](https://github.com/EtheaDev/SVGIconImageList)
+
+[HtmlViewer](https://github.com/BerndGabriel/HtmlViewer)
+
+[vcl-styles-utils](https://github.com/RRUZ/vcl-styles-utils)
+
+[delphi-markdown](https://github.com/grahamegrieve/delphi-markdown)
+
+![Delphi 11 Alexandria Support](/Setup/SupportingDelphi.jpg)
+
+Related links: [embarcadero.com][7] - [learndelphi.org][8]
+
 [1]: https://github.com/EtheaDev/SVGIconImageList
 
 [2]: https://github.com/BerndGabriel/HtmlViewer
@@ -242,10 +254,6 @@ Unless required by applicable law or agreed to in writing, software distributed 
 [4]: https://github.com/RRUZ/vcl-styles-utils
 
 [5]: https://github.com/grahamegrieve/delphi-markdown
-
-![Delphi 11 Alexandria Support](/Setup/SupportingDelphi.jpg)
-
-Related links: [embarcadero.com][7] - [learndelphi.org][8]
 
 [6]: https://opensource.org/licenses/Apache-2.0
 
