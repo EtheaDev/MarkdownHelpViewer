@@ -1,6 +1,6 @@
 {******************************************************************************}
 {                                                                              }
-{       MarkDown Help Viewer: Main Form                                        }
+{       Markdown Help Viewer: Main Form                                        }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
 {       Copyright (c) 2023 (Ethea S.r.l.)                                      }
@@ -98,6 +98,8 @@ type
     HtmlViewer: THtmlViewer;
     ClientPanel: TPanel;
     SVGIconImageListColored: TSVGIconImageList;
+    acRefresh: TAction;
+    btRefresh: TToolButton;
     procedure FormCreate(Sender: TObject);
     procedure acFileOpenAccept(Sender: TObject);
     procedure acSettingsExecute(Sender: TObject);
@@ -128,7 +130,11 @@ type
     procedure acViewSearchUpdate(Sender: TObject);
     procedure acViewSearchExecute(Sender: TObject);
     procedure ClientPanelResize(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure acRefreshUpdate(Sender: TObject);
+    procedure acRefreshExecute(Sender: TObject);
   private
+    FRememberToResize: boolean;
     FLoading: boolean;
     FOldViewerResize: Integer;
     FFirstTime: Boolean;
@@ -169,7 +175,7 @@ type
     procedure SetCurrentFileName(const AValue: TFileName);
     procedure SetCurrentIndexFileName(const AValue: TFileName);
     procedure FileSavedAskToOpen(const AFileName: string);
-    procedure ShowMarkDownAsHTML(const AHTMLViewer: THTMLViewer;
+    procedure ShowMarkdownAsHTML(const AHTMLViewer: THTMLViewer;
       const AHTMLContent: string; const AReloadImages: Boolean);
     procedure SetShowToolbarCaptions(const Value: Boolean);
     procedure SetUseColoredIcons(const Value: Boolean);
@@ -291,7 +297,7 @@ begin
   begin
     //Reload content, forcing reloading images if size of ClientPanel changes
     FOldViewerResize := ClientPanel.Width;
-    TransformTo(HtmlViewer, FMdContent, True);
+    FRememberToResize := True;
   end;
 end;
 
@@ -368,7 +374,7 @@ begin
       begin
         //Search markdown files
         GetFileNamesWithExtensions(LFileList, FWorkingFolder,
-          GetFileMasks(AMarkDownFileExt));
+          GetFileMasks(AMarkdownFileExt));
       end
       else
       begin
@@ -455,12 +461,12 @@ end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 var
-  LMarkDownMasks, LHTMLMasks: string;
+  LMarkdownMasks, LHTMLMasks: string;
 begin
-  LMarkDownMasks := GetFileMasks(AMarkDownFileExt);
+  LMarkdownMasks := GetFileMasks(AMarkdownFileExt);
   LHTMLMasks := GetFileMasks(AHTMLFileExt);
   acFileOpen.Dialog.Filter :=
-    Format('%s (%s)|%s', [MARKDOWN_FILES, LMarkDownMasks, LMarkDownMasks])+'|'+
+    Format('%s (%s)|%s', [MARKDOWN_FILES, LMarkdownMasks, LMarkdownMasks])+'|'+
     Format('%s (%s)|%s', [HTML_FILES, LHTMLMasks, LHTMLMasks]);
 
   SaveDialog.Filter := acFileOpen.Dialog.Filter;
@@ -491,12 +497,18 @@ begin
   FOpenedFileList.Free;
 end;
 
+procedure TMainForm.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = chr(27) then
+    dmResources.StopLoadingImages(True);
+end;
+
 function TMainForm.GetCssContent: string;
 begin
   if FCssContent <> '' then
     Result := FCssContent
   else
-    Result := GetMarkDownDefaultCSS;
+    Result := GetMarkdownDefaultCSS;
 end;
 
 procedure TMainForm.HtmlViewerHotSpotClick(Sender: TObject;
@@ -509,7 +521,7 @@ begin
     LFileName := FWorkingFolder+LFileName;
   if not FileExists(LFileName) then
   begin
-    if FileWithExtExists(LFileName, AMarkDownFileExt) then
+    if FileWithExtExists(LFileName, AMarkdownFileExt) then
     begin
       LoadAndTransformFile(LFileName);
       Handled := True;
@@ -589,7 +601,7 @@ begin
       //Update Form Caption
       UpdateCaption;
 
-      //Set WorkingFolder as Path of MarkDown File
+      //Set WorkingFolder as Path of Markdown File
       LWorkingFolder := ExtractFilePath(AFileName);
 
       //Search for a css file into this folder
@@ -610,20 +622,20 @@ end;
 procedure TMainForm.TransformTo(const AHTMLViewer: THtmlViewer;
   const AMdContent: string; const AReloadImage: Boolean);
 var
-  LMarkDownProcessor: TMarkdownProcessor;
+  LMarkdownProcessor: TMarkdownProcessor;
   LHtml : string;
 begin
   //If loaded Markdown file, then Transform in HTML
   if (FMdContent <> '') then
   begin
-    //Transform file MarkDown in HTML using TMarkdownProcessor
-    LMarkDownProcessor := TMarkdownProcessor.CreateDialect(
+    //Transform file Markdown in HTML using TMarkdownProcessor
+    LMarkdownProcessor := TMarkdownProcessor.CreateDialect(
       FViewerSettings.ProcessorDialect);
     Try
-      LHtml := LMarkDownProcessor.Process(AMdContent);
+      LHtml := LMarkdownProcessor.Process(AMdContent);
       LHtml := CSSContent+LHtml;
     Finally
-      LMarkDownProcessor.Free;
+      LMarkdownProcessor.Free;
     End;
   end
   else
@@ -632,7 +644,7 @@ begin
     LHtml := FHtmlContent;
   end;
   //Load html content into HtmlViewer
-  ShowMarkDownAsHTML(AHTMLViewer, LHtml, AReloadImage);
+  ShowMarkdownAsHTML(AHTMLViewer, LHtml, AReloadImage);
 end;
 
 function TMainForm.TryLoadCSS(const AFileName: TFileName): Boolean;
@@ -642,7 +654,7 @@ begin
     LoadCSS(AFileName);
 end;
 
-procedure TMainForm.ShowMarkDownAsHTML(const AHTMLViewer: THTMLViewer;
+procedure TMainForm.ShowMarkdownAsHTML(const AHTMLViewer: THTMLViewer;
   const AHTMLContent: string; const AReloadImages: Boolean);
 var
   LOldPos: Integer;
@@ -653,11 +665,14 @@ begin
     Exit;
   //Load HTML content into HTML-Viewer
   LOldPos := AHtmlViewer.VScrollBarPosition;
-  AHtmlViewer.DefFontSize := FViewerSettings.HTMLFontSize;
-  AHtmlViewer.DefFontName := FViewerSettings.HTMLFontName;
-  AHtmlViewer.LoadFromString(AHTMLContent);
-  AHtmlViewer.VScrollBarPosition := LOldPos;
-  dmResources.StopLoadingImages(False);
+  try
+    AHtmlViewer.DefFontSize := FViewerSettings.HTMLFontSize;
+    AHtmlViewer.DefFontName := FViewerSettings.HTMLFontName;
+    AHtmlViewer.LoadFromString(AHTMLContent);
+    dmResources.StopLoadingImages(False);
+  finally
+    AHtmlViewer.VScrollBarPosition := LOldPos;
+  end;
   AHtmlViewer.Update;
 end;
 
@@ -767,6 +782,7 @@ begin
   begin
     FCurrentFileName := AValue;
     FViewerSettings.CurrentFileName := AValue;
+    acFileOpen.Dialog.FileName := FCurrentFileName;
   end;
 end;
 
@@ -853,10 +869,10 @@ begin
 
     if FMdContent <> '' then
     begin
-      FileListBox.Mask := GetFileMasks(AMarkDownFileExt);
+      FileListBox.Mask := GetFileMasks(AMarkdownFileExt);
       //Search for Index(.markdown extension) file into this folder
       LFileName := FWorkingFolder+'Index.md';
-      if FileWithExtExists(LFileName, AMarkDownFileExt) then
+      if FileWithExtExists(LFileName, AMarkdownFileExt) then
         LoadAndTransformFileIndex(LFileName)
       else
         CurrentIndexFileName := '';
@@ -939,6 +955,17 @@ begin
   acPreviousPage.Enabled := (IndexOfCurrentFile > 0);
 end;
 
+procedure TMainForm.acRefreshExecute(Sender: TObject);
+begin
+  dmResources.StopLoadingImages(False);
+  LoadAndTransformFile(FCurrentFileName);
+end;
+
+procedure TMainForm.acRefreshUpdate(Sender: TObject);
+begin
+  acRefresh.Enabled := FCurrentFileName <> '';
+end;
+
 procedure TMainForm.acNextPageExecute(Sender: TObject);
 var
   LFileName: TFileName;
@@ -976,6 +1003,12 @@ begin
     LFileName := ParamStr(1);
     if FileExists(LFileName) then
       LoadAndTransformFile(LFileName);
+  end;
+
+  if FRememberToResize then
+  begin
+    FRememberToResize := False;
+    TransformTo(HtmlViewer, FMdContent, True);
   end;
   UpdateGui;
 end;

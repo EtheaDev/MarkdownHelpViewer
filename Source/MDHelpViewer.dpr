@@ -1,6 +1,6 @@
 {******************************************************************************}
 {                                                                              }
-{       MarkDown Help Viewer                                                   }
+{       Markdown Help Viewer                                                   }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
 {       Copyright (c) 2023 (Ethea S.r.l.)                                      }
@@ -38,8 +38,8 @@ uses
   MDHelpView.Misc in 'MDHelpView.Misc.pas',
   MDHelpView.About in 'MDHelpView.About.pas' {FrmAbout},
   vmHtmlToPdf in 'vmHtmlToPdf.pas',
-  MarkDownHelpViewer in '..\AppInterface\MarkDownHelpViewer.pas',
-  MarkDownViewerComponents in '..\Components\MarkDownViewerComponents.pas';
+  MarkdownHelpViewer in '.\AppInterface\MarkDownHelpViewer.pas',
+  MarkDownViewerComponents in '.\Components\MarkDownViewerComponents.pas';
 
 {$R *.res}
 

@@ -39,6 +39,8 @@
 {******************************************************************************}
 unit MarkDownViewerRegister;
 
+{$WARN UNIT_PLATFORM OFF}
+
 interface
 
 uses
@@ -51,7 +53,15 @@ uses
   ;
 
 type
-  TMarkDownViewerComponentEditor = class (TComponentEditor)
+  TFolderNameProperty = class(TStringProperty)
+  private
+    function GetViewer: TCustomMarkDownViewer;
+  public
+    function GetAttributes: TPropertyAttributes; override;
+    procedure Edit; override;
+  end;
+
+  TMarkdownViewerComponentEditor = class (TComponentEditor)
   private
     function GetViewer: TMarkDownViewer;
   public
@@ -67,36 +77,37 @@ implementation
 
 uses
   System.SysUtils
+  , Vcl.FileCtrl
   , Winapi.ShellAPI
   , Winapi.Windows
   , Vcl.Dialogs
   ;
 
 var
-  AMarkDownFileExt: TArray<String>;
+  AMarkdownFileExt: TArray<String>;
   AHTMLFileExt: TArray<String>;
 
-{ TMarkDownViewerComponentEditor }
+{ TMarkdownViewerComponentEditor }
 
-function TMarkDownViewerComponentEditor.GetViewer: TMarkDownViewer;
+function TMarkdownViewerComponentEditor.GetViewer: TMarkDownViewer;
 var
   LComponent: TPersistent;
 begin
   Result := nil;
   LComponent := GetComponent;
-  if LComponent is TMarkDownViewer then
-    Result := TMarkDownViewer(LComponent);
+  if LComponent is TMarkdownViewer then
+    Result := TMarkdownViewer(LComponent);
 end;
 
-procedure TMarkDownViewerComponentEditor.Edit;
+procedure TMarkdownViewerComponentEditor.Edit;
 begin
   inherited;
 end;
 
-procedure TMarkDownViewerComponentEditor.ExecuteVerb(Index: Integer);
+procedure TMarkdownViewerComponentEditor.ExecuteVerb(Index: Integer);
 var
   LOpenDialog: TOpenDialog;
-  LMarkDownMasks, LHTMLMasks: string;
+  LMarkdownMasks, LHTMLMasks: string;
 
   function GetFileMasks(const AFileExt: array of string;
     const ASeparator: Char = ';'): string;
@@ -119,10 +130,10 @@ begin
   begin
     LOpenDialog := TOpenDialog.Create(nil);
     try
-      LMarkDownMasks := GetFileMasks(AMarkDownFileExt);
+      LMarkdownMasks := GetFileMasks(AMarkdownFileExt);
       LHTMLMasks := GetFileMasks(AHTMLFileExt);
       LOpenDialog.Filter :=
-        Format('%s (%s)|%s', [MARKDOWN_FILES, LMarkDownMasks, LMarkDownMasks])+'|'+
+        Format('%s (%s)|%s', [MARKDOWN_FILES, LMarkdownMasks, LMarkdownMasks])+'|'+
         Format('%s (%s)|%s', [HTML_FILES, LHTMLMasks, LHTMLMasks]);
 
       if LOpenDialog.Execute then
@@ -139,7 +150,7 @@ begin
     PChar('https://github.com/EtheaDev/MarkdownHelpViewer'), nil, nil, SW_SHOWNORMAL);
 end;
 
-function TMarkDownViewerComponentEditor.GetVerb(Index: Integer): string;
+function TMarkdownViewerComponentEditor.GetVerb(Index: Integer): string;
 begin
   if Index = 0 then
     Result := 'Load from file...';
@@ -147,33 +158,68 @@ begin
     Result := 'Project page on GitHub...';
 end;
 
-function TMarkDownViewerComponentEditor.GetVerbCount: Integer;
+function TMarkdownViewerComponentEditor.GetVerbCount: Integer;
 begin
   Result := 2;
 end;
 
+{ TFolderNameProperty }
+
+function TFolderNameProperty.GetAttributes: TPropertyAttributes;
+begin
+  Result := [paDialog]
+end;
+
+function TFolderNameProperty.GetViewer: TCustomMarkDownViewer;
+var
+  LComponent: TPersistent;
+begin
+  LComponent := GetComponent(0);
+  if LComponent is TCustomMarkDownViewer then
+    Result := TCustomMarkDownViewer(LComponent)
+  else
+    Result := nil;
+end;
+
+procedure TFolderNameProperty.Edit;
+var
+  LViewer: TCustomMarkDownViewer;
+  LRoot: WideString;
+  LFolder: TFolderName;
+begin
+  LViewer := GetViewer;
+  if Assigned(LViewer) then
+    LRoot := LViewer.ServerRoot;
+  if SelectDirectory('Select a directory', LRoot, LFolder, [sdNewUI], LViewer) then
+  begin
+    SetValue(LFolder);
+    Designer.Modified;
+  end;
+end;
+
 procedure Register;
 begin
-  RegisterComponents('MarkDown',
-    [TMarkDownViewer]);
+  RegisterComponents('Markdown',
+    [TMarkdownViewer]);
 
-  RegisterComponentEditor(TMarkDownViewer, TMarkDownViewerComponentEditor);
+  RegisterPropertyEditor(TypeInfo(TFolderName), nil, '', TFolderNameProperty);
+
+  RegisterComponentEditor(TMarkdownViewer, TMarkdownViewerComponentEditor);
 end;
 
 initialization
-  SetLength(AMarkDownFileExt, 9);
-  AMarkDownFileExt[0] := '.md';
-  AMarkDownFileExt[1] := '.mkd';
-  AMarkDownFileExt[2] := '.mdwn';
-  AMarkDownFileExt[3] := '.mdown';
-  AMarkDownFileExt[4] := '.mdtxt';
-  AMarkDownFileExt[5] := '.mdtext';
-  AMarkDownFileExt[6] := '.markdown';
-  AMarkDownFileExt[7] := '.txt';
-  AMarkDownFileExt[8] := '.text';
+  SetLength(AMarkdownFileExt, 9);
+  AMarkdownFileExt[0] := '.md';
+  AMarkdownFileExt[1] := '.mkd';
+  AMarkdownFileExt[2] := '.mdwn';
+  AMarkdownFileExt[3] := '.mdown';
+  AMarkdownFileExt[4] := '.mdtxt';
+  AMarkdownFileExt[5] := '.mdtext';
+  AMarkdownFileExt[6] := '.markdown';
+  AMarkdownFileExt[7] := '.txt';
+  AMarkdownFileExt[8] := '.text';
 
   SetLength(AHTMLFileExt, 2);
   AHTMLFileExt[0] := '.html';
   AHTMLFileExt[1] := '.htm';
-
 end.

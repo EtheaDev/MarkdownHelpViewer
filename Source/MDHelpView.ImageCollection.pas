@@ -1,6 +1,6 @@
 {******************************************************************************}
 {                                                                              }
-{       MarkDown Help Viewer: View Image resources Unit                        }
+{       Markdown Help Viewer: View Image resources Unit                        }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
 {       Copyright (c) 2023 (Ethea S.r.l.)                                      }

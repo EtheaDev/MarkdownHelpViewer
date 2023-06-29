@@ -1,19 +1,19 @@
 ﻿# Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**Latest Version 1.0.0 - 25 Jun 2023**
+**Latest Version 1.1.0 - 29 Jun 2023**
 
 **An integrated help system based on files in Markdown format (and also html), for Delphi applications**
 
-- A "Setup" of the "MarkDown Help Viewer" ready to use.
+- A "Setup" of the "Markdown Help Viewer" ready to use.
 
-- A unit (MarkDownHelpViewer.pas) to add the interface to Delphi Help System of your Delphi Application (from XE6 version)
+- A unit (MarkdownHelpViewer.pas) to add the interface to Delphi Help System of your Delphi Application (from XE6 version)
 
-- A Visual Component (TMarkDownViewer) to automatically show MarkDown file formatted in HTML
+- A Visual Component (TMarkdownViewer) to automatically show Markdown file formatted in HTML
 
 - A simple demo to show how to integrate the Help in your application, as exaplained [here...](./Demo/Help/README.md)
 
 - For editing and prepare the Help manual of your application we suggest to use the Editor contained into
-["MarkDown Shell Extensions"](https://github.com/EtheaDev/MarkdownShellExtensions) project.
+["Markdown Shell Extensions"](https://github.com/EtheaDev/MarkdownShellExtensions) project.
 
 ### Features
 
@@ -37,12 +37,12 @@ A useful Viewer for instant preview of Markdown formatted content help files (wi
 
 ![Markdown Help Viewer](./Images/ContentPageDark.png)
 
-### Step to activate this Help into MarkDownHelpViewerDemo Application ###
+### Step to activate this Help into MarkdownHelpViewerDemo Application ###
 
-Use MarkDownHelpViewer.pas (located into AppInterface folder) in dpr:
+Use MarkdownHelpViewer.pas (located into AppInterface folder) in dpr:
 
 ```Delphi
-  MarkDownHelpViewer in '..\..\AppInterface\MarkDownHelpViewer.pas',
+  MarkdownHelpViewer in '..\..\AppInterface\MarkDownHelpViewer.pas',
 ```
 
 then specify the default file of the help:
@@ -94,13 +94,22 @@ Then the interface searches in the same folder of default file (specified into A
 
 ## Release Notes ##
 
+29 Jun 2023: ver. 1.1.0
+- Refactoring Folder/Source position (some files moved)
+- Renamed "Markdown" identifier to "Markdown"
+- Added Packages for other Delphi versions
+- Added "refresh" button to reload file content
+- Fix Resize performance
+- Added "RegisterMDViewerServerRoot" to automate loading content into the Component
+- Updated Component MarkdownViewer for autoloading content
+
 23 Jun 2023: ver. 1.0.0
 
 - Viewer with lot of functions:
 - Full source code of Delphi Project (MDHelpViewer.dproj)
 - Support for Windows Light and Dark Themes
 - Settings available for easy customization of GUI
-- Unit MarkDownHelpViewer.pas for Delphi Applications
+- Unit MarkdownHelpViewer.pas for Delphi Applications
 
 ## Markdown Help Viewer in depth
 
@@ -112,9 +121,9 @@ The application is divided into two sections:
 
 ## The Content Viewer
 
-It allows you to view the contents of the help file which can be in MarkDown or HTML format
+It allows you to view the contents of the help file which can be in Markdown or HTML format
 
-* In case of **MarkDown** the file is transformed into HTML and can subsequently be viewed on the screen, the transformation can take place in two
+* In case of **Markdown** the file is transformed into HTML and can subsequently be viewed on the screen, the transformation can take place in two
 different dialects (DaringFireball or CommonMark) selectable via drop-down menu.
 
 * In case of **HTML** the file is directly displayed on the screen.

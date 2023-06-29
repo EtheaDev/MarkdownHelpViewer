@@ -36,6 +36,6 @@ requires
   MarkDownViewer;
 
 contains
-  MarkDownViewerRegister in '..\..\Components\MarkDownViewerRegister.pas';
+  MarkDownViewerRegister in '..\MarkDownViewerRegister.pas';
 
 end.

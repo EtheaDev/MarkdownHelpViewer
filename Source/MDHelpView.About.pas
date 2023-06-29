@@ -1,6 +1,6 @@
 {******************************************************************************}
 {                                                                              }
-{       MarkDown Help Viewer: About Form                                       }
+{       Markdown Help Viewer: About Form                                       }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
 {       Copyright (c) 2023 (Ethea S.r.l.)                                      }

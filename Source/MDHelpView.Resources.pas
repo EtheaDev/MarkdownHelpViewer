@@ -1,6 +1,6 @@
 {******************************************************************************}
 {                                                                              }
-{       MarkDown Help Viewer: Image Resources Unit                             }
+{       Markdown Help Viewer: Image Resources Unit                             }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
 {       Copyright (c) 2023 (Ethea S.r.l.)                                      }
@@ -106,17 +106,18 @@ var
 Begin
   if FStopImageRequest then
     Exit;
+  Application.ProcessMessages;
 
   LHtmlViewer := sender as THtmlViewer;
 
   AStream := nil;
 
   // is "fullName" a local file, if not aquire file from internet
-  If FileExists(ASource) then
-    LFullName := ASource
-  else
+  // replace %20 spaces to normal spaces
+  LFullName := StringReplace(ASource,'%20',' ',[rfReplaceAll]);
+  If not FileExists(LFullName) then
   begin
-    LFullName := IncludeTrailingPathDelimiter(LHtmlViewer.ServerRoot)+ASource;
+    LFullName := IncludeTrailingPathDelimiter(LHtmlViewer.ServerRoot)+LFullName;
     If not FileExists(LFullName) then
       LFullName := ASource;
   end;

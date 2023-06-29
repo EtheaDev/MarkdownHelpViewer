@@ -1,15 +1,15 @@
 ﻿# Markdown Help Viewer Demo [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**This file an example of help system based on Markdown files, for the MarkDownHelpViewerDemo**
+**This file an example of help system based on Markdown files, for the MarkdownHelpViewerDemo**
 
 The integration was tested from **Delphi XE6** to **Delphi 11 Alexandria**: for older versions of Delphi please give a request into ["Issue section"](https://github.com/EtheaDev/MarkdownHelpViewer/issues)
 
-### Step to activate this Help into MarkDownHelpViewerDemo Application ###
+### Step to activate this Help into MarkdownHelpViewerDemo Application ###
 
-Use MarkDownHelpViewer.pas (located into AppInterface folder) in dpr:
+Use MarkdownHelpViewer.pas (located into AppInterface folder) in dpr:
 
 ```Delphi
-  MarkDownHelpViewer in '..\..\AppInterface\MarkDownHelpViewer.pas',
+  MarkdownHelpViewer in '..\..\AppInterface\MarkDownHelpViewer.pas',
 ```
 
 then specify the default file of the help:
