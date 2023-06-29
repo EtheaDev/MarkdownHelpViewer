@@ -1,9 +1,9 @@
 object MainForm: TMainForm
   Left = 403
   Top = 200
-  Caption = 'MarkDown Help Viewer'
+  Caption = 'Markdown Help Viewer'
   ClientHeight = 424
-  ClientWidth = 744
+  ClientWidth = 748
   Color = clBtnFace
   Constraints.MinHeight = 450
   Constraints.MinWidth = 760
@@ -12,38 +12,39 @@ object MainForm: TMainForm
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  KeyPreview = True
   ShowHint = True
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnKeyPress = FormKeyPress
   TextHeight = 15
   object Splitter: TSplitter
     Left = 300
-    Top = 48
+    Top = 49
     Width = 6
-    Height = 376
+    Height = 375
     ExplicitLeft = 322
     ExplicitTop = 54
     ExplicitHeight = 531
   end
   object PageControl: TPageControl
     Left = 0
-    Top = 48
+    Top = 49
     Width = 300
-    Height = 376
+    Height = 375
     ActivePage = tsIndex
     Align = alLeft
     TabOrder = 0
-    ExplicitHeight = 377
     object tsIndex: TTabSheet
-      Hint = 'MarkDown Content/Index'
+      Hint = 'Markdown Content/Index'
       Caption = 'Content/Index'
       object HtmlViewerIndex: THtmlViewer
         AlignWithMargins = True
         Left = 3
         Top = 3
         Width = 286
-        Height = 341
+        Height = 339
         BorderStyle = htFocused
         DefBackground = clWindow
         HistoryMaxCount = 0
@@ -66,18 +67,18 @@ object MainForm: TMainForm
       ImageIndex = 1
       DesignSize = (
         292
-        346)
+        345)
       object lbIndex: TLabel
         AlignWithMargins = True
         Left = 3
-        Top = 3
+        Top = 7
         Width = 72
         Height = 15
         Caption = 'Search for file'
       end
       object lbSelectFile: TLabel
         Left = 3
-        Top = 59
+        Top = 62
         Width = 94
         Height = 15
         Anchors = [akLeft, akTop, akRight]
@@ -88,7 +89,7 @@ object MainForm: TMainForm
         Left = 4
         Top = 80
         Width = 284
-        Height = 234
+        Height = 232
         Anchors = [akLeft, akTop, akRight, akBottom]
         FileType = [ftReadOnly, ftNormal]
         ItemHeight = 15
@@ -111,7 +112,7 @@ object MainForm: TMainForm
       end
       object btIndex: TButton
         Left = 178
-        Top = 320
+        Top = 318
         Width = 110
         Height = 24
         Cursor = crHandPoint
@@ -126,7 +127,7 @@ object MainForm: TMainForm
       ImageIndex = 2
       DesignSize = (
         292
-        347)
+        345)
       object lbSearch: TLabel
         AlignWithMargins = True
         Left = 3
@@ -135,7 +136,6 @@ object MainForm: TMainForm
         Height = 15
         Align = alTop
         Caption = 'Input keyword to search in files'
-        ExplicitWidth = 164
       end
       object lbSelectSearch: TLabel
         Left = 3
@@ -162,7 +162,7 @@ object MainForm: TMainForm
         Left = 4
         Top = 97
         Width = 284
-        Height = 216
+        Height = 215
         Anchors = [akLeft, akTop, akRight, akBottom]
         ItemHeight = 15
         TabOrder = 2
@@ -181,7 +181,7 @@ object MainForm: TMainForm
       end
       object btSearchView: TButton
         Left = 178
-        Top = 319
+        Top = 318
         Width = 110
         Height = 24
         Cursor = crHandPoint
@@ -194,28 +194,26 @@ object MainForm: TMainForm
   object paTop: TPanel
     Left = 0
     Top = 0
-    Width = 744
-    Height = 48
+    Width = 748
+    Height = 49
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitWidth = 748
     DesignSize = (
-      744
-      48)
+      748
+      49)
     object ProcessorDialectLabel: TLabel
-      Left = 521
-      Top = 8
+      Left = 610
+      Top = 5
       Width = 83
       Height = 15
       Alignment = taRightJustify
       Anchors = [akTop, akRight]
       Caption = 'Transformation:'
-      ExplicitLeft = 529
     end
     object ProcessorDialectComboBox: TComboBox
-      Left = 610
-      Top = 5
+      Left = 606
+      Top = 23
       Width = 127
       Height = 23
       Hint = 'Markdown Tranformation Dialect'
@@ -231,10 +229,10 @@ object MainForm: TMainForm
       AlignWithMargins = True
       Left = 0
       Top = 3
-      Width = 518
+      Width = 528
       Height = 46
       Margins.Left = 0
-      Margins.Right = 230
+      Margins.Right = 220
       Margins.Bottom = 0
       AutoSize = True
       ButtonHeight = 46
@@ -262,61 +260,69 @@ object MainForm: TMainForm
         Cursor = crHandPoint
         Action = acFileOpen
       end
-      object btHome: TToolButton
+      object btRefresh: TToolButton
         Left = 118
         Top = 0
-        Cursor = crHandPoint
-        Action = acHome
+        Action = acRefresh
       end
-      object sep2: TToolButton
+      object btSaveToPdf: TToolButton
         Left = 173
         Top = 0
+        Cursor = crHandPoint
+        Action = acSaveToPDF
+      end
+      object sep2: TToolButton
+        Left = 228
+        Top = 0
         Width = 8
+        Enabled = False
         ImageIndex = 8
         ImageName = 'folder-open'
         Style = tbsSeparator
       end
+      object btHome: TToolButton
+        Left = 236
+        Top = 0
+        Cursor = crHandPoint
+        Action = acHome
+      end
       object btPrevius: TToolButton
-        Left = 181
+        Left = 291
         Top = 0
         Cursor = crHandPoint
         Action = acPreviousPage
       end
       object btNext: TToolButton
-        Left = 236
+        Left = 346
         Top = 0
         Cursor = crHandPoint
         Action = acNextPage
       end
-      object sep3: TToolButton
-        Left = 291
-        Top = 0
-        Width = 8
-        ImageIndex = 8
-        ImageName = 'folder-open'
-        Style = tbsSeparator
-      end
-      object btSaveToPdf: TToolButton
-        Left = 299
-        Top = 0
-        Cursor = crHandPoint
-        Action = acSaveToPDF
-      end
       object Sep4: TToolButton
-        Left = 354
+        Left = 401
         Top = 0
         Width = 8
         ImageName = 'crosshairs-question'
         Style = tbsSeparator
       end
       object btOption: TToolButton
-        Left = 362
+        Left = 409
         Top = 0
         Cursor = crHandPoint
         Action = acSettings
+        Enabled = False
+      end
+      object sep3: TToolButton
+        Left = 464
+        Top = 0
+        Width = 8
+        Enabled = False
+        ImageIndex = 8
+        ImageName = 'folder-open'
+        Style = tbsSeparator
       end
       object btAbout: TToolButton
-        Left = 417
+        Left = 472
         Top = 0
         Cursor = crHandPoint
         Action = acAbout
@@ -325,9 +331,9 @@ object MainForm: TMainForm
   end
   object ClientPanel: TPanel
     Left = 306
-    Top = 48
+    Top = 49
     Width = 442
-    Height = 377
+    Height = 375
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
@@ -337,7 +343,7 @@ object MainForm: TMainForm
       Left = 3
       Top = 3
       Width = 436
-      Height = 371
+      Height = 369
       BorderStyle = htFocused
       DefBackground = clWindow
       HistoryMaxCount = 0
@@ -362,8 +368,8 @@ object MainForm: TMainForm
     object acFileOpen: TFileOpen
       Category = 'File'
       Caption = '&Open...'
-      Dialog.Title = 'Open MarkDown or HTML file...'
-      Hint = 'Open an existing MarkDown or HTML file...'
+      Dialog.Title = 'Open Markdown or HTML file...'
+      Hint = 'Open an existing Markdown or HTML file...'
       ImageIndex = 8
       ShortCut = 16463
       OnAccept = acFileOpenAccept
@@ -467,9 +473,18 @@ object MainForm: TMainForm
       OnExecute = acViewSearchExecute
       OnUpdate = acViewSearchUpdate
     end
+    object acRefresh: TAction
+      Category = 'File'
+      Caption = 'Refresh'
+      Hint = 'Refresh content (reloading file)'
+      ImageIndex = 14
+      ImageName = 'refresh'
+      OnExecute = acRefreshExecute
+      OnUpdate = acRefreshUpdate
+    end
   end
   object SaveDialog: TSaveDialog
-    Filter = 'MarkDown files (.md)|*.md|Html files|*.html, *.htm'
+    Filter = 'Markdown files (.md)|*.md|Html files|*.html, *.htm'
     Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
     Left = 508
     Top = 320
@@ -679,6 +694,19 @@ object MainForm: TMainForm
           'H19A2,2 0 0,1 21,5V9H19V5H2V19H19V15H21V19A2,2 0 0,1 19,21H2A2,2' +
           ' 0 0,1 0,19V5A2,2 0 0,1 2,3M17,15V13H24V11H17V9L13,12L17,15M4,13' +
           'H11V11H4V13M4,9H11V7H4V9M4,17H8V15H4V17Z" /></svg>'
+      end
+      item
+        IconName = 'refresh'
+        SVGText = 
+          '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W' +
+          '3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg' +
+          '11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="htt' +
+          'p://www.w3.org/1999/xlink" version="1.1" id="mdi-refresh" width=' +
+          '"24" height="24" viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4' +
+          '.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17' +
+          '.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6' +
+          ' 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z' +
+          '" /></svg>'
       end>
     Scaled = True
     Left = 408
@@ -960,6 +988,19 @@ object MainForm: TMainForm
           'H19V15H21V19A2,2 0 0,1 19,21H2A2,2 0 0,1 0,19V5A2,2 0 0,1 2,3M17' +
           ',15V13H24V11H17V9L13,12L17,15M4,13H11V11H4V13M4,9H11V7H4V9M4,17H' +
           '8V15H4V17Z"/>'#13#10'</svg>'#13#10
+      end
+      item
+        IconName = 'refresh'
+        SVGText = 
+          '<svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0' +
+          ' 48 48" enable-background="new 0 0 48 48">'#13#10'    <g fill="#1565C0' +
+          '">'#13#10'        <path d="M13,13c0-3.3,2.7-6,6-6h10c3.3,0,6,2.7,6,6h4' +
+          'c0-5.5-4.5-10-10-10H19C13.5,3,9,7.5,9,13v11.2h4V13z"/>'#13#10'        ' +
+          '<polygon points="4.6,22 11,30.4 17.4,22"/>'#13#10'    </g>'#13#10'    <g fil' +
+          'l="#1565C0">'#13#10'        <path d="M35,35c0,3.3-2.7,6-6,6H19c-3.3,0-' +
+          '6-2.7-6-6H9c0,5.5,4.5,10,10,10h10c5.5,0,10-4.5,10-10V23h-4V35z"/' +
+          '>'#13#10'        <polygon points="30.6,26 37,17.6 43.4,26"/>'#13#10'    </g>' +
+          #13#10'</svg>'#13#10
       end>
     Scaled = True
     Left = 408

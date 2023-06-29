@@ -119,21 +119,21 @@
         <DCCReference Include="vclimg.dcp"/>
         <DCCReference Include="vcl.dcp"/>
         <DCCReference Include="FrameViewerXE6.dcp"/>
-        <DCCReference Include="..\..\Components\MarkDownViewerComponents.pas"/>
+        <DCCReference Include="..\..\Source\Components\MarkDownViewerComponents.pas"/>
         <DCCReference Include="..\..\Ext\delphi-markdown\Source\MarkdownCommonMark.pas"/>
         <DCCReference Include="..\..\Ext\delphi-markdown\Source\MarkdownDaringFireball.pas"/>
         <DCCReference Include="..\..\Ext\delphi-markdown\Source\MarkdownHTMLEntities.pas"/>
         <DCCReference Include="..\..\Ext\delphi-markdown\Source\MarkdownProcessor.pas"/>
         <DCCReference Include="..\..\Ext\delphi-markdown\Source\MarkdownUnicodeUtils.pas"/>
-        <BuildConfiguration Include="Release">
-            <Key>Cfg_2</Key>
-            <CfgParent>Base</CfgParent>
-        </BuildConfiguration>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
         </BuildConfiguration>
     </ItemGroup>

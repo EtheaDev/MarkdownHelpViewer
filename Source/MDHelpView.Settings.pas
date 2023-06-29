@@ -1,6 +1,6 @@
 {******************************************************************************}
 {                                                                              }
-{       MarkDown Help Viewer: Settings Class                                   }
+{       Markdown Help Viewer: Settings Class                                   }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
 {       Copyright (c) 2023 (Ethea S.r.l.)                                      }
@@ -41,7 +41,7 @@ const
   MaxfontSize = 30;
   MinfontSize = 8;
 
-  Settings_Folder = 'MarkDownHelpViewer';
+  Settings_Folder = 'MarkdownHelpViewer';
   MAIN_WINDOW = 'MainWindow';
   HTML_VIEWER = 'HtmlViever';
   VCL_STYLE = 'VCLStyle';

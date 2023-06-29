@@ -1,6 +1,6 @@
 {******************************************************************************}
 {                                                                              }
-{       MarkDown Help Viewer: Demo                                             }
+{       Markdown Help Viewer: Demo                                             }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
 {       Copyright (c) 2023 (Ethea S.r.l.)                                      }
@@ -23,22 +23,23 @@
 {  limitations under the License.                                              }
 {                                                                              }
 {******************************************************************************}
-program MarkDownHelpViewerDemo;
+program MarkdownHelpViewerDemo;
 
 uses
   Forms,
+  MidasLib,
   SysUtils,
-  MarkDownHelpViewer in '..\..\AppInterface\MarkDownHelpViewer.pas',
+  MarkdownHelpViewer in '..\..\Source\AppInterface\MarkDownHelpViewer.pas',
   MainForm in 'MainForm.pas' {fmMain},
   DemoAbout in 'DemoAbout.pas' {FrmAbout},
-  MarkDownViewerComponents in '..\..\Components\MarkDownViewerComponents.pas';
+  MarkDownViewerComponents in '..\..\Source\Components\MarkDownViewerComponents.pas';
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.Title := 'MarkDown Help Viewer Demo App';
+  Application.Title := 'Markdown Help Viewer Demo App';
   Application.HelpFile := ExtractFilePath(Application.ExeName)+'..\Help\Home.md';
 (* No need to add those lines if you have installed the Markdown HelpViewer
 {$IFDEF WIN32}

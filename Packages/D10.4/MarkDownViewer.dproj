@@ -2,7 +2,7 @@
     <PropertyGroup>
         <ProjectGuid>{95E474B7-55B2-4C34-8CB8-9E24D414CCF8}</ProjectGuid>
         <MainSource>MarkDownViewer.dpk</MainSource>
-        <ProjectVersion>19.5</ProjectVersion>
+        <ProjectVersion>19.2</ProjectVersion>
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Release</Config>
@@ -118,8 +118,8 @@
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="vclimg.dcp"/>
         <DCCReference Include="vcl.dcp"/>
-        <DCCReference Include="FrameViewer11.dcp"/>
-        <DCCReference Include="..\..\Components\MarkDownViewerComponents.pas"/>
+        <DCCReference Include="FrameViewer10_4.dcp"/>
+        <DCCReference Include="..\..\Source\Components\MarkDownViewerComponents.pas"/>
         <DCCReference Include="..\..\Ext\delphi-markdown\Source\MarkdownCommonMark.pas"/>
         <DCCReference Include="..\..\Ext\delphi-markdown\Source\MarkdownDaringFireball.pas"/>
         <DCCReference Include="..\..\Ext\delphi-markdown\Source\MarkdownHTMLEntities.pas"/>

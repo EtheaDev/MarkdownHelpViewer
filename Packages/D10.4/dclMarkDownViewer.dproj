@@ -2,7 +2,7 @@
     <PropertyGroup>
         <ProjectGuid>{F008DAC1-A110-449F-A2CD-0FD7BBD13275}</ProjectGuid>
         <MainSource>dclMarkDownViewer.dpk</MainSource>
-        <ProjectVersion>19.5</ProjectVersion>
+        <ProjectVersion>19.2</ProjectVersion>
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Release</Config>
@@ -98,7 +98,7 @@
         <DCCReference Include="MarkDownHelpViewer.dcr"/>
         <DCCReference Include="DesignIDE.dcp"/>
         <DCCReference Include="MarkDownViewer.dcp"/>
-        <DCCReference Include="..\..\Components\MarkDownViewerRegister.pas"/>
+        <DCCReference Include="..\MarkDownViewerRegister.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

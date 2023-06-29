@@ -48,7 +48,7 @@ type
 procedure RegisterMDViewerLocation(AViewerExeFileName: TFileName);
 
 var
-  AMarkDownFileExt: TArray<String>;
+  AMarkdownFileExt: TArray<String>;
   AHTMLFileExt: TArray<String>;
 
 //File Utilities
@@ -75,14 +75,14 @@ uses
 resourcestring
   FILE_NOT_FOUND = 'File "%s" not found!';
   HELP_FILE_NOT_SET = 'Help file not assigned into Application.HelpFile';
-  MD_HELP_VIEWER_NOT_FOUND = 'MarkDown Help Viewer not found: please install it to show the Help!';
+  MD_HELP_VIEWER_NOT_FOUND = 'Markdown Help Viewer not found: please install it to show the Help!';
 
 type
-  TMarkDownHelpViewer = class(TInterfacedObject, ICustomHelpViewer, IExtendedHelpViewer)
+  TMarkdownHelpViewer = class(TInterfacedObject, ICustomHelpViewer, IExtendedHelpViewer)
   private
     FViewerID: Integer;
     FHelpManager: IHelpManager;
-    procedure ShowMarkDownFile(const AFileName: TFileName;
+    procedure ShowMarkdownFile(const AFileName: TFileName;
       const AHelpString: string; const AContext: Integer = 0);
     function FindHelpFile(var AFileName: TFileName; const AContext: Integer;
       const HelpKeyword: string): boolean;
@@ -118,8 +118,8 @@ type
   end;
 
 var
-  MarkDown_HelpViewer: TMarkDownHelpViewer;
-  MarkDown_HelpViewerIntf: ICustomHelpViewer;
+  Markdown_HelpViewer: TMarkdownHelpViewer;
+  Markdown_HelpViewerIntf: ICustomHelpViewer;
   _ViewerLocation: TFileName;
 
 type
@@ -297,14 +297,14 @@ end;
 
 { GetViewerName returns a string that the Help Manager can use to identify
   this Viewer in a UI element asking users to choose among Viewers. }
-function TMarkDownHelpViewer.GetViewerName: string;
+function TMarkdownHelpViewer.GetViewerName: string;
 begin
-  Result := 'Help Viewer for MarkDown';
+  Result := 'Help Viewer for Markdown';
 end;
 
 { UnderstandsKeyword is a querying function that the Help Manager calls to
   determine if the Viewer provide helps on a particular keyword string. }
-function TMarkDownHelpViewer.UnderstandsKeyword(const HelpString: string): Integer;
+function TMarkdownHelpViewer.UnderstandsKeyword(const HelpString: string): Integer;
 var
   HelpFile: string;
 begin
@@ -319,23 +319,24 @@ end;
   matches from which an application's user can select one. It assumes
   that the String List is properly allocated, so this function should
   never return nil. }
-function TMarkDownHelpViewer.GetHelpStrings(const HelpString: string): TStringList;
+function TMarkdownHelpViewer.GetHelpStrings(const HelpString: string): TStringList;
 var
   LHelpFile: TFileName;
 begin
   Result := TStringList.Create;
   LHelpFile := GetHelpFile('');
   GetFileNamesWithExtensions(Result,
-    ExtractFilePath(LHelpFile), GetFileMasks(AMarkDownFileExt));
+    ExtractFilePath(LHelpFile), GetFileMasks(AMarkdownFileExt));
 end;
 
-function TMarkDownHelpViewer.FindHelpFile(
+function TMarkdownHelpViewer.FindHelpFile(
   var AFileName: TFileName;
   const AContext: Integer; const HelpKeyword: string): boolean;
 var
   LHelpFileName: TFileName;
   LName, LPath, LKeyWord: string;
 begin
+  //WARNING: if changing this function, change also TMarkdownViewer.FindHelpFile
   if HelpKeyword <> '' then
     LKeyWord := HelpKeyword
   else if AContext <> 0 then
@@ -346,7 +347,7 @@ begin
   //First, Try the Keyword only
   LPath := ExtractFilePath(AFileName);
   LHelpFileName := LPath+LKeyword;
-  Result := FileWithExtExists(LHelpFileName, AMarkDownFileExt) or
+  Result := FileWithExtExists(LHelpFileName, AMarkdownFileExt) or
     FileWithExtExists(LHelpFileName, AHTMLFileExt);
 
   if not Result then
@@ -354,13 +355,13 @@ begin
     //Then, try the Help Name and the Keyword (eg.Home1000.ext)
     LName := ChangeFileExt(ExtractFileName(AFileName),'');
     LHelpFileName := LPath+LName+LKeyword;
-    Result := FileWithExtExists(LHelpFileName, AMarkDownFileExt) or
+    Result := FileWithExtExists(LHelpFileName, AMarkdownFileExt) or
       FileWithExtExists(LHelpFileName, AHTMLFileExt);
     if not Result then
     begin
       //At least, try the Help Name and the Keyword with '_' (eg.Home_1000.ext)
       LHelpFileName := LPath+LName+'_'+LKeyword;
-      Result := FileWithExtExists(LHelpFileName, AMarkDownFileExt) or
+      Result := FileWithExtExists(LHelpFileName, AMarkdownFileExt) or
         FileWithExtExists(LHelpFileName, AHTMLFileExt);
     end;
   end;
@@ -369,7 +370,7 @@ begin
     AFileName := LHelpFileName;
 end;
 
-function TMarkDownHelpViewer.GetIndexFile: TFileName;
+function TMarkdownHelpViewer.GetIndexFile: TFileName;
 var
   LHelpFileName: TFileName;
 begin
@@ -388,7 +389,7 @@ end;
 { CanShowTableOfContents is a querying function that the Help Manager
   calls to determine if the Viewer supports tables of contents. HtmlHelp does. }
 
-function TMarkDownHelpViewer.CanShowTableOfContents: Boolean;
+function TMarkdownHelpViewer.CanShowTableOfContents: Boolean;
 begin
   Result := GetIndexFile <> '';
 end;
@@ -396,22 +397,22 @@ end;
 { ShowTableOfContents is a command function that the Help Manager uses
   to direct the Viewer to display a table of contents. It is never
   called without being preceded by a call to CanShowTableOfContents. }
-procedure TMarkDownHelpViewer.ShowTableOfContents;
+procedure TMarkdownHelpViewer.ShowTableOfContents;
 begin
   ; //Non viene lanciato perché CanShowTableOfContents ritorna False
 end;
 
-procedure TMarkDownHelpViewer.ShowMarkDownFile(const AFileName: TFileName;
+procedure TMarkdownHelpViewer.ShowMarkdownFile(const AFileName: TFileName;
   const AHelpString: string; const AContext: Integer = 0);
 var
   LViewerExeName: TFileName;
   LRegistry: TRegistry;
 begin
-  //Check the presence of MarkDown file to show
+  //Check the presence of Markdown file to show
   if not FileExists(AFileName) then
     raise EInOutError.CreateFmt(FILE_NOT_FOUND, [AFileName]);
 
-  //Show the MarkDown file with the Markdown Help Viewer:
+  //Show the Markdown file with the Markdown Help Viewer:
   if _ViewerLocation <> '' then
     LViewerExeName := _ViewerLocation
   else
@@ -445,19 +446,19 @@ begin
   {$ENDIF}
 end;
 
-procedure TMarkDownHelpViewer.ShowHelp(const HelpString: string);
+procedure TMarkdownHelpViewer.ShowHelp(const HelpString: string);
 var
   FileName : string;
 begin
   FileName := GetHelpFile(HelpString);
-  ShowMarkDownFile(FileName, HelpString, 0);
+  ShowMarkdownFile(FileName, HelpString, 0);
 end;
 
 { NotifyID is called by the Help Manager after a successful registration
   to provide the Help Viewer with a cookie which uniquely identifies the
   Viewer to the Manager, and can be used in communications between the two. }
 
-procedure TMarkDownHelpViewer.NotifyId(const ViewerId: Integer);
+procedure TMarkdownHelpViewer.NotifyId(const ViewerId: Integer);
 begin
   FViewerID := ViewerID;
 end;
@@ -469,7 +470,7 @@ end;
 
 { SoftShutDown is called by the help manager to ask the viewer to
   terminate any externally spawned subsystem without shutting itself down. }
-procedure TMarkDownHelpViewer.SoftShutDown;
+procedure TMarkdownHelpViewer.SoftShutDown;
 begin
   ;
   if Assigned(FHelpManager) then HelpManager := nil;
@@ -480,7 +481,7 @@ end;
 { UnderstandsTopic is called by the Help Manager to ask if the Viewer
   is capable of displaying a topic-based help query for a given topic.
   It's default behavior is to say 'yes'. }
-function TMarkDownHelpViewer.UnderstandsTopic(const Topic: string): Boolean;
+function TMarkdownHelpViewer.UnderstandsTopic(const Topic: string): Boolean;
 var
   HelpFile: string;
 begin;
@@ -492,12 +493,12 @@ end;
   in its response to UnderstandsTopic to be able to provide Topic-based
   help for a particular keyword. }
 
-procedure TMarkDownHelpViewer.DisplayTopic(const Topic: string);
+procedure TMarkdownHelpViewer.DisplayTopic(const Topic: string);
 var
   HelpFile: string;
 begin
   HelpFile := GetHelpFile('');
-  ShowMarkDownFile(HelpFile, Topic);
+  ShowMarkdownFile(HelpFile, Topic);
 end;
 
 { UnderstandsContext is a querying function called by the Help Manager
@@ -506,7 +507,7 @@ end;
   this file, the default behavior is to say 'yes' unless overridden by
   a Tester. }
 
-function TMarkDownHelpViewer.UnderstandsContext(
+function TMarkdownHelpViewer.UnderstandsContext(
   const ContextId: {$if CompilerVersion > 31}THelpContext{$else}Integer{$endif};
   const HelpFileName: string): Boolean;
 begin
@@ -518,41 +519,41 @@ end;
   Help Viewer display help for a particular Context-ID. It is only
   invoked after a successful call to CanShowContext. }
 
-procedure TMarkDownHelpViewer.DisplayHelpByContext(
+procedure TMarkdownHelpViewer.DisplayHelpByContext(
   const ContextId: {$if CompilerVersion > 31}THelpContext{$else}Integer{$endif};
   const HelpFileName: string);
 var
   FileName: TFileName;
 begin
   FileName := GetHelpFile(ContextId);
-  ShowMarkDownFile(FileName, '', ContextId);
+  ShowMarkdownFile(FileName, '', ContextId);
 end;
 
-procedure TMarkDownHelpViewer.ShutDown;
+procedure TMarkdownHelpViewer.ShutDown;
 begin
   SoftShutDown;
 end;
 
-procedure TMarkDownHelpViewer.ClearSetup;
+procedure TMarkdownHelpViewer.ClearSetup;
 begin
   ;
 end;
 {==========================================================================}
 
-constructor TMarkDownHelpViewer.Create;
+constructor TMarkdownHelpViewer.Create;
 begin
   inherited Create;
-  MarkDown_HelpViewerIntf := Self;
+  Markdown_HelpViewerIntf := Self;
   ClearSetup;
 end;
 
-destructor TMarkDownHelpViewer.Destroy;
+destructor TMarkdownHelpViewer.Destroy;
 begin
-  MarkDown_HelpViewer := nil;
+  Markdown_HelpViewer := nil;
   inherited Destroy;
 end;
 
-function TMarkDownHelpViewer.GetHelpFile(const HelpKeyword: string): TFileName;
+function TMarkdownHelpViewer.GetHelpFile(const HelpKeyword: string): TFileName;
 var
   LFileName: TFileName;
 begin
@@ -573,7 +574,7 @@ begin
   end;
 end;
 
-function TMarkDownHelpViewer.GetHelpFile(const HelpContext:
+function TMarkdownHelpViewer.GetHelpFile(const HelpContext:
   {$if CompilerVersion > 31}THelpContext{$else}Integer{$ifend}): TFileName;
 var
   LFileName: TFileName;
@@ -595,7 +596,7 @@ begin
   end;
 end;
 
-procedure TMarkDownHelpViewer.InternalShutDown;
+procedure TMarkdownHelpViewer.InternalShutDown;
 begin
   SoftShutDown;
   if Assigned(FHelpManager) then
@@ -606,29 +607,29 @@ begin
 end;
 
 initialization
-  MarkDown_HelpViewer := TMarkDownHelpViewer.Create;
-  System.HelpIntfs.RegisterViewer(MarkDown_HelpViewerIntf,
-    MarkDown_HelpViewer.FHelpManager);
+  Markdown_HelpViewer := TMarkdownHelpViewer.Create;
+  System.HelpIntfs.RegisterViewer(Markdown_HelpViewerIntf,
+    Markdown_HelpViewer.FHelpManager);
   _ViewerLocation := '';
 
-  SetLength(AMarkDownFileExt, 9);
-  AMarkDownFileExt[0] := '.md';
-  AMarkDownFileExt[1] := '.mkd';
-  AMarkDownFileExt[2] := '.mdwn';
-  AMarkDownFileExt[3] := '.mdown';
-  AMarkDownFileExt[4] := '.mdtxt';
-  AMarkDownFileExt[5] := '.mdtext';
-  AMarkDownFileExt[6] := '.markdown';
-  AMarkDownFileExt[7] := '.txt';
-  AMarkDownFileExt[8] := '.text';
+  SetLength(AMarkdownFileExt, 9);
+  AMarkdownFileExt[0] := '.md';
+  AMarkdownFileExt[1] := '.mkd';
+  AMarkdownFileExt[2] := '.mdwn';
+  AMarkdownFileExt[3] := '.mdown';
+  AMarkdownFileExt[4] := '.mdtxt';
+  AMarkdownFileExt[5] := '.mdtext';
+  AMarkdownFileExt[6] := '.markdown';
+  AMarkdownFileExt[7] := '.txt';
+  AMarkdownFileExt[8] := '.text';
 
   SetLength(AHTMLFileExt, 2);
   AHTMLFileExt[0] := '.html';
   AHTMLFileExt[1] := '.htm';
 
 finalization
-  if Assigned(MarkDown_HelpViewer.HelpManager) then
-    MarkDown_HelpViewer.InternalShutDown;
-  MarkDown_HelpViewerIntf := nil;
+  if Assigned(Markdown_HelpViewer.HelpManager) then
+    Markdown_HelpViewer.InternalShutDown;
+  Markdown_HelpViewerIntf := nil;
 
 end.

@@ -35,10 +35,10 @@ requires
   rtl,
   vclimg,
   vcl,
-  FrameViewer11;
+  FrameViewer10_4;
 
 contains
-  MarkDownViewerComponents in '..\..\Components\MarkDownViewerComponents.pas',
+  MarkDownViewerComponents in '..\..\Source\Components\MarkDownViewerComponents.pas',
   MarkdownCommonMark in '..\..\Ext\delphi-markdown\Source\MarkdownCommonMark.pas',
   MarkdownDaringFireball in '..\..\Ext\delphi-markdown\Source\MarkdownDaringFireball.pas',
   MarkdownHTMLEntities in '..\..\Ext\delphi-markdown\Source\MarkdownHTMLEntities.pas',

@@ -1,6 +1,6 @@
 {******************************************************************************}
 {                                                                              }
-{       MarkDown Help Viewer: Demo Main Form                                   }
+{       Markdown Help Viewer: Demo Main Form                                   }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
 {       Copyright (c) 2023 (Ethea S.r.l.)                                      }
@@ -109,7 +109,7 @@ type
     procedure ShowHelpEmbeddedClick(Sender: TObject);
     procedure PageControlChange(Sender: TObject);
   private
-    MarkDownViewer: TMarkDownViewer;
+    MarkdownViewer: TMarkDownViewer;
     procedure ShowEmbeddedHelp;
   public
     { Public declarations }
@@ -124,7 +124,7 @@ implementation
 
 uses
   UITypes
-  , MarkDownHelpViewer
+  , MarkdownHelpViewer
   , DemoAbout;
 
 procedure TfmMain.AboutMenuItemClick(Sender: TObject);
@@ -145,15 +145,21 @@ end;
 
 procedure TfmMain.FormCreate(Sender: TObject);
 begin
+  ClientDataSet.LoadFromFile(ExtractFilePath(Application.ExeName)+
+    '..\Data\Biolife.xml');
   PageControl.ActivePageIndex := 0;
 
-  //Manually create components (so you can test it without installing into IDE
-  MarkDownViewer := TMarkDownViewer.Create(Self);
-  MarkDownViewer.Parent := EmbeddedHelpPanel;
-  MarkDownViewer.Align := alClient;
-  MarkDownViewer.ServerRoot := ExtractFilePath(Application.ExeName)+'..\Help\';
+  //Register "ServerRoot" folder for any MarkdownViewer
+  RegisterMDViewerServerRoot(ExtractFilePath(Application.ExeName)+'..\Help');
+
+  //Manually create components (so you can test it without installing into IDE)
+  MarkdownViewer := TMarkdownViewer.Create(Self);
+  MarkdownViewer.Parent := EmbeddedHelpPanel;
+  MarkdownViewer.Align := alClient;
+
   HelpTitleLabel.Font.Style := [fsBold];
   EmbeddedHelpPanel.Width := 400;
+
 
   Caption := Application.Title;
   TitleLabel.Font.Height := Round(TitleLabel.Font.Height * 1.5);
@@ -183,12 +189,8 @@ begin
 end;
 
 procedure TfmMain.ShowEmbeddedHelp;
-var
-  LFileName: TFileName;
 begin
-  LFileName := ExtractFilePath(Application.ExeName)+'..\Help\'+PageControl.ActivePage.HelpKeyword+'.md';
-  if FileWithExtExists(LFileName, AMarkDownFileExt) then
-    MarkDownViewer.LoadFromFile(LFileName);
+  MarkdownViewer.HelpKeyword := PageControl.ActivePage.HelpKeyword;
 end;
 
 procedure TfmMain.ShowHelpEmbeddedClick(Sender: TObject);

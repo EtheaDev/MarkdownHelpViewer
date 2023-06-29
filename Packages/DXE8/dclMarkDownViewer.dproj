@@ -98,7 +98,7 @@
         <DCCReference Include="MarkDownHelpViewer.dcr"/>
         <DCCReference Include="DesignIDE.dcp"/>
         <DCCReference Include="MarkDownViewer.dcp"/>
-        <DCCReference Include="..\..\Components\MarkDownViewerRegister.pas"/>
+        <DCCReference Include="..\MarkDownViewerRegister.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
