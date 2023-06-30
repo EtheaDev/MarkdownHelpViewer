@@ -36,6 +36,7 @@ object MainForm: TMainForm
     ActivePage = tsIndex
     Align = alLeft
     TabOrder = 0
+    ExplicitHeight = 374
     object tsIndex: TTabSheet
       Hint = 'Markdown Content/Index'
       Caption = 'Content/Index'
@@ -59,6 +60,7 @@ object MainForm: TMainForm
         TabOrder = 0
         Touch.InteractiveGestures = [igPan]
         Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia]
+        ExplicitHeight = 338
       end
     end
     object tsFiles: TTabSheet
@@ -136,6 +138,7 @@ object MainForm: TMainForm
         Height = 15
         Align = alTop
         Caption = 'Input keyword to search in files'
+        ExplicitWidth = 164
       end
       object lbSelectSearch: TLabel
         Left = 3
@@ -199,11 +202,12 @@ object MainForm: TMainForm
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 1
+    ExplicitWidth = 744
     DesignSize = (
       748
       49)
     object ProcessorDialectLabel: TLabel
-      Left = 610
+      Left = 618
       Top = 5
       Width = 83
       Height = 15
@@ -212,7 +216,7 @@ object MainForm: TMainForm
       Caption = 'Transformation:'
     end
     object ProcessorDialectComboBox: TComboBox
-      Left = 606
+      Left = 618
       Top = 23
       Width = 127
       Height = 23
@@ -310,7 +314,6 @@ object MainForm: TMainForm
         Top = 0
         Cursor = crHandPoint
         Action = acSettings
-        Enabled = False
       end
       object sep3: TToolButton
         Left = 464
@@ -338,6 +341,8 @@ object MainForm: TMainForm
     BevelOuter = bvNone
     TabOrder = 2
     OnResize = ClientPanelResize
+    ExplicitWidth = 438
+    ExplicitHeight = 374
     object HtmlViewer: THtmlViewer
       AlignWithMargins = True
       Left = 3
@@ -358,6 +363,8 @@ object MainForm: TMainForm
       TabOrder = 0
       Touch.InteractiveGestures = [igPan]
       Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia]
+      ExplicitWidth = 432
+      ExplicitHeight = 368
     end
   end
   object TActionList: TActionList

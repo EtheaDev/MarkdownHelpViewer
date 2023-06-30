@@ -99,6 +99,10 @@ Type
     procedure FormControlEnterEvent(Sender: TObject);
     procedure SetTabStop(const Value: Boolean);
     function GetText: string;
+    function GetLines: TStrings;
+    procedure SetLines(const Value: TStrings);
+    procedure MDContentChanged(Sender: TObject);
+    procedure HTMLContentChanged(Sender: TObject);
   protected
     procedure DefineProperties(Filer: TFiler); override;
     procedure AutoLoadFile; virtual;
@@ -108,8 +112,10 @@ Type
     procedure Loaded; override;
   public
     procedure LoadFromFile(const AFileName: TFileName);
-    procedure LoadFromStream(const AStream: TStringStream);
-    procedure LoadFromString(const AValue: string);
+    procedure LoadFromStream(const AStream: TStringStream;
+      const IsHTMLContent: Boolean = False);
+    procedure LoadFromString(const AValue: string;
+      const IsHTMLContent: Boolean = False);
     function TransformContent(const AMarkdownContent: string;
       AProcessorDialect: TMarkdownProcessorDialect = mdCommonMark;
       const ACssStyle: string = ''): string;
@@ -126,6 +132,7 @@ Type
     property HtmlContent: TStringList read FHTMLContent write SetHTMLContent stored IsHtmlContentStored;
     property MarkdownContent: TStringList read FMarkdownContent write SetMarkdownContent;
     property OnImageRequest: TGetImageEvent read GetOnImageRequest write SetOnImageRequest;
+    property Lines: TStrings read GetLines write SetLines;
   published
     //Override Help properties because SetHelpKeyword and SetHelpContext are not Virtual
     property HelpKeyword: String read GetHelpKeyword write SetHelpKeyword stored IsHelpKeywordStored;
@@ -304,7 +311,9 @@ begin
   inherited;
   FStream := TMemoryStream.Create;
   FMarkdownContent := TStringList.Create;
+  FMarkdownContent.OnChange := MDContentChanged;
   FHTMLContent := TStringList.Create;
+  FHTMLContent.OnChange := HTMLContentChanged;
   FCssStyle := TStringList.Create;
 
   inherited OnImageRequest := HtmlViewerImageRequest;
@@ -360,7 +369,7 @@ begin
   while not Reader.EndOfList do
     FMarkdownContent.Add(Reader.ReadString);
   Reader.ReadListEnd;
-  LoadFromString(FMarkdownContent.Text);
+  LoadFromString(FMarkdownContent.Text, False);
 end;
 
 procedure TCustomMarkdownViewer.DefineProperties(Filer: TFiler);
@@ -396,6 +405,11 @@ end;
 function TCustomMarkdownViewer.GetHelpKeyword: String;
 begin
   Result := inherited HelpKeyword;
+end;
+
+function TCustomMarkdownViewer.GetLines: TStrings;
+begin
+  Result := FHTMLContent;
 end;
 
 function TCustomMarkdownViewer.GetOnImageRequest: TGetImageEvent;
@@ -459,23 +473,29 @@ begin
 end;
 
 procedure TCustomMarkdownViewer.LoadFromFile(const AFileName: TFileName);
+var
+  LExt: string;
+  LIsHTMLContent: Boolean;
 begin
   //Load file
-  LoadFromString(TryLoadTextFile(AFileName));
+  LExt := ExtractFileExt(AFileName);
+  LIsHTMLContent := SameText(LExt, 'HTML') or SameText(LExt, 'HTM');
+  LoadFromString(TryLoadTextFile(AFileName), LIsHTMLContent);
 end;
 
-procedure TCustomMarkdownViewer.LoadFromStream(const AStream: TStringStream);
+procedure TCustomMarkdownViewer.LoadFromStream(const AStream: TStringStream;
+  const IsHTMLContent: Boolean = False);
 begin
-  LoadFromString(AStream.DataString);
+  LoadFromString(AStream.DataString, IsHTMLContent);
 end;
 
-procedure TCustomMarkdownViewer.LoadFromString(const AValue: string);
+procedure TCustomMarkdownViewer.LoadFromString(const AValue: string;
+  const IsHTMLContent: Boolean = False);
 begin
   //Load file
-  if not ContainsText(AValue, '<HTML>') then
+  if not IsHTMLContent then
   begin
     FMarkdownContent.Text := AValue;
-    FHTMLContent.Text := TransformContent(FMarkdownContent.Text, FProcessorDialect, FCssStyle.Text);
   end
   else
   begin
@@ -485,6 +505,12 @@ begin
   end;
   //Load html content into HtmlViewer
   RefreshViewer(True, FRescalingImage);
+end;
+
+procedure TCustomMarkdownViewer.MDContentChanged(Sender: TObject);
+begin
+  //Transform content into HtmlViewer
+  FHTMLContent.Text := TransformContent(FMarkdownContent.Text, FProcessorDialect, FCssStyle.Text);
 end;
 
 procedure TCustomMarkdownViewer.RefreshViewer(const AReloadImages: Boolean;
@@ -514,9 +540,9 @@ procedure TCustomMarkdownViewer.SetFileName(const AValue: TFileName);
 begin
   if FFileName <> AValue then
   begin
-    if AValue <> '' then
-      LoadFromFile(AValue);
     FFileName := AValue;
+    if (AValue <> '') and FileExists(AValue) then
+      LoadFromFile(AValue);
   end;
 end;
 
@@ -575,13 +601,18 @@ end;
 procedure TCustomMarkdownViewer.SetHTMLContent(const AValue: TStringList);
 begin
   if FHTMLContent.Text <> AValue.Text then
-    LoadFromString(AValue.Text);
+    LoadFromString(AValue.Text, True);
+end;
+
+procedure TCustomMarkdownViewer.SetLines(const Value: TStrings);
+begin
+  FHTMLContent.Assign(Value);
 end;
 
 procedure TCustomMarkdownViewer.SetMarkdownContent(const AValue: TStringList);
 begin
   if FMarkdownContent.Text <> AValue.Text then
-    LoadFromString(AValue.Text);
+    LoadFromString(AValue.Text, False);
 end;
 
 procedure TCustomMarkdownViewer.SetProcessorDialect(
@@ -755,23 +786,34 @@ begin
   end;
 end;
 
+procedure TCustomMarkdownViewer.HTMLContentChanged(Sender: TObject);
+begin
+  //Refresh viewer
+  RefreshViewer(True, FRescalingImage);
+end;
+
 procedure TCustomMarkdownViewer.HtmlViewerImageRequest(Sender: TObject;
   const ASource: UnicodeString; var AStream: TStream);
 var
   LFullName: String;
   LHtmlViewer: THtmlViewer;
   LMaxWidth: Integer;
+  LWorkingPath: TFolderName;
 Begin
   LHtmlViewer := sender as THtmlViewer;
-
   AStream := nil;
-
+  if ServerRoot <> '' then
+    LWorkingPath := ServerRoot
+  else if FFileName <> '' then
+    LWorkingPath := ExtractFilePath(FFileName)
+  else
+    LWorkingPath := _ServerRoot;
   // is "fullName" a local file, if not acquire file from internet
   // replace %20 spaces to normal spaces
   LFullName := StringReplace(ASource,'%20',' ',[rfReplaceAll]);
   If not FileExists(LFullName) then
   begin
-    LFullName := IncludeTrailingPathDelimiter(Self.ServerRoot)+LFullName;
+    LFullName := IncludeTrailingPathDelimiter(LWorkingPath)+LFullName;
     If not FileExists(LFullName) then
       LFullName := ASource;
   end;

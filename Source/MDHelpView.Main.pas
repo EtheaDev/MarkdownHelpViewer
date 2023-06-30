@@ -574,7 +574,7 @@ begin
   FLoading := True;
   try
     Result := FileExists(AFileName);
-    if Result and (CurrentFileName <> AFileName) then
+    if Result then
     begin
       //Set content variable based on Extension of FileName
       if IsFileNameWithExt(AFileName, AHTMLFileExt) then
@@ -689,6 +689,8 @@ begin
         FHtmlIndexContent := TryLoadTextFile(AFileName);
         //empty md content
         FMdIndexContent := '';
+        //change page to show Index
+        PageControl.ActivePage := tsIndex;
       end
       else
       begin
