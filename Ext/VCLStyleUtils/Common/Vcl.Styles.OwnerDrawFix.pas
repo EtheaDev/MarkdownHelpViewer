@@ -15,7 +15,7 @@
 // The Original Code is Vcl.Styles.OwnerDrawFix.pas.
 //
 // The Initial Developer of the Original Code is Rodrigo Ruz V.
-// Portions created by Rodrigo Ruz V. are Copyright (C) 2012-2021 Rodrigo Ruz V.
+// Portions created by Rodrigo Ruz V. are Copyright (C) 2012-2023 Rodrigo Ruz V.
 // All Rights Reserved.
 //
 // **************************************************************************************************
@@ -125,6 +125,7 @@ var
   LColor: TColor;
   ImageSize: Integer;
 begin
+  ImageSize := 0;
   LStyles := StyleServices;
   if not LStyles.GetElementColor(LStyles.GetElementDetails(ttItemNormal), ecTextColor, LColor) or (LColor = clNone) then
     LColor := LStyles.GetSystemColor(clWindowText);

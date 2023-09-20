@@ -228,6 +228,7 @@ object MainForm: TMainForm
       Items.Strings = (
         'DaringFireball'
         'CommonMark')
+      ExplicitLeft = 614
     end
     object ToolBar: TToolBar
       AlignWithMargins = True
@@ -244,6 +245,8 @@ object MainForm: TMainForm
       Images = SVGIconImageList
       ShowCaptions = True
       TabOrder = 1
+      ExplicitWidth = 524
+      ExplicitHeight = 100
       object btShowHide: TToolButton
         Left = 0
         Top = 0

@@ -500,7 +500,12 @@ end;
 procedure TMainForm.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = chr(27) then
-    dmResources.StopLoadingImages(True);
+  begin
+    if dmResources.IsLoadingImages then
+      dmResources.StopLoadingImages(True)
+    else
+      Close;
+  end;
 end;
 
 function TMainForm.GetCssContent: string;

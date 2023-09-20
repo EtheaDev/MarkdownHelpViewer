@@ -2,7 +2,7 @@
 
 **This file an example of help system based on Markdown files, for the MarkdownHelpViewerDemo**
 
-The integration was tested from **Delphi XE6** to **Delphi 11 Alexandria**: for older versions of Delphi please give a request into ["Issue section"](https://github.com/EtheaDev/MarkdownHelpViewer/issues)
+The integration was tested from **Delphi XE6** to **Delphi 12**: for older versions of Delphi please give a request into ["Issue section"](https://github.com/EtheaDev/MarkdownHelpViewer/issues)
 
 ### Step to activate this Help into MarkdownHelpViewerDemo Application ###
 

@@ -4,7 +4,7 @@ object FrmAbout: TFrmAbout
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   ClientHeight = 312
-  ClientWidth = 431
+  ClientWidth = 436
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,8 +14,9 @@ object FrmAbout: TFrmAbout
   Position = poDefault
   OnClose = FormClose
   OnCreate = FormCreate
+  OnShow = FormShow
   DesignSize = (
-    431
+    436
     312)
   TextHeight = 13
   object TitleLabel: TLabel
@@ -99,18 +100,21 @@ object FrmAbout: TFrmAbout
   object Panel1: TPanel
     Left = 0
     Top = 261
-    Width = 431
+    Width = 436
     Height = 51
     Align = alBottom
     BevelOuter = bvNone
     Color = clWindow
     ParentBackground = False
     TabOrder = 0
+    ExplicitTop = 260
+    ExplicitWidth = 427
     object btnOK: TButton
       Left = 360
       Top = 16
       Width = 75
       Height = 25
+      Cancel = True
       Caption = 'CLOSE'
       Default = True
       TabOrder = 2
@@ -184,6 +188,7 @@ object FrmAbout: TFrmAbout
     ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 1
+    ExplicitHeight = 165
   end
   object LinkLabel1: TLinkLabel
     Left = 8

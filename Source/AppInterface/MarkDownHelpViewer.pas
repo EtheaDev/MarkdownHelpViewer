@@ -61,6 +61,8 @@ function IsFileNameWithExt(const AFileName: TFileName;
 procedure GetFileNamesWithExtensions(FileNames: TStrings;
   const PathName: string; const Extensions: string;
   FileAttrib : Integer = faArchive or faReadOnly);
+function SendWMCOPYToProcess(const AExeName, AFileName: TFileName;
+  AHelpContext: Integer): Boolean;
 
 implementation
 

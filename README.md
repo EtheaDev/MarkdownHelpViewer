@@ -1,6 +1,6 @@
 ﻿# Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**Latest Version 1.2.0 - 30 Jun 2023**
+**Latest Version 1.3.0 - 20 Sep 2023**
 
 **An integrated help system based on files in Markdown format (and also html), for Delphi applications**
 
@@ -93,6 +93,11 @@ Then the interface searches in the same folder of default file (specified into A
 - At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)
 
 ## Release Notes ##
+
+20 Sep 2023: ver. 1.3.0
+- Added Support for Delphi 12
+- Close Viewer with Esc button
+- Form-resize optimized
 
 30 Jun 2023: ver. 1.2.0
 - Restored "Settings" function on Viewer
@@ -246,7 +251,7 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 [delphi-markdown](https://github.com/grahamegrieve/delphi-markdown)
 
-![Delphi 11 Alexandria Support](/Setup/SupportingDelphi.jpg)
+![Delphi Support](/Setup/SupportingDelphi.jpg)
 
 Related links: [embarcadero.com][7] - [learndelphi.org][8]
 

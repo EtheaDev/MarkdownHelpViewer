@@ -44,6 +44,7 @@ type
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private
+    FLoadingImages: Boolean;
     FStream: TMemoryStream;
     FStopImageRequest: Boolean;
     procedure ConvertImage(AFileName: string;
@@ -55,6 +56,7 @@ type
     procedure StopLoadingImages(const AStop: Boolean);
     procedure HtmlViewerImageRequest(Sender: TObject; const ASource: UnicodeString;
       var AStream: TStream);
+    function IsLoadingImages: Boolean;
   end;
 
 var
@@ -106,42 +108,51 @@ var
 Begin
   if FStopImageRequest then
     Exit;
+  FLoadingImages := True;
   Application.ProcessMessages;
+  Try
+    LHtmlViewer := sender as THtmlViewer;
 
-  LHtmlViewer := sender as THtmlViewer;
+    AStream := nil;
 
-  AStream := nil;
-
-  // is "fullName" a local file, if not aquire file from internet
-  // replace %20 spaces to normal spaces
-  LFullName := StringReplace(ASource,'%20',' ',[rfReplaceAll]);
-  If not FileExists(LFullName) then
-  begin
-    LFullName := IncludeTrailingPathDelimiter(LHtmlViewer.ServerRoot)+LFullName;
+    // is "fullName" a local file, if not aquire file from internet
+    // replace %20 spaces to normal spaces
+    LFullName := StringReplace(ASource,'%20',' ',[rfReplaceAll]);
     If not FileExists(LFullName) then
-      LFullName := ASource;
-  end;
-
-  LFullName := LHtmlViewer.HTMLExpandFilename(LFullName);
-
-  LMaxWidth := LHtmlViewer.ClientWidth - LHtmlViewer.VScrollBar.Width - (LHtmlViewer.MarginWidth * 2);
-  if FileExists(LFullName) then  // if local file, load it..
-  Begin
-    FStream.LoadFromFile(LFullName);
-    //Convert image to stretch size of HTMLViewer
-    ConvertImage(LFullName, LMaxWidth, LHtmlViewer.DefBackground);
-    AStream := FStream;
-  end
-  else if SameText('http', Copy(ASource,1,4)) then
-  Begin
-    if ViewerSettings.DownloadFromWEB then
     begin
-      //Load from remote
-      getStreamData(LFullName, LMaxWidth, LHtmlViewer.DefBackground);
-      AStream := FStream;
+      LFullName := IncludeTrailingPathDelimiter(LHtmlViewer.ServerRoot)+LFullName;
+      If not FileExists(LFullName) then
+        LFullName := ASource;
     end;
+
+    LFullName := LHtmlViewer.HTMLExpandFilename(LFullName);
+
+    LMaxWidth := LHtmlViewer.ClientWidth - LHtmlViewer.VScrollBar.Width - (LHtmlViewer.MarginWidth * 2);
+    if FileExists(LFullName) then  // if local file, load it..
+    Begin
+      FStream.LoadFromFile(LFullName);
+      //Convert image to stretch size of HTMLViewer
+      ConvertImage(LFullName, LMaxWidth, LHtmlViewer.DefBackground);
+      AStream := FStream;
+    end
+    else if SameText('http', Copy(ASource,1,4)) then
+    Begin
+      if ViewerSettings.DownloadFromWEB then
+      begin
+        //Load from remote
+        getStreamData(LFullName, LMaxWidth, LHtmlViewer.DefBackground);
+        AStream := FStream;
+      end;
+    End;
+  Finally
+    FLoadingImages := False;
   End;
 End;
+
+function TdmResources.IsLoadingImages: Boolean;
+begin
+  Result := FLoadingImages;
+end;
 
 procedure TdmResources.StopLoadingImages(const AStop: Boolean);
 begin
