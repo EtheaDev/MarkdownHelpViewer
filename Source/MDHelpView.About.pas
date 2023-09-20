@@ -57,6 +57,7 @@ type
     procedure btnCheckUpdatesClick(Sender: TObject);
     procedure LinkLabel1LinkClick(Sender: TObject; const Link: string;
       LinkType: TSysLinkType);
+    procedure FormShow(Sender: TObject);
   private
     FTitle: string;
     procedure SetTitle(const Value: string);
@@ -170,6 +171,12 @@ begin
   {$ELSE}
   LabelVersion.Caption := Format('Ver. %s (64bit)', [FileVersionStr]);
   {$ENDIF}
+end;
+
+procedure TFrmAbout.FormShow(Sender: TObject);
+begin
+  if btnOK.CanFocus then
+    btnOK.SetFocus;
 end;
 
 procedure TFrmAbout.LinkLabel1LinkClick(Sender: TObject; const Link: string;

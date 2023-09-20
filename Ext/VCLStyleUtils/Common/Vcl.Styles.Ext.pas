@@ -15,7 +15,7 @@
 // The Original Code is Vcl.Styles.Ext.pas.
 //
 // The Initial Developer of the Original Code is Rodrigo Ruz V.
-// Portions created by Rodrigo Ruz V. are Copyright (C) 2012-2021 Rodrigo Ruz V.
+// Portions created by Rodrigo Ruz V. are Copyright (C) 2012-2023 Rodrigo Ruz V.
 // All Rights Reserved.
 //
 // **************************************************************************************************
@@ -27,6 +27,7 @@ interface
 {$LEGACYIFEND ON}
 {$IFEND}
 {$DEFINE USE_VCL_STYLESAPI}
+{$WARN SYMBOL_DEPRECATED OFF}
 
 uses
   System.Classes,
@@ -93,6 +94,7 @@ type
   TSourceInfo = record
     Data: TStyleServicesHandle;
     StyleClass: TCustomStyleServicesClass;
+    {$IF CompilerVersion >= 35}DesigningState: Boolean;{$IFEND}
   end;
 
 {$REGION 'Documentation'}
@@ -262,8 +264,8 @@ uses
   Vcl.Dialogs, Vcl.Styles.Utils.Misc, Vcl.Styles.Utils.Graphics;
 
 {$IF (DEFINED (USE_VCL_STYLESAPI) AND (CompilerVersion >= 23))}
-{$I '..\source\vcl\StyleUtils.inc'}
-{$I '..\source\vcl\StyleAPI.inc'}
+{$I 'StyleUtils.inc'}
+{$I 'StyleAPI.inc'}
 {$IFEND}
 
 type
