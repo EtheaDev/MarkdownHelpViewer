@@ -38,8 +38,10 @@ uses
   MDHelpView.Misc in 'MDHelpView.Misc.pas',
   MDHelpView.About in 'MDHelpView.About.pas' {FrmAbout},
   vmHtmlToPdf in 'vmHtmlToPdf.pas',
-  MarkdownHelpViewer in '.\AppInterface\MarkDownHelpViewer.pas',
-  MarkDownViewerComponents in '.\Components\MarkDownViewerComponents.pas';
+  MarkDownHelpViewer in 'AppInterface\MarkDownHelpViewer.pas',
+  MarkDownViewerComponents in 'Components\MarkDownViewerComponents.pas',
+  Vcl.StyledTaskDialogFormUnit in '..\Ext\StyledComponents\source\Vcl.StyledTaskDialogFormUnit.pas' {StyledTaskDialogForm},
+  Skia.Vcl.StyledTaskDialogAnimatedUnit in '..\Ext\StyledComponents\source\Skia.Vcl.StyledTaskDialogAnimatedUnit.pas' {StyledTaskDialogAnimated};
 
 {$R *.res}
 
@@ -49,5 +51,6 @@ begin
   Application.Title := 'Markdown Help Viewer';
   Application.CreateForm(TdmResources, dmResources);
   Application.CreateForm(TMainForm, MainForm);
+  Application.OnException := MainForm.ManageExceptions;
   Application.Run;
 end.

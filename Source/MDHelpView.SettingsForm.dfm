@@ -3,8 +3,8 @@ object MDSettingsForm: TMDSettingsForm
   Top = 148
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
-  ClientHeight = 483
-  ClientWidth = 793
+  ClientHeight = 482
+  ClientWidth = 789
   Color = clBtnFace
   Constraints.MinHeight = 480
   Constraints.MinWidth = 600
@@ -28,8 +28,8 @@ object MDSettingsForm: TMDSettingsForm
   object pc: TPageControl
     Left = 153
     Top = 41
-    Width = 640
-    Height = 423
+    Width = 636
+    Height = 422
     ActivePage = stGeneral
     Align = alClient
     Images = SettingsImageList
@@ -343,21 +343,19 @@ object MDSettingsForm: TMDSettingsForm
   end
   object StatusBar: TStatusBar
     Left = 0
-    Top = 464
-    Width = 793
+    Top = 463
+    Width = 789
     Height = 19
     Panels = <>
     ParentFont = True
     SimplePanel = True
     UseSystemFont = False
-    ExplicitTop = 463
-    ExplicitWidth = 789
   end
   object MenuButtonGroup: TButtonGroup
     Left = 0
     Top = 41
     Width = 153
-    Height = 423
+    Height = 422
     Align = alLeft
     BevelOuter = bvNone
     BorderStyle = bsNone
@@ -392,19 +390,17 @@ object MDSettingsForm: TMDSettingsForm
       end>
     TabOrder = 2
     OnButtonClicked = MenuButtonGroupButtonClicked
-    ExplicitHeight = 422
   end
   object TitlePanel: TPanel
     Left = 0
     Top = 0
-    Width = 793
+    Width = 789
     Height = 41
     Align = alTop
     Alignment = taLeftJustify
     BevelOuter = bvNone
     Caption = 'Settings'
     TabOrder = 3
-    ExplicitWidth = 789
   end
   object OpenDialog: TOpenDialog
     Left = 592

@@ -1,10 +1,10 @@
 ﻿# Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**Latest Version 1.3.0 - 20 Sep 2023**
+**Latest Version 2.0.0 - 22 Oct 2023**
 
-**An integrated help system based on files in Markdown format (and also html), for Delphi applications**
+**An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications**
 
-- A "Setup" of the "Markdown Help Viewer" ready to use.
+- A "Setup" of the pre-built **"Markdown Help Viewer"** ready to use.
 
 - A unit (MarkdownHelpViewer.pas) to add the interface to Delphi Help System of your Delphi Application (from XE6 version)
 
@@ -27,7 +27,7 @@
 
 ### Setup using the Installer
 
-Click to download the [MarkDownHelpViewerSetup.exe][3] located also in the Release area. The Installer works both for 32 and 64 bit system.
+Click to download the [MarkDownHelpViewerSetup.exe][1] located also in the Release area. The Installer works both for 32 and 64 bit system.
 
 ![Markdown Setup_Program](./Images/Setup.png)
 
@@ -93,6 +93,17 @@ Then the interface searches in the same folder of default file (specified into A
 - At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)
 
 ## Release Notes ##
+
+22 Oct 2023: ver. 2.0.0
+- Added use of Skia4Delphi
+- Added support for new image format (webp and wbmp)
+- Uses AnimatedStyledDialogs for messages
+- Updated Markdown library with best support for CommonMark transformation:
+
+1. Subscript <sub>text</sub> and Superscript <sup>text</sup>
+1. Formulas (using [Google Chart API])
+1. ==Markers==
+1. [Reference-style Links][1]
 
 20 Sep 2023: ver. 1.3.0
 - Added Support for Delphi 12
@@ -235,7 +246,7 @@ In the **Toolbar** located at the top on the page we find **8 tools:**
 
 ## License
 
-Licensed under the [Apache License, Version 2.0][6] (the "License");
+Licensed under the [Apache License, Version 2.0][2] (the "License");
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
@@ -249,24 +260,22 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 [vcl-styles-utils](https://github.com/RRUZ/vcl-styles-utils)
 
-[delphi-markdown](https://github.com/grahamegrieve/delphi-markdown)
+[markdownProcessor](https://github.com/EtheaDev/MarkdownProcessor)
+
+[StyledComponents](https://github.com/EtheaDev/StyledComponents)
 
 ![Delphi Support](/Setup/SupportingDelphi.jpg)
 
-Related links: [embarcadero.com][7] - [learndelphi.org][8]
+Related links: [embarcadero.com][3] - [learndelphi.org][4]
 
-[1]: https://github.com/EtheaDev/SVGIconImageList
+[1]: https://github.com/EtheaDev/MarkdownHelpViewer/releases/latest/download/MarkDownHelpViewerSetup.exe
 
-[2]: https://github.com/BerndGabriel/HtmlViewer
+[2]: https://opensource.org/licenses/Apache-2.0
 
-[3]: https://github.com/EtheaDev/MarkdownHelpViewer/releases/latest/download/MarkDownHelpViewerSetup.exe
+[3]: https://www.embarcadero.com/
 
-[4]: https://github.com/RRUZ/vcl-styles-utils
+[4]: https://learndelphi.org/
 
-[5]: https://github.com/grahamegrieve/delphi-markdown
+[Google Chart API]: https://developers.google.com/chart/infographics/docs/formulas
 
-[6]: https://opensource.org/licenses/Apache-2.0
-
-[7]: https://www.embarcadero.com/
-
-[8]: https://learndelphi.org/
+[Reference-style-Links]: https://www.markdownguide.org/basic-syntax/#reference-style-links

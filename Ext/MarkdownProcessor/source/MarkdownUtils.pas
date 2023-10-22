@@ -1,33 +1,39 @@
-Unit MarkdownDaringFireball;
-
-{
-  This code was translated from TxtMark (https://github.com/rjeschke/txtmark)
-
-  Copyright (C) 2011-2015 René Jeschke <rene_jeschke@yahoo.de>
-  Copyright (C) 2015+ Grahame Grieve <grahameg@gmail.com> (pascal port)
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-}
-
-{$IFDEF FPC}{$MODE DELPHI}{$ENDIF}
+{******************************************************************************}
+{                                                                              }
+{       MarkDown Processor                                                     }
+{       Delphi version of FPC-markdown by Miguel A. Risco-Castillo             }
+{                                                                              }
+{       Copyright (c) 2022-2023 (Ethea S.r.l.)                                 }
+{       Author: Carlo Barazzetta                                               }
+{                                                                              }
+{       https://github.com/EtheaDev/MarkdownProcessor                          }
+{                                                                              }
+{******************************************************************************}
+{                                                                              }
+{  Licensed under the Apache License, Version 2.0 (the "License");             }
+{  you may not use this file except in compliance with the License.            }
+{  You may obtain a copy of the License at                                     }
+{                                                                              }
+{      http://www.apache.org/licenses/LICENSE-2.0                              }
+{                                                                              }
+{  Unless required by applicable law or agreed to in writing, software         }
+{  distributed under the License is distributed on an "AS IS" BASIS,           }
+{  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.    }
+{  See the License for the specific language governing permissions and         }
+{  limitations under the License.                                              }
+{                                                                              }
+{******************************************************************************}
+Unit MarkdownUtils;
 
 interface
 
 uses
-  SysUtils, StrUtils, Classes, Character, TypInfo, Math,
-  MarkdownProcessor;
+  SysUtils, StrUtils, Classes, Character, TypInfo, Math;
 
-type
+Type
+  TMarkdownProcessorDialect = (mdDaringFireball, mdCommonMark, mdTxtMark);
+  TSeTMarkdownProcessorDialect = set of TMarkdownProcessorDialect;
+
   THTMLElement = (heNONE, hea, heabbr, heacronym, headdress, heapplet, hearea, heb, hebase, hebasefont, hebdo, hebig, heblockquote, hebody, hebr, hebutton, hecaption, hecite,
     hecode, hecol, hecolgroup, hedd, hedel, hedfn, hediv, hedl, hedt, heem, hefieldset, hefont, heform, heframe, heframeset, heh1, heh2, heh3, heh4, heh5, heh6, hehead, hehr,
     hehtml, hei, heiframe, heimg, heinput, heins, hekbd, helabel, helegend, heli, helink, hemap, hemeta, henoscript, heobject, heol, heoptgroup, heoption, hep, heparam, hepre, heq,
@@ -77,7 +83,7 @@ const
   BUFFER_INCREMENT_SIZE = 1024;
 
 Type
-  TReader = class
+  TMarkdownReader = class
   private
     FValue: String;
     FCursor: integer;
@@ -95,7 +101,6 @@ Type
     function GetChar(index: integer): char;
   public
     Constructor Create;
-
     procedure Clear;
     procedure Append(value : String); overload;
     procedure Append(value : integer); overload;
@@ -105,6 +110,8 @@ Type
     Property Length : Integer Read FLength;
   end;
 {$ENDIF}
+
+  { TUtils }
 
   TUtils = class
   public
@@ -163,7 +170,12 @@ Type
 
     // Removes trailing <code>`</code> or <code>~</code> and trims spaces.
     class function getMetaFromFence(fenceLine: String): String;
+
+    // Changes unsafe chars to %xx
+    class function encodeURL(url: String): String;
   end;
+
+  { THTML }
 
   THTML = class
   public
@@ -172,6 +184,8 @@ Type
     class function isUnsafeHtmlElement(s: String): boolean;
     class function isHtmlBlockElement(s: String): boolean;
   end;
+
+  { TDecorator }
 
   TDecorator = class
   private
@@ -183,6 +197,7 @@ Type
     procedure closeBlockQuote(out_: TStringBuilder); virtual;
 
     procedure openCodeBlock(out_: TStringBuilder); virtual;
+    procedure openFencedCodeBlock(out_: TStringBuilder; classlabel:string);
     procedure closeCodeBlock(out_: TStringBuilder); virtual;
 
     procedure openCodeSpan(out_: TStringBuilder); virtual;
@@ -197,8 +212,20 @@ Type
     procedure openEmphasis(out_: TStringBuilder); virtual;
     procedure closeEmphasis(out_: TStringBuilder); virtual;
 
+    procedure openStrike(out_: TStringBuilder); virtual;
+    procedure closeStrike(out_: TStringBuilder); virtual;
+
+    procedure openIns(out_: TStringBuilder); virtual;
+    procedure closeIns(out_: TStringBuilder); virtual;
+
+    procedure openMark(out_: TStringBuilder); virtual;
+    procedure closeMark(out_: TStringBuilder); virtual;
+
     procedure openSuper(out_: TStringBuilder); virtual;
     procedure closeSuper(out_: TStringBuilder); virtual;
+
+    procedure openSub(out_: TStringBuilder); virtual;
+    procedure closeSub(out_: TStringBuilder); virtual;
 
     procedure openOrderedList(out_: TStringBuilder); virtual;
     procedure closeOrderedList(out_: TStringBuilder); virtual;
@@ -209,6 +236,9 @@ Type
     procedure openListItem(out_: TStringBuilder); virtual;
     procedure closeListItem(out_: TStringBuilder); virtual;
 
+    procedure checkedItem(out_: TStringBuilder); virtual;
+    procedure uncheckedItem(out_: TStringBuilder); virtual;
+
     procedure horizontalRuler(out_: TStringBuilder); virtual;
 
     procedure openLink(out_: TStringBuilder); virtual;
@@ -216,6 +246,7 @@ Type
 
     procedure openImage(out_: TStringBuilder); virtual;
     procedure closeImage(out_: TStringBuilder); virtual;
+
   end;
 
   TSpanEmitter = class
@@ -228,24 +259,27 @@ Type
     procedure emitBlock(out_: TStringBuilder; lines: TStringList; meta: String); virtual; abstract;
   end;
 
+  { TConfiguration }
+
   TConfiguration = class
   private
     Fdecorator: TDecorator;
+    FDialect: TMarkdownProcessorDialect;
     FsafeMode: boolean;
     FallowSpacesInFencedDelimiters: boolean;
-    FforceExtendedProfile: boolean;
     FcodeBlockEmitter: TBlockEmitter;
     FpanicMode: boolean;
     FspecialLinkEmitter: TSpanEmitter;
+    procedure SetDialect(AValue: TMarkdownProcessorDialect);
   public
     Constructor Create(safe : boolean);
     Destructor Destroy; override;
-
+    function isDialect(Dialects:TSeTMarkdownProcessorDialect):boolean;
+    property Dialect:TMarkdownProcessorDialect read FDialect write SetDialect;
     property safeMode: boolean read FsafeMode write FsafeMode;
     property panicMode: boolean read FpanicMode write FpanicMode;
     property decorator: TDecorator read Fdecorator write Fdecorator;
     property codeBlockEmitter: TBlockEmitter read FcodeBlockEmitter write FcodeBlockEmitter;
-    property forceExtendedProfile: boolean read FforceExtendedProfile write FforceExtendedProfile;
     property allowSpacesInFencedDelimiters: boolean read FallowSpacesInFencedDelimiters write FallowSpacesInFencedDelimiters;
     property specialLinkEmitter: TSpanEmitter read FspecialLinkEmitter write FspecialLinkEmitter;
   end;
@@ -268,7 +302,10 @@ Type
     // Start of a XML block. */
     ltXML,
     // Fenced code block start/end */
-    ltFENCED_CODE);
+    ltFENCED_CODE,
+    // Start of Table
+    ltTABLE
+    );
 
   TLine = class
   private
@@ -286,11 +323,9 @@ Type
     function countCharsStart(ch: char; allowSpaces: boolean): integer;
     function readXMLComment(firstLine: TLine; start: integer): integer;
     function checkHTML(): boolean;
-
   public
     Constructor Create;
     Destructor Destroy; Override;
-
     // Current cursor position.
     property position: integer read FPosition write FPosition;
     // Leading and trailing spaces.
@@ -303,20 +338,17 @@ Type
     // Previous and next line.
     property previous: TLine read FPrevious write FPrevious;
     property next: TLine read FNext write FNext;
-
     // Is previous/next line empty?
     property prevEmpty: boolean read FPrevEmpty write FPrevEmpty;
     property nextEmpty: boolean read FNextEmpty write FNextEmpty;
-
     // Final line of a XML block.
     property xmlEndLine: TLine read FXmlEndLine write FXmlEndLine;
-
     procedure Init;
     procedure InitLeading;
     function skipSpaces: boolean;
     function readUntil(chend: TSysCharSet): String;
     procedure setEmpty;
-    function getLineType(configuration: TConfiguration): TLineType;
+    function getLineType(config: TConfiguration): TLineType;
     function stripID: String;
 
   end;
@@ -328,7 +360,6 @@ Type
     FIsAbbrev: boolean;
   public
     Constructor Create(link, title: String; isAbbrev: boolean);
-
     property link: String read FLink write FLink;
     property title: String read FTitle write FTitle;
     property isAbbrev: boolean read FIsAbbrev write FIsAbbrev;
@@ -356,7 +387,10 @@ Type
     // An unordered list.
     btUNORDERED_LIST,
     // A XML block.
-    btXML);
+    btXML,
+    // A table elements block.
+    btTABLE
+  );
 
   TBlock = class
   private
@@ -370,6 +404,7 @@ Type
     FNext: TBlock;
     FMeta: String;
 
+  public
     procedure AppendLine(line: TLine);
     function split(line: TLine): TBlock;
     procedure removeListIndent(config: TConfiguration);
@@ -381,20 +416,15 @@ Type
     procedure removeSurroundingEmptyLines;
     procedure removeBlockQuotePrefix;
     procedure removeLine(line: TLine);
-  public
     Constructor Create;
     Destructor Destroy; Override;
-
     // This block's type.
     property type_: TBlockType read FType write FType;
-
     property lines: TLine read FLines;
     property lineTail: TLine read FLineTail;
-
     // child blocks.
     property blocks: TBlock read FBlocks;
     property blockTail: TBlock read FBlockTail;
-
     // Next block.
     property next: TBlock read FNext write FNext;
     // Depth of headline BlockType.
@@ -403,7 +433,6 @@ Type
     property id: String read FId write FId;
     // Block meta information
     property meta: String read FMeta write FMeta;
-
   end;
 
   TMarkToken = (
@@ -413,10 +442,20 @@ Type
     mtEM_STAR, // x*x
     // _
     mtEM_UNDERSCORE, // x_x
+    // ~
+    mtSUB_TILDE, // x~x
     // &#x2a;&#x2a;
     mtSTRONG_STAR, // x**x
     // __
     mtSTRONG_UNDERSCORE, // x__x
+    // ~~
+    mtSTRIKE_TILDE, // x~~x
+    // ++
+    mtINS_PLUS, // x++x
+    // ==
+    mtMARK_EQ, // x==x
+    // $
+    mtMATH_DOLLAR, // $
     // `
     mtCODE_SINGLE, // `
     // ``
@@ -460,11 +499,16 @@ Type
     );
 
   // Emitter class responsible for generating HTML output.
+
+  { TEmitter }
+
   TEmitter = class
   private
     linkRefs: TStringList;
     FConfig: TConfiguration;
-    FuseExtensions: boolean;
+  public
+    Constructor Create(config: TConfiguration);
+    Destructor Destroy; override;
     procedure emitCodeLines(out_: TStringBuilder; lines: TLine; meta: String; removeIndent: boolean);
     procedure emitRawLines(out_: TStringBuilder; lines: TLine);
     procedure emitMarkedLines(out_: TStringBuilder; lines: TLine);
@@ -475,58 +519,27 @@ Type
     function checkHTML(out_: TStringBuilder; s: String; start: integer): integer;
     class function checkEntity(out_: TStringBuilder; s: String; start: integer): integer;
     class function whitespaceToSpace(c: char): char;
-  public
-    Constructor Create(config: TConfiguration);
-    Destructor Destroy; override;
-
     procedure addLinkRef(key: String; linkRef: TLinkRef);
     procedure emit(out_: TStringBuilder; root: TBlock);
     procedure emitLines(out_: TStringBuilder; block: TBlock);
-
   end;
 
-  TMarkdownDaringFireball = class(TMarkdownProcessor)
-  private
-    FConfig: TConfiguration;
-    Femitter: TEmitter;
-    FuseExtensions: boolean;
-    function readLines(reader : TReader): TBlock;
-    procedure initListBlock(root: TBlock);
-    procedure recurse(root: TBlock; listMode: boolean);
-
-  protected
-    function GetAllowUnSafe: boolean; override;
-    procedure SetAllowUnSafe(const value: boolean); override;
-  public
-    Constructor Create;
-    Destructor Destroy; override;
-
-    function process(source: String): String; override;
-
-    property config: TConfiguration read FConfig;
-  end;
+Function StringsContains(Const aNames: Array Of String; Const sName: String): boolean;
+function StringToEnum(ATypeInfo: PTypeInfo; const AStr: String; defValue: integer): integer;
 
 implementation
+
+uses MarkdownTables, MarkdownMathCode;
 
 Function StringsContains(Const aNames: Array Of String; Const sName: String): boolean;
 var
   i: integer;
 Begin
   for i := 0 to length(aNames) - 1 do
-    if sName <> aNames[i] then
+    if sName = aNames[i] then
       exit(true);
   result := false;
 End;
-
-function StringToShortString(const S: String) : ShortString;
-var
-  i : integer;
-begin
-  SetLength(result, min(s.Length, 255));
-  for i := 1 to length(result) do
-    result[i] := AnsiChar(s[i]);
-end;
-
 
 function StringToEnum(ATypeInfo: PTypeInfo; const AStr: String; defValue: integer): integer;
 var
@@ -534,7 +547,7 @@ var
   LPChar: PAnsiChar;
   LValue: ShortString;
 begin
-  LValue := StringToShortString(AStr);
+  LValue := ShortString(AStr);
 
   if ATypeInfo^.Kind = tkEnumeration then
   begin
@@ -555,457 +568,6 @@ begin
     exit(defValue);
 end;
 
-{ TMarkdownDaringFireball }
-
-constructor TMarkdownDaringFireball.Create;
-begin
-  inherited Create;
-  FConfig := TConfiguration.Create(true);
-  Femitter := TEmitter.Create(config);
-end;
-
-destructor TMarkdownDaringFireball.Destroy;
-begin
-  FConfig.Free;
-  Femitter.Free;
-  inherited;
-end;
-
-function TMarkdownDaringFireball.GetAllowUnSafe: boolean;
-begin
-  result := not FConfig.safeMode;
-end;
-
-procedure TMarkdownDaringFireball.initListBlock(root: TBlock);
-var
-  line: TLine;
-  t: TLineType;
-begin
-  line := root.lines;
-  line := line.next;
-  while (line <> nil) do
-  begin
-    t := line.getLineType(FConfig);
-    if ((t = ltOLIST) or (t = ltULIST) or (not line.isEmpty and (line.prevEmpty and (line.leading = 0) and not((t = ltOLIST) or (t = ltULIST))))) then
-      root.split(line.previous).type_ := btLIST_ITEM;
-    line := line.next;
-  end;
-  root.split(root.lineTail).type_ := btLIST_ITEM;
-end;
-
-function TMarkdownDaringFireball.process(source: String): String;
-var
-  out_: TStringBuilder;
-  parent, block: TBlock;
-  rdr : TReader;
-begin
-  FuseExtensions := config.forceExtendedProfile;
-  rdr := TReader.Create(source);
-  try
-    out_ := TStringBuilder.Create;
-    try
-      parent := readLines(rdr);
-      try
-        parent.removeSurroundingEmptyLines;
-        recurse(parent, false);
-        block := parent.blocks;
-        while (block <> nil) do
-        begin
-          Femitter.emit(out_, block);
-          block := block.next;
-        end;
-        result := out_.ToString;
-      finally
-        parent.Free;
-      end;
-    finally
-      out_.Free;
-    end;
-  finally
-    rdr.Free;
-  end;
-end;
-
-function TMarkdownDaringFireball.readLines(reader : TReader): TBlock;
-var
-  block: TBlock;
-  sb: TStringBuilder;
-  c, ch: char;
-  position, np: integer;
-  eol, isLinkRef, lineAdded: boolean;
-  lastLinkRef, lr: TLinkRef;
-  line: TLine;
-  id, link, comment: String;
-begin
-  block := TBlock.Create;
-  sb := TStringBuilder.Create;
-  try
-    c := reader.read();
-    lastLinkRef := nil;
-    while (c <> #0) do
-    begin
-      sb.Clear;
-      position := 0;
-      eol := false;
-      while (not eol) do
-      begin
-        case c of
-          #0:
-            eol := true;
-          #10:
-            begin
-              c := reader.read();
-              if (c = #13) then
-                c := reader.read();
-              eol := true;
-            end;
-          #13:
-            begin
-              c := reader.read();
-              if (c = #10) then
-                c := reader.read();
-              eol := true;
-            end;
-          #9:
-            begin
-              np := position + (4 - (position and 3));
-              while (position < np) do
-              begin
-                sb.append(' ');
-                inc(position);
-              end;
-              c := reader.read();
-            end;
-        else
-          if (c <> '<') or (not FConfig.panicMode) then
-          begin
-            inc(position);
-            sb.append(c);
-          end
-          else
-          begin
-            inc(position, 4);
-            sb.append('&lt;');
-          end;
-          c := reader.read();
-        end;
-      end;
-
-      lineAdded := false;
-      line := TLine.Create;
-      try
-        line.value := sb.ToString();
-        line.Init();
-
-        // Check for link definitions
-        isLinkRef := false;
-        id := '';
-        link := '';
-        comment := '';
-        if (not line.isEmpty) and (line.leading < 4) and (line.value[1 + line.leading] = '[') then
-        begin
-          line.position := line.leading + 1;
-          // Read ID up to ']'
-          id := line.readUntil([']']);
-          // Is ID valid and are there any more characters?
-          if (id <> '') and (line.position + 2 < Length(line.value)) then
-          begin
-            // Check for ':' ([...]:...)
-            if (line.value[1 + line.position + 1] = ':') then
-            begin
-              line.position := line.position + 2;
-              line.skipSpaces();
-              // Check for link syntax
-              if (line.value[1 + line.position] = '<') then
-              begin
-                line.position := line.position + 1;
-                link := line.readUntil(['>']);
-                line.position := line.position + 1;
-              end
-              else
-                link := line.readUntil([' ', #10]);
-
-              // Is link valid?
-              if (link <> '') then
-              begin
-                // Any non-whitespace characters following?
-                if (line.skipSpaces()) then
-                begin
-                  ch := line.value[1 + line.position];
-                  // Read comment
-                  if (ch = '"') or (ch = '''') or (ch = '(') then
-                  begin
-                    line.position := line.position + 1;
-                    if ch = '(' then
-                      comment := line.readUntil([')'])
-                    else
-                      comment := line.readUntil([ch]);
-                    // Valid linkRef only if comment is valid
-                    if (comment <> '') then
-                      isLinkRef := true;
-                  end;
-                end
-                else
-                  isLinkRef := true;
-              end;
-            end;
-          end;
-        end;
-
-        if (isLinkRef) then
-        begin
-          if (LowerCase(id) = '$profile$') then
-          begin
-            FuseExtensions := LowerCase(link) = 'extended';
-            Femitter.FuseExtensions := FuseExtensions;
-            lastLinkRef := nil;
-          end
-          else
-          begin
-            // Store linkRef and skip line
-            lr := TLinkRef.Create(link, comment, (comment <> '') and (Length(link) = 1) and (link[1 + 1] = '*'));
-            Femitter.addLinkRef(id, lr);
-            if (comment = '') then
-              lastLinkRef := lr;
-          end;
-        end
-        else
-        begin
-          comment := '';
-          // Check for multi-line linkRef
-          if (not line.isEmpty and (lastLinkRef <> nil)) then
-          begin
-            line.position := line.leading;
-            ch := line.value[1 + line.position];
-            if (ch = '"') or (ch = '''') or (ch = '(') then
-            begin
-              line.position := line.position + 1;
-              if ch = '(' then
-                comment := line.readUntil([')'])
-              else
-                comment := line.readUntil([ch]);
-            end;
-            if (comment <> '') then
-              lastLinkRef.title := comment;
-            lastLinkRef := nil;
-          end;
-
-          // No multi-line linkRef, store line
-          if (comment = '') then
-          begin
-            line.position := 0;
-            block.AppendLine(line);
-            lineAdded := true;
-          end;
-        end;
-      finally
-        if not lineAdded then
-          line.Free;
-      end;
-    end;
-    result := block;
-  finally
-    sb.Free;
-  end;
-end;
-
-procedure TMarkdownDaringFireball.recurse(root: TBlock; listMode: boolean);
-var
-  block, list: TBlock;
-  line: TLine;
-  type_, t: TLineType;
-  wasEmpty: boolean;
-  bt: TBlockType;
-begin
-  line := root.lines;
-  if (listMode) then
-  begin
-    root.removeListIndent(FConfig);
-    if (FuseExtensions and (root.lines <> nil) and (root.lines.getLineType(FConfig) <> ltCODE)) then
-      root.id := root.lines.stripID();
-  end;
-
-  while (line <> nil) and line.isEmpty do
-    line := line.next;
-  if (line = nil) then
-    exit;
-
-  while (line <> nil) do
-  begin
-    type_ := line.getLineType(FConfig);
-    case type_ of
-      ltOTHER:
-        begin
-          wasEmpty := line.prevEmpty;
-          while (line <> nil) and (not line.isEmpty) do
-          begin
-            t := line.getLineType(FConfig);
-            if (listMode or FuseExtensions) and (t in [ltOLIST, ltULIST]) then
-              break;
-            if (FuseExtensions and (t in [ltCODE, ltFENCED_CODE])) then
-              break;
-            if (t in [ltHEADLINE, ltHEADLINE1, ltHEADLINE2, ltHR, ltBQUOTE, ltXML]) then
-              break;
-            line := line.next;
-          end;
-
-          if (line <> nil) and not line.isEmpty then
-          begin
-            if (listMode and not wasEmpty) then
-              bt := btNONE
-            else
-              bt := btPARAGRAPH;
-            if line = nil then
-              root.split(root.lineTail).type_ := bt
-            else
-              root.split(line.previous).type_ := bt;
-            root.removeLeadingEmptyLines();
-          end
-          else
-          begin
-            if (listMode and ((line = nil) or (not line.isEmpty)) and not wasEmpty) then
-              bt := btNONE
-            else
-              bt := btPARAGRAPH;
-            root.removeLeadingEmptyLines();
-            if (line <> nil) then
-              root.split(line.previous).type_ := bt
-            else
-              root.split(root.lineTail).type_ := bt;
-          end;
-          line := root.lines;
-        end;
-      ltCODE:
-        begin
-          while (line <> nil) and (line.isEmpty or (line.leading > 3)) do
-            line := line.next;
-          if (line <> nil) then
-            block := root.split(line.previous)
-          else
-            block := root.split(root.lineTail);
-          block.type_ := btCODE;
-          block.removeSurroundingEmptyLines();
-        end;
-      ltXML:
-        begin
-          if (line.previous <> nil) then
-            // FIXME ... this looks wrong
-            root.split(line.previous);
-          root.split(line.xmlEndLine).type_ := btXML;
-          root.removeLeadingEmptyLines();
-          line := root.lines;
-        end;
-      ltBQUOTE:
-        begin
-          while (line <> nil) do
-          begin
-            if (not line.isEmpty and (line.prevEmpty and (line.leading = 0) and (line.getLineType(FConfig) <> ltBQUOTE))) then
-              break;
-            line := line.next;
-          end;
-          if line <> nil then
-            block := root.split(line.previous)
-          else
-            block := root.split(root.lineTail);
-          block.type_ := btBLOCKQUOTE;
-          block.removeSurroundingEmptyLines();
-          block.removeBlockQuotePrefix();
-          recurse(block, false);
-          line := root.lines;
-        end;
-      ltHR:
-        begin
-          if (line.previous <> nil) then
-            // FIXME ... this looks wrong
-            root.split(line.previous);
-          root.split(line).type_ := btRULER;
-          root.removeLeadingEmptyLines();
-          line := root.lines;
-        end;
-      ltFENCED_CODE:
-        begin
-          line := line.next;
-          while (line <> nil) do
-          begin
-            if (line.getLineType(FConfig) = ltFENCED_CODE) then
-              break;
-            // TODO ... is this really necessary? Maybe add a special flag?
-            line := line.next;
-          end;
-          if (line <> nil) then
-            line := line.next;
-          if line <> nil then
-            block := root.split(line.previous)
-          else
-            block := root.split(root.lineTail);
-          block.type_ := btFENCED_CODE;
-          block.meta := TUtils.getMetaFromFence(block.lines.value);
-          block.lines.setEmpty();
-          if (block.lineTail.getLineType(FConfig) = ltFENCED_CODE) then
-            block.lineTail.setEmpty();
-          block.removeSurroundingEmptyLines();
-        end;
-      ltHEADLINE, ltHEADLINE1, ltHEADLINE2:
-        begin
-          if (line.previous <> nil) then
-            root.split(line.previous);
-          if (type_ <> ltHEADLINE) then
-            line.next.setEmpty();
-          block := root.split(line);
-          block.type_ := btHEADLINE;
-          if (type_ <> ltHEADLINE) then
-            if type_ = ltHEADLINE1 then
-              block.hlDepth := 1
-            else
-              block.hlDepth := 2;
-          if (FuseExtensions) then
-            block.id := block.lines.stripID();
-          block.transfromHeadline();
-          root.removeLeadingEmptyLines();
-          line := root.lines;
-        end;
-      ltOLIST, ltULIST:
-        begin
-          while (line <> nil) do
-          begin
-            t := line.getLineType(FConfig);
-            if (not line.isEmpty and (line.prevEmpty and (line.leading = 0) and (not(t = type_)))) then
-              break;
-            line := line.next;
-          end;
-          if line <> nil then
-            list := root.split(line.previous)
-          else
-            list := root.split(root.lineTail);
-          if type_ = ltOLIST then
-            list.type_ := btORDERED_LIST
-          else
-            list.type_ := btUNORDERED_LIST;
-          list.lines.prevEmpty := false;
-          list.lineTail.nextEmpty := false;
-          list.removeSurroundingEmptyLines();
-          list.lineTail.nextEmpty := false;
-          list.lines.prevEmpty := list.lineTail.nextEmpty;
-          initListBlock(list);
-          block := list.blocks;
-          while (block <> nil) do
-          begin
-            recurse(block, true);
-            block := block.next;
-          end;
-          list.expandListParagraphs();
-        end
-    else
-      line := line.next;
-    end;
-  end;
-end;
-
-procedure TMarkdownDaringFireball.SetAllowUnSafe(const value: boolean);
-begin
-  FConfig.safeMode := not value;
-end;
-
 { TLine }
 
 constructor TLine.Create;
@@ -1022,6 +584,12 @@ end;
 
 { TConfiguration }
 
+procedure TConfiguration.SetDialect(AValue: TMarkdownProcessorDialect);
+begin
+  if FDialect=AValue then Exit;
+  FDialect:=AValue;
+end;
+
 constructor TConfiguration.Create(safe : boolean);
 begin
   inherited Create;
@@ -1036,6 +604,16 @@ begin
   Fdecorator.Free;
   FspecialLinkEmitter.Free;
   inherited;
+end;
+
+function TConfiguration.isDialect(Dialects: TSeTMarkdownProcessorDialect): boolean;
+var
+  i: TMarkdownProcessorDialect;
+Begin
+  for i in Dialects do
+    if Dialect = i then
+      exit(true);
+  result := false;
 end;
 
 { TDecorator }
@@ -1063,6 +641,12 @@ end;
 procedure TDecorator.openCodeBlock(out_: TStringBuilder);
 begin
   out_.append('<pre><code>');
+end;
+
+procedure TDecorator.openFencedCodeBlock(out_: TStringBuilder;
+  classlabel: string);
+begin
+  out_.append('<pre><code class="'+classlabel+'">');
 end;
 
 procedure TDecorator.closeCodeBlock(out_: TStringBuilder);
@@ -1113,6 +697,36 @@ begin
   out_.append('</em>');
 end;
 
+procedure TDecorator.openStrike(out_: TStringBuilder);
+begin
+  out_.append('<del>');
+end;
+
+procedure TDecorator.closeStrike(out_: TStringBuilder);
+begin
+  out_.append('</del>');
+end;
+
+procedure TDecorator.openIns(out_: TStringBuilder);
+begin
+  out_.append('<ins>');
+end;
+
+procedure TDecorator.closeIns(out_: TStringBuilder);
+begin
+  out_.append('</ins>');
+end;
+
+procedure TDecorator.openMark(out_: TStringBuilder);
+begin
+  out_.append('<mark>');
+end;
+
+procedure TDecorator.closeMark(out_: TStringBuilder);
+begin
+  out_.append('</mark>');
+end;
+
 procedure TDecorator.openSuper(out_: TStringBuilder);
 begin
   out_.append('<sup>');
@@ -1121,6 +735,16 @@ end;
 procedure TDecorator.closeSuper(out_: TStringBuilder);
 begin
   out_.append('</sup>');
+end;
+
+procedure TDecorator.openSub(out_: TStringBuilder);
+begin
+  out_.append('<sub>');
+end;
+
+procedure TDecorator.closeSub(out_: TStringBuilder);
+begin
+  out_.append('</sub>');
 end;
 
 procedure TDecorator.openOrderedList(out_: TStringBuilder);
@@ -1153,9 +777,19 @@ begin
   out_.append('</li>'#10);
 end;
 
+procedure TDecorator.checkedItem(out_: TStringBuilder);
+begin
+  out_.append('<input checked disabled type="checkbox">');
+end;
+
+procedure TDecorator.uncheckedItem(out_: TStringBuilder);
+begin
+  out_.append('<input unchecked disabled type="checkbox">');
+end;
+
 procedure TDecorator.horizontalRuler(out_: TStringBuilder);
 begin
-  out_.append('<hr/>'#10);
+  out_.append('<hr />'#10);
 end;
 
 procedure TDecorator.openLink(out_: TStringBuilder);
@@ -1175,7 +809,7 @@ end;
 
 procedure TDecorator.closeImage(out_: TStringBuilder);
 begin
-  out_.append(' />');
+  out_.append('/>');
 end;
 
 { TEmitter }
@@ -1231,7 +865,7 @@ begin
     btHEADLINE:
       begin
         FConfig.decorator.openHeadline(out_, root.hlDepth);
-        if (FuseExtensions and (root.id <> '')) then
+        if FConfig.isDialect([mdTxtMark,mdCommonMark]) and (root.id <> '') then
         begin
           out_.append(' id="');
           TUtils.appendCode(out_, root.id, 0, Length(root.id));
@@ -1241,9 +875,12 @@ begin
       end;
     btPARAGRAPH:
       FConfig.decorator.openParagraph(out_);
-    btCODE, btFENCED_CODE:
+    btCODE:
       if (FConfig.codeBlockEmitter = nil) then
         FConfig.decorator.openCodeBlock(out_);
+    btFENCED_CODE:
+      if (FConfig.codeBlockEmitter = nil) then
+        FConfig.decorator.openFencedCodeBlock(out_,root.meta);
     btBLOCKQUOTE:
       FConfig.decorator.openBlockQuote(out_);
     btUNORDERED_LIST:
@@ -1253,7 +890,7 @@ begin
     btLIST_ITEM:
       begin
         FConfig.decorator.openListItem(out_);
-        if (FuseExtensions and (root.id <> '')) then
+        if FConfig.isDialect([mdTxtMark,mdCommonMark]) and (root.id <> '') then
         begin
           out_.append(' id="');
           TUtils.appendCode(out_, root.id, 0, Length(root.id));
@@ -1305,6 +942,8 @@ begin
       emitCodeLines(out_, block.lines, block.meta, false);
     btXML:
       emitRawLines(out_, block.lines);
+    btTABLE:
+      TTable.emitTableLines(out_,block.lines);
   else
     emitMarkedLines(out_, block.lines);
   end;
@@ -1441,8 +1080,6 @@ begin
     begin
       if (isAbbrev) and (comment <> '') then
       begin
-        if (not FuseExtensions) then
-          exit(-1);
         out_.append('<abbr title:="');
         TUtils.appendValue(out_, comment, 0, Length(comment));
         out_.append('">');
@@ -1453,7 +1090,7 @@ begin
       begin
         FConfig.decorator.openLink(out_);
         out_.append(' href="');
-        TUtils.appendValue(out_, link, 0, Length(link));
+        TUtils.codeEncode(out_, link, 0);
         out_.append('"');
         if (comment <> '') then
         begin
@@ -1470,7 +1107,7 @@ begin
     begin
       FConfig.decorator.openImage(out_);
       out_.append(' src="');
-      TUtils.appendValue(out_, link, 0, Length(link));
+      TUtils.codeEncode(out_, link, 0);
       out_.append('" alt="');
       TUtils.appendValue(out_, name, 0, Length(name));
       out_.append('"');
@@ -1499,7 +1136,8 @@ begin
     // Check for auto links
     temp.Clear;
     position := TUtils.readUntil(temp, s, start + 1, [':', ' ', '>', #10]);
-    if (position <> -1) and (s[1 + position] = ':') and (THTML.isLinkPrefix(temp.ToString())) then
+//    if (position <> -1) and (s[1 + position] = ':') and (THTML.isLinkPrefix(temp.ToString())) then
+    if (position <> -1) and (s[1 + position] = ':') then
     begin
       position := TUtils.readUntil(temp, s, position, ['>']);
       if (position <> -1) then
@@ -1507,7 +1145,7 @@ begin
         link := temp.ToString();
         FConfig.decorator.openLink(out_);
         out_.append(' href="');
-        TUtils.appendValue(out_, link, 0, Length(link));
+        TUtils.codeEncode(out_, link, 0);
         out_.append('">');
         TUtils.appendValue(out_, link, 0, Length(link));
         FConfig.decorator.closeLink(out_);
@@ -1548,33 +1186,6 @@ begin
   end;
 end;
 
-function isLetterOrDigit(c : char) : boolean;
-begin
-  {$IFDEF FPC}
-  result := c in ['A'..'Z', 'a'..'z', '0'..'9'];
-  {$ELSE}
-  result := c.isLetterOrDigit();
-  {$ENDIF}
-end;
-
-function isDigit(c : char) : boolean;
-begin
-  {$IFDEF FPC}
-  result := c in ['0'..'9'];
-  {$ELSE}
-  result := c.isDigit();
-  {$ENDIF}
-end;
-
-function isWhitespace(c : char) : boolean;
-begin
-  {$IFDEF FPC}
-  result := c in [' ', #9, #10, #13];
-  {$ELSE}
-  result := c.isWhitespace();
-  {$ENDIF}
-end;
-
 class function TEmitter.checkEntity(out_: TStringBuilder; s: String; start: integer): integer;
 var
   position, i: integer;
@@ -1589,7 +1200,7 @@ begin
     begin
       if (out_.length < 4) then
         exit(-1);
-      for i := 3 to out_.length do
+      for i := 3 to out_.length-1 do
       begin
         c := out_[i];
         if ((c < '0') or (c > '9')) and (((c < 'a') or (c > 'f')) and ((c < 'A') or (c > 'F'))) then
@@ -1598,7 +1209,7 @@ begin
     end
     else
     begin
-      for i := 2 to out_.length do
+      for i := 2 to out_.length-1 do
       begin
         c := out_[i];
         if (c < '0') or (c > '9') then
@@ -1612,7 +1223,7 @@ begin
     for i := 1 to out_.length - 1 do
     begin
       c := out_[i]; // zero based
-      if (not isLetterOrDigit(c)) then
+      if (not c.isLetterOrDigit) then
         exit(-1);
     end;
     out_.append(';');
@@ -1681,6 +1292,48 @@ begin
             else
               out_.append(s[1 + position]);
           end;
+        mtSTRIKE_TILDE:
+        begin
+          temp.Clear;
+          b := recursiveEmitLine(temp, s, position + 2, mt);
+          if (b > 0) then
+          begin
+            FConfig.decorator.openStrike(out_);
+            out_.append(temp);
+            FConfig.decorator.closeStrike(out_);
+            position := b + 1;
+          end
+          else
+            out_.append(s[1 + position]);
+        end;
+        mtINS_PLUS:
+        begin
+          temp.Clear;
+          b := recursiveEmitLine(temp, s, position + 2, mt);
+          if (b > 0) then
+          begin
+            FConfig.decorator.openIns(out_);
+            out_.append(temp);
+            FConfig.decorator.closeIns(out_);
+            position := b + 1;
+          end
+          else
+            out_.append(s[1 + position]);
+        end;
+        mtMARK_EQ:
+        begin
+          temp.Clear;
+          b := recursiveEmitLine(temp, s, position + 2, mt);
+          if (b > 0) then
+          begin
+            FConfig.decorator.openMark(out_);
+            out_.append(temp);
+            FConfig.decorator.closeMark(out_);
+            position := b + 1;
+          end
+          else
+            out_.append(s[1 + position]);
+        end;
         mtSUPER:
           begin
             temp.Clear;
@@ -1690,6 +1343,20 @@ begin
               FConfig.decorator.openSuper(out_);
               out_.append(temp);
               FConfig.decorator.closeSuper(out_);
+              position := b;
+            end
+            else
+              out_.append(s[1 + position]);
+          end;
+        mtSUB_TILDE:
+          begin
+            temp.Clear;
+            b := recursiveEmitLine(temp, s, position + 1, mt);
+            if (b > 0) then
+            begin
+              FConfig.decorator.openSub(out_);
+              out_.append(temp);
+              FConfig.decorator.closeSub(out_);
               position := b;
             end
             else
@@ -1807,6 +1474,19 @@ begin
             inc(position);
             out_.append(s[1 + position]);
           end;
+        mtMATH_DOLLAR:
+          begin
+            temp.Clear;
+            b := checkMathCode(temp, s, position);
+            if (b > 0) then
+            begin
+              out_.append(temp);
+              position := b;
+            end
+            else
+              out_.append('$');
+          end;
+
         // $FALL-THROUGH$
       else
         out_.append(s[1 + position]);
@@ -1821,7 +1501,7 @@ end;
 
 class function TEmitter.whitespaceToSpace(c: char): char;
 begin
-  if isWhitespace(c) then
+  if c.isWhitespace then
     result := ' '
   else
     result := c;
@@ -1858,7 +1538,7 @@ begin
         if (c0 <> ' ') or (c2 <> ' ') then
           exit(mtSTRONG_STAR)
         else
-          exit(mtEM_STAR);
+          exit(mtNONE);
       end
       else if (c0 <> ' ') or (c1 <> ' ') then
         exit(mtEM_STAR)
@@ -1870,11 +1550,11 @@ begin
         if (c0 <> ' ') or (c2 <> ' ') then
           exit(mtSTRONG_UNDERSCORE)
         else
-          exit(mtEM_UNDERSCORE);
+          exit(mtNONE);
       end
-      else if (FuseExtensions) then
+      else if FConfig.isDialect([mdTxtMark,mdCommonMark]) then
       begin
-        if (isLetterOrDigit(c0)) and (c0 <> '_') and (isLetterOrDigit(c1)) then
+        if (c0.isLetterOrDigit) and (c0 <> '_') and (c1.isLetterOrDigit) then
           exit(mtNONE)
         else
           exit(mtEM_UNDERSCORE);
@@ -1889,12 +1569,12 @@ begin
       else
         exit(mtNONE);
     '[':
-      if (FuseExtensions) and (c1 = '[') then
+      if FConfig.isDialect([mdTxtMark,mdCommonMark]) and (c1 = '[') then
         exit(mtX_LINK_OPEN)
       else
         exit(mtLINK);
     ']':
-      if (FuseExtensions) and (c1 = ']') then
+      if FConfig.isDialect([mdTxtMark,mdCommonMark]) and (c1 = ']') then
         exit(mtX_LINK_CLOSE)
       else
         exit(mtNONE);
@@ -1904,54 +1584,75 @@ begin
       else
         exit(mtCODE_SINGLE);
     '\':
-      if CharInSet(c1, ['\', '[', ']', '(', ')', '{', '}', '#', '"', '''', '.', '>', '<', '*', '+', '-', '_', '!', '`', '~', '^']) then
+      if CharInSet(c1, ['\', '[', ']', '(', ')', '{', '}', '#', '"', '''', '.', '>', '<', '*', '+', '-', '_', '!', '`', '~', '^', '$', '|']) then
         exit(mtESCAPE)
       else
         exit(mtNONE);
     '<':
-      if (FuseExtensions) and (c1 = '<') then
+      if FConfig.isDialect([mdTxtMark,mdCommonMark]) and (c1 = '<') then
         exit(mtX_LAQUO)
       else
         exit(mtHTML);
     '&':
       exit(mtENTITY);
   else
-    if (FuseExtensions) then
-      case (c) of
-        '-':
-          if (c1 = '-') and (c2 = '-') then
-            exit(mtX_MDASH)
-          else
-            exit(mtX_NDASH);
-        '^':
-          if (c0 = '^') or (c1 = '^') then
-            exit(mtNONE)
-          else
-            exit(mtSUPER);
-        '>':
-          if (c1 = '>') then
-            exit(mtX_RAQUO);
-        '.':
-          if (c1 = '.') and (c2 = '.') then
-            exit(mtX_HELLIP);
-        '(':
-          begin
-            if (c1 = 'C') and (c2 = ')') then
-              exit(mtX_COPY);
-            if (c1 = 'R') and (c2 = ')') then
-              exit(mtX_REG);
-            if (c1 = 'T') and (c2 = 'M') and (c3 = ')') then
-              exit(mtX_TRADE);
-          end;
-        '"':
-          begin
-            if (not isLetterOrDigit(c0)) and (c1 <> ' ') then
-              exit(mtX_LDQUO);
-            if (c0 <> ' ') and (not isLetterOrDigit(c1)) then
-              exit(mtX_RDQUO);
-            exit(mtNONE);
-          end;
-      end;
+    if FConfig.isDialect([mdTxtMark,mdCommonMark]) then
+    case (c) of
+      '-':
+        if (c1 = '-') and (c2 = '-') then
+          exit(mtX_MDASH)
+        else if (c1 = '-') then
+          exit(mtX_NDASH);
+      '^':
+        if (c0 = '^') or (c1 = '^') then
+          exit(mtNONE)
+        else
+          exit(mtSUPER);
+      '>':
+        if (c1 = '>') then
+          exit(mtX_RAQUO);
+      '.':
+        if (c1 = '.') and (c2 = '.') then
+          exit(mtX_HELLIP);
+      '(':
+        begin
+          if (c1 = 'C') and (c2 = ')') then
+            exit(mtX_COPY);
+          if (c1 = 'R') and (c2 = ')') then
+            exit(mtX_REG);
+          if (c1 = 'T') and (c2 = 'M') and (c3 = ')') then
+            exit(mtX_TRADE);
+        end;
+      '"':
+        begin
+          if (not c0.isLetterOrDigit) and (c1 <> ' ') then
+            exit(mtX_LDQUO);
+          if (c0 <> ' ') and (not c1.isLetterOrDigit) then
+            exit(mtX_RDQUO);
+          exit(mtNONE);
+        end;
+    end;
+    if FConfig.isDialect([mdCommonMark]) then
+    case (c) of
+      '~':
+        if (c1 = '~') then
+        begin
+          if (c0 <> ' ') or (c2 <> ' ') then exit(mtSTRIKE_TILDE)
+        end else
+          if (c0 <> ' ') or (c1 <> ' ') then exit(mtSUB_TILDE);
+      '+':
+        if (c1 = '+') then
+        begin
+          if (c0 <> ' ') or (c2 <> ' ') then exit(mtINS_PLUS)
+        end;
+      '=':
+        if (c1 = '=') then
+        begin
+          if (c0 <> ' ') or (c2 <> ' ') then exit(mtMARK_EQ)
+        end;
+      '$':
+        if (c0 <> ' ') or (c1 <> ' ') then exit(mtMATH_DOLLAR)
+    end;
   end;
 end;
 
@@ -1970,7 +1671,7 @@ begin
 //        s.append(line.value.substring(line.leading, line.value.length - line.trailing)); PSTfix
         s.Append( Copy(line.value, line.leading + 1, Length(line.value) - line.trailing));
         if (line.trailing >= 2) then
-          s.append('<br />');
+          s.append('<br/>');
       end;
       if (line.next <> nil) then
         s.append(#10);
@@ -2096,16 +1797,16 @@ begin
   end;
 end;
 
-{ TReader }
+{ TMarkdownReader }
 
-constructor TReader.Create(source: String);
+constructor TMarkdownReader.Create(source: String);
 begin
   inherited Create;
   FValue := source;
   FCursor := 0;
 end;
 
-function TReader.read: char;
+function TMarkdownReader.read: char;
 begin
   inc(FCursor);
   if FCursor > Length(FValue) then
@@ -2423,7 +2124,7 @@ end;
 
 class procedure TUtils.appendHexEntity(out_: TStringBuilder; value: char);
 begin
-  out_.append('&#');
+  out_.append('&#x');
   out_.append(IntToHex(ord(value), 2));
   out_.append(';');
 end;
@@ -2436,8 +2137,8 @@ begin
   for i := start to e - 1 do
   begin
     c := s[1 + i];
-    if CharInSet(c, ['&', '<', '>', '"', '''']) then
-      appendHexEntity(out_, c)
+    if CharInSet(c, ['a'..'z','A'..'Z','0'..'9','&', '<', '>', '"', '''', '@']) then
+      if random(2)=0 then appendHexEntity(out_, c) else appendDecEntity(out_, c)
     else
       out_.append(c);
   end;
@@ -2450,7 +2151,7 @@ begin
   position := 1;
   if (bin[1] = '/') then
     inc(position);
-  while (isLetterOrDigit(bin[position])) do
+  while (bin[position].isLetterOrDigit) do
   begin
     out_.append(bin[position]);
     inc(position)
@@ -2461,13 +2162,10 @@ class procedure TUtils.getXMLTag(out_: TStringBuilder; s: String);
 var
   position: integer;
 begin
-  if (1 + 1 > s.length) then
-    exit;
-
   position := 1;
   if (s[1 + 1] = '/') then
     inc(position);
-  while (isLetterOrDigit(s[1 + position])) do
+  while (s[1 + position].isLetterOrDigit) do
   begin
     out_.append(s[1 + position]);
     inc(position)
@@ -2481,9 +2179,7 @@ var
   temp: TStringBuilder;
   tag: String;
 begin
-  if (1 + start + 1) > s.length then
-    exit(start);
-
+  if (length(s)<1 + start +1 ) then exit(-1);
   if (s[1 + start + 1] = '/') then
   begin
     isCloseTag := true;
@@ -2564,6 +2260,8 @@ begin
         out_.append('&lt;');
       '>':
         out_.append('&gt;');
+      '+':
+        out_.append('%2b');
     else
       out_.append(c);
     end;
@@ -2578,11 +2276,37 @@ begin
   for i := 0 to Length(fenceLine) - 1 do
   begin
     c := fenceLine[1 + i];
-    if (not isWhitespace(c)) and (c <> '`') and (c <> '~') then
+    if (not c.isWhitespace) and (c <> '`') and (c <> '~') then
 //      exit(fenceLine.substring(i).trim()); PSTfix
       Exit(  Trim( Copy(fenceLine, i+1)));
   end;
   result := '';
+end;
+
+class function TUtils.encodeURL(url: String): String;
+var
+  x: integer;
+  sBuff: string;
+const
+  SafeMask = ['A'..'Z', '0'..'9', 'a'..'z', '*', '@', '.', '_', '-'];
+begin
+  sBuff := '';
+  for x := 1 to Length(url) do
+  begin
+    if CharInSet(url[x], SafeMask) then
+    begin
+      sBuff := sBuff + url[x];
+    end
+    else if url[x] = ' ' then
+    begin
+      sBuff := sBuff + '+';  //Append space
+    end
+    else
+    begin
+      sBuff := sBuff + '%' + IntToHex(Ord(url[x]),2);
+    end;
+  end;
+  Result := sBuff;
 end;
 
 { THTML }
@@ -2653,22 +2377,22 @@ end;
 function TLine.readUntil(chend: TSysCharSet): String;
 var
   sb: TStringBuilder;
-  pos: integer;
+  p: integer;
   ch, c: char;
 begin
   sb := TStringBuilder.Create();
   try
-    pos := self.position;
-    while (pos < Length(value)) do
+    p := self.position;
+    while (p < Length(value)) do
     begin
-      ch := value[1 + pos];
-      if (ch = '\') and (pos + 1 < Length(value)) then
+      ch := value[1 + p];
+      if (ch = '\') and (p + 1 < Length(value)) then
       begin
-        c := value[1 + pos + 1];
+        c := value[1 + p + 1];
         if CharInSet(c, ['\', '[', ']', '(', ')', '{', '}', '#', '"', '''', '.', '>', '*', '+', '-', '_', '!', '`', '~']) then
         begin
           sb.append(c);
-          inc(pos);
+          inc(FPosition);
         end
         else
         begin
@@ -2680,16 +2404,16 @@ begin
         break
       else
         sb.append(ch);
-      inc(pos);
+      inc(p);
     end;
 
-    if (pos < Length(value)) then
-      ch := value[1 + pos]
+    if (p < Length(value)) then
+      ch := value[1 + p]
     else
       ch := #10;
     if CharInSet(ch, chend) then
     begin
-      self.position := pos;
+      self.position := p;
       result := sb.ToString();
     end
     else
@@ -2754,7 +2478,7 @@ begin
   result := count;
 end;
 
-function TLine.getLineType(configuration: TConfiguration): TLineType;
+function TLine.getLineType(config: TConfiguration): TLineType;
 var
   i: integer;
 begin
@@ -2765,18 +2489,26 @@ begin
     exit(ltCODE);
 
   if (value[1 + leading] = '#') then
-    exit(ltHEADLINE);
+  begin
+    if config.isDialect([mdCommonMark]) then
+    begin
+      i:=1 + leading + 1;
+      while (i<Length(value)) and (value[i]='#') do inc(i);
+      if (i<=Length(value)) and (value[i]=' ') then exit(ltHEADLINE);
+    end
+    else exit(ltHEADLINE);
+  end;
 
   if (value[1 + leading] = '>') then
     exit(ltBQUOTE);
 
-  if (configuration.forceExtendedProfile) then
+  if config.isDialect([mdTxtMark,mdCommonMark]) then
   begin
     if (Length(value) - leading - trailing > 2) then
     begin
-      if (value[1 + leading] = '`') and (countCharsStart('`', configuration.allowSpacesInFencedDelimiters) >= 3) then
+      if (value[1 + leading] = '`') and (countCharsStart('`', config.allowSpacesInFencedDelimiters) >= 3) then
         exit(ltFENCED_CODE);
-      if (value[1 + leading] = '~') and (countCharsStart('~', configuration.allowSpacesInFencedDelimiters) >= 3) then
+      if (value[1 + leading] = '~') and (countCharsStart('~', config.allowSpacesInFencedDelimiters) >= 3) then
         exit(ltFENCED_CODE);
     end;
   end;
@@ -2793,10 +2525,10 @@ begin
       exit(ltULIST);
   end;
 
-  if (Length(value) - leading >= 3) and (isDigit(value[1 + leading])) then
+  if (Length(value) - leading >= 3) and (value[1 + leading].isDigit) then
   begin
     i := leading + 1;
-    while (i < Length(value)) and (isDigit(value[1 + i])) do
+    while (i < Length(value)) and (value[1 + i].isDigit) do
       inc(i);
     if (i + 1 < Length(value)) and (value[1 + i] = '.') and (value[1 + i + 1] = ' ') then
       exit(ltOLIST);
@@ -2810,10 +2542,19 @@ begin
 
   if (next <> nil) and (not next.isEmpty) then
   begin
-    if ((next.value[1 + 0] = '-')) and ((next.countChars('-') > 0)) then
+    i:=1;
+    if config.isDialect([mdCommonMark]) then
+      while (length(next.value)>i) and (next.value[i] <> '-') and (next.value[i] <> '=') do
+        inc(i);
+    if (i<5) and (next.value[i] = '-') and (next.countChars('-') > 0) then
       exit(ltHEADLINE2);
-    if ((next.value[1 + 0] = '=')) and ((next.countChars('=') > 0)) then
+    if (i<5) and (next.value[i] = '=') and (next.countChars('=') > 0) then
       exit(ltHEADLINE1);
+  end;
+
+  if config.isDialect([mdCommonMark]) and (next <>nil) and (not next.isEmpty) then
+  begin
+    if (TTable.hasFormatChars(next)>0) and (TTable.ColCount(self)=TTable.Cols) then exit(ltTABLE);
   end;
 
   exit(ltOTHER);
@@ -2822,34 +2563,34 @@ end;
 function TLine.readXMLComment(firstLine: TLine; start: integer): integer;
 var
   line: TLine;
-  pos: integer;
+  p: integer;
 begin
   line := firstLine;
   if (start + 3 < Length(line.value)) then
   begin
     if (line.value[1 + 2] = '-') and (line.value[1 + 3] = '-') then
     begin
-      pos := start + 4;
+      p := start + 4;
       while (line <> nil) do
       begin
-        while (pos < Length(line.value)) and (line.value[1 + pos] <> '-') do
-          inc(pos);
-        if (pos = Length(line.value)) then
+        while (p < Length(line.value)) and (line.value[1 + p] <> '-') do
+          inc(p);
+        if (p = Length(line.value)) then
         begin
           line := line.next;
-          pos := 0;
+          p := 0;
         end
         else
         begin
-          if (pos + 2 < Length(line.value)) then
+          if (p + 2 < Length(line.value)) then
           begin
-            if (line.value[1 + pos + 1] = '-') and (line.value[1 + pos + 2] = '>') then
+            if (line.value[1 + p + 1] = '-') and (line.value[1 + p + 2] = '>') then
             begin
               xmlEndLine := line;
-              exit(pos + 3);
+              exit(p + 3);
             end;
           end;
-          inc(pos);
+          inc(p);
         end;
       end;
     end;
@@ -2857,7 +2598,7 @@ begin
   exit(-1);
 end;
 
-// FIXME ... hack
+// FIXME ... hack - It is OK NOW
 function TLine.stripID(): String;
 var
   p, start: integer;
@@ -2869,6 +2610,7 @@ begin
 
   p := leading;
   found := false;
+  start := 0;
   while (p < Length(value)) and (not found) do
   begin
     case value[1 + p] of
@@ -2893,18 +2635,17 @@ begin
     else
       begin
         inc(p);
-        break;
       end;
     end;
   end;
 
   if (found) then
   begin
+    found := false;
     if (p + 1 < Length(value)) and (value[1 + p + 1] = '#') then
     begin
       start := p + 2;
       p := start;
-      found := false;
       while (p < Length(value)) and (not found) do
       begin
         case (value[1 + p]) of
@@ -2913,42 +2654,44 @@ begin
               if (p + 1 < Length(value)) then
               begin
                 if (value[1 + p + 1]) = '}' then
+                begin
                   inc(p);
+                  break;
+                end;
               end;
               inc(p);
+              break;
             end;
           '}':
             begin
               found := true;
+              break;
             end;
         else
           begin
             inc(p);
           end;
         end;
-
-        if (found) then
-        begin
-//          id := value.substring(start, p).trim(); PSTfix
-          id := Trim( Copy(value, start + 1, p));
-          if (leading <> 0) then
-          begin
-//            value := value.substring(0, leading) + value.substring(leading, start - 2).trim(); PSTfix
-            value := Copy(value, 1, leading) + Trim( Copy( value, leading + 1, start -2));
-          end
-          else
-          begin
-//            value := value.substring(leading, start - 2).trim();  PSTFix
-            value := Trim( Copy(value, leading +1, start -2));
-          end;
-          trailing := 0;
-          if (Length(id) > 0) then
-            exit(id)
-          else
-            exit('');
-        end;
       end;
     end;
+   end;
+
+  if (found) then
+  begin
+    id := Trim( Copy(value, start + 1, p-start));
+    if (leading <> 0) then
+    begin
+      value := Copy(value, 1, leading) + Trim( Copy( value, leading + 1, start -2));
+    end
+    else
+    begin
+      value := Trim( Copy(value, leading +1, start -2));
+    end;
+    trailing := 0;
+    if (Length(id) > 0) then
+      exit(id)
+    else
+      exit('');
   end;
   exit('');
 end;
@@ -2994,7 +2737,7 @@ begin
       line := self;
       while (line <> nil) do
       begin
-        while (position < Length(line.value)) and ((line.value[1 + position] <> '<') or (position = Length(line.value)-1)) do
+        while (position < Length(line.value)) and (line.value[1 + position] <> '<') do
           inc(FPosition);
         if (position >= Length(line.value)) then
         begin
@@ -3205,7 +2948,6 @@ begin
     wasEmpty := true;
   end;
   result := wasEmpty;
-
 end;
 
 procedure TBlock.removeTrailingEmptyLines;
@@ -3328,12 +3070,12 @@ begin
     begin
       dec(end_);
     end;
+    if ((1 + end_)<Length(line.value)) and (line.value[1 + end_ + 1] <> ' ') then end_:=Length(line.value);
     line.value := Copy(line.value, start+1, end_-start+1);
     line.leading := 0;
     line.trailing := 0;
   end;
   self.hlDepth := Math.min(level, 6);
-
 end;
 
 {$IFDEF FPC}
@@ -3377,7 +3119,7 @@ end;
 function TStringBuilder.GetChar(index: integer): char;
 begin
   if (index < 0) or (index >= Length) then
-    raise EMarkdownProcessor.Create('Out of bounds');
+    raise Exception.Create('Out of bounds');
   result := FContent[index+1];
 end;
 

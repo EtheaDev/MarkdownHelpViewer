@@ -1441,7 +1441,11 @@ end;
 
 function TFormStyleHookHelper._GetBorderSizeAddr: Pointer;
 var
+  {$if compilerversion >35}
+  MethodAddr: function(UseActiveStyle: Boolean): TRect of object;
+  {$else}
   MethodAddr: function: TRect of object;
+  {$ifend}
 begin
   with Self do
     MethodAddr := GetBorderSize;

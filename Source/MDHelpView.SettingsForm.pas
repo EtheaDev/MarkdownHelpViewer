@@ -112,8 +112,10 @@ uses
 {$IFNDEF DISABLE_STYLES}
   Vcl.Themes,
 {$ENDIF}
-  MarkdownProcessor,
-  MDHelpView.Registry, MDHelpView.Main;
+  MarkdownProcessor
+  , MarkdownUtils
+  , MDHelpView.Registry
+  , MDHelpView.Main;
 
 {$R *.dfm}
 

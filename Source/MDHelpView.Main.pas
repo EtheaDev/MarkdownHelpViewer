@@ -41,6 +41,9 @@ uses
   SVGIconImageList;
 
 resourcestring
+  STR_INFORMATION = 'INFORMATION';
+  STR_ERROR = 'ERROR!';
+  STR_UNEXPECTED_ERROR = 'UNEXPECTED ERROR!';
   FILE_SAVED = 'File "%s" succesfully saved. Do you want to open it now?';
   NO_KEYWORD_MATCH = 'Keyword "%s" not found in files into working folder: "%s"';
 
@@ -86,7 +89,6 @@ type
     btHome: TToolButton;
     btOption: TToolButton;
     btAbout: TToolButton;
-    HtmlViewerIndex: THtmlViewer;
     lbSelectFile: TLabel;
     acPrint: TAction;
     SaveDialog: TSaveDialog;
@@ -95,6 +97,7 @@ type
     Sep4: TToolButton;
     acViewSearch: TAction;
     SVGIconImageList: TSVGIconImageList;
+    HtmlViewerIndex: THtmlViewer;
     HtmlViewer: THtmlViewer;
     ClientPanel: TPanel;
     SVGIconImageListColored: TSVGIconImageList;
@@ -133,6 +136,10 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure acRefreshUpdate(Sender: TObject);
     procedure acRefreshExecute(Sender: TObject);
+    procedure FormMouseWheelDown(Sender: TObject; Shift: TShiftState;
+      MousePos: TPoint; var Handled: Boolean);
+    procedure FormMouseWheelUp(Sender: TObject; Shift: TShiftState;
+      MousePos: TPoint; var Handled: Boolean);
   private
     FRememberToResize: boolean;
     FLoading: boolean;
@@ -141,10 +148,12 @@ type
     FViewerSettings: TViewerSettings;
     FOpenedFileList: TStringList;
     FHTMLFontSize: Integer;
-    FMdContent: string;
     FHtmlContent: string;
     FCssContent: string;
+    FMdContent: string;
     FMdIndexContent: string;
+    FMdFileName: TFileName;
+    FMdIndexFileName: TFileName;
     FHtmlIndexContent: string;
     FHTMLFontName: string;
     FWorkingFolder: string;
@@ -161,6 +170,7 @@ type
     procedure WriteSettingsToIni;
     procedure UpdateApplicationStyle(const AVCLStyleName: string);
     function Load(const AFileName: TFileName): Boolean;
+    function TransformMDToHTML(const AMdContent: string): string;
     procedure TransformTo(const AHTMLViewer: THtmlViewer;
       const AMdContent: string; const AReloadImage: Boolean);
     procedure LoadIndex(const AFileName: TFileName);
@@ -194,6 +204,7 @@ type
   protected
     procedure Loaded; override;
   public
+    procedure ManageExceptions(Sender: TObject; E: Exception);
     procedure WMCopyData(var Message: TMessage); message WM_COPYDATA;
   end;
 
@@ -206,7 +217,9 @@ implementation
 
 uses
   MarkdownProcessor
+  , MarkDownUtils
   , System.UITypes
+  , System.IOUtils
   , MDHelpView.SettingsForm
   , MDHelpView.About
   , MDHelpView.Misc
@@ -217,13 +230,25 @@ uses
   , MarkDownHelpViewer
   , MarkDownViewerComponents
   //VCLStyles support
-  , Vcl.Styles.Utils.SysStyleHook
-  , Vcl.PlatformVclStylesActnCtrls
-  , Vcl.Styles.Utils.ScreenTips
-  , Vcl.Styles.Utils.SysControls
+  {$IFNDEF NO_VCL_STYLES}
   , Vcl.Styles.Fixes
   , Vcl.Styles.FormStyleHooks
+  , Vcl.Styles.NC
+  , Vcl.Styles.OwnerDrawFix
+  , Vcl.Styles.Utils.ScreenTips
+  , Vcl.Styles.Utils.SysStyleHook
+  , Vcl.Styles.Utils
+  , Vcl.Styles.Utils.SysControls
   , Vcl.Styles.UxTheme
+//  {$IFDEF WIN32}
+  , Vcl.Styles.Hooks
+  , Vcl.Styles.Utils.Forms
+  , Vcl.Styles.Utils.ComCtrls
+  , Vcl.Styles.Utils.StdCtrls
+//  {$ENDIF}
+  , Vcl.Styles.Ext
+  {$ENDIF}
+  , Vcl.StyledTaskDialog
   ;
 
 procedure TMainForm.acAboutExecute(Sender: TObject);
@@ -463,6 +488,9 @@ procedure TMainForm.FormCreate(Sender: TObject);
 var
   LMarkdownMasks, LHTMLMasks: string;
 begin
+  Screen.MessageFont.Size := Round(Screen.MessageFont.Size*1.2);
+  InitializeStyledTaskDialogs(True, Screen.MessageFont);
+
   LMarkdownMasks := GetFileMasks(AMarkdownFileExt);
   LHTMLMasks := GetFileMasks(AHTMLFileExt);
   acFileOpen.Dialog.Filter :=
@@ -477,7 +505,7 @@ begin
   FViewerSettings := TViewerSettings.CreateSettings;
 
   FOpenedFileList := TStringList.Create;
-  dmResources.ViewerSettings := FViewerSettings;
+  dmResources.Settings := FViewerSettings;
 
   UpdateHTMLViewer(HtmlViewer);
   UpdateHTMLViewer(HtmlViewerIndex);
@@ -505,6 +533,30 @@ begin
       dmResources.StopLoadingImages(True)
     else
       Close;
+  end;
+end;
+
+procedure TMainForm.FormMouseWheelDown(Sender: TObject; Shift: TShiftState;
+  MousePos: TPoint; var Handled: Boolean);
+begin
+  if (Shift = [ssCtrl]) then
+  begin
+    HTMLFontSize := HTMLFontSize - 1;
+    TransformTo(HtmlViewer, FMdContent, True);
+    TransformTo(HtmlViewerIndex, FMdIndexContent, True);
+    Handled := True;
+  end;
+end;
+
+procedure TMainForm.FormMouseWheelUp(Sender: TObject; Shift: TShiftState;
+  MousePos: TPoint; var Handled: Boolean);
+begin
+  if (Shift = [ssCtrl]) then
+  begin
+    HTMLFontSize := HTMLFontSize + 1;
+    TransformTo(HtmlViewer, FMdContent, True);
+    TransformTo(HtmlViewerIndex, FMdIndexContent, True);
+    Handled := True;
   end;
 end;
 
@@ -588,6 +640,7 @@ begin
         FHtmlContent := TryLoadTextFile(AFileName);
         //empty md content
         FMdContent := '';
+        FMdFileName := '';
       end
       else
       begin
@@ -595,6 +648,7 @@ begin
         FHtmlContent := '';
         //load md content
         FMdContent := TryLoadTextFile(AFileName);
+        FMdFileName := AFileName;
       end;
 
       CurrentFileName := AFileName;
@@ -624,11 +678,9 @@ begin
   end;
 end;
 
-procedure TMainForm.TransformTo(const AHTMLViewer: THtmlViewer;
-  const AMdContent: string; const AReloadImage: Boolean);
+function TMainForm.TransformMDToHTML(const AMdContent: string): string;
 var
   LMarkdownProcessor: TMarkdownProcessor;
-  LHtml : string;
 begin
   //If loaded Markdown file, then Transform in HTML
   if (FMdContent <> '') then
@@ -637,8 +689,8 @@ begin
     LMarkdownProcessor := TMarkdownProcessor.CreateDialect(
       FViewerSettings.ProcessorDialect);
     Try
-      LHtml := LMarkdownProcessor.Process(AMdContent);
-      LHtml := CSSContent+LHtml;
+      Result := LMarkdownProcessor.Process(AMdContent);
+      Result := CSSContent+Result;
     Finally
       LMarkdownProcessor.Free;
     End;
@@ -646,11 +698,20 @@ begin
   else
   begin
     //No transform required
-    LHtml := FHtmlContent;
+    Result := FHtmlContent;
   end;
+end;
+
+procedure TMainForm.TransformTo(const AHTMLViewer: THtmlViewer;
+  const AMdContent: string; const AReloadImage: Boolean);
+var
+  LHtml: string;
+begin
+  LHtml := TransformMDToHTML(AMdContent);
   //Load html content into HtmlViewer
   ShowMarkdownAsHTML(AHTMLViewer, LHtml, AReloadImage);
 end;
+
 
 function TMainForm.TryLoadCSS(const AFileName: TFileName): Boolean;
 begin
@@ -694,6 +755,7 @@ begin
         FHtmlIndexContent := TryLoadTextFile(AFileName);
         //empty md content
         FMdIndexContent := '';
+        FMdIndexFileName := '';
         //change page to show Index
         PageControl.ActivePage := tsIndex;
       end
@@ -703,6 +765,7 @@ begin
         FHtmlIndexContent := '';
         //load md content
         FMdIndexContent := TryLoadTextFile(AFileName);
+        FMdIndexFileName := AFileName;
       end
     end;
 
@@ -720,7 +783,9 @@ begin
   Screen.Cursor := crHourGlass;
   try
      if Load(AFileName) then
+     begin
        TransformTo(HtmlViewer, FMdContent, True);
+     end;
   finally
     Screen.Cursor := crDefault;
   end;
@@ -772,6 +837,7 @@ begin
     FViewerSettings.ProcessorDialect:= LDialect;
     WriteSettingsToIni;
     TransformTo(HtmlViewer, FMdContent, False);
+
     TransformTo(HtmlViewerIndex, FMdIndexContent, False);
   end;
 end;
@@ -945,7 +1011,7 @@ end;
 
 procedure TMainForm.FileSavedAskToOpen(const AFileName: string);
 begin
-  if MessageDlg(Format(FILE_SAVED,[AFileName]),
+  if StyledMessageDlg(STR_INFORMATION, Format(FILE_SAVED,[AFileName]),
     TMsgDlgType.mtInformation, [mbYes, MbNo], 0) = mrYes then
   begin
     ShellExecute(handle, 'open', PChar(AFilename), nil, nil, SW_SHOWNORMAL);
@@ -1036,6 +1102,7 @@ begin
   UseColoredIcons := FViewerSettings.UseColoredIcons;
 
   TransformTo(HtmlViewer, FMdContent, True);
+
   TransformTo(HtmlViewerIndex, FMdIndexContent, True);
 end;
 
@@ -1131,9 +1198,30 @@ begin
     ShowMessage('New Message Recieved with error!');
 end;
 
-initialization
+procedure TMainForm.ManageExceptions(Sender: TObject; E: Exception);
+begin
+  //This is an event-handler for exceptions that replace Delphi standard handler
+  if E is EAccessViolation then
+  begin
+    if StyledMessageDlg(STR_UNEXPECTED_ERROR,
+      Format('Unexpected Error: %s%s',[sLineBreak,E.Message]),
+      TMsgDlgType.mtError,
+      [TMsgDlgBtn.mbOK, TMsgDlgBtn.mbAbort], 0) = mrAbort then
+    Application.Terminate;
+  end
+  else
+  begin
 
-finalization
+    StyledMessageDlg(STR_ERROR,
+      Format('Error: %s%s',[sLineBreak,E.Message]),
+      TMsgDlgType.mtError,
+      [TMsgDlgBtn.mbOK, TMsgDlgBtn.mbHelp], 0);
+  end;
+end;
+
+initialization
+  {$IFDEF DEBUG}
   ReportMemoryLeaksOnShutdown := True;
+  {$ENDIF}
 
 end.
