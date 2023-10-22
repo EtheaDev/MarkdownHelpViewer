@@ -50,6 +50,7 @@ uses
   , HtmlView
   , HtmlGlobals
   , MarkdownProcessor
+  , MarkdownUtils
   ;
 
 resourcestring
@@ -76,6 +77,7 @@ Type
     function IsDefFontName: Boolean;
     function IsPrintMarginStored: Boolean;
     function IsPrintScaleStored: Boolean;
+    function IsTouchStored: Boolean;
 
     procedure SetCssStyle(const AValue: TStringList);
     procedure SetRescalingImage(const AValue: Boolean);
@@ -103,6 +105,7 @@ Type
     procedure SetLines(const Value: TStrings);
     procedure MDContentChanged(Sender: TObject);
     procedure HTMLContentChanged(Sender: TObject);
+    function IsServerRootStored: Boolean;
   protected
     procedure DefineProperties(Filer: TFiler); override;
     procedure AutoLoadFile; virtual;
@@ -139,10 +142,11 @@ Type
     property HelpContext: THelpContext read GetHelpContext write SetHelpContext stored IsHelpContextStored;
 
     //property ServerRoot derived to change type for Property Editor
-    property ServerRoot: TFolderName read InternalGetServerRoot write InternalSetServerRoot;
+    property ServerRoot: TFolderName read InternalGetServerRoot write InternalSetServerRoot stored IsServerRootStored;
     property TabStop: Boolean read FTabStop write SetTabStop default False;
 
     //inherited properties to change default
+    property HistoryMaxCount default 0;
     property AlignWithMargins default True;
     property BorderStyle default htFocused;
     property DefBackground default clWindow;
@@ -155,6 +159,7 @@ Type
     property PrintMarginTop stored IsPrintMarginStored;
     property PrintScale stored IsPrintScaleStored;
     property Text: string read GetText stored False;
+    property Touch stored IsTouchStored;
   end;
 
   TMarkdownViewer = class(TCustomMarkdownViewer)
@@ -237,18 +242,17 @@ begin
   Result :=
     '<style type="text/css">'+sLineBreak+
     'code{'+sLineBreak+
-    '  font-size: medium;'+sLineBreak+
-    '  font-family: ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;'+sLineBreak+
+    '  font-family: "Consolas", monospace;'+sLineBreak+
     '}'+sLineBreak+
     'pre{'+sLineBreak+
     '  border: 1px solid #ddd;'+sLineBreak+
-    '  border-left: 3px solid #0d6efd;'+sLineBreak+
+    '  border-left: 3px solid #f36d33;'+sLineBreak+
     '  overflow: auto;'+sLineBreak+
     '  padding: 1em 1.5em;'+sLineBreak+
     '  display: block;'+sLineBreak+
     '}'+sLineBreak+
     'Blockquote{'+sLineBreak+
-    '  border-left: 3px solid #0d6efd;'+sLineBreak+
+    '  border-left: 3px solid #d0d0d0;'+sLineBreak+
     '  padding-left: 0.5em;'+sLineBreak+
     '  margin-left:1em;'+sLineBreak+
     '}'+sLineBreak+
@@ -429,7 +433,10 @@ end;
 
 function TCustomMarkdownViewer.IsCssStyleStored: Boolean;
 begin
-  Result := FCssStyle.Text <> GetMarkdownDefaultCSS;
+  Result := not SameText(
+    StringReplace(FCssStyle.Text,sLineBreak,'',[rfReplaceAll]),
+    StringReplace(GetMarkdownDefaultCSS, sLineBreak,'',[rfReplaceAll])
+    );
 end;
 
 function TCustomMarkdownViewer.IsDefFontName: Boolean;
@@ -456,15 +463,26 @@ end;
 
 function TCustomMarkdownViewer.IsPrintMarginStored: Boolean;
 begin
-  Result := (PrintMarginBottom <> 0.8) or
-    (PrintMarginLeft <> 0.8) or
-    (PrintMarginRight <> 0.8) or
-    (PrintMarginTop <> 0.8);
+  Result := (Round(PrintMarginBottom*10000000000) <> 8000000000) or
+    (Round(PrintMarginLeft*10000000000) <> 8000000000) or
+    (Round(PrintMarginRight*10000000000) <> 8000000000) or
+    (Round(PrintMarginTop*10000000000) <> 8000000000);
 end;
 
 function TCustomMarkdownViewer.IsPrintScaleStored: Boolean;
 begin
-  Result := PrintScale <> 0.1;
+  Result := (Round(PrintScale*10000000000) <> 10000000000);
+end;
+
+function TCustomMarkdownViewer.IsServerRootStored: Boolean;
+begin
+  Result := inherited ServerRoot <> '';
+end;
+
+function TCustomMarkdownViewer.IsTouchStored: Boolean;
+begin
+  Result := (Touch.InteractiveGestures <> [igPan]) or
+    (Touch.InteractiveGestureOptions <> [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia]);
 end;
 
 procedure TCustomMarkdownViewer.Loaded;

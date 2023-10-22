@@ -39,10 +39,12 @@ requires
 
 contains
   MarkDownViewerComponents in '..\..\Source\Components\MarkDownViewerComponents.pas',
-  MarkdownCommonMark in '..\..\Ext\delphi-markdown\Source\MarkdownCommonMark.pas',
-  MarkdownDaringFireball in '..\..\Ext\delphi-markdown\Source\MarkdownDaringFireball.pas',
-  MarkdownHTMLEntities in '..\..\Ext\delphi-markdown\Source\MarkdownHTMLEntities.pas',
-  MarkdownProcessor in '..\..\Ext\delphi-markdown\Source\MarkdownProcessor.pas',
-  MarkdownUnicodeUtils in '..\..\Ext\delphi-markdown\Source\MarkdownUnicodeUtils.pas';
+  MarkdownCommonMark in '..\..\Ext\MarkdownProcessor\source\MarkdownCommonMark.pas',
+  MarkdownDaringFireball in '..\..\Ext\MarkdownProcessor\source\MarkdownDaringFireball.pas',
+  MarkdownMathCode in '..\..\Ext\MarkdownProcessor\source\MarkdownMathCode.pas',
+  MarkdownProcessor in '..\..\Ext\MarkdownProcessor\source\MarkdownProcessor.pas',
+  MarkdownTables in '..\..\Ext\MarkdownProcessor\source\MarkdownTables.pas',
+  MarkdownTxtMark in '..\..\Ext\MarkdownProcessor\source\MarkdownTxtMark.pas',
+  MarkdownUtils in '..\..\Ext\MarkdownProcessor\source\MarkdownUtils.pas';
 
 end.

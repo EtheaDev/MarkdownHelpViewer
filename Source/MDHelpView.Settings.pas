@@ -35,6 +35,7 @@ uses
   , System.Generics.Collections
   , System.UITypes
   , MarkdownProcessor
+  , MarkdownUtils
   , IniFiles;
 
 const
