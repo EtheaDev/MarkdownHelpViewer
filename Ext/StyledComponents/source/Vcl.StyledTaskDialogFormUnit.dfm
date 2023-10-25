@@ -39,13 +39,11 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 0
-    ExplicitTop = 186
-    ExplicitWidth = 988
     object FooterTextLabel: TLabel
       AlignWithMargins = True
       Left = 4
       Top = 4
-      Width = 984
+      Width = 83
       Height = 15
       Margins.Left = 4
       Margins.Top = 4
@@ -54,7 +52,6 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
       Align = alTop
       Caption = 'FooterTextLabel'
       WordWrap = True
-      ExplicitWidth = 83
     end
   end
   object CenterPanel: TPanel
@@ -72,8 +69,6 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
     Color = clWindow
     ParentBackground = False
     TabOrder = 1
-    ExplicitWidth = 980
-    ExplicitHeight = 135
     object ImagePanel: TPanel
       AlignWithMargins = True
       Left = 4
@@ -87,7 +82,6 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitHeight = 127
     end
     object MessageScrollBox: TScrollBox
       Left = 136
@@ -100,13 +94,11 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
       BevelOuter = bvNone
       BorderStyle = bsNone
       TabOrder = 1
-      ExplicitWidth = 844
-      ExplicitHeight = 135
       object TitleLabel: TLabel
         AlignWithMargins = True
         Left = 4
         Top = 4
-        Width = 840
+        Width = 46
         Height = 15
         Margins.Left = 4
         Margins.Top = 4
@@ -115,7 +107,6 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
         Align = alTop
         Caption = 'Title Text'
         WordWrap = True
-        ExplicitWidth = 46
       end
       object AutoSizeLabel: TLabel
         AlignWithMargins = True
@@ -166,8 +157,6 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
     ParentBackground = False
     ParentDoubleBuffered = False
     TabOrder = 2
-    ExplicitTop = 143
-    ExplicitWidth = 988
     object YesButton: TStyledButton
       AlignWithMargins = True
       Left = 35
@@ -181,7 +170,6 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
       Caption = 'Yes'
       ModalResult = 6
       TabOrder = 0
-      ExplicitLeft = 31
     end
     object NoButton: TStyledButton
       AlignWithMargins = True
@@ -196,7 +184,6 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
       Caption = 'No'
       ModalResult = 7
       TabOrder = 1
-      ExplicitLeft = 111
     end
     object OKButton: TStyledButton
       AlignWithMargins = True
@@ -211,7 +198,6 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 2
-      ExplicitLeft = 191
     end
     object CancelButton: TStyledButton
       AlignWithMargins = True
@@ -226,7 +212,6 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 3
-      ExplicitLeft = 271
     end
     object AbortButton: TStyledButton
       AlignWithMargins = True
@@ -241,7 +226,6 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
       Caption = 'Abort'
       ModalResult = 3
       TabOrder = 4
-      ExplicitLeft = 351
     end
     object RetryButton: TStyledButton
       AlignWithMargins = True
@@ -256,7 +240,6 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
       Caption = 'Retry'
       ModalResult = 4
       TabOrder = 5
-      ExplicitLeft = 431
     end
     object IgnoreButton: TStyledButton
       AlignWithMargins = True
@@ -271,7 +254,6 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
       Caption = 'Ignore'
       ModalResult = 5
       TabOrder = 6
-      ExplicitLeft = 511
     end
     object AllButton: TStyledButton
       AlignWithMargins = True
@@ -286,7 +268,6 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
       Caption = 'All'
       ModalResult = 12
       TabOrder = 7
-      ExplicitLeft = 591
     end
     object NoToAllButton: TStyledButton
       AlignWithMargins = True
@@ -301,7 +282,6 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
       Caption = 'No to All'
       ModalResult = 13
       TabOrder = 8
-      ExplicitLeft = 671
     end
     object YesToAllButton: TStyledButton
       AlignWithMargins = True
@@ -316,7 +296,6 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
       Caption = 'Yes to All'
       ModalResult = 14
       TabOrder = 9
-      ExplicitLeft = 751
     end
     object HelpButton: TStyledButton
       AlignWithMargins = True
@@ -331,7 +310,6 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
       Caption = 'Help'
       ModalResult = 9
       TabOrder = 10
-      ExplicitLeft = 831
     end
     object CloseButton: TStyledButton
       AlignWithMargins = True
@@ -346,7 +324,6 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
       Caption = 'Close'
       ModalResult = 8
       TabOrder = 11
-      ExplicitLeft = 911
     end
   end
 end

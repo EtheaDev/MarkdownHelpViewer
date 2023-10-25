@@ -1,6 +1,6 @@
 ﻿# Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**Latest Version 2.0.0 - 22 Oct 2023**
+**Latest Version 2.0.1 - 25 Oct 2023**
 
 **An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications**
 
@@ -94,7 +94,10 @@ Then the interface searches in the same folder of default file (specified into A
 
 ## Release Notes ##
 
-22 Oct 2023: ver. 2.0.0
+25 Oct 2023: ver. 2.0.1
+- Added Export to HTML help files (experimental)
+
+23 Oct 2023: ver. 2.0.0
 - Added use of Skia4Delphi
 - Added support for new image format (webp and wbmp)
 - Uses AnimatedStyledDialogs for messages

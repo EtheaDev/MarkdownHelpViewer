@@ -228,7 +228,9 @@ object FrmAbout: TFrmAbout
       ''
       'Delphi Markdown'
       'https://github.com/grahamegrieve/delphi-markdown'
-      'Copyright (c) 2011+, Health Intersections Pty Ltd All rights reserved'
+      
+        'Copyright (c) 2011+, Health Intersections Pty Ltd All rights res' +
+        'erved'
       ''
       'Synopse/SynPDF https://github.com/synopse/SynPDF'
       'Copyright '#169' Synopse: all right reserved.'

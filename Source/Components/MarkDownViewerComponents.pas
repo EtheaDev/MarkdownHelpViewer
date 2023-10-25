@@ -115,6 +115,7 @@ Type
     procedure Loaded; override;
   public
     procedure LoadFromFile(const AFileName: TFileName);
+    procedure ExportToFileHTML(const AFileName: TFileName);
     procedure LoadFromStream(const AStream: TStringStream;
       const IsHTMLContent: Boolean = False);
     procedure LoadFromString(const AValue: string;
@@ -180,6 +181,8 @@ Type
   end;
 
 function TryLoadTextFile(const AFileName: TFileName): string;
+procedure SaveUTF8File(const AFileName: TFileName;
+  const AContent: string);
 function GetMarkdownDefaultCSS: string;
 
 procedure RegisterMDViewerServerRoot(const AFolder: string);
@@ -308,6 +311,19 @@ begin
   end;
 end;
 
+procedure SaveUTF8File(const AFileName: TFileName;
+  const AContent: string);
+var
+  LStream: TStringStream;
+begin
+  LStream := TStringStream.Create(AContent, TEncoding.UTF8);
+  try
+    LStream.SaveToFile(AFileName);
+  finally
+    FreeAndNil(LStream);
+  end;
+end;
+
 { TCustomMarkdownViewer }
 
 constructor TCustomMarkdownViewer.Create(AOwner: TComponent);
@@ -390,6 +406,11 @@ begin
   FreeAndNil(FCssStyle);
 
   inherited;
+end;
+
+procedure TCustomMarkdownViewer.ExportToFileHTML(const AFileName: TFileName);
+begin
+  SaveUTF8File(FHTMLContent.Text, AFileName);
 end;
 
 procedure TCustomMarkdownViewer.SetOnImageRequest(const AValue: TGetImageEvent);
