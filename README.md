@@ -5,16 +5,24 @@
 **An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications**
 
 - A "Setup" of the pre-built **"Markdown Help Viewer"** ready to use.
+
 - A unit (MarkdownHelpViewer.pas) to add the interface to Delphi Help System of your Delphi Application (from XE6 version to latest)
+
 - A VCL Visual Component (TMarkdownViewer) to automatically show Markdown file formatted in HTML (from XE6 version to latest)
+
 - A simple demo to show how to integrate the Help in your application, as exaplained [here...](./Demo/Help/README.md)
-- For editing and prepare the Help manual of your application we suggest to use the Editor contained into ["Markdown Shell Extensions"](https://github.com/EtheaDev/MarkdownShellExtensions) project.
+
+- For editing and prepare the Help manual of your application we suggest to use the Editor contained into
+["Markdown Shell Extensions"](https://github.com/EtheaDev/MarkdownShellExtensions) project.
 
 ### Features
 
 - Supports Windows Vista, 7, 8, 10 and 11 (for 32 bits and 64 bits).
+
 - Themes (Dark and Light) according to user preferences of Windows Theme
+
 - Auto-detect Index file in the working folder
+
 - Very easy to integrate into Delphi Application
 
 ### Setup using the Installer

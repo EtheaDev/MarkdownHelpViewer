@@ -583,6 +583,9 @@ procedure TMainForm.FormCreate(Sender: TObject);
 var
   LMarkdownMasks, LHTMLMasks: string;
 begin
+  {$IFNDEF DEBUG}
+  acExportHTML.Visible := False;
+  {$ENDIF}
   Screen.MessageFont.Size := Round(Screen.MessageFont.Size*1.2);
   InitializeStyledTaskDialogs(True, Screen.MessageFont);
 
