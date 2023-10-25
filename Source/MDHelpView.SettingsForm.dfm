@@ -122,7 +122,7 @@ object MDSettingsForm: TMDSettingsForm
         Left = 0
         Top = 0
         Width = 174
-        Height = 374
+        Height = 373
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 0
@@ -145,7 +145,7 @@ object MDSettingsForm: TMDSettingsForm
           Left = 0
           Top = 118
           Width = 174
-          Height = 256
+          Height = 255
           Align = alClient
           Caption = 'Selected Theme'
           TabOrder = 1
@@ -155,8 +155,8 @@ object MDSettingsForm: TMDSettingsForm
       object ThemeClientPanel: TPanel
         Left = 174
         Top = 0
-        Width = 458
-        Height = 374
+        Width = 454
+        Height = 373
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 1

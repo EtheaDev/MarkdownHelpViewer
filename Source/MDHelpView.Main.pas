@@ -43,9 +43,12 @@ uses
 resourcestring
   STR_INFORMATION = 'INFORMATION';
   STR_ERROR = 'ERROR!';
+  STR_CONFIRMATION = 'CONFIRMATION';
   STR_UNEXPECTED_ERROR = 'UNEXPECTED ERROR!';
+  HTML_OUTPUT_FOLDER = 'HTML output folder';
   FILE_SAVED = 'File "%s" succesfully saved. Do you want to open it now?';
   NO_KEYWORD_MATCH = 'Keyword "%s" not found in files into working folder: "%s"';
+  CONFIRM_EXPORT_HTML = 'Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?';
 
 type
   TMainForm = class(TForm)
@@ -89,6 +92,7 @@ type
     btHome: TToolButton;
     btOption: TToolButton;
     btAbout: TToolButton;
+    btExportHTML: TToolButton;
     lbSelectFile: TLabel;
     acPrint: TAction;
     SaveDialog: TSaveDialog;
@@ -103,6 +107,7 @@ type
     SVGIconImageListColored: TSVGIconImageList;
     acRefresh: TAction;
     btRefresh: TToolButton;
+    acExportHTML: TAction;
     procedure FormCreate(Sender: TObject);
     procedure acFileOpenAccept(Sender: TObject);
     procedure acSettingsExecute(Sender: TObject);
@@ -140,6 +145,8 @@ type
       MousePos: TPoint; var Handled: Boolean);
     procedure FormMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
+    procedure acExportHTMLUpdate(Sender: TObject);
+    procedure acExportHTMLExecute(Sender: TObject);
   private
     FRememberToResize: boolean;
     FLoading: boolean;
@@ -254,6 +261,94 @@ uses
 procedure TMainForm.acAboutExecute(Sender: TObject);
 begin
   ShowAboutForm(DialogPosRect, Title_MDHViewer);
+end;
+
+procedure TMainForm.acExportHTMLExecute(Sender: TObject);
+var
+  I: Integer;
+  LFileName: TFileName;
+  LOutputFolder: string;
+  LResult: TModalResult;
+  LMdContent, LHtmlContent: string;
+
+  procedure ConvertAndSaveFile(const AInputFileName, AOutputFileName: TFileName);
+  var
+    LExt: string;
+    I: Integer;
+  begin
+    if FileExists(AInputFileName) then
+    begin
+      LMdContent := TryLoadTextFile(AInputFileName);
+      LHtmlContent := TransformMDToHTML(LMdContent);
+      //Replace href of .md files to .htm files
+      for I := Low(AMarkdownFileExt) to High(AMarkdownFileExt) do
+      begin
+        LExt := AMarkdownFileExt[I];
+        LHtmlContent := StringReplace(LHtmlContent, LExt, '.htm',
+          [rfReplaceAll, rfIgnoreCase]);
+      end;
+      SaveUTF8File(AOutputFileName, LHtmlContent);
+    end;
+  end;
+
+begin
+  SaveDialog.Filter := Format('%s (*.htm)|*.htm', [HTML_FILES]);
+  LOutputFolder := IncludeTrailingPathDelimiter(WorkingFolder)+'..\WebHelp\';
+  LResult := StyledMessageDlg(STR_CONFIRMATION,
+    Format(CONFIRM_EXPORT_HTML, [FileListBox.Count-1]),
+      TMsgDlgType.mtConfirmation,
+      [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbYesToAll, TMsgDlgBtn.mbNo, TMsgDlgBtn.mbCancel],
+      0);
+  if LResult = mrYes then
+  begin
+    LFileName := LOutputFolder+
+      ExtractFileName(ChangeFileExt(FCurrentFileName, '.htm'));
+    SaveDialog.InitialDir := ExtractFilePath(LFileName);
+    SaveDialog.FileName := LFileName;
+    if SaveDialog.Execute then
+    begin
+      Screen.Cursor := crHourGlass;
+      try
+        ConvertAndSaveFile(FCurrentFileName, SaveDialog.FileName);
+        FileSavedAskToOpen(SaveDialog.FileName);
+      finally
+        Screen.Cursor := crDefault;
+      end;
+    end;
+  end
+  else if LResult = mrYesToAll then
+  begin
+    if FCurrentIndexFileName <> '' then
+      LFileName := LOutputFolder+
+        ExtractFileName(ChangeFileExt(FCurrentIndexFileName,'.htm'))
+    else
+      LFileName := LOutputFolder+
+        ExtractFileName(ChangeFileExt(FCurrentFileName, '.htm'));
+    SaveDialog.InitialDir := ExtractFilePath(LFileName);
+    SaveDialog.FileName := LFileName;
+    if SaveDialog.Execute then
+    begin
+      Screen.Cursor := crHourGlass;
+      try
+        LFileName := SaveDialog.FileName;
+        LOutputFolder := IncludeTrailingPathDelimiter(
+          ExtractFilePath(LFileName));
+        for I := 0 to FileListBox.Count -1 do
+        begin
+          ConvertAndSaveFile(FWorkingFolder+FileListBox.Items[I],
+            ChangeFileExt(LOutputFolder+FileListBox.Items[I], '.htm'));
+        end;
+        FileSavedAskToOpen(LFileName);
+      finally
+         Screen.Cursor := crDefault;
+      end;
+    end;
+  end;
+end;
+
+procedure TMainForm.acExportHTMLUpdate(Sender: TObject);
+begin
+  acExportHTML.Enabled := FileExists(FCurrentFileName);
 end;
 
 procedure TMainForm.acFileOpenAccept(Sender: TObject);
@@ -682,8 +777,8 @@ function TMainForm.TransformMDToHTML(const AMdContent: string): string;
 var
   LMarkdownProcessor: TMarkdownProcessor;
 begin
-  //If loaded Markdown file, then Transform in HTML
-  if (FMdContent <> '') then
+  //Transform Markdown content in HTML
+  if (AMdContent <> '') then
   begin
     //Transform file Markdown in HTML using TMarkdownProcessor
     LMarkdownProcessor := TMarkdownProcessor.CreateDialect(

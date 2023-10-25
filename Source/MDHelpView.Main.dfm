@@ -33,10 +33,10 @@ object MainForm: TMainForm
     Top = 49
     Width = 300
     Height = 373
-    ActivePage = tsIndex
+    ActivePage = tsFiles
     Align = alLeft
     TabOrder = 0
-    ExplicitHeight = 374
+    ExplicitHeight = 372
     object tsIndex: TTabSheet
       Hint = 'Markdown Content/Index'
       Caption = 'Content/Index'
@@ -45,7 +45,7 @@ object MainForm: TMainForm
         Left = 3
         Top = 3
         Width = 286
-        Height = 338
+        Height = 337
         BorderStyle = htFocused
         DefBackground = clWindow
         HistoryMaxCount = 0
@@ -60,6 +60,7 @@ object MainForm: TMainForm
         TabOrder = 0
         Touch.InteractiveGestures = [igPan]
         Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia]
+        ExplicitHeight = 336
       end
     end
     object tsFiles: TTabSheet
@@ -97,7 +98,6 @@ object MainForm: TMainForm
         Mask = '*.md'
         TabOrder = 1
         OnDblClick = acViewExecute
-        ExplicitHeight = 231
       end
       object edFileSearch: TEdit
         AlignWithMargins = True
@@ -122,7 +122,6 @@ object MainForm: TMainForm
         Anchors = [akRight, akBottom]
         Default = True
         TabOrder = 2
-        ExplicitTop = 317
       end
     end
     object tsSearch: TTabSheet
@@ -192,7 +191,6 @@ object MainForm: TMainForm
         Action = acViewSearch
         Anchors = [akRight, akBottom]
         TabOrder = 3
-        ExplicitTop = 317
       end
     end
   end
@@ -204,12 +202,12 @@ object MainForm: TMainForm
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitWidth = 785
+    ExplicitWidth = 777
     DesignSize = (
       781
       49)
     object ProcessorDialectLabel: TLabel
-      Left = 639
+      Left = 631
       Top = 5
       Width = 83
       Height = 15
@@ -219,7 +217,7 @@ object MainForm: TMainForm
       ExplicitLeft = 647
     end
     object ProcessorDialectComboBox: TComboBox
-      Left = 639
+      Left = 631
       Top = 23
       Width = 127
       Height = 23
@@ -236,102 +234,90 @@ object MainForm: TMainForm
       AlignWithMargins = True
       Left = 0
       Top = 3
-      Width = 561
+      Width = 601
       Height = 46
       Margins.Left = 0
-      Margins.Right = 220
+      Margins.Right = 180
       Margins.Bottom = 0
-      AutoSize = True
       ButtonHeight = 46
       ButtonWidth = 55
       Images = SVGIconImageList
       ShowCaptions = True
       TabOrder = 1
-      ExplicitWidth = 569
+      Wrapable = False
       object btShowHide: TToolButton
         Left = 0
         Top = 0
-        Cursor = crHandPoint
         Action = acHide
       end
       object sep1: TToolButton
         Left = 55
         Top = 0
-        Width = 8
-        ImageIndex = 8
-        ImageName = 'folder-open'
+        Width = 10
         Style = tbsSeparator
       end
       object btOpen: TToolButton
-        Left = 63
+        Left = 65
         Top = 0
-        Cursor = crHandPoint
         Action = acFileOpen
       end
       object btRefresh: TToolButton
-        Left = 118
+        Left = 120
         Top = 0
         Action = acRefresh
       end
       object btSaveToPdf: TToolButton
-        Left = 173
+        Left = 175
         Top = 0
-        Cursor = crHandPoint
         Action = acSaveToPDF
       end
       object sep2: TToolButton
-        Left = 228
+        Left = 230
         Top = 0
         Width = 8
-        Enabled = False
-        ImageIndex = 8
-        ImageName = 'folder-open'
         Style = tbsSeparator
       end
       object btHome: TToolButton
-        Left = 236
+        Left = 238
         Top = 0
-        Cursor = crHandPoint
         Action = acHome
       end
       object btPrevius: TToolButton
-        Left = 291
+        Left = 293
         Top = 0
-        Cursor = crHandPoint
         Action = acPreviousPage
       end
       object btNext: TToolButton
-        Left = 346
+        Left = 348
         Top = 0
-        Cursor = crHandPoint
         Action = acNextPage
       end
+      object btExportHTML: TToolButton
+        Left = 403
+        Top = 0
+        Action = acExportHTML
+      end
       object Sep4: TToolButton
-        Left = 401
+        Left = 458
         Top = 0
         Width = 8
         ImageName = 'crosshairs-question'
         Style = tbsSeparator
       end
       object btOption: TToolButton
-        Left = 409
+        Left = 466
         Top = 0
-        Cursor = crHandPoint
         Action = acSettings
       end
       object sep3: TToolButton
-        Left = 464
+        Left = 521
         Top = 0
         Width = 8
-        Enabled = False
-        ImageIndex = 8
-        ImageName = 'folder-open'
         Style = tbsSeparator
       end
       object btAbout: TToolButton
-        Left = 472
+        Left = 529
         Top = 0
-        Cursor = crHandPoint
         Action = acAbout
       end
     end
@@ -345,14 +331,14 @@ object MainForm: TMainForm
     BevelOuter = bvNone
     TabOrder = 2
     OnResize = ClientPanelResize
-    ExplicitWidth = 479
-    ExplicitHeight = 374
+    ExplicitWidth = 471
+    ExplicitHeight = 372
     object HtmlViewer: THtmlViewer
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 473
-      Height = 368
+      Width = 469
+      Height = 367
       BorderStyle = htFocused
       DefBackground = clWindow
       HistoryMaxCount = 0
@@ -367,6 +353,8 @@ object MainForm: TMainForm
       TabOrder = 0
       Touch.InteractiveGestures = [igPan]
       Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia]
+      ExplicitWidth = 465
+      ExplicitHeight = 366
     end
   end
   object TActionList: TActionList
@@ -426,7 +414,7 @@ object MainForm: TMainForm
       OnUpdate = acSearchUpdate
     end
     object acHome: TAction
-      Category = 'Tab'
+      Category = 'Page'
       Caption = 'Home'
       Enabled = False
       Hint = 'Back to Home File'
@@ -490,6 +478,16 @@ object MainForm: TMainForm
       ImageName = 'refresh'
       OnExecute = acRefreshExecute
       OnUpdate = acRefreshUpdate
+    end
+    object acExportHTML: TAction
+      Category = 'Page'
+      Caption = 'Export...'
+      Enabled = False
+      Hint = 'Export to HTML help files'
+      ImageIndex = 15
+      ImageName = 'web'
+      OnExecute = acExportHTMLExecute
+      OnUpdate = acExportHTMLUpdate
     end
   end
   object SaveDialog: TSaveDialog
@@ -716,6 +714,30 @@ object MainForm: TMainForm
           '.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6' +
           ' 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z' +
           '" /></svg>'
+      end
+      item
+        IconName = 'web'
+        SVGText = 
+          '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W' +
+          '3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg' +
+          '11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="htt' +
+          'p://www.w3.org/1999/xlink" version="1.1" id="mdi-web" width="24"' +
+          ' height="24" viewBox="0 0 24 24"><path d="M16.36,14C16.44,13.34 ' +
+          '16.5,12.68 16.5,12C16.5,11.32 16.44,10.66 16.36,10H19.74C19.9,10' +
+          '.64 20,11.31 20,12C20,12.69 19.9,13.36 19.74,14M14.59,19.56C15.1' +
+          '9,18.45 15.65,17.25 15.97,16H18.92C17.96,17.65 16.43,18.93 14.59' +
+          ',19.56M14.34,14H9.66C9.56,13.34 9.5,12.68 9.5,12C9.5,11.32 9.56,' +
+          '10.65 9.66,10H14.34C14.43,10.65 14.5,11.32 14.5,12C14.5,12.68 14' +
+          '.43,13.34 14.34,14M12,19.96C11.17,18.76 10.5,17.43 10.09,16H13.9' +
+          '1C13.5,17.43 12.83,18.76 12,19.96M8,8H5.08C6.03,6.34 7.57,5.06 9' +
+          '.4,4.44C8.8,5.55 8.35,6.75 8,8M5.08,16H8C8.35,17.25 8.8,18.45 9.' +
+          '4,19.56C7.57,18.93 6.03,17.65 5.08,16M4.26,14C4.1,13.36 4,12.69 ' +
+          '4,12C4,11.31 4.1,10.64 4.26,10H7.64C7.56,10.66 7.5,11.32 7.5,12C' +
+          '7.5,12.68 7.56,13.34 7.64,14M12,4.03C12.83,5.23 13.5,6.57 13.91,' +
+          '8H10.09C10.5,6.57 11.17,5.23 12,4.03M18.92,8H15.97C15.65,6.75 15' +
+          '.19,5.55 14.59,4.44C16.43,5.07 17.96,6.34 18.92,8M12,2C6.47,2 2,' +
+          '6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" ' +
+          '/></svg>'
       end>
     Scaled = True
     Left = 408
@@ -1010,6 +1032,48 @@ object MainForm: TMainForm
           '6-2.7-6-6H9c0,5.5,4.5,10,10,10h10c5.5,0,10-4.5,10-10V23h-4V35z"/' +
           '>'#13#10'        <polygon points="30.6,26 37,17.6 43.4,26"/>'#13#10'    </g>' +
           #13#10'</svg>'#13#10
+      end
+      item
+        IconName = 'web'
+        SVGText = 
+          '<svg version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0' +
+          ' 48 48" enable-background="new 0 0 48 48">'#13#10'    <path fill="#7CB' +
+          '342" d="M24,4C13,4,4,13,4,24s9,20,20,20s20-9,20-20S35,4,24,4z"/>' +
+          #13#10'    <path fill="#0277BD" d="M45,24c0,11.7-9.5,21-21,21S3,35.7,' +
+          '3,24S12.3,3,24,3S45,12.3,45,24z M23.8,33.7c0-0.4-0.2-0.6-0.6-0.8' +
+          ' c-1.3-0.4-2.5-0.4-3.6-1.5c-0.2-0.4-0.2-0.8-0.4-1.3c-0.4-0.4-1.5' +
+          '-0.6-2.1-0.8c-0.8,0-1.7,0-2.7,0c-0.4,0-1.1,0-1.5,0 c-0.6-0.2-1.1' +
+          '-1.1-1.5-1.7c0-0.2,0-0.6-0.4-0.6c-0.4-0.2-0.8,0.2-1.3,0c-0.2-0.2' +
+          '-0.2-0.4-0.2-0.6c0-0.6,0.4-1.3,0.8-1.7 c0.6-0.4,1.3,0.2,1.9,0.2c' +
+          '0.2,0,0.2,0,0.4,0.2c0.6,0.2,0.8,1,0.8,1.7c0,0.2,0,0.4,0,0.4c0,0.' +
+          '2,0.2,0.2,0.4,0.2 c0.2-1.1,0.2-2.1,0.4-3.2c0-1.3,1.3-2.5,2.3-2.9' +
+          'c0.4-0.2,0.6,0.2,1.1,0c1.3-0.4,4.4-1.7,3.8-3.4c-0.4-1.5-1.7-2.9-' +
+          '3.4-2.7 c-0.4,0.2-0.6,0.4-1,0.6c-0.6,0.4-1.9,1.7-2.5,1.7c-1.1-0.' +
+          '2-1.1-1.7-0.8-2.3c0.2-0.8,2.1-3.6,3.4-3.1c0.2,0.2,0.6,0.6,0.8,0.' +
+          '8 c0.4,0.2,1.1,0.2,1.7,0.2c0.2,0,0.4,0,0.6-0.2c0.2-0.2,0.2-0.2,0' +
+          '.2-0.4c0-0.6-0.6-1.3-1-1.7c-0.4-0.4-1.1-0.8-1.7-1.1 c-2.1-0.6-5.' +
+          '5,0.2-7.1,1.7s-2.9,4-3.8,6.1c-0.4,1.3-0.8,2.9-1,4.4c-0.2,1-0.4,1' +
+          '.9,0.2,2.9c0.6,1.3,1.9,2.5,3.2,3.4 c0.8,0.6,2.5,0.6,3.4,1.7c0.6,' +
+          '0.8,0.4,1.9,0.4,2.9c0,1.3,0.8,2.3,1.3,3.4c0.2,0.6,0.4,1.5,0.6,2.' +
+          '1c0,0.2,0.2,1.5,0.2,1.7 c1.3,0.6,2.3,1.3,3.8,1.7c0.2,0,1-1.3,1-1' +
+          '.5c0.6-0.6,1.1-1.5,1.7-1.9c0.4-0.2,0.8-0.4,1.3-0.8c0.4-0.4,0.6-1' +
+          '.3,0.8-1.9 C23.8,35.1,24,34.3,23.8,33.7z M24.2,14.3c0.2,0,0.4-0.' +
+          '2,0.8-0.4c0.6-0.4,1.3-1.1,1.9-1.5c0.6-0.4,1.3-1.1,1.7-1.5 c0.6-0' +
+          '.4,1.1-1.3,1.3-1.9c0.2-0.4,0.8-1.3,0.6-1.9c-0.2-0.4-1.3-0.6-1.7-' +
+          '0.8c-1.7-0.4-3.1-0.6-4.8-0.6c-0.6,0-1.5,0.2-1.7,0.8 c-0.2,1.1,0.' +
+          '6,0.8,1.5,1.1c0,0,0.2,1.7,0.2,1.9c0.2,1-0.4,1.7-0.4,2.7c0,0.6,0,' +
+          '1.7,0.4,2.1L24.2,14.3z M41.8,29 c0.2-0.4,0.2-1.1,0.4-1.5c0.2-1,0' +
+          '.2-2.1,0.2-3.1c0-2.1-0.2-4.2-0.8-6.1c-0.4-0.6-0.6-1.3-0.8-1.9c-0' +
+          '.4-1.1-1-2.1-1.9-2.9 c-0.8-1.1-1.9-4-3.8-3.1c-0.6,0.2-1,1-1.5,1.' +
+          '5c-0.4,0.6-0.8,1.3-1.3,1.9c-0.2,0.2-0.4,0.6-0.2,0.8c0,0.2,0.2,0.' +
+          '2,0.4,0.2 c0.4,0.2,0.6,0.2,1,0.4c0.2,0,0.4,0.2,0.2,0.4c0,0,0,0.2' +
+          '-0.2,0.2c-1,1.1-2.1,1.9-3.1,2.9c-0.2,0.2-0.4,0.6-0.4,0.8 c0,0.2,' +
+          '0.2,0.2,0.2,0.4c0,0.2-0.2,0.2-0.4,0.4c-0.4,0.2-0.8,0.4-1.1,0.6c-' +
+          '0.2,0.4,0,1.1-0.2,1.5c-0.2,1.1-0.8,1.9-1.3,2.9 c-0.4,0.6-0.6,1.3' +
+          '-1,1.9c0,0.8-0.2,1.5,0.2,2.1c1,1.5,2.9,0.6,4.4,1.3c0.4,0.2,0.8,0' +
+          '.2,1.1,0.6c0.6,0.6,0.6,1.7,0.8,2.3 c0.2,0.8,0.4,1.7,0.8,2.5c0.2,' +
+          '1,0.6,2.1,0.8,2.9c1.9-1.5,3.6-3.1,4.8-5.2C40.6,32.4,41.2,30.7,41' +
+          '.8,29z"/>'#13#10'</svg>'#13#10
       end>
     Scaled = True
     Left = 408

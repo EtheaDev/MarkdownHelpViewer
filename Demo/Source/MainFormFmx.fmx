@@ -1,0 +1,529 @@
+object MainForm: TMainForm
+  Left = 0
+  Top = 0
+  Caption = 'Firemonkey Test'
+  ClientHeight = 503
+  ClientWidth = 953
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnKeyUp = FormKeyUp
+  DesignerMasterStyle = 0
+  object MarkDownMemo: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    DataDetectorTypes = []
+    Lines.Strings = (
+      
+        '# Markdown Help Viewer [![License](https://img.shields.io/badge/' +
+        'License-Apache%202.0-yellowgreen.svg)](https://opensource.org/li' +
+        'censes/Apache-2.0)'
+      ''
+      '**Latest Version 2.0.0 - 23 Oct 2023**'
+      ''
+      
+        '**An integrated help system based on files in Markdown format (a' +
+        'nd also html), for Delphi and Windows applications**'
+      ''
+      
+        '- A "Setup" of the pre-built **"Markdown Help Viewer"** ready to' +
+        ' use.'
+      ''
+      
+        '- A unit (MarkdownHelpViewer.pas) to add the interface to Delphi' +
+        ' Help System of your Delphi Application (from XE6 version to lat' +
+        'est)'
+      ''
+      
+        '- A VCL Visual Component (TMarkdownViewer) to automatically show' +
+        ' Markdown file formatted in HTML (from XE6 version to latest)'
+      ''
+      
+        '- A simple demo to show how to integrate the Help in your applic' +
+        'ation, as exaplained [here...](./Demo/Help/README.md)'
+      ''
+      
+        '- For editing and prepare the Help manual of your application we' +
+        ' suggest to use the Editor contained into'
+      
+        '["Markdown Shell Extensions"](https://github.com/EtheaDev/Markdo' +
+        'wnShellExtensions) project.'
+      ''
+      '### Features'
+      ''
+      
+        '- Supports Windows Vista, 7, 8, 10 and 11 (for 32 bits and 64 bi' +
+        'ts).'
+      ''
+      
+        '- Themes (Dark and Light) according to user preferences of Windo' +
+        'ws Theme'
+      ''
+      '- Auto-detect Index file in the working folder'
+      ''
+      '- Very easy to integrate into Delphi Application'
+      ''
+      '### Setup using the Installer'
+      ''
+      
+        'Click to download the [MarkDownHelpViewerSetup.exe][1] located a' +
+        'lso in the Release area. The Installer works both for 32 and 64 ' +
+        'bit system.'
+      ''
+      '![Markdown Setup_Program](./Images/Setup.png)'
+      ''
+      '### Markdown Help Viewer in action'
+      ''
+      
+        'A useful Viewer for instant preview of Markdown formatted conten' +
+        't help files (with auto-detection of Windows-Theme):'
+      ''
+      '![Markdown Help Viewer](./Images/ContentPageDark.png)'
+      ''
+      
+        '### Step to activate this Help into MarkdownHelpViewerDemo Appli' +
+        'cation ###'
+      ''
+      
+        'Use MarkdownHelpViewer.pas (located into AppInterface folder) in' +
+        ' dpr:'
+      ''
+      '```Delphi'
+      
+        '  MarkdownHelpViewer in '#39'..\..\AppInterface\MarkDownHelpViewer.p' +
+        'as'#39','
+      '```'
+      ''
+      'then specify the default file of the help:'
+      ''
+      '```Delphi'
+      
+        '  Application.HelpFile := ExtractFilePath(Application.ExeName)+'#39 +
+        '..\Help\Home.md'#39';'
+      '```'
+      ''
+      
+        'If you have installed the viewer using the provided Setup, the i' +
+        'nstallation folder of the Viewer is registere into:'
+      ''
+      '`'
+      
+        'HKEY_CLASSES_ROOT\Applications\MDHelpViewer.exe\Shell\Open\Comma' +
+        'nd'
+      '`'
+      'so the interface can launch the viewer automatically.'
+      ''
+      
+        'If you don'#39't want to use the provided Setup you can register the' +
+        ' location of the Viewer built by yourself and deployed to a spec' +
+        'ific location, for example:'
+      ''
+      '```Delphi'
+      '{$IFDEF WIN32}'
+      '  RegisterMDViewerLocation(ExtractFilePath(Application.ExeName)+'
+      '    '#39'..\..\Bin32\MDHelpViewer.exe'#39');'
+      '{$ELSE}'
+      '  RegisterMDViewerLocation(ExtractFilePath(Application.ExeName)+'
+      '    '#39'..\..\Bin64\MDHelpViewer.exe'#39');'
+      '{$ENDIF}'
+      '```'
+      
+        '### Rules to open the correct file using HelpContext or HelpTopi' +
+        'c'
+      ''
+      
+        'To test the application you can lauch the Home.md help using the' +
+        ' menu About/Help: in the OnClick handler invoke the help:'
+      ''
+      '```Delphi'
+      'procedure TfmMain.HelpMenuItemClick(Sender: TObject);'
+      'begin'
+      '  Application.HelpKeyword('#39'home'#39');'
+      'end;'
+      '```'
+      ''
+      
+        'In any Delphi component, you can define HelpType (htKeyword or h' +
+        'tContext) and the specify HelpKeyword (string) or HelpContext (I' +
+        'nteger).'
+      ''
+      
+        'When the user press "F1" inside the application, the HelpSystem ' +
+        'is invoked with HelpKeyword or HelpContext.'
+      ''
+      
+        'Then the interface searches in the same folder of default file (' +
+        'specified into Application.HelpFile) the specific file using tho' +
+        'se rules:'
+      ''
+      '#### Rules of precedence:'
+      ''
+      
+        '- first search a file named as the Keyword or the Context with a' +
+        'ny markdown extension (eg. 1000.md, MainForm.md)'
+      
+        '- Then, try the Help Name and the Keyword (eg.Home1000.md, HomeM' +
+        'ainForm.md)'
+      
+        '- At least, try the Help Name and the Keyword with underscore (e' +
+        'g.Home_1000.md, Home_MainForm.md)'
+      ''
+      '## Release Notes ##'
+      ''
+      '23 Oct 2023: ver. 2.0.0'
+      '- Added use of Skia4Delphi'
+      '- Added support for new image format (webp and wbmp)'
+      '- Uses AnimatedStyledDialogs for messages'
+      '- Added Export to HTML help files (experimental)'
+      
+        '- Updated Markdown library with best support for CommonMark tran' +
+        'sformation:'
+      ''
+      '1. Subscript <sub>text</sub> and Superscript <sup>text</sup>'
+      '1. Formulas (using [Google Chart API])'
+      '1. ==Markers=='
+      '1. [Reference-style Links][1]'
+      ''
+      '20 Sep 2023: ver. 1.3.0'
+      '- Added Support for Delphi 12'
+      '- Close Viewer with Esc button'
+      '- Form-resize optimized'
+      ''
+      '30 Jun 2023: ver. 1.2.0'
+      '- Restored "Settings" function on Viewer'
+      '- Fixed Component loading content from MarkdownContent property'
+      
+        '- Fixed Component loading images using FileName (now searches in' +
+        ' same folder)'
+      ''
+      '29 Jun 2023: ver. 1.1.0'
+      '- Refactoring Folder/Source position (some files moved)'
+      '- Renamed "Markdown" identifier to "Markdown"'
+      '- Added Packages for other Delphi versions'
+      '- Added "refresh" button to reload file content'
+      '- Fix Resize performance'
+      
+        '- Added "RegisterMDViewerServerRoot" to automate loading content' +
+        ' into the Component'
+      '- Updated Component MarkdownViewer for autoloading content'
+      ''
+      '23 Jun 2023: ver. 1.0.0'
+      ''
+      '- Viewer with lot of functions:'
+      '- Full source code of Delphi Project (MDHelpViewer.dproj)'
+      '- Support for Windows Light and Dark Themes'
+      '- Settings available for easy customization of GUI'
+      '- Unit MarkdownHelpViewer.pas for Delphi Applications'
+      ''
+      '## Markdown Help Viewer in depth'
+      ''
+      'The application is divided into two sections:'
+      ''
+      
+        '**The Right Side** is the **Content Viewer** and allows you to v' +
+        'iew the content of the help file.'
+      ''
+      
+        '**The Left Side** is the **Index/Search Panel** and allows you t' +
+        'o view the contents of the help index and perform search operati' +
+        'ons.'
+      ''
+      '## The Content Viewer'
+      ''
+      
+        'It allows you to view the contents of the help file which can be' +
+        ' in Markdown or HTML format'
+      ''
+      
+        '* In case of **Markdown** the file is transformed into HTML and ' +
+        'can subsequently be viewed on the screen, the transformation can' +
+        ' take place in two'
+      
+        'different dialects (DaringFireball or CommonMark) selectable via' +
+        ' drop-down menu.'
+      ''
+      
+        '* In case of **HTML** the file is directly displayed on the scre' +
+        'en.'
+      ''
+      '## The Index/Search Panel'
+      ''
+      'is divided into 3 sections:'
+      ''
+      '* **Content/Index**'
+      '* **Working Dir**'
+      '* **Search**'
+      ''
+      '### Content/Index:'
+      '   * Show the **indexed** contents of the **open help file**'
+      ''
+      '![ContentPageImh](./Images/ContentPage.png)'
+      ''
+      '### Working Director:'
+      
+        '* Shows **all files** readable by the application **present in t' +
+        'he folder of the open file** and the ability to **search** for t' +
+        'hem **using the search bar** at the top of the window'
+      ''
+      '![WorkingDirImg](./Images/WorkingDir.png)'
+      ''
+      '### Search:'
+      
+        '* allows a **keyword search within the file list** and the abili' +
+        'ty to **search for keywords**'
+      '  within the displayed file'
+      '  via the search bar at the top of the window'
+      ''
+      '![Img](./Images/Search.png)'
+      ''
+      '## Toolbar/Actions'
+      ''
+      
+        'In the **Toolbar** located at the top on the page we find **8 to' +
+        'ols:**'
+      '* **Hide**:  ![Img](./Images/page-next-outline.png)'
+      '  * **hides the Index/Search Panel** just described'
+      ''
+      '![ContentPageHide](./Images/ContentPageHide.png)'
+      ''
+      '* **Shows**:  ![Img](./Images/page-previous-outline.png)'
+      
+        '  * present only if the section is hidden, **demonstrates the la' +
+        'tter**'
+      ''
+      '* **Open**:   ![Img](./Images/folder-open.png)'
+      
+        '  * if pressed, it opens a **dialog window** that allows you to ' +
+        '**select a markdown or html file** to load and show in the Viewe' +
+        'r'
+      ''
+      '![OpenImg](./Images/Open.png)'
+      ''
+      '* ![Img](./Images/home.png)**Home**'
+      '  * active only if we are not on the first screen, it allows'
+      '    to **return to the starting screen** (Home)'
+      ''
+      '* ![Img](./Images/arrow-left-thick.png)**Previous:**'
+      '  * active only if more than one document is open, allows'
+      '    to **return to the document opened just before**'
+      ''
+      '* ![Img](./Images/arrow-right-thick.png)**Next:**'
+      '  * active only if the last document is not displayed,'
+      '    allows you to **go to the next open document**'
+      ''
+      '* ![Img](./Images/file-pdf-outline.png)**Save PDF:**'
+      '  * if pressed **saves the document in PDF format** (.pdf)'
+      ''
+      '* ![Img](./Images/tools.png)**Settings:**'
+      ''
+      '  **It contains five sub-windows:**'
+      ''
+      '* ![Img](./Images/eye-settings.png)**Preview:**'
+      
+        '    * allows **selecting the Dialect** in which the document wil' +
+        'l be displayed (CommonMark default)'
+      '    * three selectable **settings for Images**'
+      '    * two selectable **settings for Toolbar style**'
+      ''
+      '![PreviewImg](./Images/Preview.png)'
+      ''
+      '*  ![Img](./Images/theme-light-dark.png)**Theme:**'
+      
+        '    * allows **choosing which** of the available **themes** to d' +
+        'isplay the **application with**'
+      
+        '    * **for each of the three main themes**, the color can be fu' +
+        'rther customized by selecting **four additional themes** below t' +
+        'he main ones.'
+      ''
+      '![ThemeImg](./Images/Theme.png)'
+      ''
+      '  * ![Img](./Images/alphabetical-variant.png)**Font:**'
+      
+        '    * allows **choosing the style and size** to display the **te' +
+        'xt** within the application.'
+      ''
+      '![FontImg](./Images/Font.png)'
+      ''
+      '  * ![Img](./Images/pdf-box.png)**PDF Layout:**'
+      
+        '    * allows **customizing the PDF saving** of the document thro' +
+        'ugh **orientation and page size**, in addition to modifying vari' +
+        'ous sizes using **indicators, arrows, or entering the value from' +
+        ' the keyboard**.'
+      ''
+      '![PDFLayoutImg](./Images/PDFLayout.png)'
+      ''
+      '  * ![Img](./Images/arrow-left.png)**Back:**'
+      '    * allows **closing the window.**'
+      ''
+      '* ![Img](./Images/information-outline.png)**About:**'
+      
+        '  * when pressed, displays a window **containing information abo' +
+        'ut the application.**'
+      ''
+      '![AboutImg](./Images/About.png)'
+      ''
+      '* **Transformation:**'
+      
+        '  * Through the **dropdown menu**, it allows **choosing the dial' +
+        'ect in which the document will be displayed.**'
+      '![DialectImg](./Images/Dialect.png)'
+      ''
+      '## License'
+      ''
+      
+        'Licensed under the [Apache License, Version 2.0][2] (the "Licens' +
+        'e");'
+      ''
+      
+        'Unless required by applicable law or agreed to in writing, softw' +
+        'are distributed under the License is distributed on an "AS IS" B' +
+        'ASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either expre' +
+        'ss or implied. See the License for the specific language governi' +
+        'ng permissions and limitations under the License.'
+      ''
+      '### Other libraries from Ethea:'
+      ''
+      
+        '**SVGIconImageList** - https://github.com/EtheaDev/SVGIconImageL' +
+        'ist/'
+      ''
+      
+        '**StyledComponents** - https://github.com/EtheaDev/StyledCompone' +
+        'nts'
+      ''
+      
+        '**Delphi MarkdownProcessor** - https://github.com/EtheaDev/Markd' +
+        'ownProcessor'
+      ''
+      '### Third parties libraries:'
+      ''
+      '**OpenSLL Library**: Cryptography and SSL/TLS Toolkit'
+      ''
+      'Copyright '#169' 1998-2018 The OpenSSL Project.  All rights reserved.'
+      ''
+      
+        '**Delphi Markdown** - https://github.com/grahamegrieve/delphi-ma' +
+        'rkdown'
+      ''
+      
+        'Copyright (c) 2011+, Health Intersections Pty Ltd All rights res' +
+        'erved'
+      ''
+      
+        '**Delphi Preview Handler** - https://github.com/RRUZ/delphi-prev' +
+        'iew-handler'
+      ''
+      'The Initial Developer of the Original Code is Rodrigo Ruz V.'
+      
+        'Portions created by Rodrigo Ruz V. are Copyright '#169' 2011-2023 Rod' +
+        'rigo Ruz V.'
+      ''
+      '**Synopse/SynPDF** - https://github.com/synopse/SynPDF'
+      ''
+      'Copyright '#169' Synopse: all right reserved.'
+      ''
+      '**HtmlToPdf** - https://github.com/MuzioValerio/HtmlToPdf'
+      ''
+      'Copyright '#169' Muzio Valerio.'
+      ''
+      
+        '**Image32 Library** - http://www.angusj.com/delphi/image32/Docs/' +
+        '_Body.htm'
+      ''
+      'Copyright '#169'2019-2023 Angus Johnson.'
+      ''
+      '**HTMLViewer** - https://github.com/BerndGabriel/HtmlViewer'
+      ''
+      'Copyright (c) 1995 - 2008 by L. David Baldwin'
+      ''
+      'Copyright (c) 1995 - 2023 by Anders Melander (DitherUnit.pas)'
+      ''
+      'Copyright (c) 1995 - 2023 by Ron Collins (HtmlGif1.pas)'
+      ''
+      'Copyright (c) 2008 - 2009 by Sebastian Zierer (Delphi 2009 Port)'
+      ''
+      'Copyright (c) 2008 - 2010 by Arvid Winkelsdorf (Fixes)'
+      ''
+      'Copyright (c) 2009 - 2023 by HtmlViewer Team'
+      ''
+      '# External projects'
+      ''
+      
+        '***To simpilfy compilation of projects they are added into ext f' +
+        'older***'
+      ''
+      '[SVGIconImageList](https://github.com/EtheaDev/SVGIconImageList)'
+      ''
+      '[HtmlViewer](https://github.com/BerndGabriel/HtmlViewer)'
+      ''
+      '[vcl-styles-utils](https://github.com/RRUZ/vcl-styles-utils)'
+      ''
+      
+        '[markdownProcessor](https://github.com/EtheaDev/MarkdownProcesso' +
+        'r)'
+      ''
+      '[StyledComponents](https://github.com/EtheaDev/StyledComponents)'
+      ''
+      '![Delphi Support](/Setup/SupportingDelphi.jpg)'
+      ''
+      'Related links: [embarcadero.com][3] - [learndelphi.org][4]'
+      ''
+      
+        '[1]: https://github.com/EtheaDev/MarkdownHelpViewer/releases/lat' +
+        'est/download/MarkDownHelpViewerSetup.exe'
+      ''
+      '[2]: https://opensource.org/licenses/Apache-2.0'
+      ''
+      '[3]: https://www.embarcadero.com/'
+      ''
+      '[4]: https://learndelphi.org/'
+      ''
+      
+        '[Google Chart API]: https://developers.google.com/chart/infograp' +
+        'hics/docs/formulas'
+      ''
+      
+        '[Reference-style-Links]: https://www.markdownguide.org/basic-syn' +
+        'tax/#reference-style-links')
+    Position.X = 32.000000000000000000
+    Position.Y = 24.000000000000000000
+    Size.Width = 273.000000000000000000
+    Size.Height = 417.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    Viewport.Width = 253.000000000000000000
+    Viewport.Height = 397.000000000000000000
+  end
+  object HTMLMemo: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    DataDetectorTypes = []
+    Position.X = 336.000000000000000000
+    Position.Y = 24.000000000000000000
+    Size.Width = 273.000000000000000000
+    Size.Height = 417.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    Viewport.Width = 269.000000000000000000
+    Viewport.Height = 413.000000000000000000
+  end
+  object TransformButton: TButton
+    Position.X = 32.000000000000000000
+    Position.Y = 449.000000000000000000
+    Size.Width = 273.000000000000000000
+    Size.Height = 32.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    Text = 'Transform MD -> HTML'
+    OnClick = TransformButtonClick
+  end
+  object WebBrowser: TWebBrowser
+    Size.Width = 289.000000000000000000
+    Size.Height = 417.000000000000000000
+    Size.PlatformDefault = False
+    Position.X = 640.000000000000000000
+    Position.Y = 24.000000000000000000
+    WindowsEngine = EdgeIfAvailable
+    OnShouldStartLoadWithRequest = WebBrowserShouldStartLoadWithRequest
+  end
+end
