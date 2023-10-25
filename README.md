@@ -1,28 +1,20 @@
-﻿# Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
+# Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
 **Latest Version 2.0.1 - 25 Oct 2023**
 
 **An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications**
 
 - A "Setup" of the pre-built **"Markdown Help Viewer"** ready to use.
-
 - A unit (MarkdownHelpViewer.pas) to add the interface to Delphi Help System of your Delphi Application (from XE6 version to latest)
-
 - A VCL Visual Component (TMarkdownViewer) to automatically show Markdown file formatted in HTML (from XE6 version to latest)
-
 - A simple demo to show how to integrate the Help in your application, as exaplained [here...](./Demo/Help/README.md)
-
-- For editing and prepare the Help manual of your application we suggest to use the Editor contained into
-["Markdown Shell Extensions"](https://github.com/EtheaDev/MarkdownShellExtensions) project.
+- For editing and prepare the Help manual of your application we suggest to use the Editor contained into ["Markdown Shell Extensions"](https://github.com/EtheaDev/MarkdownShellExtensions) project.
 
 ### Features
 
 - Supports Windows Vista, 7, 8, 10 and 11 (for 32 bits and 64 bits).
-
 - Themes (Dark and Light) according to user preferences of Windows Theme
-
 - Auto-detect Index file in the working folder
-
 - Very easy to integrate into Delphi Application
 
 ### Setup using the Installer
@@ -106,7 +98,7 @@ Then the interface searches in the same folder of default file (specified into A
 1. Subscript <sub>text</sub> and Superscript <sup>text</sup>
 1. Formulas (using [Google Chart API])
 1. ==Markers==
-1. [Reference-style Links][1]
+1. [Reference-style Links]
 
 20 Sep 2023: ver. 1.3.0
 - Added Support for Delphi 12
@@ -137,115 +129,7 @@ Then the interface searches in the same folder of default file (specified into A
 
 ## Markdown Help Viewer in depth
 
-The application is divided into two sections:
-
-**The Right Side** is the **Content Viewer** and allows you to view the content of the help file.
-
-**The Left Side** is the **Index/Search Panel** and allows you to view the contents of the help index and perform search operations.
-
-## The Content Viewer
-
-It allows you to view the contents of the help file which can be in Markdown or HTML format
-
-* In case of **Markdown** the file is transformed into HTML and can subsequently be viewed on the screen, the transformation can take place in two
-different dialects (DaringFireball or CommonMark) selectable via drop-down menu.
-
-* In case of **HTML** the file is directly displayed on the screen.
-
-## The Index/Search Panel
-
-is divided into 3 sections:
-
-* **Content/Index**
-* **Working Dir**
-* **Search**
-
-### Content/Index:
-   * Show the **indexed** contents of the **open help file**
-
-![ContentPageImh](./Images/ContentPage.png)
-
-### Working Director:
-* Shows **all files** readable by the application **present in the folder of the open file** and the ability to **search** for them **using the search bar** at the top of the window
-
-![WorkingDirImg](./Images/WorkingDir.png)
-
-### Search:
-* allows a **keyword search within the file list** and the ability to **search for keywords**
-  within the displayed file
-  via the search bar at the top of the window
-
-![Img](./Images/Search.png)
-
-## Toolbar/Actions
-
-In the **Toolbar** located at the top on the page we find **8 tools:**
-* **Hide**:  ![Img](./Images/page-next-outline.png)
-  * **hides the Index/Search Panel** just described
-
-![ContentPageHide](./Images/ContentPageHide.png)
-
-* **Shows**:  ![Img](./Images/page-previous-outline.png)
-  * present only if the section is hidden, **demonstrates the latter**
-
-* **Open**:   ![Img](./Images/folder-open.png)
-  * if pressed, it opens a **dialog window** that allows you to **select a markdown or html file** to load and show in the Viewer
-
-![OpenImg](./Images/Open.png)
-
-* ![Img](./Images/home.png)**Home**
-  * active only if we are not on the first screen, it allows
-    to **return to the starting screen** (Home)
-
-* ![Img](./Images/arrow-left-thick.png)**Previous:**
-  * active only if more than one document is open, allows
-    to **return to the document opened just before**
-
-* ![Img](./Images/arrow-right-thick.png)**Next:**
-  * active only if the last document is not displayed,
-    allows you to **go to the next open document**
-
-* ![Img](./Images/file-pdf-outline.png)**Save PDF:**
-  * if pressed **saves the document in PDF format** (.pdf)
-
-* ![Img](./Images/tools.png)**Settings:**
-
-  **It contains five sub-windows:**
-
-* ![Img](./Images/eye-settings.png)**Preview:**
-    * allows **selecting the Dialect** in which the document will be displayed (CommonMark default)
-    * three selectable **settings for Images**
-    * two selectable **settings for Toolbar style**
-
-![PreviewImg](./Images/Preview.png)
-
-*  ![Img](./Images/theme-light-dark.png)**Theme:**
-    * allows **choosing which** of the available **themes** to display the **application with**
-    * **for each of the three main themes**, the color can be further customized by selecting **four additional themes** below the main ones.
-
-![ThemeImg](./Images/Theme.png)
-
-  * ![Img](./Images/alphabetical-variant.png)**Font:**
-    * allows **choosing the style and size** to display the **text** within the application.
-
-![FontImg](./Images/Font.png)
-
-  * ![Img](./Images/pdf-box.png)**PDF Layout:**
-    * allows **customizing the PDF saving** of the document through **orientation and page size**, in addition to modifying various sizes using **indicators, arrows, or entering the value from the keyboard**.
-
-![PDFLayoutImg](./Images/PDFLayout.png)
-
-  * ![Img](./Images/arrow-left.png)**Back:**
-    * allows **closing the window.**
-
-* ![Img](./Images/information-outline.png)**About:**
-  * when pressed, displays a window **containing information about the application.**
-
-![AboutImg](./Images/About.png)
-
-* **Transformation:**
-  * Through the **dropdown menu**, it allows **choosing the dialect in which the document will be displayed.**
-![DialectImg](./Images/Dialect.png)
+Learn more about "MarkDown Help Viewer" within our [wiki](https://github.com/EtheaDev/MarkdownHelpViewer/wiki/MarkDown-Help-Viewer-in-Depth). Dive deeper into everything related to this tool, its features, and how to make the most of it. 
 
 ## License
 
@@ -330,4 +214,4 @@ Related links: [embarcadero.com][3] - [learndelphi.org][4]
 
 [Google Chart API]: https://developers.google.com/chart/infographics/docs/formulas
 
-[Reference-style-Links]: https://www.markdownguide.org/basic-syntax/#reference-style-links
+[Reference-style Links]: https://www.markdownguide.org/basic-syntax/#reference-style-links
