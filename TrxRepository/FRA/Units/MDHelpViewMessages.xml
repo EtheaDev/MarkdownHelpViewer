@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--stat:#=10
+*=0
+@=10
+?=0
+0=0
+:stat-->  <DATAPACKET Version="2.0">
+<METADATA>
+<FIELDS>
+<FIELD attrname="Type" fieldtype="string" required="true" WIDTH="2"/>
+<FIELD attrname="ComponentName" fieldtype="string" required="true" WIDTH="100"/>
+<FIELD attrname="PropertyName" fieldtype="string" required="true" WIDTH="100"/>
+<FIELD attrname="OriginalValue" fieldtype="bin.hex" required="true" SUBTYPE="Text"/>
+<FIELD attrname="Translation" fieldtype="bin.hex" SUBTYPE="Text"/>
+<FIELD attrname="Status" fieldtype="string" required="true" WIDTH="1"/>
+<FIELD attrname="Deleted" fieldtype="boolean" required="true"/>
+<FIELD attrname="ClassName" fieldtype="string" WIDTH="50"/>
+<FIELD attrname="OriginalStr" fieldtype="string" WIDTH="250"/>
+<FIELD attrname="TranslationStr" fieldtype="string" WIDTH="250"/>
+</FIELDS>
+<PARAMS/>
+</METADATA>
+<ROWDATA>
+<ROW Type="M" ComponentName="Message" PropertyName="STR_INFORMATION" OriginalValue="INFORMATION" Translation="INFORMATION" Status="@" Deleted="FALSE" OriginalStr="INFORMATION" TranslationStr="INFORMATION"/>
+<ROW Type="M" ComponentName="Message" PropertyName="STR_ERROR" OriginalValue="ERROR!" Translation="ERREUR!" Status="@" Deleted="FALSE" OriginalStr="ERROR!" TranslationStr="ERREUR!"/>
+<ROW Type="M" ComponentName="Message" PropertyName="STR_CONFIRMATION" OriginalValue="CONFIRMATION" Translation="CONFIRMATION" Status="@" Deleted="FALSE" OriginalStr="CONFIRMATION" TranslationStr="CONFIRMATION"/>
+<ROW Type="M" ComponentName="Message" PropertyName="STR_UNEXPECTED_ERROR" OriginalValue="UNEXPECTED ERROR!" Translation="ERREUR INATTENDUE!" Status="@" Deleted="FALSE" OriginalStr="UNEXPECTED ERROR!" TranslationStr="ERREUR INATTENDUE!"/>
+<ROW Type="M" ComponentName="Message" PropertyName="HTML_OUTPUT_FOLDER" OriginalValue="HTML output folder" Translation="Dossier de sortie HTML" Status="@" Deleted="FALSE" OriginalStr="HTML output folder" TranslationStr="Dossier de sortie HTML"/>
+<ROW Type="M" ComponentName="Message" PropertyName="FILE_SAVED" OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Le fichier &quot;%s&quot; a été enregistré avec succès. Voulez-vous l’ouvrir maintenant?" Status="@" Deleted="FALSE" OriginalStr="File &quot;%s&quot; successfully saved. Do you want to open it now?" TranslationStr="Le fichier &quot;%s&quot; a été enregistré avec succès. Voulez-vous l’ouvrir maintenant?"/>
+<ROW Type="M" ComponentName="Message" PropertyName="NO_KEYWORD_MATCH" OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="Mot-clé &quot;%s&quot; introuvable dans les fichiers du dossier de travail : &quot;%s&quot;" Status="@" Deleted="FALSE" OriginalStr="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" TranslationStr="Mot-clé &quot;%s&quot; introuvable dans les fichiers du dossier de travail : &quot;%s&quot;"/>
+<ROW Type="M" ComponentName="Message" PropertyName="CONFIRM_EXPORT_HTML" OriginalValue="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" Translation="Confirmer l’exportation d’un seul fichier [Oui] ou de %d fichiers [Oui à tous] au format HTML ?" Status="@" Deleted="FALSE" OriginalStr="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" TranslationStr="Confirmer l’exportation d’un seul fichier [Oui] ou de %d fichiers [Oui à tous] au format HTML ?"/>
+<ROW Type="M" ComponentName="Message" PropertyName="ERR_MSG_RECEIVED" OriginalValue="Incorrect message received" Translation="Message incorrect reçu" Status="@" Deleted="FALSE" OriginalStr="Incorrect message received" TranslationStr="Message incorrect reçu"/>
+<ROW Type="M" ComponentName="Message" PropertyName="CLOSE_APP_FOR_LANG" OriginalValue="Closing application to change GUI language" Translation="Fermeture de l’application pour changer la langue de l’interface graphique" Status="@" Deleted="FALSE" OriginalStr="Closing application to change GUI language" TranslationStr="Fermeture de l’application pour changer la langue de l’interface graphique"/>
+</ROWDATA>
+</DATAPACKET>

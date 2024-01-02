@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--stat:#=11
+*=0
+@=11
+Lang:=PTG
+:stat-->  <DATAPACKET Version="2.0">
+<METADATA>
+<FIELDS>
+<FIELD attrname="OriginalValue" fieldtype="string" required="true" WIDTH="250"/>
+<FIELD attrname="Translation" fieldtype="string" WIDTH="250"/>
+<FIELD attrname="Count" fieldtype="i4"/>
+<FIELD attrname="Status" fieldtype="string" required="true" WIDTH="1"/>
+</FIELDS>
+<PARAMS/>
+</METADATA>
+<ROWDATA>
+<ROW OriginalValue="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" Translation="Confirmar a exportação de arquivos únicos [Sim] ou %d [Sim para Todos] no formato HTML?" Count="5" Status="@"/>
+<ROW OriginalValue="Incorrect message received" Translation="Mensagem incorreta recebida" Count="2" Status="@"/>
+<ROW OriginalValue="File &quot;%s&quot; succesfully saved. Do you want to open it now?" Translation="Arquivo &quot;%s&quot; salvo com sucesso. Deseja abri-lo agora?" Count="1" Status="@"/>
+<ROW OriginalValue="HTML output folder" Translation="Pasta de saída HTML" Count="5" Status="@"/>
+<ROW OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="Palavra-chave &quot;%s&quot; não encontrada em arquivos na pasta de trabalho: &quot;%s&quot;" Count="5" Status="@"/>
+<ROW OriginalValue="CONFIRMATION" Translation="CONFIRMAÇÃO" Count="5" Status="@"/>
+<ROW OriginalValue="ERROR!" Translation="ERRO!" Count="5" Status="@"/>
+<ROW OriginalValue="INFORMATION" Translation="INFORMAÇÃO" Count="5" Status="@"/>
+<ROW OriginalValue="UNEXPECTED ERROR!" Translation="ERRO INESPERADO!" Count="5" Status="@"/>
+<ROW OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Arquivo &quot;%s&quot; salvo com êxito. Deseja abri-lo agora?" Count="4" Status="@"/>
+<ROW OriginalValue="Closing application to change GUI language" Translation="Fechando o aplicativo para alterar o idioma da GUI" Count="1" Status="@"/>
+</ROWDATA>
+</DATAPACKET>

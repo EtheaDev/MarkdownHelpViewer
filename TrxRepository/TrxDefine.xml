@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>  <DATAPACKET Version="2.0">
+<METADATA>
+<FIELDS>
+<FIELD attrname="ComponentClassName" fieldtype="string" required="true" WIDTH="50"/>
+<FIELD attrname="PropertyName" fieldtype="string" required="true" WIDTH="50"/>
+<FIELD attrname="PropertyTrxKind" fieldtype="i4" required="true"/>
+</FIELDS>
+<PARAMS/>
+</METADATA>
+<ROWDATA>
+<ROW ComponentClassName="TComponent" PropertyName="Caption" PropertyTrxKind="0"/>
+<ROW ComponentClassName="TComponent" PropertyName="Text" PropertyTrxKind="0"/>
+<ROW ComponentClassName="TComponent" PropertyName="Hint" PropertyTrxKind="0"/>
+<ROW ComponentClassName="TRadioGroup" PropertyName="Items" PropertyTrxKind="1"/>
+<ROW ComponentClassName="TListBox" PropertyName="Items" PropertyTrxKind="1"/>
+<ROW ComponentClassName="TMemo" PropertyName="Lines" PropertyTrxKind="1"/>
+<ROW ComponentClassName="TComboBox" PropertyName="Items" PropertyTrxKind="1"/>
+<ROW ComponentClassName="TButtonGroup" PropertyName="Items" PropertyTrxKind="8"/>
+<ROW ComponentClassName="TListView" PropertyName="Columns" PropertyTrxKind="3"/>
+<ROW ComponentClassName="TStatusBar" PropertyName="Panels" PropertyTrxKind="4"/>
+<ROW ComponentClassName="TDbGrid" PropertyName="Columns" PropertyTrxKind="5"/>
+</ROWDATA>
+</DATAPACKET>
