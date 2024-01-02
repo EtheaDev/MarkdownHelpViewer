@@ -2,7 +2,7 @@
 {                                                                              }
 {       Viewer Components to show Markdown and HTML content                    }
 {                                                                              }
-{       Copyright (c) 2023 (Ethea S.r.l.)                                      }
+{       Copyright (c) 2023-2024 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
 {                                                                              }
 {       https://github.com/EtheaDev/MarkdownHelpViewer                         }

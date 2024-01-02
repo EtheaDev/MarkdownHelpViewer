@@ -3,7 +3,7 @@
 {       Markdown Help Viewer: Main Form                                        }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
-{       Copyright (c) 2023 (Ethea S.r.l.)                                      }
+{       Copyright (c) 2023-2024 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
 {       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
 {                                                                              }
@@ -24,7 +24,6 @@
 {  limitations under the License.                                              }
 {                                                                              }
 {******************************************************************************}
-
 unit MDHelpView.Main;
 
 interface
@@ -33,25 +32,16 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Menus, System.Actions, Vcl.ActnList, Vcl.StdActns,
-  Vcl.ComCtrls, Vcl.ToolWin, MDHelpView.Resources, Vcl.FileCtrl,
+  Vcl.ComCtrls, MDHelpView.ComCtrls, Vcl.ToolWin, MDHelpView.Resources, Vcl.FileCtrl,
   Vcl.DBCtrls, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList, Vcl.ExtActns,
   MDHelpView.Settings,
   HTMLUn2, HtmlView, HtmlGlobals,
   vmHtmlToPdf, SVGIconImageListBase,
-  SVGIconImageList;
-
-resourcestring
-  STR_INFORMATION = 'INFORMATION';
-  STR_ERROR = 'ERROR!';
-  STR_CONFIRMATION = 'CONFIRMATION';
-  STR_UNEXPECTED_ERROR = 'UNEXPECTED ERROR!';
-  HTML_OUTPUT_FOLDER = 'HTML output folder';
-  FILE_SAVED = 'File "%s" succesfully saved. Do you want to open it now?';
-  NO_KEYWORD_MATCH = 'Keyword "%s" not found in files into working folder: "%s"';
-  CONFIRM_EXPORT_HTML = 'Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?';
+  SVGIconImageList, CBMultiLanguage,
+  MDHelpView.FormsHookTrx;
 
 type
-  TMainForm = class(TForm)
+  TMainForm = class(TFormHook)
     acFileOpen: TFileOpen;
     PageControl: TPageControl;
     tsIndex: TTabSheet;
@@ -80,7 +70,6 @@ type
     acAbout: TAction;
     paTop: TPanel;
     ProcessorDialectComboBox: TComboBox;
-    ProcessorDialectLabel: TLabel;
     ToolBar: TToolBar;
     btShowHide: TToolButton;
     sep1: TToolButton;
@@ -108,6 +97,7 @@ type
     acRefresh: TAction;
     btRefresh: TToolButton;
     acExportHTML: TAction;
+    ProcessorDialectLabel: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure acFileOpenAccept(Sender: TObject);
     procedure acSettingsExecute(Sender: TObject);
@@ -147,12 +137,12 @@ type
       MousePos: TPoint; var Handled: Boolean);
     procedure acExportHTMLUpdate(Sender: TObject);
     procedure acExportHTMLExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     FRememberToResize: boolean;
     FLoading: boolean;
     FOldViewerResize: Integer;
     FFirstTime: Boolean;
-    FViewerSettings: TViewerSettings;
     FOpenedFileList: TStringList;
     FHTMLFontSize: Integer;
     FHtmlContent: string;
@@ -199,6 +189,7 @@ type
     procedure UpdateIconsColorByStyle;
     procedure SetCurrentCSSFileName(const Value: TFileName);
     function GetCssContent: string;
+    procedure UpdateWindowPos;
     property HTMLFontSize: Integer read FHTMLFontSize write SetHTMLFontSize;
     property HTMLFontName: string read FHTMLFontName write SetHTMLFontName;
     property WorkingFolder: string read FWorkingFolder write SetWorkingFolder;
@@ -211,12 +202,14 @@ type
   protected
     procedure Loaded; override;
   public
+    procedure SetBounds(ALeft, ATop, AWidth, AHeight: Integer); override;
     procedure ManageExceptions(Sender: TObject; E: Exception);
     procedure WMCopyData(var Message: TMessage); message WM_COPYDATA;
   end;
 
 var
   MainForm: TMainForm;
+  FViewerSettings: TViewerSettings;
 
 implementation
 
@@ -256,6 +249,9 @@ uses
   , Vcl.Styles.Ext
   {$ENDIF}
   , Vcl.StyledTaskDialog
+  , Vcl.ButtonGroup
+  , System.IniFiles
+  , MDHelpView.Messages
   ;
 
 procedure TMainForm.acAboutExecute(Sender: TObject);
@@ -348,7 +344,11 @@ end;
 
 procedure TMainForm.acExportHTMLUpdate(Sender: TObject);
 begin
-  acExportHTML.Enabled := FileExists(FCurrentFileName);
+  {$IFNDEF DEBUG}
+  acExportHTML.Visible := False;
+  {$ELSE}
+  //acExportHTML.Enabled := FileExists(FCurrentFileName);
+  {$ENDIF}
 end;
 
 procedure TMainForm.acFileOpenAccept(Sender: TObject);
@@ -533,12 +533,30 @@ begin
 end;
 
 procedure TMainForm.acSettingsExecute(Sender: TObject);
+var
+  LOldLanguage: TAppLanguage;
+  LParam: string;
 begin
+  LOldLanguage := FViewerSettings.GUILanguage;
   if ShowSettings(DialogPosRect,
     Title_MDHViewer,
     FViewerSettings, False) then
   begin
     WriteSettingsToIni;
+    if LOldLanguage <> FViewerSettings.GUILanguage then
+    begin
+      StyledMessageDlg(STR_INFORMATION,
+        CLOSE_APP_FOR_LANG,
+        TMsgDlgType.mtInformation,
+        [TMsgDlgBtn.mbOK], 0);
+
+      if FCurrentFileName <> '' then
+        LParam := Format('"%s"', [FCurrentFileName])
+      else
+        LParam := '';
+      ShellExecute(Handle, nil, PChar(Application.ExeName), PChar(LParam), nil, SW_SHOWNORMAL);
+      Application.Terminate;
+    end;
     UpdateFromSettings;
   end;
 end;
@@ -599,8 +617,6 @@ begin
 
   PageControl.ActivePageIndex := 0;
   FOldViewerResize := ClientPanel.Width;
-  //Create and read settings
-  FViewerSettings := TViewerSettings.CreateSettings;
 
   FOpenedFileList := TStringList.Create;
   dmResources.Settings := FViewerSettings;
@@ -656,6 +672,11 @@ begin
     TransformTo(HtmlViewerIndex, FMdIndexContent, True);
     Handled := True;
   end;
+end;
+
+procedure TMainForm.FormShow(Sender: TObject);
+begin
+  UpdateWindowPos;
 end;
 
 function TMainForm.GetCssContent: string;
@@ -725,6 +746,7 @@ end;
 function TMainForm.Load(const AFileName: TFileName): Boolean;
 var
   LWorkingFolder: string;
+  LIndexFileName: TFileName;
 begin
   FLoading := True;
   try
@@ -770,6 +792,12 @@ begin
       end;
 
       WorkingFolder := LWorkingFolder;
+      if Result and (CurrentIndexFileName = '') then
+      begin
+        LIndexFileName := GetIndexFileName(AFileName, AMarkdownFileExt);
+        if LIndexFileName <> '' then
+          LoadAndTransformFileIndex(LIndexFileName);
+      end;
     end;
   finally
     FLoading := False;
@@ -940,6 +968,11 @@ begin
   end;
 end;
 
+procedure TMainForm.SetBounds(ALeft, ATop, AWidth, AHeight: Integer);
+begin
+  inherited;
+end;
+
 procedure TMainForm.SetCurrentCSSFileName(const Value: TFileName);
 begin
   FCurrentCSSFileName := Value;
@@ -1030,7 +1063,7 @@ var
   LFileName: TFileName;
 begin
   //Set working folder
-  if FolderPath <> Value then
+  if FWorkingFolder <> Value then
   begin
     FolderPath := Value;
     FWorkingFolder := FolderPath;
@@ -1038,12 +1071,12 @@ begin
     HTMLViewer.ServerRoot := FolderPath;
     HtmlViewerIndex.ServerRoot := FolderPath;
 
+    LFileName := FWorkingFolder;
     if FMdContent <> '' then
     begin
       FileListBox.Mask := GetFileMasks(AMarkdownFileExt);
       //Search for Index(.markdown extension) file into this folder
-      LFileName := FWorkingFolder+'Index.md';
-      if FileWithExtExists(LFileName, AMarkdownFileExt) then
+      if FindHelpFile(LFileName, 0, 'Index', AMarkdownFileExt) then
         LoadAndTransformFileIndex(LFileName)
       else
         CurrentIndexFileName := '';
@@ -1052,8 +1085,7 @@ begin
     begin
       FileListBox.Mask := GetFileMasks(AHTMLFileExt);
       //Search for Index(.html extension) file into this folder
-      LFileName := FWorkingFolder+'Index.html';
-      if FileWithExtExists(LFileName, AHTMLFileExt) then
+      if FindHelpFile(LFileName, 0, 'Index', AHTMLFileExt) then
         LoadAndTransformFileIndex(LFileName)
       else
         CurrentIndexFileName := '';
@@ -1153,6 +1185,16 @@ begin
   LoadAndTransformFile(LFileName);
 end;
 
+procedure TMainForm.UpdateWindowPos;
+begin
+  //Set Bounds of Windows
+  Self.ClientWidth := FViewerSettings.WindowWidth;
+  Self.ClientHeight := FViewerSettings.WindowHeight;
+  Self.Left := FViewerSettings.WindowLeft;
+  Self.Top := FViewerSettings.WindowTop;
+  Self.WindowState := FViewerSettings.WindowState;
+end;
+
 procedure TMainForm.TActionListUpdate(Action: TBasicAction;
   var Handled: Boolean);
 var
@@ -1161,14 +1203,7 @@ begin
   if not FFirstTime then
   begin
     FFirstTime := True;
-
-    //Set Bounds of Windows
-    Self.Left := FViewerSettings.WindowLeft;
-    Self.Top := FViewerSettings.WindowTop;
-    Self.ClientWidth := FViewerSettings.WindowWidth;
-    Self.ClientHeight := FViewerSettings.WindowHeight;
-
-    Self.WindowState := FViewerSettings.WindowState;
+    //UpdateWindowPos;
 
     //automatically load the file that is passed as the first paramete
     LFileName := ParamStr(1);
@@ -1293,7 +1328,7 @@ begin
       Self.WindowState := wsNormal;
   end
   else
-    ShowMessage('New Message Recieved with error!');
+    ShowMessage(ERR_MSG_RECEIVED);
 end;
 
 procedure TMainForm.ManageExceptions(Sender: TObject; E: Exception);
@@ -1317,7 +1352,55 @@ begin
   end;
 end;
 
+procedure RegisterTrxProperties(AUserLanguage: TAppLanguage);
+var
+  LAppFileName: TFileName;
+  LAppPath, LTrxRepository: string;
+begin
+  LAppFileName := Application.ExeName;
+  LAppPath := ExtractFilePath(LAppFileName);
+  LTrxRepository := ExtractFilePath(LAppFileName)+'..\TrxRepository';
+  InitTrxSupport(
+    LTrxRepository, //Translation Path Repository
+    AUserLanguage, //User Language
+   {$IFDEF DEBUG}True,{$ELSE}False,{$ENDIF} //Update Repository
+    mlEnglish //GUI Language used at design-time
+    );
+
+  RegisterTrxProperty('TComponent', 'Caption', txString);
+  RegisterTrxProperty('TComponent', 'Text', txString);
+  RegisterTrxProperty('TComponent', 'Hint', txString);
+  RegisterTrxProperty('TRadioGroup', 'Items', txStrings);
+  RegisterTrxProperty('TListBox', 'Items', txStrings);
+  RegisterTrxProperty('TMemo', 'Lines', txStrings);
+  RegisterTrxProperty('TComboBox', 'Items', txStrings);
+  RegisterTrxProperty('TButtonGroup','Items', txButtonGroup);
+  RegisterTrxProperty('TListView','Columns', txListView);
+  RegisterTrxProperty('TStatusBar','Panels', txStatusPanel);
+  RegisterTrxProperty('TDbGrid','Columns', txDbGrid);
+
+  //Tutte le classi passate alla RegisterTrxProperty vanno registrate
+  RegisterClasses([
+    TComponent,
+    TRadioGroup,
+    TListBox,
+    TMemo,
+    TButtonGroup,
+    TComboBox
+    ]);
+
+{$IFDEF DEBUG}
+  //Update Messages
+  MDHelpView.Messages.RegisterMessages;
+{$ENDIF}
+end;
+
 initialization
+  //Create and read settings
+  FViewerSettings := TViewerSettings.CreateSettings;
+  //Initialize language
+  RegisterTrxProperties(FViewerSettings.GUILanguage);
+
   {$IFDEF DEBUG}
   ReportMemoryLeaksOnShutdown := True;
   {$ENDIF}
