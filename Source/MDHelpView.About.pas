@@ -3,7 +3,7 @@
 {       Markdown Help Viewer: About Form                                       }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
-{       Copyright (c) 2023 (Ethea S.r.l.)                                      }
+{       Copyright (c) 2023-2024 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
 {       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
 {                                                                              }
@@ -31,7 +31,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, pngimage, Vcl.ImgList, System.ImageList,
-  Vcl.Imaging.GIFImg, SVGIconImage;
+  Vcl.Imaging.GIFImg, SVGIconImage,
+  MDHelpView.FormsHookTrx;
 
 resourcestring
   Title_MDHViewer = 'Markdown Help Viewer';
@@ -39,7 +40,7 @@ resourcestring
 const
   HELP_URL = 'https://github.com/EtheaDev/MarkdownHelpViewer';
 type
-  TFrmAbout = class(TForm)
+  TFrmAbout = class(TFormHook)
     Panel1:    TPanel;
     btnOK: TButton;
     TitleLabel: TLabel;

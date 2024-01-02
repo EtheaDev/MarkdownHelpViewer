@@ -3,7 +3,7 @@
 {       Markdown Help Viewer: View Image resources Unit                        }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
-{       Copyright (c) 2023 (Ethea S.r.l.)                                      }
+{       Copyright (c) 2023-2024 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
 {       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
 {                                                                              }

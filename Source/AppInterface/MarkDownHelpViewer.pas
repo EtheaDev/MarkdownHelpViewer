@@ -2,7 +2,7 @@
 {                                                                              }
 {       This units implements the interfaces for the Help Viewer               }
 {                                                                              }
-{       Copyright (c) 2023 (Ethea S.r.l.)                                      }
+{       Copyright (c) 2023-2024 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
 {       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
 {                                                                              }
@@ -53,16 +53,20 @@ var
 
 //File Utilities
 function FileWithExtExists(var AFileName: TFileName;
-  const AFileExt: array of string): boolean;
-function GetFileMasks(const AFileExt: array of string;
+  const AFileExtensions: array of string): boolean;
+function GetFileMasks(const AFileExtensions: array of string;
   const ASeparator: Char = ';'): string;
 function IsFileNameWithExt(const AFileName: TFileName;
-  const AFileExt: array of string): boolean;
+  const AFileExtensions: array of string): boolean;
 procedure GetFileNamesWithExtensions(FileNames: TStrings;
   const PathName: string; const Extensions: string;
   FileAttrib : Integer = faArchive or faReadOnly);
 function SendWMCOPYToProcess(const AExeName, AFileName: TFileName;
   AHelpContext: Integer): Boolean;
+function FindHelpFile(var AFileName: TFileName; const AContext: Integer;
+  const HelpKeyword: string; const AFileExtensions: array of string): boolean;
+function GetIndexFileName(const AFileName: TFileName;
+  const AFileExtensions: array of string): TFileName;
 
 implementation
 
@@ -86,8 +90,6 @@ type
     FHelpManager: IHelpManager;
     procedure ShowMarkdownFile(const AFileName: TFileName;
       const AHelpString: string; const AContext: Integer = 0);
-    function FindHelpFile(var AFileName: TFileName; const AContext: Integer;
-      const HelpKeyword: string): boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -95,7 +97,6 @@ type
     function GetHelpFile(const HelpKeyword: string): TFileName; overload;
     function GetHelpFile(const HelpContext:
       {$if CompilerVersion > 31}THelpContext{$else}Integer{$endif}): TFileName; overload;
-    function GetIndexFile: TFileName;
     procedure InternalShutDown;
     { ICustomHelpViewer }
     function GetViewerName : string;
@@ -131,8 +132,58 @@ type
   end;
   PEnumInfo = ^TEnumInfo;
 
+function FindHelpFile(var AFileName: TFileName; const AContext: Integer;
+  const HelpKeyword: string; const AFileExtensions: array of string): boolean;
+var
+  LHelpFileName: TFileName;
+  LExtension, LName, LPath, LKeyWord: string;
+begin
+  if HelpKeyword <> '' then
+    LKeyWord := HelpKeyword
+  else if AContext <> 0 then
+  begin
+    LExtension := ExtractFileExt(AFileName);
+    LKeyWord := IntToStr(AContext)+LExtension;
+  end
+  else
+    LKeyword := '';
+
+  //First, Try the Keyword only
+  LPath := ExtractFilePath(AFileName);
+  LHelpFileName := LPath+LKeyword;
+  Result := FileWithExtExists(LHelpFileName, AFileExtensions);
+
+  if not Result then
+  begin
+    //Then, try the Help Name and the Keyword (eg.Home1000.ext)
+    LName := ChangeFileExt(ExtractFileName(AFileName),'');
+    LHelpFileName := LPath+LName+LKeyword;
+    Result := FileWithExtExists(LHelpFileName, AFileExtensions);
+    if not Result then
+    begin
+      //At least, try the Help Name and the Keyword with '_' (eg.Home_1000.ext)
+      LHelpFileName := LPath+LName+'_'+LKeyword;
+      Result := FileWithExtExists(LHelpFileName, AFileExtensions);
+    end;
+  end;
+
+  if Result then
+    AFileName := LHelpFileName;
+end;
+
+function GetIndexFileName(const AFileName: TFileName;
+  const AFileExtensions: array of string): TFileName;
+begin
+  Result := AFileName;
+
+  if not FindHelpFile(Result,0,'_Index', AFileExtensions) and //Try with HelpFileName_Index.ext
+    not FindHelpFile(Result,0,'Index', AFileExtensions) and //Try with Index.ext
+    not FindHelpFile(Result,0,'Content', AFileExtensions) then //Try with Content.ext
+    Result := '';
+end;
+
 function FileWithExtExists(var AFileName: TFileName;
-  const AFileExt: array of string): boolean;
+  const AFileExtensions: array of string): boolean;
 var
   I: Integer;
   LExt: string;
@@ -140,16 +191,16 @@ var
 begin
   LExt := ExtractFileExt(AFileName);
   if LExt = '' then
-    LFileName := AFileName+AFileExt[0]
+    LFileName := AFileName+AFileExtensions[0]
   else
     LFileName := AFileName;
   Result := FileExists(LFileName);
   if not Result then
   begin
     LFileName := ExtractFilePath(AFileName)+ChangeFileExt(ExtractFileName(AFileName),'');
-    for I := Low(AFileExt) to High(AFileExt) do
+    for I := Low(AFileExtensions) to High(AFileExtensions) do
     begin
-      LExt := AFileExt[I];
+      LExt := AFileExtensions[I];
       LFileName := ChangeFileExt(LFileName, LExt);
       if FileExists(LFileName) then
       begin
@@ -163,15 +214,15 @@ begin
     AFileName := LFileName;
 end;
 
-function GetFileMasks(const AFileExt: array of string;
+function GetFileMasks(const AFileExtensions: array of string;
   const ASeparator: Char = ';'): string;
 var
   I: Integer;
   LExt: string;
 begin
-  for I := Low(AFileExt) to High(AFileExt) do
+  for I := Low(AFileExtensions) to High(AFileExtensions) do
   begin
-    LExt := AFileExt[I];
+    LExt := AFileExtensions[I];
     if I > 0 then
       Result := Result + ASeparator;
     Result := Result + '*'+LExt;
@@ -179,16 +230,16 @@ begin
 end;
 
 function IsFileNameWithExt(const AFileName: TFileName;
-  const AFileExt: array of string): boolean;
+  const AFileExtensions: array of string): boolean;
 var
   I: Integer;
   LFileExt, LExt: string;
 begin
   Result := False;
   LFileExt := ExtractFileExt(AFileName);
-  for I := Low(AFileExt) to High(AFileExt) do
+  for I := Low(AFileExtensions) to High(AFileExtensions) do
   begin
-    LExt := AFileExt[I];
+    LExt := AFileExtensions[I];
     Result := SameText(LFileExt, LExt);
     if Result then
       break;
@@ -331,69 +382,12 @@ begin
     ExtractFilePath(LHelpFile), GetFileMasks(AMarkdownFileExt));
 end;
 
-function TMarkdownHelpViewer.FindHelpFile(
-  var AFileName: TFileName;
-  const AContext: Integer; const HelpKeyword: string): boolean;
-var
-  LHelpFileName: TFileName;
-  LName, LPath, LKeyWord: string;
-begin
-  //WARNING: if changing this function, change also TMarkdownViewer.FindHelpFile
-  if HelpKeyword <> '' then
-    LKeyWord := HelpKeyword
-  else if AContext <> 0 then
-    LKeyWord := IntToStr(AContext)+'.md'
-  else
-    LKeyword := '';
-
-  //First, Try the Keyword only
-  LPath := ExtractFilePath(AFileName);
-  LHelpFileName := LPath+LKeyword;
-  Result := FileWithExtExists(LHelpFileName, AMarkdownFileExt) or
-    FileWithExtExists(LHelpFileName, AHTMLFileExt);
-
-  if not Result then
-  begin
-    //Then, try the Help Name and the Keyword (eg.Home1000.ext)
-    LName := ChangeFileExt(ExtractFileName(AFileName),'');
-    LHelpFileName := LPath+LName+LKeyword;
-    Result := FileWithExtExists(LHelpFileName, AMarkdownFileExt) or
-      FileWithExtExists(LHelpFileName, AHTMLFileExt);
-    if not Result then
-    begin
-      //At least, try the Help Name and the Keyword with '_' (eg.Home_1000.ext)
-      LHelpFileName := LPath+LName+'_'+LKeyword;
-      Result := FileWithExtExists(LHelpFileName, AMarkdownFileExt) or
-        FileWithExtExists(LHelpFileName, AHTMLFileExt);
-    end;
-  end;
-
-  if Result then
-    AFileName := LHelpFileName;
-end;
-
-function TMarkdownHelpViewer.GetIndexFile: TFileName;
-var
-  LHelpFileName: TFileName;
-begin
-  //First try with HelpFileName_Index.ext
-  LHelpFileName := GetHelpFile('_Index');
-
-  //Try with Index.ext
-  if LHelpFileName = '' then
-    LHelpFileName := GetHelpFile('Index');
-
-  //Try with Content.md
-  if LHelpFileName = '' then
-    LHelpFileName := GetHelpFile('Content');
-end;
-
 { CanShowTableOfContents is a querying function that the Help Manager
   calls to determine if the Viewer supports tables of contents. HtmlHelp does. }
 
 function TMarkdownHelpViewer.CanShowTableOfContents: Boolean;
 begin
-  Result := GetIndexFile <> '';
+  Result := False;
 end;
 
 { ShowTableOfContents is a command function that the Help Manager uses
@@ -401,7 +395,7 @@ end;
   called without being preceded by a call to CanShowTableOfContents. }
 procedure TMarkdownHelpViewer.ShowTableOfContents;
 begin
-  ; //Non viene lanciato perché CanShowTableOfContents ritorna False
+  ; //Do nothing
 end;
 
 procedure TMarkdownHelpViewer.ShowMarkdownFile(const AFileName: TFileName;
@@ -409,6 +403,7 @@ procedure TMarkdownHelpViewer.ShowMarkdownFile(const AFileName: TFileName;
 var
   LViewerExeName: TFileName;
   LRegistry: TRegistry;
+  LFileName: TFileName;
 begin
   //Check the presence of Markdown file to show
   if not FileExists(AFileName) then
@@ -436,10 +431,11 @@ begin
 
   if FileExists(LViewerExeName) then
   begin
-    if not SendWMCOPYToProcess(LViewerExeName, AFileName, AContext) then
+    LFileName := '"'+AFileName+'"';
+    if not SendWMCOPYToProcess(LViewerExeName, LFileName, AContext) then
     begin
-      ShellExecute( 0, 'open' , PChar(LViewerExeName), PChar(AFileName),
-        PChar(ExtractFilePath(AFileName)), SW_SHOW );
+      ShellExecute( 0, 'open' , PChar(LViewerExeName), PChar(LFileName),
+        PChar(ExtractFilePath(LFileName)), SW_SHOW );
     end;
   end
   {$IFDEF DEBUG}
@@ -569,7 +565,7 @@ begin
 
   if HelpKeyword <> '' then
   begin
-    if FindHelpFile(LFileName, 0, ChangeFileExt(HelpKeyword,'.md')) then
+    if FindHelpFile(LFileName, 0, HelpKeyword, AMarkdownFileExt) then
       Result := LFileName
     else
       Result := '';
@@ -591,7 +587,7 @@ begin
 
   if HelpContext <> 0 then
   begin
-    if FindHelpFile(LFileName, HelpContext, '') then
+    if FindHelpFile(LFileName, HelpContext, '', AMarkdownFileExt) then
       Result := LFileName
     else
       Result := '';

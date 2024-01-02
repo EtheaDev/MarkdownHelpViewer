@@ -35,20 +35,22 @@ object MDSettingsForm: TMDSettingsForm
     Images = SettingsImageList
     TabOrder = 0
     object stGeneral: TTabSheet
-      Caption = 'Anteprima'
+      Caption = 'Preview'
       ImageIndex = 4
       ImageName = 'eye-settings'
       object RenderingGroupBox: TGroupBox
-        Left = 10
-        Top = 104
-        Width = 238
+        AlignWithMargins = True
+        Left = 3
+        Top = 179
+        Width = 622
         Height = 89
+        Align = alTop
         Caption = 'Images loading options'
-        TabOrder = 1
+        TabOrder = 2
         object DownloadFromWebCheckBox: TCheckBox
           Left = 15
-          Top = 52
-          Width = 156
+          Top = 51
+          Width = 450
           Height = 17
           Caption = 'Download from WEB'
           TabOrder = 1
@@ -56,23 +58,25 @@ object MDSettingsForm: TMDSettingsForm
         object RescalingImageCheckBox: TCheckBox
           Left = 15
           Top = 24
-          Width = 156
+          Width = 450
           Height = 17
           Caption = 'Rescaling to viewer size'
           TabOrder = 0
         end
       end
       object MarkdownGroupBox: TGroupBox
-        Left = 10
-        Top = 16
-        Width = 238
+        AlignWithMargins = True
+        Left = 3
+        Top = 91
+        Width = 622
         Height = 82
+        Align = alTop
         Caption = 'Markdown processor options'
-        TabOrder = 0
+        TabOrder = 1
         object ProcessorDialectLabel: TLabel
           Left = 15
           Top = 19
-          Width = 42
+          Width = 200
           Height = 15
           AutoSize = False
           Caption = 'Dialect:'
@@ -90,16 +94,18 @@ object MDSettingsForm: TMDSettingsForm
         end
       end
       object ToolbarGroupBox: TGroupBox
-        Left = 10
-        Top = 199
-        Width = 238
-        Height = 105
+        AlignWithMargins = True
+        Left = 3
+        Top = 274
+        Width = 622
+        Height = 89
+        Align = alTop
         Caption = 'Toolbar'
-        TabOrder = 2
+        TabOrder = 3
         object ShowCaptionCheckBox: TCheckBox
           Left = 15
           Top = 24
-          Width = 97
+          Width = 450
           Height = 17
           Caption = 'Show Captions'
           TabOrder = 0
@@ -107,10 +113,36 @@ object MDSettingsForm: TMDSettingsForm
         object ColoredIconsCheckBox: TCheckBox
           Left = 15
           Top = 52
-          Width = 97
+          Width = 450
           Height = 17
           Caption = 'Colored icons'
           TabOrder = 1
+        end
+      end
+      object UserInterfaceGroupBox: TGroupBox
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 622
+        Height = 82
+        Align = alTop
+        Caption = 'User interface'
+        TabOrder = 0
+        object UILabel: TLabel
+          Left = 15
+          Top = 19
+          Width = 200
+          Height = 15
+          AutoSize = False
+          Caption = 'Language:'
+        end
+        object UIComboBox: TComboBox
+          Left = 15
+          Top = 40
+          Width = 202
+          Height = 23
+          Style = csDropDownList
+          TabOrder = 0
         end
       end
     end
@@ -127,9 +159,10 @@ object MDSettingsForm: TMDSettingsForm
         BevelOuter = bvNone
         TabOrder = 0
         object ThemesRadioGroup: TRadioGroup
-          Left = 0
-          Top = 0
-          Width = 174
+          AlignWithMargins = True
+          Left = 3
+          Top = 3
+          Width = 168
           Height = 118
           Align = alTop
           Caption = 'Theme'
@@ -142,10 +175,11 @@ object MDSettingsForm: TMDSettingsForm
           OnClick = ThemesRadioGroupClick
         end
         object SelectThemeRadioGroup: TRadioGroup
-          Left = 0
-          Top = 118
-          Width = 174
-          Height = 255
+          AlignWithMargins = True
+          Left = 3
+          Top = 127
+          Width = 168
+          Height = 243
           Align = alClient
           Caption = 'Selected Theme'
           TabOrder = 1
@@ -168,28 +202,32 @@ object MDSettingsForm: TMDSettingsForm
       ImageIndex = 1
       ImageName = 'alphabetical-variant'
       object HTMLGroupBox: TGroupBox
-        Left = 16
-        Top = 16
-        Width = 281
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 622
         Height = 121
+        Align = alTop
         Caption = 'HTML Text (default)'
         TabOrder = 0
         object FontNameLabel: TLabel
-          Left = 8
+          Left = 15
           Top = 19
-          Width = 57
+          Width = 200
           Height = 15
+          AutoSize = False
           Caption = 'Font name'
         end
         object FontSizeLabel: TLabel
-          Left = 8
+          Left = 15
           Top = 65
-          Width = 20
+          Width = 200
           Height = 15
+          AutoSize = False
           Caption = 'Size'
         end
         object HTMLFontComboBox: TComboBox
-          Left = 8
+          Left = 15
           Top = 36
           Width = 225
           Height = 22
@@ -198,7 +236,7 @@ object MDSettingsForm: TMDSettingsForm
           TabOrder = 0
         end
         object HTMLFontSizeEdit: TEdit
-          Left = 8
+          Left = 15
           Top = 82
           Width = 34
           Height = 23
@@ -208,7 +246,7 @@ object MDSettingsForm: TMDSettingsForm
           Text = '12'
         end
         object HTMLUpDown: TUpDown
-          Left = 42
+          Left = 49
           Top = 82
           Width = 16
           Height = 23
@@ -225,45 +263,41 @@ object MDSettingsForm: TMDSettingsForm
       ImageIndex = 6
       ImageName = 'pdf-box'
       object MarginTopLabel: TLabel
-        Left = 362
-        Top = 3
-        Width = 90
-        Height = 15
-        Alignment = taCenter
+        Left = 376
+        Top = 43
+        Width = 105
+        Height = 16
         AutoSize = False
-        Caption = 'top margin'
+        Caption = 'Top margin'
       end
       object MarginLeftLabel: TLabel
-        Left = 218
-        Top = 94
-        Width = 90
-        Height = 15
-        Alignment = taCenter
+        Left = 232
+        Top = 163
+        Width = 105
+        Height = 16
         AutoSize = False
         Caption = 'Left margin'
       end
       object MarginRightLabel: TLabel
-        Left = 505
-        Top = 94
-        Width = 90
-        Height = 15
-        Alignment = taCenter
+        Left = 519
+        Top = 163
+        Width = 105
+        Height = 16
         AutoSize = False
-        Caption = 'right margin'
+        Caption = 'Right margin'
       end
       object MarginBottomLabel: TLabel
-        Left = 362
-        Top = 238
-        Width = 90
-        Height = 15
-        Alignment = taCenter
+        Left = 376
+        Top = 304
+        Width = 105
+        Height = 16
         AutoSize = False
-        Caption = 'bottom margin'
+        Caption = 'Bottom margin'
       end
       object SVGIconPosition: TSVGIconImage
-        Left = 313
-        Top = 51
-        Width = 186
+        Left = 358
+        Top = 120
+        Width = 123
         Height = 154
         AutoSize = False
         ImageList = OrientationImageList
@@ -283,8 +317,8 @@ object MDSettingsForm: TMDSettingsForm
         OnClick = OrientationRadioGroupClick
       end
       object MarginLeftEdit: TSpinEdit
-        Left = 218
-        Top = 115
+        Left = 232
+        Top = 184
         Width = 90
         Height = 24
         MaxValue = 0
@@ -293,8 +327,8 @@ object MDSettingsForm: TMDSettingsForm
         Value = 0
       end
       object MarginRightEdit: TSpinEdit
-        Left = 505
-        Top = 115
+        Left = 519
+        Top = 184
         Width = 90
         Height = 24
         MaxValue = 0
@@ -303,8 +337,8 @@ object MDSettingsForm: TMDSettingsForm
         Value = 0
       end
       object MarginTopEdit: TSpinEdit
-        Left = 362
-        Top = 22
+        Left = 376
+        Top = 65
         Width = 90
         Height = 24
         MaxValue = 0
@@ -313,8 +347,8 @@ object MDSettingsForm: TMDSettingsForm
         Value = 0
       end
       object MarginBottomEdit: TSpinEdit
-        Left = 362
-        Top = 211
+        Left = 376
+        Top = 274
         Width = 90
         Height = 24
         MaxValue = 0
@@ -360,26 +394,27 @@ object MDSettingsForm: TMDSettingsForm
     BevelOuter = bvNone
     BorderStyle = bsNone
     ButtonHeight = 48
+    ButtonWidth = 48
     ButtonOptions = [gboFullSize, gboGroupStyle, gboShowCaptions]
     Images = SettingsImageList
     Items = <
       item
-        Caption = '  Back'
+        Caption = 'Back'
         ImageIndex = 3
         ImageName = 'arrow-left'
       end
       item
-        Caption = '  Preview'
+        Caption = 'Preview'
         ImageIndex = 4
         ImageName = 'eye-settings'
       end
       item
-        Caption = '  Theme'
+        Caption = 'Theme'
         ImageIndex = 2
         ImageName = 'theme-light-dark'
       end
       item
-        Caption = '  Font'
+        Caption = 'Font'
         ImageIndex = 1
         ImageName = 'alphabetical-variant'
       end

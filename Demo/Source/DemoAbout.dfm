@@ -749,7 +749,7 @@ object FrmAbout: TFrmAbout
       'Author:'
       'Carlo Barazzetta'
       'https://github.com/EtheaDev/MarkdownHelpViewer'
-      'Copyright '#169' 2023 all rights reserved.'
+      'Copyright '#169' 2023-2024 all rights reserved.'
       ''
       'Delphi Markdown'
       'https://github.com/grahamegrieve/delphi-markdown'

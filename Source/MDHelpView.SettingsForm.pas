@@ -3,7 +3,7 @@
 {       Markdown Help Viewer: Settings Form                                    }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
-{       Copyright (c) 2023 (Ethea S.r.l.)                                      }
+{       Copyright (c) 2023-2024 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
 {       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
 {                                                                              }
@@ -34,10 +34,11 @@ uses
   ActnList, System.ImageList, Vcl.ImgList,
   SVGIconImageListBase, SVGIconImageList, MDHelpView.Settings, Vcl.ButtonGroup,
   Vcl.ToolWin, MDHelpView.Resources, Vcl.VirtualImageList, MDHelpView.About,
-  Vcl.WinXCtrls, SVGIconImage, Vcl.NumberBox, Vcl.Samples.Spin;
+  Vcl.WinXCtrls, SVGIconImage, Vcl.NumberBox, Vcl.Samples.Spin,
+  CBMultiLanguage, MDHelpView.FormsHookTrx;
 
 type
-  TMDSettingsForm = class(TForm)
+  TMDSettingsForm = class(TFormHook)
     pc: TPageControl;
     stGeneral: TTabSheet;
     tsFont: TTabSheet;
@@ -78,6 +79,9 @@ type
     ProcessorDialectLabel: TLabel;
     ShowCaptionCheckBox: TCheckBox;
     ColoredIconsCheckBox: TCheckBox;
+    UserInterfaceGroupBox: TGroupBox;
+    UILabel: TLabel;
+    UIComboBox: TComboBox;
     procedure ExitFromSettings(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure MenuButtonGroupButtonClicked(Sender: TObject; Index: Integer);
@@ -176,12 +180,19 @@ begin
 end;
 
 procedure TMDSettingsForm.FormCreate(Sender: TObject);
+var
+  LLanguage: TAppLanguage;
 begin
   HTMLFontComboBox.Items.Assign(Screen.Fonts);
   stGeneral.TabVisible := false;
   tsFont.TabVisible := false;
   stTheme.TabVisible := false;
   tsPDFLayout.TabVisible := false;
+  for var I := Low(TAppLanguage) to High(TAppLanguage) do
+  begin
+    LLanguage := TAppLanguage(I);
+    UIComboBox.Items.Add(AENGLanguageDesc [LLanguage]);
+  end;
 
   TitlePanel.Font.Height := Round(TitlePanel.Font.Height * 1.5);
   MenuButtonGroup.Font.Height := Round(MenuButtonGroup.Font.Height * 1.2);
@@ -210,6 +221,7 @@ begin
   HTMLUpDown.Position := ASettings.HTMLFontSize;
 
   ProcessorDialectComboBox.ItemIndex := ord(ASettings.ProcessorDialect);
+  UIComboBox.ItemIndex := ord(ASettings.GUILanguage);
 
   RescalingImageCheckBox.Checked := ASettings.RescalingImage;
   DownloadFromWebCheckBox.Visible := ASettings is TViewerSettings;
@@ -249,6 +261,7 @@ begin
   ASettings.HTMLFontSize := HTMLUpDown.Position;
 
   ASettings.ProcessorDialect := TMarkdownProcessorDialect(ProcessorDialectComboBox.ItemIndex);
+  ASettings.GUILanguage := TAppLanguage(UIComboBox.ItemIndex);
 
   ASettings.VCLStyleName := SelectedStyleName;
   ASettings.RescalingImage := RescalingImageCheckBox.Checked;

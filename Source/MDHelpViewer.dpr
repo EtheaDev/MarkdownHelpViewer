@@ -3,7 +3,7 @@
 {       Markdown Help Viewer                                                   }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
-{       Copyright (c) 2023 (Ethea S.r.l.)                                      }
+{       Copyright (c) 2023-2024 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
 {       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
 {                                                                              }
@@ -27,9 +27,12 @@
 program MDHelpViewer;
 
 uses
+  MidasLib,
   Vcl.Forms,
   Vcl.Themes,
   Vcl.Styles,
+  CBMultiLanguage,
+  MDHelpView.FormsHookTrx in 'MDHelpView.FormsHookTrx.pas',
   MDHelpView.Main in 'MDHelpView.Main.pas' {MainForm},
   MDHelpView.Resources in 'MDHelpView.Resources.pas' {dmResources: TDataModule},
   MDHelpView.Settings in 'MDHelpView.Settings.pas',
@@ -40,8 +43,9 @@ uses
   vmHtmlToPdf in 'vmHtmlToPdf.pas',
   MarkDownHelpViewer in 'AppInterface\MarkDownHelpViewer.pas',
   MarkDownViewerComponents in 'Components\MarkDownViewerComponents.pas',
-  Vcl.StyledTaskDialogFormUnit in '..\Ext\StyledComponents\source\Vcl.StyledTaskDialogFormUnit.pas' {StyledTaskDialogForm},
-  Skia.Vcl.StyledTaskDialogAnimatedUnit in '..\Ext\StyledComponents\source\Skia.Vcl.StyledTaskDialogAnimatedUnit.pas' {StyledTaskDialogAnimated};
+  //Vcl.StyledTaskDialogFormUnit in '..\Ext\StyledComponents\source\Vcl.StyledTaskDialogFormUnit.pas' {StyledTaskDialogForm},
+  Skia.Vcl.StyledTaskDialogAnimatedUnit in '..\Ext\StyledComponents\source\Skia.Vcl.StyledTaskDialogAnimatedUnit.pas' {StyledTaskDialogAnimated},
+  MDHelpView.Messages in 'MDHelpView.Messages.pas';
 
 {$R *.res}
 
@@ -49,6 +53,8 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.Title := 'Markdown Help Viewer';
+  //Uses System Style for border / shadow of Forms
+  TStyleManager.FormBorderStyle := TStyleManager.TFormBorderStyle.fbsSystemStyle;
   Application.CreateForm(TdmResources, dmResources);
   Application.CreateForm(TMainForm, MainForm);
   Application.OnException := MainForm.ManageExceptions;

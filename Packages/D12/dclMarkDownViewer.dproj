@@ -2,7 +2,7 @@
     <PropertyGroup>
         <ProjectGuid>{D47032F8-F813-4944-B2B0-D312945F19D9}</ProjectGuid>
         <MainSource>dclMarkDownViewer.dpk</MainSource>
-        <ProjectVersion>20.0</ProjectVersion>
+        <ProjectVersion>20.1</ProjectVersion>
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Release</Config>

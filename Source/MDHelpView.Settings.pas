@@ -3,7 +3,7 @@
 {       Markdown Help Viewer: Settings Class                                   }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
-{       Copyright (c) 2023 (Ethea S.r.l.)                                      }
+{       Copyright (c) 2023-2024 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
 {       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
 {                                                                              }
@@ -36,7 +36,9 @@ uses
   , System.UITypes
   , MarkdownProcessor
   , MarkdownUtils
-  , IniFiles;
+  , IniFiles
+  , CBMultiLanguage
+  ;
 
 const
   MaxfontSize = 30;
@@ -80,6 +82,7 @@ type
 
     FActivePageIndex: Integer;
     FThemeSelection: TThemeSelection;
+    FGUILanguage: TAppLanguage;
     FHTMLFontSize: Integer;
     FHTMLFontName: string;
     FRescalingImage: Boolean;
@@ -135,6 +138,7 @@ type
     property RescalingImage: Boolean read FRescalingImage write SetRescalingImage;
     property ActivePageIndex: Integer read FActivePageIndex write FActivePageIndex;
     property ThemeSelection: TThemeSelection read FThemeSelection write FThemeSelection;
+    property GUILanguage: TAppLanguage read FGUILanguage write FGUILanguage;
     property ProcessorDialect: TMarkdownProcessorDialect read FProcessorDialect write SetProcessorDialect;
 
     property ShowToolbarCaptions: Boolean read FShowToolbarCaptions write SetShowToolbarCaptions;
@@ -309,6 +313,9 @@ begin
 end;
 
 procedure TViewerSettings.ReadSettings;
+var
+  LLanguage: string;
+  LDefaultLanguage: TAppLanguage;
 begin
   PageControlVisible := FIniFile.ReadBool(MAIN_WINDOW, 'PageControlVisible', True);
   PageControlSize := FIniFile.ReadInteger(MAIN_WINDOW, 'PageControlSize', 300);
@@ -321,6 +328,11 @@ begin
     Ord(TWindowState.wsNormal)));
   ShowToolbarCaptions := FIniFile.ReadBool(MAIN_WINDOW, 'ShowToolbarCaptions', true);
   UseColoredIcons := FIniFile.ReadBool(MAIN_WINDOW, 'UseColoredIcons', false);
+
+  LLanguage := PreferredUILanguages;
+  LDefaultLanguage := GetEnumFromIsoLanguage(Copy(LLanguage,1,2));
+  GUILanguage := TAppLanguage(FIniFile.ReadInteger(MAIN_WINDOW, 'GUILanguage',
+    Ord(LDefaultLanguage)));
 
   VCLStyleName := FIniFile.ReadString(VCL_STYLE, 'VCLStyleName', DefaultStyleName);
   ThemeSelection := TThemeSelection(FIniFile.ReadInteger(VCL_STYLE, 'ThemeSelection', 0));
@@ -409,6 +421,7 @@ begin
   FIniFile.WriteInteger(MAIN_WINDOW, 'WindowLeft', FWindowLeft);
   FIniFile.WriteBool(MAIN_WINDOW, 'ShowToolbarCaptions', FShowToolbarCaptions);
   FIniFile.WriteBool(MAIN_WINDOW, 'UseColoredIcons', FUseColoredIcons);
+  FIniFile.WriteInteger(MAIN_WINDOW, 'GUILanguage', Ord(FGUILanguage));
 
   FIniFile.WriteInteger(HTML_VIEWER, 'HTMLFontSize', FHTMLFontSize);
   FIniFile.WriteString(HTML_VIEWER, 'HTMLFontName', FHTMLFontName);

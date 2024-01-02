@@ -1,6 +1,6 @@
 # Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**Latest Version 2.0.1 - 25 Oct 2023**
+**Latest Version 2.1.0 - 2 Jan 2024**
 
 **An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications**
 
@@ -36,6 +36,10 @@ Click to download the [MarkDownHelpViewerSetup.exe][1] located also in the Relea
 A useful Viewer for instant preview of Markdown formatted content help files (with auto-detection of Windows-Theme):
 
 ![Markdown Help Viewer](./Images/ContentPageDark.png)
+
+The Viewer is "localized" for some languages. In this example the GUI with Italian language:
+
+![Markdown Help Viewer Italian](./Images/ContentPageIta.png)
 
 ### Step to activate this Help into MarkdownHelpViewerDemo Application ###
 
@@ -93,6 +97,13 @@ Then the interface searches in the same folder of default file (specified into A
 - At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)
 
 ## Release Notes ##
+
+2 Jan 2024: ver. 2.1.0
+- Changed Toolbar to Styledtoolbar
+- Support for different GUI languages (italian, French, Deutch, Portuguese, Espagnol)
+- Fix for File names with spaces
+- Added ISMultiLanguage library engine for translations
+- Added xml files of translations
 
 25 Oct 2023: ver. 2.0.1
 - Added Export to HTML help files (experimental)
