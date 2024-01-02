@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--stat:#=32
+*=0
+@=32
+?=0
+0=0
+:stat-->  <DATAPACKET Version="2.0">
+<METADATA>
+<FIELDS>
+<FIELD attrname="Type" fieldtype="string" required="true" WIDTH="2"/>
+<FIELD attrname="ComponentName" fieldtype="string" required="true" WIDTH="100"/>
+<FIELD attrname="PropertyName" fieldtype="string" required="true" WIDTH="100"/>
+<FIELD attrname="OriginalValue" fieldtype="bin.hex" required="true" SUBTYPE="Text"/>
+<FIELD attrname="Translation" fieldtype="bin.hex" SUBTYPE="Text"/>
+<FIELD attrname="Status" fieldtype="string" required="true" WIDTH="1"/>
+<FIELD attrname="Deleted" fieldtype="boolean" required="true"/>
+<FIELD attrname="ClassName" fieldtype="string" WIDTH="50"/>
+<FIELD attrname="OriginalStr" fieldtype="string" WIDTH="250"/>
+<FIELD attrname="TranslationStr" fieldtype="string" WIDTH="250"/>
+</FIELDS>
+<PARAMS/>
+</METADATA>
+<ROWDATA>
+<ROW Type="F" ComponentName="stGeneral" PropertyName="Caption" OriginalValue="Preview" Translation="Vista previa" Status="@" Deleted="FALSE" ClassName="TTabSheet" OriginalStr="Preview" TranslationStr="Vista previa"/>
+<ROW Type="F" ComponentName="RenderingGroupBox" PropertyName="Caption" OriginalValue="Images loading options" Translation="Opciones de carga de imágenes" Status="@" Deleted="FALSE" ClassName="TGroupBox" OriginalStr="Images loading options" TranslationStr="Opciones de carga de imágenes"/>
+<ROW Type="F" ComponentName="DownloadFromWebCheckBox" PropertyName="Caption" OriginalValue="Download from WEB" Translation="Descargar desde WEB" Status="@" Deleted="FALSE" ClassName="TCheckBox" OriginalStr="Download from WEB" TranslationStr="Descargar desde WEB"/>
+<ROW Type="F" ComponentName="RescalingImageCheckBox" PropertyName="Caption" OriginalValue="Rescaling to viewer size" Translation="Redimensionar al tamaño del visor" Status="@" Deleted="FALSE" ClassName="TCheckBox" OriginalStr="Rescaling to viewer size" TranslationStr="Redimensionar al tamaño del visor"/>
+<ROW Type="F" ComponentName="MarkdownGroupBox" PropertyName="Caption" OriginalValue="Markdown processor options" Translation="Opciones del procesador Markdown" Status="@" Deleted="FALSE" ClassName="TGroupBox" OriginalStr="Markdown processor options" TranslationStr="Opciones del procesador Markdown"/>
+<ROW Type="F" ComponentName="ProcessorDialectLabel" PropertyName="Caption" OriginalValue="Dialect:" Translation="Dialecto:" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Dialect:" TranslationStr="Dialecto:"/>
+<ROW Type="F" ComponentName="ProcessorDialectComboBox" PropertyName="Items" OriginalValue="DaringFireball&#013;&#010;CommonMark&#013;&#010;" Translation="DaringFireball&#013;&#010;CommonMark&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TComboBox" OriginalStr="DaringFireball&#013;&#010;CommonMark" TranslationStr="DaringFireball&#013;&#010;CommonMark"/>
+<ROW Type="F" ComponentName="ToolbarGroupBox" PropertyName="Caption" OriginalValue="Toolbar" Translation="Barra de herramientas" Status="@" Deleted="FALSE" ClassName="TGroupBox" OriginalStr="Toolbar" TranslationStr="Barra de herramientas"/>
+<ROW Type="F" ComponentName="ShowCaptionCheckBox" PropertyName="Caption" OriginalValue="Show Captions" Translation="Mostrar títulos descriptivos" Status="@" Deleted="FALSE" ClassName="TCheckBox" OriginalStr="Show Captions" TranslationStr="Mostrar títulos descriptivos"/>
+<ROW Type="F" ComponentName="ColoredIconsCheckBox" PropertyName="Caption" OriginalValue="Colored icons" Translation="Iconos a color" Status="@" Deleted="FALSE" ClassName="TCheckBox" OriginalStr="Colored icons" TranslationStr="Iconos a color"/>
+<ROW Type="F" ComponentName="UserInterfaceGroupBox" PropertyName="Caption" OriginalValue="User interface" Translation="Interfaz de usuario" Status="@" Deleted="FALSE" ClassName="TGroupBox" OriginalStr="User interface" TranslationStr="Interfaz de usuario"/>
+<ROW Type="F" ComponentName="UILabel" PropertyName="Caption" OriginalValue="Language:" Translation="Idioma:" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Language:" TranslationStr="Idioma:"/>
+<ROW Type="F" ComponentName="stTheme" PropertyName="Caption" OriginalValue="Theme" Translation="Tema" Status="@" Deleted="FALSE" ClassName="TTabSheet" OriginalStr="Theme" TranslationStr="Tema"/>
+<ROW Type="F" ComponentName="ThemesRadioGroup" PropertyName="Caption" OriginalValue="Theme" Translation="Tema" Status="@" Deleted="FALSE" ClassName="TRadioGroup" OriginalStr="Theme" TranslationStr="Tema"/>
+<ROW Type="F" ComponentName="ThemesRadioGroup" PropertyName="Items" OriginalValue="Same as Windows&#013;&#010;Force Dark&#013;&#010;Force Light&#013;&#010;" Translation="Igual que Windows&#013;&#010;Forzar tema oscuro&#013;&#010;Forzar tema claro&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TRadioGroup" OriginalStr="Same as Windows&#013;&#010;Force Dark&#013;&#010;Force Light" TranslationStr="Igual que Windows&#013;&#010;Forzar tema oscuro&#013;&#010;Forzar tema claro"/>
+<ROW Type="F" ComponentName="SelectThemeRadioGroup" PropertyName="Caption" OriginalValue="Selected Theme" Translation="Tema seleccionado" Status="@" Deleted="FALSE" ClassName="TRadioGroup" OriginalStr="Selected Theme" TranslationStr="Tema seleccionado"/>
+<ROW Type="F" ComponentName="tsFont" PropertyName="Caption" OriginalValue="Font" Translation="Fuente" Status="@" Deleted="FALSE" ClassName="TTabSheet" OriginalStr="Font" TranslationStr="Fuente"/>
+<ROW Type="F" ComponentName="HTMLGroupBox" PropertyName="Caption" OriginalValue="HTML Text (default)" Translation="Texto HTML (predeterminado)" Status="@" Deleted="FALSE" ClassName="TGroupBox" OriginalStr="HTML Text (default)" TranslationStr="Texto HTML (predeterminado)"/>
+<ROW Type="F" ComponentName="FontNameLabel" PropertyName="Caption" OriginalValue="Font name" Translation="Nombre de la fuente" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Font name" TranslationStr="Nombre de la fuente"/>
+<ROW Type="F" ComponentName="FontSizeLabel" PropertyName="Caption" OriginalValue="Size" Translation="Tamaño" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Size" TranslationStr="Tamaño"/>
+<ROW Type="F" ComponentName="HTMLFontSizeEdit" PropertyName="Text" OriginalValue="12" Translation="12" Status="@" Deleted="FALSE" ClassName="TEdit" OriginalStr="12" TranslationStr="12"/>
+<ROW Type="F" ComponentName="tsPDFLayout" PropertyName="Caption" OriginalValue="PDF layout" Translation="Diseño PDF" Status="@" Deleted="FALSE" ClassName="TTabSheet" OriginalStr="PDF layout" TranslationStr="Diseño PDF"/>
+<ROW Type="F" ComponentName="MarginTopLabel" PropertyName="Caption" OriginalValue="Top margin" Translation="Margen superior" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Top margin" TranslationStr="Margen superior"/>
+<ROW Type="F" ComponentName="MarginLeftLabel" PropertyName="Caption" OriginalValue="Left margin" Translation="Margen izquierdo" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Left margin" TranslationStr="Margen izquierdo"/>
+<ROW Type="F" ComponentName="MarginRightLabel" PropertyName="Caption" OriginalValue="Right margin" Translation="Margen derecho" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Right margin" TranslationStr="Margen derecho"/>
+<ROW Type="F" ComponentName="MarginBottomLabel" PropertyName="Caption" OriginalValue="Bottom margin" Translation="Margen inferior" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Bottom margin" TranslationStr="Margen inferior"/>
+<ROW Type="F" ComponentName="OrientationRadioGroup" PropertyName="Caption" OriginalValue="Orientation" Translation="Orientación" Status="@" Deleted="FALSE" ClassName="TRadioGroup" OriginalStr="Orientation" TranslationStr="Orientación"/>
+<ROW Type="F" ComponentName="OrientationRadioGroup" PropertyName="Items" OriginalValue="Portrait&#013;&#010;Landscape&#013;&#010;" Translation="Retrato&#013;&#010;Horizontal&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TRadioGroup" OriginalStr="Portrait&#013;&#010;Landscape" TranslationStr="Retrato&#013;&#010;Horizontal"/>
+<ROW Type="F" ComponentName="PaperSizeRadioGroup" PropertyName="Caption" OriginalValue="Page size" Translation="Tamaño de página" Status="@" Deleted="FALSE" ClassName="TRadioGroup" OriginalStr="Page size" TranslationStr="Tamaño de página"/>
+<ROW Type="F" ComponentName="PaperSizeRadioGroup" PropertyName="Items" OriginalValue="A4&#013;&#010;A5&#013;&#010;A3&#013;&#010;A2&#013;&#010;A1&#013;&#010;A0&#013;&#010;Letter&#013;&#010;Legal&#013;&#010;" Translation="A4&#013;&#010;A5&#013;&#010;A3&#013;&#010;A2&#013;&#010;A1&#013;&#010;A0&#013;&#010;Carta&#013;&#010;Legal&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TRadioGroup" OriginalStr="A4&#013;&#010;A5&#013;&#010;A3&#013;&#010;A2&#013;&#010;A1&#013;&#010;A0&#013;&#010;Letter&#013;&#010;Legal" TranslationStr="A4&#013;&#010;A5&#013;&#010;A3&#013;&#010;A2&#013;&#010;A1&#013;&#010;A0&#013;&#010;Carta&#013;&#010;Legal"/>
+<ROW Type="F" ComponentName="MenuButtonGroup" PropertyName="Items" OriginalValue="Back&#013;&#010;Preview&#013;&#010;Theme&#013;&#010;Font&#013;&#010;PDF Layout&#013;&#010;" Translation="Atrás&#013;&#010;Vista previa&#013;&#010;Tema&#013;&#010;Fuente&#013;&#010;Diseño PDF&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TButtonGroup" OriginalStr="Back&#013;&#010;Preview&#013;&#010;Theme&#013;&#010;Font&#013;&#010;PDF Layout" TranslationStr="Atrás&#013;&#010;Vista previa&#013;&#010;Tema&#013;&#010;Fuente&#013;&#010;Diseño PDF"/>
+<ROW Type="F" ComponentName="TitlePanel" PropertyName="Caption" OriginalValue="Settings" Translation="Config." Status="@" Deleted="FALSE" ClassName="TPanel" OriginalStr="Settings" TranslationStr="Config."/>
+</ROWDATA>
+</DATAPACKET>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--stat:#=71
+*=0
+@=71
+?=0
+0=0
+:stat-->  <DATAPACKET Version="2.0">
+<METADATA>
+<FIELDS>
+<FIELD attrname="Type" fieldtype="string" required="true" WIDTH="2"/>
+<FIELD attrname="ComponentName" fieldtype="string" required="true" WIDTH="100"/>
+<FIELD attrname="PropertyName" fieldtype="string" required="true" WIDTH="100"/>
+<FIELD attrname="OriginalValue" fieldtype="bin.hex" required="true" SUBTYPE="Text"/>
+<FIELD attrname="Translation" fieldtype="bin.hex" SUBTYPE="Text"/>
+<FIELD attrname="Status" fieldtype="string" required="true" WIDTH="1"/>
+<FIELD attrname="Deleted" fieldtype="boolean" required="true"/>
+<FIELD attrname="ClassName" fieldtype="string" WIDTH="50"/>
+<FIELD attrname="OriginalStr" fieldtype="string" WIDTH="250"/>
+<FIELD attrname="TranslationStr" fieldtype="string" WIDTH="250"/>
+</FIELDS>
+<PARAMS/>
+</METADATA>
+<ROWDATA>
+<ROW Type="F" ComponentName="Self" PropertyName="Caption" OriginalValue="Markdown Help Viewer" Translation="Markdown Help Viewer" Status="@" Deleted="FALSE" ClassName="TMainForm" OriginalStr="Markdown Help Viewer" TranslationStr="Markdown Help Viewer"/>
+<ROW Type="F" ComponentName="tsIndex" PropertyName="Caption" OriginalValue="Content/Index" Translation="Contenido/Índice" Status="@" Deleted="FALSE" ClassName="TTabSheet" OriginalStr="Content/Index" TranslationStr="Contenido/Índice"/>
+<ROW Type="F" ComponentName="tsIndex" PropertyName="Hint" OriginalValue="Markdown Content/Index" Translation="Contenido/índice de Markdown" Status="@" Deleted="FALSE" ClassName="TTabSheet" OriginalStr="Markdown Content/Index" TranslationStr="Contenido/índice de Markdown"/>
+<ROW Type="F" ComponentName="tsFiles" PropertyName="Caption" OriginalValue="Working Dir" Translation="Directorio de trabajo" Status="@" Deleted="FALSE" ClassName="TTabSheet" OriginalStr="Working Dir" TranslationStr="Directorio de trabajo"/>
+<ROW Type="F" ComponentName="tsFiles" PropertyName="Hint" OriginalValue="List of Files into Working Directory" Translation="Lista de archivos en el directorio de trabajo" Status="@" Deleted="FALSE" ClassName="TTabSheet" OriginalStr="List of Files into Working Directory" TranslationStr="Lista de archivos en el directorio de trabajo"/>
+<ROW Type="F" ComponentName="lbIndex" PropertyName="Caption" OriginalValue="Search for file:" Translation="Buscar archivo:" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Search for file:" TranslationStr="Buscar archivo:"/>
+<ROW Type="F" ComponentName="lbSelectFile" PropertyName="Caption" OriginalValue="Select file to view:" Translation="Seleccione el archivo a visualizar:" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Select file to view:" TranslationStr="Seleccione el archivo a visualizar:"/>
+<ROW Type="F" ComponentName="edFileSearch" PropertyName="Hint" OriginalValue="Insert file name to search:" Translation="Ingrese el nombre del archivo a buscar:" Status="@" Deleted="FALSE" ClassName="TEdit" OriginalStr="Insert file name to search:" TranslationStr="Ingrese el nombre del archivo a buscar:"/>
+<ROW Type="F" ComponentName="btIndex" PropertyName="Caption" OriginalValue="View" Translation="Vista" Status="@" Deleted="FALSE" ClassName="TButton" OriginalStr="View" TranslationStr="Vista"/>
+<ROW Type="F" ComponentName="btIndex" PropertyName="Hint" OriginalValue="View File" Translation="Ver archivo" Status="@" Deleted="FALSE" ClassName="TButton" OriginalStr="View File" TranslationStr="Ver archivo"/>
+<ROW Type="F" ComponentName="tsSearch" PropertyName="Caption" OriginalValue="Search" Translation="Buscar" Status="@" Deleted="FALSE" ClassName="TTabSheet" OriginalStr="Search" TranslationStr="Buscar"/>
+<ROW Type="F" ComponentName="lbSearch" PropertyName="Caption" OriginalValue="Input keyword to search in files:" Translation="Ingrese palabra clave para buscar en archivos:" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Input keyword to search in files:" TranslationStr="Ingrese palabra clave para buscar en archivos:"/>
+<ROW Type="F" ComponentName="lbSelectSearch" PropertyName="Caption" OriginalValue="Select file to view:" Translation="Seleccione el archivo a visualizar:" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Select file to view:" TranslationStr="Seleccione el archivo a visualizar:"/>
+<ROW Type="F" ComponentName="edSearch" PropertyName="Hint" OriginalValue="Input the keyword to search into files in the working folder:" Translation="Ingrese palabra clave para buscar en archivos de la carpeta de trabajo:" Status="@" Deleted="FALSE" ClassName="TEdit" OriginalStr="Input the keyword to search into files in the working folder:" TranslationStr="Ingrese palabra clave para buscar en archivos de la carpeta de trabajo:"/>
+<ROW Type="F" ComponentName="btSearch" PropertyName="Caption" OriginalValue="Search" Translation="Buscar" Status="@" Deleted="FALSE" ClassName="TButton" OriginalStr="Search" TranslationStr="Buscar"/>
+<ROW Type="F" ComponentName="btSearch" PropertyName="Hint" OriginalValue="Search keyword into files" Translation="Buscar palabra clave en archivos" Status="@" Deleted="FALSE" ClassName="TButton" OriginalStr="Search keyword into files" TranslationStr="Buscar palabra clave en archivos"/>
+<ROW Type="F" ComponentName="btSearchView" PropertyName="Caption" OriginalValue="View" Translation="Vista" Status="@" Deleted="FALSE" ClassName="TButton" OriginalStr="View" TranslationStr="Vista"/>
+<ROW Type="F" ComponentName="btSearchView" PropertyName="Hint" OriginalValue="View File" Translation="Ver archivo" Status="@" Deleted="FALSE" ClassName="TButton" OriginalStr="View File" TranslationStr="Ver archivo"/>
+<ROW Type="F" ComponentName="ProcessorDialectLabel" PropertyName="Caption" OriginalValue="Transformation:" Translation="Transformación:" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Transformation:" TranslationStr="Transformación:"/>
+<ROW Type="F" ComponentName="ProcessorDialectComboBox" PropertyName="Items" OriginalValue="DaringFireball&#013;&#010;CommonMark&#013;&#010;" Translation="DaringFireball&#013;&#010;CommonMark&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TComboBox" OriginalStr="DaringFireball&#013;&#010;CommonMark" TranslationStr="DaringFireball&#013;&#010;CommonMark"/>
+<ROW Type="F" ComponentName="ProcessorDialectComboBox" PropertyName="Hint" OriginalValue="Markdown Tranformation Dialect" Translation="Dialecto de transformación Markdown" Status="@" Deleted="FALSE" ClassName="TComboBox" OriginalStr="Markdown Tranformation Dialect" TranslationStr="Dialecto de transformación Markdown"/>
+<ROW Type="F" ComponentName="btShowHide" PropertyName="Caption" OriginalValue="Hide" Translation="Ocultar" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Hide" TranslationStr="Ocultar"/>
+<ROW Type="F" ComponentName="btShowHide" PropertyName="Hint" OriginalValue="Hide Content/Search Panel" Translation="Ocultar contenido/panel de búsqueda" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Hide Content/Search Panel" TranslationStr="Ocultar contenido/panel de búsqueda"/>
+<ROW Type="F" ComponentName="btOpen" PropertyName="Caption" OriginalValue="&amp;Open..." Translation="&amp;Abrir..." Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="&amp;Open..." TranslationStr="&amp;Abrir..."/>
+<ROW Type="F" ComponentName="btOpen" PropertyName="Hint" OriginalValue="Open an existing Markdown or HTML file..." Translation="Abra un archivo Markdown o HTML existente..." Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Open an existing Markdown or HTML file..." TranslationStr="Abra un archivo Markdown o HTML existente..."/>
+<ROW Type="F" ComponentName="btRefresh" PropertyName="Caption" OriginalValue="Refresh" Translation="Actualizar" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Refresh" TranslationStr="Actualizar"/>
+<ROW Type="F" ComponentName="btRefresh" PropertyName="Hint" OriginalValue="Refresh content (reloading file)" Translation="Actualizar contenido (volver a cargar el archivo)" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Refresh content (reloading file)" TranslationStr="Actualizar contenido (volver a cargar el archivo)"/>
+<ROW Type="F" ComponentName="btSaveToPdf" PropertyName="Caption" OriginalValue="Save PDF" Translation="Salva PDF" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Save PDF" TranslationStr="Salva PDF"/>
+<ROW Type="F" ComponentName="btSaveToPdf" PropertyName="Hint" OriginalValue="Save current file in PDF format..." Translation="Salvar el archivo actual en formato PDF..." Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Save current file in PDF format..." TranslationStr="Salvar el archivo actual en formato PDF..."/>
+<ROW Type="F" ComponentName="btHome" PropertyName="Caption" OriginalValue="Home" Translation="Inicio" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Home" TranslationStr="Inicio"/>
+<ROW Type="F" ComponentName="btHome" PropertyName="Hint" OriginalValue="Back to Home File" Translation="Volver al archivo de inicio" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Back to Home File" TranslationStr="Volver al archivo de inicio"/>
+<ROW Type="F" ComponentName="btPrevius" PropertyName="Caption" OriginalValue="&amp;Previous" Translation="&amp;Anterior" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="&amp;Previous" TranslationStr="&amp;Anterior"/>
+<ROW Type="F" ComponentName="btPrevius" PropertyName="Hint" OriginalValue="Previous Opened File" Translation="Archivo abierto anterior" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Previous Opened File" TranslationStr="Archivo abierto anterior"/>
+<ROW Type="F" ComponentName="btNext" PropertyName="Caption" OriginalValue="&amp;Next" Translation="&amp;Siguiente" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="&amp;Next" TranslationStr="&amp;Siguiente"/>
+<ROW Type="F" ComponentName="btNext" PropertyName="Hint" OriginalValue="Next Opened File" Translation="Archivo abierto siguiente" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Next Opened File" TranslationStr="Archivo abierto siguiente"/>
+<ROW Type="F" ComponentName="btExportHTML" PropertyName="Caption" OriginalValue="Export..." Translation="Exportar..." Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Export..." TranslationStr="Exportar..."/>
+<ROW Type="F" ComponentName="btExportHTML" PropertyName="Hint" OriginalValue="Export to HTML help files" Translation="Exportar en archivos de ayuda HTML" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Export to HTML help files" TranslationStr="Exportar en archivos de ayuda HTML"/>
+<ROW Type="F" ComponentName="btOption" PropertyName="Caption" OriginalValue="Settings" Translation="Config." Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Settings" TranslationStr="Config."/>
+<ROW Type="F" ComponentName="btOption" PropertyName="Hint" OriginalValue="Show Settings" Translation="Mostrar configuración" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Show Settings" TranslationStr="Mostrar configuración"/>
+<ROW Type="F" ComponentName="btAbout" PropertyName="Caption" OriginalValue="About" Translation="Info" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="About" TranslationStr="Info"/>
+<ROW Type="F" ComponentName="btAbout" PropertyName="Hint" OriginalValue="Show Application Information" Translation="Mostrar información de la aplicación" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Show Application Information" TranslationStr="Mostrar información de la aplicación"/>
+<ROW Type="F" ComponentName="acFileOpen" PropertyName="Caption" OriginalValue="&amp;Open..." Translation="&amp;Abrir..." Status="@" Deleted="FALSE" ClassName="TFileOpen" OriginalStr="&amp;Open..." TranslationStr="&amp;Abrir..."/>
+<ROW Type="F" ComponentName="acFileOpen" PropertyName="Hint" OriginalValue="Open an existing Markdown or HTML file..." Translation="Abra un archivo Markdown o HTML existente..." Status="@" Deleted="FALSE" ClassName="TFileOpen" OriginalStr="Open an existing Markdown or HTML file..." TranslationStr="Abra un archivo Markdown o HTML existente..."/>
+<ROW Type="F" ComponentName="acPreviousPage" PropertyName="Caption" OriginalValue="&amp;Previous" Translation="&amp;Anterior" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="&amp;Previous" TranslationStr="&amp;Anterior"/>
+<ROW Type="F" ComponentName="acPreviousPage" PropertyName="Hint" OriginalValue="Previous Opened File" Translation="Archivo abierto anterior" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Previous Opened File" TranslationStr="Archivo abierto anterior"/>
+<ROW Type="F" ComponentName="acNextPage" PropertyName="Caption" OriginalValue="&amp;Next" Translation="&amp;Siguiente" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="&amp;Next" TranslationStr="&amp;Siguiente"/>
+<ROW Type="F" ComponentName="acNextPage" PropertyName="Hint" OriginalValue="Next Opened File" Translation="Archivo abierto siguiente" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Next Opened File" TranslationStr="Archivo abierto siguiente"/>
+<ROW Type="F" ComponentName="acView" PropertyName="Caption" OriginalValue="View" Translation="Vista" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="View" TranslationStr="Vista"/>
+<ROW Type="F" ComponentName="acView" PropertyName="Hint" OriginalValue="View File" Translation="Ver archivo" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="View File" TranslationStr="Ver archivo"/>
+<ROW Type="F" ComponentName="acHide" PropertyName="Caption" OriginalValue="Hide" Translation="Ocultar" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Hide" TranslationStr="Ocultar"/>
+<ROW Type="F" ComponentName="acHide" PropertyName="Hint" OriginalValue="Hide Content/Search Panel" Translation="Ocultar contenido/panel de búsqueda" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Hide Content/Search Panel" TranslationStr="Ocultar contenido/panel de búsqueda"/>
+<ROW Type="F" ComponentName="acSearch" PropertyName="Caption" OriginalValue="Search" Translation="Buscar" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Search" TranslationStr="Buscar"/>
+<ROW Type="F" ComponentName="acSearch" PropertyName="Hint" OriginalValue="Search keyword into files" Translation="Buscar palabra clave en archivos" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Search keyword into files" TranslationStr="Buscar palabra clave en archivos"/>
+<ROW Type="F" ComponentName="acHome" PropertyName="Caption" OriginalValue="Home" Translation="Inicio" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Home" TranslationStr="Inicio"/>
+<ROW Type="F" ComponentName="acHome" PropertyName="Hint" OriginalValue="Back to Home File" Translation="Volver al archivo de inicio" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Back to Home File" TranslationStr="Volver al archivo de inicio"/>
+<ROW Type="F" ComponentName="acShow" PropertyName="Caption" OriginalValue="Show" Translation="Mostrar" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Show" TranslationStr="Mostrar"/>
+<ROW Type="F" ComponentName="acShow" PropertyName="Hint" OriginalValue="Show Content/Search Panel" Translation="Mostrar contenido/panel de búsqueda" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Show Content/Search Panel" TranslationStr="Mostrar contenido/panel de búsqueda"/>
+<ROW Type="F" ComponentName="acSettings" PropertyName="Caption" OriginalValue="Settings" Translation="Config." Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Settings" TranslationStr="Config."/>
+<ROW Type="F" ComponentName="acSettings" PropertyName="Hint" OriginalValue="Show Settings" Translation="Mostrar configuración" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Show Settings" TranslationStr="Mostrar configuración"/>
+<ROW Type="F" ComponentName="acAbout" PropertyName="Caption" OriginalValue="About" Translation="Info" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="About" TranslationStr="Info"/>
+<ROW Type="F" ComponentName="acAbout" PropertyName="Hint" OriginalValue="Show Application Information" Translation="Mostrar información de la aplicación" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Show Application Information" TranslationStr="Mostrar información de la aplicación"/>
+<ROW Type="F" ComponentName="acPrint" PropertyName="Caption" OriginalValue="Print" Translation="Imprimir" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Print" TranslationStr="Imprimir"/>
+<ROW Type="F" ComponentName="acPrint" PropertyName="Hint" OriginalValue="Print file in PDF" Translation="Imprimir archivo en PDF" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Print file in PDF" TranslationStr="Imprimir archivo en PDF"/>
+<ROW Type="F" ComponentName="acSaveToPDF" PropertyName="Caption" OriginalValue="Save PDF" Translation="Salva PDF" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Save PDF" TranslationStr="Salva PDF"/>
+<ROW Type="F" ComponentName="acSaveToPDF" PropertyName="Hint" OriginalValue="Save current file in PDF format..." Translation="Salvar el archivo actual en formato PDF..." Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Save current file in PDF format..." TranslationStr="Salvar el archivo actual en formato PDF..."/>
+<ROW Type="F" ComponentName="acViewSearch" PropertyName="Caption" OriginalValue="View" Translation="Vista" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="View" TranslationStr="Vista"/>
+<ROW Type="F" ComponentName="acViewSearch" PropertyName="Hint" OriginalValue="View File" Translation="Ver archivo" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="View File" TranslationStr="Ver archivo"/>
+<ROW Type="F" ComponentName="acRefresh" PropertyName="Caption" OriginalValue="Refresh" Translation="Actualizar" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Refresh" TranslationStr="Actualizar"/>
+<ROW Type="F" ComponentName="acRefresh" PropertyName="Hint" OriginalValue="Refresh content (reloading file)" Translation="Actualizar contenido (volver a cargar el archivo)" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Refresh content (reloading file)" TranslationStr="Actualizar contenido (volver a cargar el archivo)"/>
+<ROW Type="F" ComponentName="acExportHTML" PropertyName="Caption" OriginalValue="Export..." Translation="Exportar..." Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Export..." TranslationStr="Exportar..."/>
+<ROW Type="F" ComponentName="acExportHTML" PropertyName="Hint" OriginalValue="Export to HTML help files" Translation="Exportar en archivos de ayuda HTML" Status="@" Deleted="FALSE" ClassName="TAction" OriginalStr="Export to HTML help files" TranslationStr="Exportar en archivos de ayuda HTML"/>
+</ROWDATA>
+</DATAPACKET>

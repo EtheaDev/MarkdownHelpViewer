@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--stat:#=11
+*=11
+@=0
+Lang:=ESP
+:stat-->  <DATAPACKET Version="2.0">
+<METADATA>
+<FIELDS>
+<FIELD attrname="OriginalValue" fieldtype="string" required="true" WIDTH="250"/>
+<FIELD attrname="Translation" fieldtype="string" WIDTH="250"/>
+<FIELD attrname="Count" fieldtype="i4"/>
+<FIELD attrname="Status" fieldtype="string" required="true" WIDTH="1"/>
+</FIELDS>
+<PARAMS/>
+</METADATA>
+<ROWDATA>
+<ROW OriginalValue="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" Translation="¿Confirmar exportación de un solo archivo [Sí] o %d archivos [Sí a todos] en formato HTML?" Count="8" Status="*"/>
+<ROW OriginalValue="Incorrect message received" Translation="Mensaje incorrecto recibido" Count="5" Status="*"/>
+<ROW OriginalValue="File &quot;%s&quot; succesfully saved. Do you want to open it now?" Translation="El archivo &quot;%s&quot; se guardó correctamente. ¿Quieres abrirlo ahora?" Count="1" Status="*"/>
+<ROW OriginalValue="HTML output folder" Translation="Carpeta de HTML generados" Count="8" Status="*"/>
+<ROW OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="Palabra clave &quot;%s&quot; no encontrada en los archivos de la carpeta de trabajo: &quot;%s&quot;" Count="8" Status="*"/>
+<ROW OriginalValue="CONFIRMATION" Translation="CONFIRMACIÓN" Count="8" Status="*"/>
+<ROW OriginalValue="ERROR!" Translation="¡ERROR!" Count="8" Status="*"/>
+<ROW OriginalValue="INFORMATION" Translation="INFORMACIÓN" Count="8" Status="*"/>
+<ROW OriginalValue="UNEXPECTED ERROR!" Translation="¡ERROR INESPERADO!" Count="8" Status="*"/>
+<ROW OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="El archivo &quot;%s&quot; se guardó correctamente. ¿Quieres abrirlo ahora?" Count="7" Status="*"/>
+<ROW OriginalValue="Closing application to change GUI language" Translation="Reiniciando la aplicación para cambiar el idioma de la GUI" Count="4" Status="*"/>
+</ROWDATA>
+</DATAPACKET>
