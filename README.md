@@ -1,6 +1,6 @@
 # Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**Latest Version 2.1.0 - 2 Jan 2024**
+**Latest Version 2.1.1 - 3 Jan 2024**
 
 **An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications**
 
@@ -98,12 +98,13 @@ Then the interface searches in the same folder of default file (specified into A
 
 ## Release Notes ##
 
-2 Jan 2024: ver. 2.1.0
+3 Jan 2024: ver. 2.1.1
 - Changed Toolbar to Styledtoolbar
 - Support for different GUI languages (italian, French, Deutch, Portuguese, Espagnol)
 - Fix for File names with spaces
 - Added ISMultiLanguage library engine for translations
 - Added xml files of translations
+- Removed ini files
 
 25 Oct 2023: ver. 2.0.1
 - Added Export to HTML help files (experimental)
