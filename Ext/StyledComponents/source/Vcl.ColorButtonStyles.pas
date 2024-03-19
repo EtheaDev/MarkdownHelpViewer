@@ -188,7 +188,7 @@ begin
   BasicClassToColors(AClass, AAppearance, LFontColor, LButtonColor, LBorderColor, LOutLine);
 
   //Default Style Attributes for Basic Color Buttons
-  ANormalStyle.DrawType := btRounded;
+  ANormalStyle.DrawType := btRoundRect;
   ANormalStyle.FontStyle := [fsBold];
   ANormalStyle.BorderWidth := COLOR_BTN_WIDTH;
 
@@ -354,7 +354,7 @@ begin
   SVGClassToColors(AClass, AAppearance, LFontColor, LButtonColor, LBorderColor, LOutLine);
 
   //Default Style Attributes for Basic Color Buttons
-  ANormalStyle.DrawType := btRounded;
+  ANormalStyle.DrawType := btRoundRect;
   ANormalStyle.FontStyle := [fsBold];
   ANormalStyle.BorderWidth := COLOR_BTN_WIDTH;
 

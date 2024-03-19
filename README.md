@@ -1,6 +1,6 @@
-# Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
+﻿# Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**Latest Version 2.1.1 - 3 Jan 2024**
+**Latest Version 2.1.2 - 19 Mar 2024**
 
 **An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications**
 
@@ -97,6 +97,12 @@ Then the interface searches in the same folder of default file (specified into A
 - At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)
 
 ## Release Notes ##
+
+19 Mar 2024: ver. 2.1.2
+- Added property "AutoLoadOnHotSpotClick" to TMarkdownViewer
+- Fixed resize Font changing Monitor-DPI
+- Fixed Toolbar switching Captions On/Off
+- Reset scrollbar position to top after loading new file
 
 3 Jan 2024: ver. 2.1.1
 - Changed Toolbar to Styledtoolbar

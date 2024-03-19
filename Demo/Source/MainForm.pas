@@ -31,7 +31,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Data.DB, Vcl.DBCtrls,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Datasnap.DBClient,
-  Vcl.ComCtrls, Vcl.Mask, MarkDownViewerComponents;
+  Vcl.ComCtrls, Vcl.Mask, MarkDownViewerComponents, Vcl.Buttons, HTMLUn2,
+  HtmlView;
 
 type
   TfmMain = class(TForm)
@@ -100,6 +101,7 @@ type
     EmbeddedHelpPanel: TPanel;
     RightSplitter: TSplitter;
     HelpTitleLabel: TLabel;
+    MarkdownViewer: TMarkdownViewer;
     procedure MenuItemClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure HelpMenuItemClick(Sender: TObject);
@@ -109,7 +111,6 @@ type
     procedure ShowHelpEmbeddedClick(Sender: TObject);
     procedure PageControlChange(Sender: TObject);
   private
-    MarkdownViewer: TMarkDownViewer;
     procedure ShowEmbeddedHelp;
   public
     { Public declarations }
@@ -152,14 +153,8 @@ begin
   //Register "ServerRoot" folder for any MarkdownViewer
   RegisterMDViewerServerRoot(ExtractFilePath(Application.ExeName)+'..\Help');
 
-  //Manually create components (so you can test it without installing into IDE)
-  MarkdownViewer := TMarkdownViewer.Create(Self);
-  MarkdownViewer.Parent := EmbeddedHelpPanel;
-  MarkdownViewer.Align := alClient;
-
   HelpTitleLabel.Font.Style := [fsBold];
   EmbeddedHelpPanel.Width := 400;
-
 
   Caption := Application.Title;
   TitleLabel.Font.Height := Round(TitleLabel.Font.Height * 1.5);

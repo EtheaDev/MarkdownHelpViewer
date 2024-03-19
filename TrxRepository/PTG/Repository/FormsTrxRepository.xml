@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--stat:#=119
+<!--stat:#=120
 *=39
-@=80
+@=81
 Lang:=PTG
 :stat-->  <DATAPACKET Version="2.0">
 <METADATA>
@@ -133,5 +133,6 @@ Lang:=PTG
 <ROW OriginalValue="Toolbar" Translation="Barra de ferramentas" Count="2" Status="@"/>
 <ROW OriginalValue="Language:" Translation="Idioma:" Count="2" Status="@"/>
 <ROW OriginalValue="User interface" Translation="Interface do usuário" Count="2" Status="@"/>
+<ROW OriginalValue="Show selection in Viewer" Translation="Mostrar seleção no Visualizador" Count="1" Status="@"/>
 </ROWDATA>
 </DATAPACKET>

@@ -86,6 +86,7 @@ type
     FHTMLFontSize: Integer;
     FHTMLFontName: string;
     FRescalingImage: Boolean;
+    FShowDialectSelection: Boolean;
     FProcessorDialect: TMarkdownProcessorDialect;
     FWindowState: TWindowState;
     FWindowTop: Integer;
@@ -100,6 +101,7 @@ type
     function GetButtonTextColor: TColor;
     class function GetSettingsFileName: string; static;
     procedure SetRescalingImage(const AValue: Boolean);
+    procedure SetShowDialectSelection(const AValue: Boolean);
     procedure SetProcessorDialect(const AValue: TMarkdownProcessorDialect);
     procedure SetWindowState(const AValue: TWindowState);
     procedure SetWindowHeight(const AValue: Integer);
@@ -140,6 +142,7 @@ type
     property ThemeSelection: TThemeSelection read FThemeSelection write FThemeSelection;
     property GUILanguage: TAppLanguage read FGUILanguage write FGUILanguage;
     property ProcessorDialect: TMarkdownProcessorDialect read FProcessorDialect write SetProcessorDialect;
+    property ShowDialectSelection: Boolean read FShowDialectSelection write SetShowDialectSelection;
 
     property ShowToolbarCaptions: Boolean read FShowToolbarCaptions write SetShowToolbarCaptions;
     property UseColoredIcons: Boolean read FUseColoredIcons write SetUseColoredIcons;
@@ -342,6 +345,7 @@ begin
   RescalingImage := FIniFile.ReadBool(HTML_VIEWER, 'RescalingImage', True);
   ProcessorDialect := TMarkdownProcessorDialect(
     FIniFile.ReadInteger(HTML_VIEWER, 'ProcessorDialect', ord(mdCommonMark)));
+  ShowDialectSelection := FIniFile.ReadBool(HTML_VIEWER, 'ShowDialectSelection', False);
   DownloadFromWEB := FIniFile.ReadBool(HTML_VIEWER, 'DownloadFromWEB', True);
   CurrentFileName := FIniFile.ReadString(HTML_VIEWER, 'CurrentFileName', '');
   CurrentIndexFileName := FIniFile.ReadString(HTML_VIEWER, 'CurrentIndexFileName', '');
@@ -357,6 +361,11 @@ end;
 procedure TViewerSettings.SetProcessorDialect(const AValue: TMarkdownProcessorDialect);
 begin
   FProcessorDialect := AValue;
+end;
+
+procedure TViewerSettings.SetShowDialectSelection(const AValue: Boolean);
+begin
+  FShowDialectSelection := AValue;
 end;
 
 procedure TViewerSettings.SetRescalingImage(const AValue: Boolean);
@@ -426,6 +435,7 @@ begin
   FIniFile.WriteInteger(HTML_VIEWER, 'HTMLFontSize', FHTMLFontSize);
   FIniFile.WriteString(HTML_VIEWER, 'HTMLFontName', FHTMLFontName);
   FIniFile.WriteBool(HTML_VIEWER, 'RescalingImage', FRescalingImage);
+  FIniFile.WriteBool(HTML_VIEWER, 'ShowDialectSelection', FShowDialectSelection);
   FIniFile.WriteInteger(HTML_VIEWER, 'ProcessorDialect', Ord(FProcessorDialect));
   FIniFile.WriteBool(HTML_VIEWER, 'DownloadFromWEB', FDownloadFromWEB);
   FIniFile.WriteString(HTML_VIEWER, 'CurrentFileName', CurrentFileName);

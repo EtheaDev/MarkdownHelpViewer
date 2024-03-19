@@ -2,7 +2,7 @@
 
 **A simple application to edit a table**
 
-You can see an Index of the application functions [here...](Index.mdown)
+You can see an Index of the application functions [here...](Index.md)
 
 This is only a simple demo, not all the operations are available, expecially the menu items.
 

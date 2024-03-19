@@ -35,7 +35,11 @@ uses
   SVGIconImageListBase, SVGIconImageList, MDHelpView.Settings, Vcl.ButtonGroup,
   Vcl.ToolWin, MDHelpView.Resources, Vcl.VirtualImageList, MDHelpView.About,
   Vcl.WinXCtrls, SVGIconImage, Vcl.NumberBox, Vcl.Samples.Spin,
-  CBMultiLanguage, MDHelpView.FormsHookTrx;
+  CBMultiLanguage,
+  {$IFDEF STYLEDCOMPONENTS}
+  Vcl.StyledComponentsHooks,
+  {$ENDIF}
+  MDHelpView.FormsHookTrx;
 
 type
   TMDSettingsForm = class(TFormHook)
@@ -82,6 +86,7 @@ type
     UserInterfaceGroupBox: TGroupBox;
     UILabel: TLabel;
     UIComboBox: TComboBox;
+    ShowDialectSelectionCheckBox: TCheckBox;
     procedure ExitFromSettings(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure MenuButtonGroupButtonClicked(Sender: TObject; Index: Integer);
@@ -220,6 +225,7 @@ begin
   HTMLFontComboBox.ItemIndex := HTMLFontComboBox.Items.IndexOf(ASettings.HTMLFontName);
   HTMLUpDown.Position := ASettings.HTMLFontSize;
 
+  ShowDialectSelectionCheckBox.Checked := ASettings.ShowDialectSelection;
   ProcessorDialectComboBox.ItemIndex := ord(ASettings.ProcessorDialect);
   UIComboBox.ItemIndex := ord(ASettings.GUILanguage);
 
@@ -260,6 +266,7 @@ begin
   ASettings.HTMLFontName := HTMLFontComboBox.Text;
   ASettings.HTMLFontSize := HTMLUpDown.Position;
 
+  ASettings.ShowDialectSelection := ShowDialectSelectionCheckBox.Checked;
   ASettings.ProcessorDialect := TMarkdownProcessorDialect(ProcessorDialectComboBox.ItemIndex);
   ASettings.GUILanguage := TAppLanguage(UIComboBox.ItemIndex);
 

@@ -328,6 +328,16 @@ object fmMain: TfmMain
       Caption = 'Instant Help'
       ExplicitWidth = 64
     end
+    object MarkdownViewer: TMarkdownViewer
+      Left = 4
+      Top = 19
+      Width = 163
+      Height = 385
+      Align = alClient
+      TabOrder = 0
+      ExplicitLeft = 2
+      ExplicitTop = 22
+    end
   end
   object MainMenu: TMainMenu
     Left = 288

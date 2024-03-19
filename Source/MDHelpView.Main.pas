@@ -32,12 +32,15 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls,
   Vcl.StdCtrls, Vcl.Menus, System.Actions, Vcl.ActnList, Vcl.StdActns,
-  Vcl.ComCtrls, MDHelpView.ComCtrls, Vcl.ToolWin, MDHelpView.Resources, Vcl.FileCtrl,
+  Vcl.ComCtrls, Vcl.ToolWin, MDHelpView.Resources, Vcl.FileCtrl,
   Vcl.DBCtrls, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList, Vcl.ExtActns,
   MDHelpView.Settings,
   HTMLUn2, HtmlView, HtmlGlobals,
   vmHtmlToPdf, SVGIconImageListBase,
   SVGIconImageList, CBMultiLanguage,
+  {$IFDEF STYLEDCOMPONENTS}
+  Vcl.StyledComponentsHooks,
+  {$ENDIF}
   MDHelpView.FormsHookTrx;
 
 type
@@ -77,7 +80,6 @@ type
     sep2: TToolButton;
     btPrevius: TToolButton;
     btNext: TToolButton;
-    sep3: TToolButton;
     btHome: TToolButton;
     btOption: TToolButton;
     btAbout: TToolButton;
@@ -160,6 +162,7 @@ type
     FShowToolbarCaptions: Boolean;
     FUseColoredIcons: Boolean;
     FVCLStyleName: string;
+    procedure AdjustConstraint;
     function DialogPosRect: TRect;
     procedure LoadAndTransformFile(const AFileName: TFileName);
     procedure UpdateGui;
@@ -169,7 +172,8 @@ type
     function Load(const AFileName: TFileName): Boolean;
     function TransformMDToHTML(const AMdContent: string): string;
     procedure TransformTo(const AHTMLViewer: THtmlViewer;
-      const AMdContent: string; const AReloadImage: Boolean);
+      const AMdContent: string; const AReloadImage: Boolean;
+      const APreservePosition: Boolean);
     procedure LoadIndex(const AFileName: TFileName);
     procedure LoadCSS(const AFileName: TFileName);
     function TryLoadCSS(const AFileName: TFileName): Boolean;
@@ -183,13 +187,16 @@ type
     procedure SetCurrentIndexFileName(const AValue: TFileName);
     procedure FileSavedAskToOpen(const AFileName: string);
     procedure ShowMarkdownAsHTML(const AHTMLViewer: THTMLViewer;
-      const AHTMLContent: string; const AReloadImages: Boolean);
+      const AHTMLContent: string; const AReloadImages: Boolean;
+      const APreservePosition: Boolean);
     procedure SetShowToolbarCaptions(const Value: Boolean);
     procedure SetUseColoredIcons(const Value: Boolean);
     procedure UpdateIconsColorByStyle;
     procedure SetCurrentCSSFileName(const Value: TFileName);
     function GetCssContent: string;
     procedure UpdateWindowPos;
+    function GetDialectSelectionVisible: Boolean;
+    function GetToolbarWidth: Integer;
     property HTMLFontSize: Integer read FHTMLFontSize write SetHTMLFontSize;
     property HTMLFontName: string read FHTMLFontName write SetHTMLFontName;
     property WorkingFolder: string read FWorkingFolder write SetWorkingFolder;
@@ -199,6 +206,7 @@ type
     property ShowToolbarCaptions: Boolean read FShowToolbarCaptions write SetShowToolbarCaptions;
     property UseColoredIcons: Boolean read FUseColoredIcons write SetUseColoredIcons;
     property CSSContent: string read GetCssContent;
+    property DialectSelectionVisible: Boolean read GetDialectSelectionVisible;
   protected
     procedure Loaded; override;
   public
@@ -656,8 +664,8 @@ begin
   if (Shift = [ssCtrl]) then
   begin
     HTMLFontSize := HTMLFontSize - 1;
-    TransformTo(HtmlViewer, FMdContent, True);
-    TransformTo(HtmlViewerIndex, FMdIndexContent, True);
+    TransformTo(HtmlViewer, FMdContent, True, True);
+    TransformTo(HtmlViewerIndex, FMdIndexContent, True, True);
     Handled := True;
   end;
 end;
@@ -668,8 +676,8 @@ begin
   if (Shift = [ssCtrl]) then
   begin
     HTMLFontSize := HTMLFontSize + 1;
-    TransformTo(HtmlViewer, FMdContent, True);
-    TransformTo(HtmlViewerIndex, FMdIndexContent, True);
+    TransformTo(HtmlViewer, FMdContent, True, True);
+    TransformTo(HtmlViewerIndex, FMdIndexContent, True, True);
     Handled := True;
   end;
 end;
@@ -685,6 +693,13 @@ begin
     Result := FCssContent
   else
     Result := GetMarkdownDefaultCSS;
+end;
+
+function TMainForm.GetDialectSelectionVisible: Boolean;
+begin
+  //set visible ProcessorDialectLabel and ProcessorDialectComboBox
+  Result := FViewerSettings.ShowDialectSelection and
+    ((FMdIndexContent <> '') or (FMdContent <> ''));
 end;
 
 procedure TMainForm.HtmlViewerHotSpotClick(Sender: TObject;
@@ -829,13 +844,14 @@ begin
 end;
 
 procedure TMainForm.TransformTo(const AHTMLViewer: THtmlViewer;
-  const AMdContent: string; const AReloadImage: Boolean);
+  const AMdContent: string; const AReloadImage: Boolean;
+  const APreservePosition: Boolean);
 var
   LHtml: string;
 begin
   LHtml := TransformMDToHTML(AMdContent);
   //Load html content into HtmlViewer
-  ShowMarkdownAsHTML(AHTMLViewer, LHtml, AReloadImage);
+  ShowMarkdownAsHTML(AHTMLViewer, LHtml, AReloadImage, APreservePosition);
 end;
 
 
@@ -847,7 +863,8 @@ begin
 end;
 
 procedure TMainForm.ShowMarkdownAsHTML(const AHTMLViewer: THTMLViewer;
-  const AHTMLContent: string; const AReloadImages: Boolean);
+  const AHTMLContent: string; const AReloadImages: Boolean;
+  const APreservePosition: Boolean);
 var
   LOldPos: Integer;
 begin
@@ -863,7 +880,8 @@ begin
     AHtmlViewer.LoadFromString(AHTMLContent);
     dmResources.StopLoadingImages(False);
   finally
-    AHtmlViewer.VScrollBarPosition := LOldPos;
+    if APreservePosition then
+      AHtmlViewer.VScrollBarPosition := LOldPos;
   end;
   AHtmlViewer.Update;
 end;
@@ -910,7 +928,7 @@ begin
   try
      if Load(AFileName) then
      begin
-       TransformTo(HtmlViewer, FMdContent, True);
+       TransformTo(HtmlViewer, FMdContent, True, False);
      end;
   finally
     Screen.Cursor := crDefault;
@@ -920,7 +938,7 @@ end;
 procedure TMainForm.LoadAndTransformFileIndex(const AFileName: TFileName);
 begin
   LoadIndex(AFileName);
-  TransformTo(HtmlViewerIndex, FMdIndexContent, True);
+  TransformTo(HtmlViewerIndex, FMdIndexContent, True, False);
 end;
 
 procedure TMainForm.LoadCSS(const AFileName: TFileName);
@@ -962,9 +980,9 @@ begin
   begin
     FViewerSettings.ProcessorDialect:= LDialect;
     WriteSettingsToIni;
-    TransformTo(HtmlViewer, FMdContent, False);
+    TransformTo(HtmlViewer, FMdContent, False, False);
 
-    TransformTo(HtmlViewerIndex, FMdIndexContent, False);
+    TransformTo(HtmlViewerIndex, FMdIndexContent, False, False);
   end;
 end;
 
@@ -1025,17 +1043,21 @@ end;
 
 procedure TMainForm.SetShowToolbarCaptions(const Value: Boolean);
 begin
-  if FShowToolbarCaptions <> Value then
+  ToolBar.ShowCaptions := Value;
+  If not Value then
   begin
-    ToolBar.ShowCaptions := Value;
-    If not Value then
-    begin
-      ToolBar.ButtonHeight := 10;
-      ToolBar.ButtonWidth := 10;
-    end;
-    paTop.Height := ToolBar.Height + 4;
-    FShowToolbarCaptions := Value;
+    ToolBar.ButtonHeight := Round(32 * ScaleFactor);
+    ToolBar.ButtonWidth := ToolBar.ButtonHeight;
+  end
+  else
+  begin
+    ToolBar.ButtonHeight := Round(50 * ScaleFactor);
+    ToolBar.ButtonWidth := Round(60 * ScaleFactor);
   end;
+  ToolBar.Height := ToolBar.ButtonHeight + Round(4 * ScaleFactor);
+  paTop.Height := ToolBar.Height;
+  FShowToolbarCaptions := Value;
+  AdjustConstraint;
 end;
 
 procedure TMainForm.SetUseColoredIcons(const Value: Boolean);
@@ -1214,7 +1236,7 @@ begin
   if FRememberToResize then
   begin
     FRememberToResize := False;
-    TransformTo(HtmlViewer, FMdContent, True);
+    TransformTo(HtmlViewer, FMdContent, True, False);
   end;
   UpdateGui;
 end;
@@ -1232,16 +1254,33 @@ begin
   HTMLFontName := FViewerSettings.HTMLFontName;
 
   ShowToolbarCaptions := FViewerSettings.ShowToolbarCaptions;
+  paTop.Repaint;
   UseColoredIcons := FViewerSettings.UseColoredIcons;
 
-  TransformTo(HtmlViewer, FMdContent, True);
+  TransformTo(HtmlViewer, FMdContent, True, True);
 
-  TransformTo(HtmlViewerIndex, FMdIndexContent, True);
+  TransformTo(HtmlViewerIndex, FMdIndexContent, True, True);
+end;
+
+function TMainForm.GetToolbarWidth: Integer;
+var
+  I: Integer;
+begin
+  Result := 0;
+  For I := 0 to Toolbar.ButtonCount -1 do
+    if Toolbar.Buttons[I].Visible then
+      Result := Result + Toolbar.Buttons[I].Width + Round(2 * ScaleFactor);
+end;
+
+procedure TMainForm.AdjustConstraint;
+begin
+  if FViewerSettings.ShowDialectSelection then
+    Self.Constraints.MinWidth := GetToolbarWidth + ProcessorDialectComboBox.Width
+  else
+    Self.Constraints.MinWidth := GetToolbarWidth;
 end;
 
 procedure TMainForm.UpdateGui;
-var
-  LisVisible: Boolean;
 begin
   //takes care of updating the user interface
   tsIndex.TabVisible := FCurrentIndexFileName <> '';
@@ -1263,10 +1302,18 @@ begin
   end;
 
   //set visible ProcessorDialectLabel and ProcessorDialectComboBox
-   LisVisible := (FMdIndexContent <> '') or (FMdContent <> '');
-
-   ProcessorDialectLabel.Visible := LisVisible;
-   ProcessorDialectComboBox.Visible := LisVisible;
+  if DialectSelectionVisible then
+  begin
+    ToolBar.Margins.Right := ProcessorDialectComboBox.Width + Round(10 * ScaleFactor);
+    ProcessorDialectComboBox.Visible := True;
+    ProcessorDialectLabel.Visible := True;
+  end
+  else
+  begin
+    ToolBar.Margins.Right := 0;
+    ProcessorDialectComboBox.Visible := False;
+    ProcessorDialectLabel.Visible := False;
+  end;
 end;
 
 procedure TMainForm.WriteSettingsToIni;

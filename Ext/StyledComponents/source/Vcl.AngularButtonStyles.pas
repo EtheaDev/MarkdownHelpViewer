@@ -221,7 +221,7 @@ begin
 
   //Default Style Attributes for Angular Buttons: Flat
   //using Flat Style as base style
-  ANormalStyle.DrawType := btRounded;
+  ANormalStyle.DrawType := btRoundRect;
   ANormalStyle.BorderWidth := 0;
   ANormalStyle.BorderDrawStyle := brdClear;
   ANormalStyle.FontStyle := [fsBold];
@@ -409,7 +409,7 @@ begin
 
   //Default Style Attributes for Angular Buttons: Flat
   //using Flat Style as base style
-  ANormalStyle.DrawType := btRounded;
+  ANormalStyle.DrawType := btRoundRect;
   ANormalStyle.BorderWidth := 0;
   ANormalStyle.BorderDrawStyle := brdClear;
   ANormalStyle.ButtonDrawStyle := btnSolid;

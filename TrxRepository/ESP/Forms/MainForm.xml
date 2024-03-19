@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--stat:#=71
+<!--stat:#=61
 *=0
-@=71
+@=61
 ?=0
 0=0
 :stat-->  <DATAPACKET Version="2.0">
@@ -42,25 +42,15 @@
 <ROW Type="F" ComponentName="ProcessorDialectLabel" PropertyName="Caption" OriginalValue="Transformation:" Translation="Transformación:" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Transformation:" TranslationStr="Transformación:"/>
 <ROW Type="F" ComponentName="ProcessorDialectComboBox" PropertyName="Items" OriginalValue="DaringFireball&#013;&#010;CommonMark&#013;&#010;" Translation="DaringFireball&#013;&#010;CommonMark&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TComboBox" OriginalStr="DaringFireball&#013;&#010;CommonMark" TranslationStr="DaringFireball&#013;&#010;CommonMark"/>
 <ROW Type="F" ComponentName="ProcessorDialectComboBox" PropertyName="Hint" OriginalValue="Markdown Tranformation Dialect" Translation="Dialecto de transformación Markdown" Status="@" Deleted="FALSE" ClassName="TComboBox" OriginalStr="Markdown Tranformation Dialect" TranslationStr="Dialecto de transformación Markdown"/>
-<ROW Type="F" ComponentName="btShowHide" PropertyName="Caption" OriginalValue="Hide" Translation="Ocultar" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Hide" TranslationStr="Ocultar"/>
 <ROW Type="F" ComponentName="btShowHide" PropertyName="Hint" OriginalValue="Hide Content/Search Panel" Translation="Ocultar contenido/panel de búsqueda" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Hide Content/Search Panel" TranslationStr="Ocultar contenido/panel de búsqueda"/>
-<ROW Type="F" ComponentName="btOpen" PropertyName="Caption" OriginalValue="&amp;Open..." Translation="&amp;Abrir..." Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="&amp;Open..." TranslationStr="&amp;Abrir..."/>
 <ROW Type="F" ComponentName="btOpen" PropertyName="Hint" OriginalValue="Open an existing Markdown or HTML file..." Translation="Abra un archivo Markdown o HTML existente..." Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Open an existing Markdown or HTML file..." TranslationStr="Abra un archivo Markdown o HTML existente..."/>
-<ROW Type="F" ComponentName="btRefresh" PropertyName="Caption" OriginalValue="Refresh" Translation="Actualizar" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Refresh" TranslationStr="Actualizar"/>
 <ROW Type="F" ComponentName="btRefresh" PropertyName="Hint" OriginalValue="Refresh content (reloading file)" Translation="Actualizar contenido (volver a cargar el archivo)" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Refresh content (reloading file)" TranslationStr="Actualizar contenido (volver a cargar el archivo)"/>
-<ROW Type="F" ComponentName="btSaveToPdf" PropertyName="Caption" OriginalValue="Save PDF" Translation="Salva PDF" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Save PDF" TranslationStr="Salva PDF"/>
 <ROW Type="F" ComponentName="btSaveToPdf" PropertyName="Hint" OriginalValue="Save current file in PDF format..." Translation="Salvar el archivo actual en formato PDF..." Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Save current file in PDF format..." TranslationStr="Salvar el archivo actual en formato PDF..."/>
-<ROW Type="F" ComponentName="btHome" PropertyName="Caption" OriginalValue="Home" Translation="Inicio" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Home" TranslationStr="Inicio"/>
 <ROW Type="F" ComponentName="btHome" PropertyName="Hint" OriginalValue="Back to Home File" Translation="Volver al archivo de inicio" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Back to Home File" TranslationStr="Volver al archivo de inicio"/>
-<ROW Type="F" ComponentName="btPrevius" PropertyName="Caption" OriginalValue="&amp;Previous" Translation="&amp;Anterior" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="&amp;Previous" TranslationStr="&amp;Anterior"/>
 <ROW Type="F" ComponentName="btPrevius" PropertyName="Hint" OriginalValue="Previous Opened File" Translation="Archivo abierto anterior" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Previous Opened File" TranslationStr="Archivo abierto anterior"/>
-<ROW Type="F" ComponentName="btNext" PropertyName="Caption" OriginalValue="&amp;Next" Translation="&amp;Siguiente" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="&amp;Next" TranslationStr="&amp;Siguiente"/>
 <ROW Type="F" ComponentName="btNext" PropertyName="Hint" OriginalValue="Next Opened File" Translation="Archivo abierto siguiente" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Next Opened File" TranslationStr="Archivo abierto siguiente"/>
-<ROW Type="F" ComponentName="btExportHTML" PropertyName="Caption" OriginalValue="Export..." Translation="Exportar..." Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Export..." TranslationStr="Exportar..."/>
 <ROW Type="F" ComponentName="btExportHTML" PropertyName="Hint" OriginalValue="Export to HTML help files" Translation="Exportar en archivos de ayuda HTML" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Export to HTML help files" TranslationStr="Exportar en archivos de ayuda HTML"/>
-<ROW Type="F" ComponentName="btOption" PropertyName="Caption" OriginalValue="Settings" Translation="Config." Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Settings" TranslationStr="Config."/>
 <ROW Type="F" ComponentName="btOption" PropertyName="Hint" OriginalValue="Show Settings" Translation="Mostrar configuración" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Show Settings" TranslationStr="Mostrar configuración"/>
-<ROW Type="F" ComponentName="btAbout" PropertyName="Caption" OriginalValue="About" Translation="Info" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="About" TranslationStr="Info"/>
 <ROW Type="F" ComponentName="btAbout" PropertyName="Hint" OriginalValue="Show Application Information" Translation="Mostrar información de la aplicación" Status="@" Deleted="FALSE" ClassName="TToolButton" OriginalStr="Show Application Information" TranslationStr="Mostrar información de la aplicación"/>
 <ROW Type="F" ComponentName="acFileOpen" PropertyName="Caption" OriginalValue="&amp;Open..." Translation="&amp;Abrir..." Status="@" Deleted="FALSE" ClassName="TFileOpen" OriginalStr="&amp;Open..." TranslationStr="&amp;Abrir..."/>
 <ROW Type="F" ComponentName="acFileOpen" PropertyName="Hint" OriginalValue="Open an existing Markdown or HTML file..." Translation="Abra un archivo Markdown o HTML existente..." Status="@" Deleted="FALSE" ClassName="TFileOpen" OriginalStr="Open an existing Markdown or HTML file..." TranslationStr="Abra un archivo Markdown o HTML existente..."/>

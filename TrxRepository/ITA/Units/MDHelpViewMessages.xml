@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--stat:#=10
 *=0
-@=9
-?=1
+@=10
+?=0
 0=0
 :stat-->  <DATAPACKET Version="2.0">
 <METADATA>
@@ -26,7 +26,7 @@
 <ROW Type="M" ComponentName="Message" PropertyName="STR_CONFIRMATION" OriginalValue="CONFIRMATION" Translation="CONFERMA" Status="@" Deleted="FALSE" OriginalStr="CONFIRMATION" TranslationStr="CONFERMA"/>
 <ROW Type="M" ComponentName="Message" PropertyName="STR_UNEXPECTED_ERROR" OriginalValue="UNEXPECTED ERROR!" Translation="ERRORE INATTESO!" Status="@" Deleted="FALSE" OriginalStr="UNEXPECTED ERROR!" TranslationStr="ERRORE INATTESO!"/>
 <ROW Type="M" ComponentName="Message" PropertyName="HTML_OUTPUT_FOLDER" OriginalValue="HTML output folder" Translation="Cartella salvataggio HTML" Status="@" Deleted="FALSE" OriginalStr="HTML output folder" TranslationStr="Cartella salvataggio HTML"/>
-<ROW Type="M" ComponentName="Message" PropertyName="FILE_SAVED" OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Il file &quot;%s&quot; è stato salvato correttamente. Vuoi aprirlo ora?" Status="?" Deleted="FALSE" OriginalStr="File &quot;%s&quot; successfully saved. Do you want to open it now?" TranslationStr="Il file &quot;%s&quot; è stato salvato correttamente. Vuoi aprirlo ora?"/>
+<ROW Type="M" ComponentName="Message" PropertyName="FILE_SAVED" OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Il file &quot;%s&quot; è stato salvato correttamente. Vuoi aprirlo ora?" Status="@" Deleted="FALSE" OriginalStr="File &quot;%s&quot; successfully saved. Do you want to open it now?" TranslationStr="Il file &quot;%s&quot; è stato salvato correttamente. Vuoi aprirlo ora?"/>
 <ROW Type="M" ComponentName="Message" PropertyName="NO_KEYWORD_MATCH" OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="La parola chiave &quot;%s&quot; non è stata trovata nella cartella di lavoro: &quot;%s&quot;" Status="@" Deleted="FALSE" OriginalStr="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" TranslationStr="La parola chiave &quot;%s&quot; non è stata trovata nella cartella di lavoro: &quot;%s&quot;"/>
 <ROW Type="M" ComponentName="Message" PropertyName="CONFIRM_EXPORT_HTML" OriginalValue="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" Translation="Confermi esportazione di un singolo file [Si] o di %d file [Si a tutto] in formato HTML?" Status="@" Deleted="FALSE" OriginalStr="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" TranslationStr="Confermi esportazione di un singolo file [Si] o di %d file [Si a tutto] in formato HTML?"/>
 <ROW Type="M" ComponentName="Message" PropertyName="ERR_MSG_RECEIVED" OriginalValue="Incorrect message received" Translation="Ricevuto messaggio non corretto." Status="@" Deleted="FALSE" OriginalStr="Incorrect message received" TranslationStr="Ricevuto messaggio non corretto."/>

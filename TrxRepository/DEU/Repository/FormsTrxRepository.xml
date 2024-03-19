@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--stat:#=119
+<!--stat:#=120
 *=110
-@=9
+@=10
 Lang:=DEU
 :stat-->  <DATAPACKET Version="2.0">
 <METADATA>
@@ -133,5 +133,6 @@ Lang:=DEU
 <ROW OriginalValue="Toolbar" Translation="Symbolleiste" Count="3" Status="*"/>
 <ROW OriginalValue="Language:" Translation="Sprache:" Count="3" Status="*"/>
 <ROW OriginalValue="User interface" Translation="Benutzeroberfläche" Count="3" Status="@"/>
+<ROW OriginalValue="Show selection in Viewer" Translation="Auswahl im Viewer anzeigen" Count="1" Status="@"/>
 </ROWDATA>
 </DATAPACKET>

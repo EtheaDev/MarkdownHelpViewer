@@ -32,6 +32,9 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, pngimage, Vcl.ImgList, System.ImageList,
   Vcl.Imaging.GIFImg, SVGIconImage,
+  {$IFDEF STYLEDCOMPONENTS}
+  Vcl.StyledComponentsHooks,
+  {$ENDIF}
   MDHelpView.FormsHookTrx;
 
 resourcestring

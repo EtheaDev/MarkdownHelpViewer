@@ -49,8 +49,8 @@ uses
   , HTMLUn2
   , HtmlView
   , HtmlGlobals
-  , MarkdownProcessor
   , MarkdownUtils
+  , MarkdownProcessor
   ;
 
 resourcestring
@@ -71,6 +71,7 @@ Type
     FStream: TMemoryStream;
     FImageRequest: TGetImageEvent;
     FTabStop: Boolean;
+    FAutoLoadOnHotSpotClick: boolean;
     procedure SetFileName(const AValue: TFileName);
     procedure SetProcessorDialect(const AValue: TMarkdownProcessorDialect);
     function IsCssStyleStored: Boolean;
@@ -113,6 +114,7 @@ Type
     function FindHelpFile(var AFileName: TFileName; const AContext: Integer;
       const HelpKeyword: string): boolean; virtual;
     procedure Loaded; override;
+    function HotSpotClickHandled: Boolean; override;
   public
     procedure LoadFromFile(const AFileName: TFileName);
     procedure ExportToFileHTML(const AFileName: TFileName);
@@ -125,10 +127,11 @@ Type
       const ACssStyle: string = ''): string;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    procedure RefreshViewer(const AReloadImages: Boolean;
-      ARescalingImage: Boolean);
+    procedure RefreshViewer(const AReloadImages, ARescalingImage: Boolean;
+      const APreservePosition: Boolean = True);
 
     //specific properties
+    property AutoLoadOnHotSpotClick: boolean read FAutoLoadOnHotSpotClick write FAutoLoadOnHotSpotClick default True;
     property CssStyle: TStringList read FCssStyle write SetCssStyle stored IsCssStyleStored;
     property FileName: TFileName read FFileName write SetFileName;
     property ProcessorDialect: TMarkdownProcessorDialect read FProcessorDialect write SetProcessorDialect default mdCommonMark;
@@ -149,7 +152,7 @@ Type
     //inherited properties to change default
     property HistoryMaxCount default 0;
     property AlignWithMargins default True;
-    property BorderStyle default htFocused;
+    property BorderStyle default htSingle;
     property DefBackground default clWindow;
     property DefFontName stored IsDefFontName;
     property DefFontSize default 10;
@@ -166,6 +169,7 @@ Type
   TMarkdownViewer = class(TCustomMarkdownViewer)
   published
     //specific properties
+    property AutoLoadOnHotSpotClick;
     property CssStyle;
     property FileName;
     property ProcessorDialect;
@@ -335,12 +339,13 @@ begin
   FHTMLContent := TStringList.Create;
   FHTMLContent.OnChange := HTMLContentChanged;
   FCssStyle := TStringList.Create;
+  FAutoLoadOnHotSpotClick := True;
 
   inherited OnImageRequest := HtmlViewerImageRequest;
 
   //inherited properties: default changed
   AlignWithMargins :=  True;
-  BorderStyle := htFocused;
+  BorderStyle := htSingle;
   DefBackground := clWindow;
   DefFontName := 'Arial';
   DefFontSize := 10;
@@ -542,8 +547,8 @@ begin
     FHTMLContent.Text := AValue;
     FMarkdownContent.Text := '';
   end;
-  //Load html content into HtmlViewer
-  RefreshViewer(True, FRescalingImage);
+  //Load html content into HtmlViewer, reset scrollbar position
+  RefreshViewer(True, FRescalingImage, False);
 end;
 
 procedure TCustomMarkdownViewer.MDContentChanged(Sender: TObject);
@@ -552,8 +557,9 @@ begin
   FHTMLContent.Text := TransformContent(FMarkdownContent.Text, FProcessorDialect, FCssStyle.Text);
 end;
 
-procedure TCustomMarkdownViewer.RefreshViewer(const AReloadImages: Boolean;
-  ARescalingImage: Boolean);
+procedure TCustomMarkdownViewer.RefreshViewer(
+  const AReloadImages, ARescalingImage: Boolean;
+  const APreservePosition: Boolean = True);
 var
   LOldPos: Integer;
 begin
@@ -566,7 +572,8 @@ begin
   try
     inherited LoadFromString(FHTMLContent.Text);
   finally
-    Self.VScrollBarPosition := LOldPos;
+    if APreservePosition then
+      Self.VScrollBarPosition := LOldPos;
   end;
 end;
 
@@ -822,6 +829,27 @@ begin
     end;
   except
     //don't raise any error
+  end;
+end;
+
+function TCustomMarkdownViewer.HotSpotClickHandled: Boolean;
+var
+  LFileName: TFileName;
+  LRootFolder: string;
+begin
+  Result := Inherited HotSpotClickHandled;
+  if not Result and FAutoLoadOnHotSpotClick then
+  begin
+    //Try to load the file
+    LRootFolder := ServerRoot;
+    if LRootFolder = '' then
+      LRootFolder := _ServerRoot;
+    LFileName := IncludeTrailingPathDelimiter(LRootFolder)+URL;
+    if FileExists(LFileName) then
+    begin
+      LoadFromFile(LFileName);
+      Result := True;
+    end;
   end;
 end;
 

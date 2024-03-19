@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--stat:#=32
+<!--stat:#=33
 *=0
-@=32
+@=33
 ?=0
 0=0
 :stat-->  <DATAPACKET Version="2.0">
@@ -53,5 +53,6 @@
 <ROW Type="F" ComponentName="PaperSizeRadioGroup" PropertyName="Items" OriginalValue="A4&#013;&#010;A5&#013;&#010;A3&#013;&#010;A2&#013;&#010;A1&#013;&#010;A0&#013;&#010;Letter&#013;&#010;Legal&#013;&#010;" Translation="A4&#013;&#010;A5&#013;&#010;A3&#013;&#010;A2&#013;&#010;A1&#013;&#010;A0&#013;&#010;Lettre&#013;&#010;Légal&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TRadioGroup" OriginalStr="A4&#013;&#010;A5&#013;&#010;A3&#013;&#010;A2&#013;&#010;A1&#013;&#010;A0&#013;&#010;Letter&#013;&#010;Legal" TranslationStr="A4&#013;&#010;A5&#013;&#010;A3&#013;&#010;A2&#013;&#010;A1&#013;&#010;A0&#013;&#010;Lettre&#013;&#010;Légal"/>
 <ROW Type="F" ComponentName="MenuButtonGroup" PropertyName="Items" OriginalValue="Back&#013;&#010;Preview&#013;&#010;Theme&#013;&#010;Font&#013;&#010;PDF Layout&#013;&#010;" Translation="Précédent&#013;&#010;Aperçu&#013;&#010;Thème&#013;&#010;Police&#013;&#010;Mise en page PDF&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TButtonGroup" OriginalStr="Back&#013;&#010;Preview&#013;&#010;Theme&#013;&#010;Font&#013;&#010;PDF Layout" TranslationStr="Précédent&#013;&#010;Aperçu&#013;&#010;Thème&#013;&#010;Police&#013;&#010;Mise en page PDF"/>
 <ROW Type="F" ComponentName="TitlePanel" PropertyName="Caption" OriginalValue="Settings" Translation="Paramètres" Status="@" Deleted="FALSE" ClassName="TPanel" OriginalStr="Settings" TranslationStr="Paramètres"/>
+<ROW Type="F" ComponentName="ShowDialectSelectionCheckBox" PropertyName="Caption" OriginalValue="Show selection in Viewer" Translation="Afficher la sélection dans le visualiseur" Status="@" Deleted="FALSE" ClassName="TCheckBox" OriginalStr="Show selection in Viewer" TranslationStr="Afficher la sélection dans le visualiseur"/>
 </ROWDATA>
 </DATAPACKET>

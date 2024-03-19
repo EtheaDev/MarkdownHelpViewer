@@ -92,6 +92,14 @@ object MDSettingsForm: TMDSettingsForm
             'DaringFireball'
             'CommonMark')
         end
+        object ShowDialectSelectionCheckBox: TCheckBox
+          Left = 232
+          Top = 43
+          Width = 157
+          Height = 17
+          Caption = 'Show selection in Viewer'
+          TabOrder = 1
+        end
       end
       object ToolbarGroupBox: TGroupBox
         AlignWithMargins = True

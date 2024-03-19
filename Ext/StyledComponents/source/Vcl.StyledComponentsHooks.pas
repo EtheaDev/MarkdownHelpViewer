@@ -1,12 +1,13 @@
 {******************************************************************************}
 {                                                                              }
-{       Markdown Help Viewer: Hooks for TToolbar and TToolButton               }
+{       StyledComponentsHooks: an interposer Unit to use Styled Components     }
+{       using Standard Delphi Controls Class Names                             }
 {                                                                              }
-{       Copyright (c) 2023-2024 (Ethea S.r.l.)                                 }
+{       Copyright (c) 2022-2024 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
-{       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
+{       Contributors:                                                          }
 {                                                                              }
-{       https://github.com/EtheaDev/MarkdownHelpViewer                         }
+{       https://github.com/EtheaDev/StyledComponents                           }
 {                                                                              }
 {******************************************************************************}
 {                                                                              }
@@ -23,42 +24,40 @@
 {  limitations under the License.                                              }
 {                                                                              }
 {******************************************************************************}
-unit MDHelpView.ComCtrls;
+unit Vcl.StyledComponentsHooks;
 
 interface
 
+{$INCLUDE StyledComponents.inc}
+
 uses
   Vcl.StyledButton
+  , Vcl.StyledDbNavigator
   , Vcl.StyledToolbar
-  , System.Classes;
+  ;
 
 type
-  //Hooking for TToolbar
-  TToolBar = class(TStyledToolbar)
-  public
-    constructor Create(AOwner: TComponent); override;
-  end;
+  //Interposer Class for TButton -> TStyledButton
+  TButton = class(TStyledButton) end;
 
-  //Hooking for TToolButton
-  TToolButton = class(TStyledToolButton)
-  public
-    constructor Create(AOwner: TComponent); override;
-  end;
+  //Interposer Class for TBitBtn -> TStyledBitBtn
+  TBitBtn = class(TStyledBitBtn) end;
+
+  //Interposer Class for TBitBtn -> TStyledSpeedButton
+  TSpeedButton = class(TStyledSpeedButton) end;
+
+  //Interposer Class for TDbNavigator -> TStyledDbNavigator
+  TDbNavigator = class(TStyledDbNavigator) end;
+
+  //Interposer Class for TBindNavigator -> TStyledBindNavigator
+  TBindNavigator = class(TStyledBindNavigator) end;
+
+  //Interposer Class for TToolbar -> TStyledToolbar
+  TToolbar = class(TStyledToolbar) end;
+
+  //Interposer Class for TToolbutton -> TStyledToolButton
+  TToolbutton = class(TStyledToolbutton) end;
 
 implementation
-
-{ TToolBar }
-
-constructor TToolBar.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-end;
-
-{ TToolButton }
-
-constructor TToolButton.Create(AOwner: TComponent);
-begin
-  inherited Create(AOwner);
-end;
 
 end.

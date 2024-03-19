@@ -212,7 +212,7 @@ begin
   BootstrapClassToColors(AClass, AAppearance, LFontColor, LButtonColor, LOutLine);
 
   //Default Style Attributes for Bootstrap Buttons
-  ANormalStyle.DrawType := btRounded;
+  ANormalStyle.DrawType := btRoundRect;
   ANormalStyle.FontStyle := [fsBold];
   ANormalStyle.BorderWidth := BOOTSTRAP_BORDER_WIDTH;
 

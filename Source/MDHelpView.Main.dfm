@@ -3,10 +3,10 @@ object MainForm: TMainForm
   Top = 200
   Caption = 'Markdown Help Viewer'
   ClientHeight = 422
-  ClientWidth = 724
+  ClientWidth = 788
   Color = clBtnFace
   Constraints.MinHeight = 450
-  Constraints.MinWidth = 740
+  Constraints.MinWidth = 800
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -12
@@ -24,18 +24,22 @@ object MainForm: TMainForm
   TextHeight = 15
   object Splitter: TSplitter
     Left = 300
-    Top = 49
+    Top = 50
     Width = 6
-    Height = 373
+    Height = 372
+    ExplicitTop = 49
+    ExplicitHeight = 373
   end
   object PageControl: TPageControl
     Left = 0
-    Top = 49
+    Top = 50
     Width = 300
-    Height = 373
+    Height = 372
     ActivePage = tsIndex
     Align = alLeft
     TabOrder = 0
+    ExplicitTop = 49
+    ExplicitHeight = 373
     object tsIndex: TTabSheet
       Hint = 'Markdown Content/Index'
       Caption = 'Content/Index'
@@ -44,8 +48,8 @@ object MainForm: TMainForm
         Left = 3
         Top = 3
         Width = 286
-        Height = 337
-        BorderStyle = htFocused
+        Height = 336
+        BorderStyle = htSingle
         DefBackground = clWindow
         HistoryMaxCount = 0
         NoSelect = True
@@ -59,6 +63,7 @@ object MainForm: TMainForm
         TabOrder = 0
         Touch.InteractiveGestures = [igPan]
         Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia]
+        ExplicitHeight = 337
       end
     end
     object tsFiles: TTabSheet
@@ -67,7 +72,7 @@ object MainForm: TMainForm
       ImageIndex = 1
       DesignSize = (
         292
-        343)
+        342)
       object lbIndex: TLabel
         AlignWithMargins = True
         Left = 3
@@ -89,13 +94,14 @@ object MainForm: TMainForm
         Left = 4
         Top = 80
         Width = 284
-        Height = 230
+        Height = 229
         Anchors = [akLeft, akTop, akRight, akBottom]
         FileType = [ftReadOnly, ftNormal]
         ItemHeight = 15
         Mask = '*.md'
         TabOrder = 1
         OnDblClick = acViewExecute
+        ExplicitHeight = 230
       end
       object edFileSearch: TEdit
         AlignWithMargins = True
@@ -112,7 +118,7 @@ object MainForm: TMainForm
       end
       object btIndex: TButton
         Left = 178
-        Top = 316
+        Top = 315
         Width = 110
         Height = 24
         Cursor = crHandPoint
@@ -120,6 +126,7 @@ object MainForm: TMainForm
         Anchors = [akRight, akBottom]
         Default = True
         TabOrder = 2
+        ExplicitTop = 316
       end
     end
     object tsSearch: TTabSheet
@@ -129,10 +136,11 @@ object MainForm: TMainForm
         AlignWithMargins = True
         Left = 3
         Top = 90
-        Width = 94
+        Width = 286
         Height = 15
         Align = alTop
         Caption = 'Select file to view:'
+        ExplicitWidth = 94
       end
       object paSearch: TPanel
         Left = 0
@@ -188,7 +196,7 @@ object MainForm: TMainForm
         Left = 4
         Top = 108
         Width = 284
-        Height = 200
+        Height = 199
         Margins.Left = 4
         Margins.Top = 0
         Margins.Right = 4
@@ -196,15 +204,17 @@ object MainForm: TMainForm
         ItemHeight = 15
         TabOrder = 1
         OnDblClick = acViewSearchExecute
+        ExplicitHeight = 200
       end
       object paView: TPanel
         Left = 0
-        Top = 311
+        Top = 310
         Width = 292
         Height = 32
         Align = alBottom
         BevelOuter = bvNone
         TabOrder = 2
+        ExplicitTop = 311
         DesignSize = (
           292
           32)
@@ -224,32 +234,35 @@ object MainForm: TMainForm
   object paTop: TPanel
     Left = 0
     Top = 0
-    Width = 724
-    Height = 49
+    Width = 788
+    Height = 50
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 1
     DesignSize = (
-      724
-      49)
+      788
+      50)
     object ProcessorDialectLabel: TLabel
-      Left = 582
-      Top = 3
+      Left = 655
+      Top = -1
       Width = 127
       Height = 15
       Anchors = [akTop, akRight]
       AutoSize = False
       Caption = 'Transformation:'
+      FocusControl = ProcessorDialectComboBox
+      Visible = False
     end
     object ProcessorDialectComboBox: TComboBox
-      Left = 582
-      Top = 21
+      Left = 655
+      Top = 13
       Width = 127
       Height = 23
       Hint = 'Markdown Tranformation Dialect'
       Style = csDropDownList
       Anchors = [akTop, akRight]
       TabOrder = 0
+      Visible = False
       OnSelect = ProcessorDialectComboBoxSelect
       Items.Strings = (
         'DaringFireball'
@@ -259,14 +272,15 @@ object MainForm: TMainForm
       AlignWithMargins = True
       Left = 0
       Top = 3
-      Width = 574
-      Height = 46
+      Width = 638
+      Height = 50
       Margins.Left = 0
       Margins.Right = 150
       Margins.Bottom = 0
       ButtonHeight = 46
-      ButtonWidth = 60
+      ButtonWidth = 55
       Images = SVGIconImageList
+      ShowCaptions = True
       TabOrder = 1
       Wrapable = False
       object btShowHide: TToolButton
@@ -275,72 +289,66 @@ object MainForm: TMainForm
         Action = acHide
       end
       object sep1: TToolButton
-        Left = 60
+        Left = 55
         Top = 0
-        Width = 10
+        Width = 8
         Style = tbsSeparator
       end
       object btOpen: TToolButton
-        Left = 70
+        Left = 63
         Top = 0
         Action = acFileOpen
       end
       object btRefresh: TToolButton
-        Left = 130
+        Left = 118
         Top = 0
         Action = acRefresh
       end
       object btSaveToPdf: TToolButton
-        Left = 190
+        Left = 173
         Top = 0
         Action = acSaveToPDF
       end
       object sep2: TToolButton
-        Left = 250
+        Left = 228
         Top = 0
         Width = 8
         Style = tbsSeparator
       end
       object btHome: TToolButton
-        Left = 258
+        Left = 236
         Top = 0
         Action = acHome
       end
       object btPrevius: TToolButton
-        Left = 318
+        Left = 291
         Top = 0
         Action = acPreviousPage
       end
       object btNext: TToolButton
-        Left = 378
+        Left = 346
         Top = 0
         Action = acNextPage
       end
       object btExportHTML: TToolButton
-        Left = 438
+        Left = 401
         Top = 0
         Action = acExportHTML
       end
       object Sep4: TToolButton
-        Left = 498
+        Left = 456
         Top = 0
         Width = 8
         ImageName = 'crosshairs-question'
         Style = tbsSeparator
       end
       object btOption: TToolButton
-        Left = 506
+        Left = 464
         Top = 0
         Action = acSettings
       end
-      object sep3: TToolButton
-        Left = 566
-        Top = 0
-        Width = 8
-        Style = tbsSeparator
-      end
       object btAbout: TToolButton
-        Left = 574
+        Left = 519
         Top = 0
         Action = acAbout
       end
@@ -349,20 +357,22 @@ object MainForm: TMainForm
   object ClientPanel: TPanel
     AlignWithMargins = True
     Left = 309
-    Top = 52
-    Width = 412
-    Height = 367
+    Top = 53
+    Width = 476
+    Height = 366
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
     OnResize = ClientPanelResize
+    ExplicitTop = 52
+    ExplicitHeight = 367
     object HtmlViewer: THtmlViewer
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 406
-      Height = 361
-      BorderStyle = htFocused
+      Width = 470
+      Height = 360
+      BorderStyle = htSingle
       DefBackground = clWindow
       HistoryMaxCount = 0
       NoSelect = True
@@ -376,6 +386,7 @@ object MainForm: TMainForm
       TabOrder = 0
       Touch.InteractiveGestures = [igPan]
       Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia]
+      ExplicitHeight = 361
     end
   end
   object TActionList: TActionList
