@@ -1360,7 +1360,8 @@ end;
 procedure TMainForm.WMCopyData(var Message: TMessage);
 var
   p : PCopyDataStruct;
-  LFilePath, LFileName : string[255];
+  LFilePath, LFileName: string[255];
+  LFullName: string;
   r :  PRecToPass;
 begin
   p := PCopyDataStruct( Message.lParam );
@@ -1369,8 +1370,9 @@ begin
     r := PRecToPass(PCopyDataStruct(Message.LParam)^.lpData);
     LFilePath := r^.FilePath;
     LFileName := r^.FileName;
+    LFullName := StripQuotes(String(LFilePath+LFileName));
     {$WARN IMPLICIT_STRING_CAST OFF}
-    LoadAndTransformFile(LFilePath+LFileName);
+    LoadAndTransformFile(LFullName);
     if Self.WindowState = wsMinimized then
       Self.WindowState := wsNormal;
   end

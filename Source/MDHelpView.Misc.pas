@@ -55,6 +55,7 @@ resourcestring
     var MajorVersion, MinorVersion, Release, Build : integer);
   function GetVersionString(const FileName: string;
     FormatString: string = '%d.%d.%d'): string;
+  function StripQuotes(const AValue: string): string;
 
 resourcestring
   STextNotFound = 'Text not found';
@@ -194,6 +195,23 @@ begin
   GetVerInfo(FileName,MajorVersion, MinorVersion, Release, Build);
   Result := Format(FormatString,[MajorVersion, MinorVersion, Release, Build]);
 end;
+
+function StripQuotes(const AValue: string): string;
+
+  procedure StripQuote(const AQuote: Char);
+  begin
+    var Len := Length(Result);
+    if (Copy(Result,1,1) = AQuote) and
+      (Copy(Result,Len,1) = AQuote) then
+      Result := Copy(Result,2,Len-2);
+  end;
+
+begin
+  Result := AValue;
+  StripQuote('"');
+  StripQuote('''');
+end;
+
 
 initialization
 
