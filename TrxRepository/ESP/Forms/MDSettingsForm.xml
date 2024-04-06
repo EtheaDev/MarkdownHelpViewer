@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--stat:#=33
+<!--stat:#=36
 *=0
-@=33
+@=36
 ?=0
 0=0
 :stat-->  <DATAPACKET Version="2.0">
@@ -54,5 +54,8 @@
 <ROW Type="F" ComponentName="MenuButtonGroup" PropertyName="Items" OriginalValue="Back&#013;&#010;Preview&#013;&#010;Theme&#013;&#010;Font&#013;&#010;PDF Layout&#013;&#010;" Translation="Atrás&#013;&#010;Vista previa&#013;&#010;Tema&#013;&#010;Fuente&#013;&#010;Diseño PDF&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TButtonGroup" OriginalStr="Back&#013;&#010;Preview&#013;&#010;Theme&#013;&#010;Font&#013;&#010;PDF Layout" TranslationStr="Atrás&#013;&#010;Vista previa&#013;&#010;Tema&#013;&#010;Fuente&#013;&#010;Diseño PDF"/>
 <ROW Type="F" ComponentName="TitlePanel" PropertyName="Caption" OriginalValue="Settings" Translation="Config." Status="@" Deleted="FALSE" ClassName="TPanel" OriginalStr="Settings" TranslationStr="Config."/>
 <ROW Type="F" ComponentName="ShowDialectSelectionCheckBox" PropertyName="Caption" OriginalValue="Show selection in Viewer" Translation="Mostrar selección en el visor" Status="@" Deleted="FALSE" ClassName="TCheckBox" OriginalStr="Show selection in Viewer" TranslationStr="Mostrar selección en el visor"/>
+<ROW Type="F" ComponentName="ToolbarRoundedCheckBox" PropertyName="Caption" OriginalValue="Rounded buttons" Translation="Botones redondeados" Status="@" Deleted="FALSE" ClassName="TCheckBox" OriginalStr="Rounded buttons" TranslationStr="Botones redondeados"/>
+<ROW Type="F" ComponentName="ButtonsGroupBox" PropertyName="Caption" OriginalValue="Buttons" Translation="Botones" Status="@" Deleted="FALSE" ClassName="TGroupBox" OriginalStr="Buttons" TranslationStr="Botones"/>
+<ROW Type="F" ComponentName="ButtonsRoundedCheckBox" PropertyName="Caption" OriginalValue="Rounded Buttons" Translation="Botones redondeados" Status="@" Deleted="FALSE" ClassName="TCheckBox" OriginalStr="Rounded Buttons" TranslationStr="Botones redondeados"/>
 </ROWDATA>
 </DATAPACKET>

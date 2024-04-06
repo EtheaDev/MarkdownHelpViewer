@@ -96,6 +96,8 @@ type
     FShowToolbarCaptions: Boolean;
     FUseColoredIcons: Boolean;
     FDownloadFromWEB: Boolean;
+    FButtonDrawRounded: Boolean;
+    FToolbarDrawRounded: Boolean;
     procedure SetDownloadFromWEB(const AValue: Boolean);
     function GetUseDarkStyle: Boolean;
     function GetButtonTextColor: TColor;
@@ -110,6 +112,8 @@ type
     procedure SetWindowWidth(const AValue: Integer);
     procedure SetShowToolbarCaptions(const AValue: Boolean);
     procedure SetUseColoredIcons(const AValue: Boolean);
+    procedure SetButtonDrawRounded(const Value: Boolean);
+    procedure SetToolbarDrawRounded(const Value: Boolean);
   protected
     FIniFile: TIniFile;
   public
@@ -146,6 +150,9 @@ type
 
     property ShowToolbarCaptions: Boolean read FShowToolbarCaptions write SetShowToolbarCaptions;
     property UseColoredIcons: Boolean read FUseColoredIcons write SetUseColoredIcons;
+
+    property ButtonDrawRounded: Boolean read FButtonDrawRounded write SetButtonDrawRounded;
+    property ToolbarDrawRounded: Boolean read FToolbarDrawRounded write SetToolbarDrawRounded;
 
     property WindowState: TWindowState read FWindowState write SetWindowState;
     property WindowWidth: Integer read FWindowWidth write SetWindowWidth;
@@ -332,6 +339,9 @@ begin
   ShowToolbarCaptions := FIniFile.ReadBool(MAIN_WINDOW, 'ShowToolbarCaptions', true);
   UseColoredIcons := FIniFile.ReadBool(MAIN_WINDOW, 'UseColoredIcons', false);
 
+  ToolbarDrawRounded := FIniFile.ReadBool(MAIN_WINDOW, 'ToolbarDrawRounded', false);
+  ButtonDrawRounded := FIniFile.ReadBool(MAIN_WINDOW, 'ButtonDrawRounded', false);
+
   LLanguage := PreferredUILanguages;
   LDefaultLanguage := GetEnumFromIsoLanguage(Copy(LLanguage,1,2));
   GUILanguage := TAppLanguage(FIniFile.ReadInteger(MAIN_WINDOW, 'GUILanguage',
@@ -376,6 +386,12 @@ end;
 procedure TViewerSettings.SetShowToolbarCaptions(const AValue: Boolean);
 begin
   FShowToolbarCaptions := AValue;
+end;
+
+procedure TViewerSettings.SetToolbarDrawRounded(
+  const Value: Boolean);
+begin
+  FToolbarDrawRounded := Value;
 end;
 
 procedure TViewerSettings.SetUseColoredIcons(const AValue: Boolean);
@@ -431,6 +447,8 @@ begin
   FIniFile.WriteBool(MAIN_WINDOW, 'ShowToolbarCaptions', FShowToolbarCaptions);
   FIniFile.WriteBool(MAIN_WINDOW, 'UseColoredIcons', FUseColoredIcons);
   FIniFile.WriteInteger(MAIN_WINDOW, 'GUILanguage', Ord(FGUILanguage));
+  FIniFile.WriteBool(MAIN_WINDOW, 'ToolbarDrawRounded', ToolbarDrawRounded);
+  FIniFile.WriteBool(MAIN_WINDOW, 'ButtonDrawRounded', ButtonDrawRounded);
 
   FIniFile.WriteInteger(HTML_VIEWER, 'HTMLFontSize', FHTMLFontSize);
   FIniFile.WriteString(HTML_VIEWER, 'HTMLFontName', FHTMLFontName);
@@ -451,6 +469,11 @@ begin
   FIniFile.WriteInteger(PDF_SETTINGS, 'MarginLeft', PDFPageSettings.MarginLeft);
   FIniFile.WriteInteger(PDF_SETTINGS, 'MarginRight', PDFPageSettings.MarginRight);
 
+end;
+
+procedure TViewerSettings.SetButtonDrawRounded(const Value: Boolean);
+begin
+  FButtonDrawRounded := Value;
 end;
 
 procedure TViewerSettings.SetDownloadFromWEB(const AValue: Boolean);

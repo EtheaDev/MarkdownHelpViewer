@@ -1,13 +1,13 @@
 {******************************************************************************}
 {                                                                              }
-{       StyledToolbar: a Toolbar with TStyledToolButtons inside                }
-{       Based on TFlowPanel and TStyledGraphicButton                           }
+{  StyledToolbar: a Toolbar with TStyledToolButtons inside                     }
+{  Based on TFlowPanel and TStyledGraphicButton                                }
 {                                                                              }
-{       Copyright (c) 2022-2024 (Ethea S.r.l.)                                 }
-{       Author: Carlo Barazzetta                                               }
-{       Contributors:                                                          }
+{  Copyright (c) 2022-2024 (Ethea S.r.l.)                                      }
+{  Author: Carlo Barazzetta                                                    }
+{  Contributors:                                                               }
 {                                                                              }
-{       https://github.com/EtheaDev/StyledComponents                           }
+{  https://github.com/EtheaDev/StyledComponents                                }
 {                                                                              }
 {******************************************************************************}
 {                                                                              }
@@ -99,6 +99,8 @@ type
     function GetWrap: Boolean;
     procedure SetWrap(const AValue: Boolean);
     procedure UpdateGroupIndex;
+    function GetStyleDrawType: TStyledButtonDrawType;
+    procedure SetStyleDrawType(const AValue: TStyledButtonDrawType);
   protected
     FToolBar: TStyledToolBar;
     function GetCaption: TCaption; override;
@@ -123,8 +125,7 @@ type
     procedure Click; override;
     procedure SetBounds(ALeft, ATop, AWidth, AHeight: Integer); override;
   published
-
-    property ActiveStyleName;
+    //property ActiveStyleName;
     property Action;
     property Align;
     property AllowAllUp default False;
@@ -191,7 +192,7 @@ type
     property Tag;
     //StyledComponents Attributes
     property StyleRadius stored IsCustomRadius;
-    property StyleDrawType stored IsCustomDrawType;
+    property StyleDrawType: TStyledButtonDrawType read GetStyleDrawType write SetStyleDrawType stored IsCustomDrawType;
     property StyleFamily stored IsStoredStyleFamily;
     property StyleClass stored IsStoredStyleClass;
     property StyleAppearance stored IsStoredStyleAppearance;
@@ -334,6 +335,7 @@ type
     procedure AlignControls(AControl: TControl; var Rect: TRect); override;
     procedure AdjustSize; override;
     function GetStyledToolButtonClass: TStyledToolButtonClass; virtual;
+    procedure Loaded; override;
   public
     class procedure RegisterDefaultRenderingStyle(
       const ADrawType: TStyledButtonDrawType;
@@ -388,7 +390,7 @@ type
     property Enabled;
     property Flat: Boolean read FFlat write SetFlat default True;
     property Font;
-    property Height default 32;
+    property Height;
     property HideClippedButtons: Boolean read FHideClippedButtons write SetHideClippedButtons default False;
     property Images: TCustomImageList read FImages write SetImages;
     property Indent: Integer read GetIndent write SetIndent default 0;
@@ -463,6 +465,7 @@ const
   DEFAULT_SEP_WIDTH = 8;
   DEFAULT_TOOLBUTTON_WIDTH = 23;
   DEFAULT_TOOLBUTTON_HEIGHT = 22;
+  DEFAULT_IMAGE_HMARGIN = 8;
 
 { TStyledToolButton }
 
@@ -561,6 +564,11 @@ begin
     Result := FToolBar.FButtons.IndexOf(Self)
   else
     Result := -1;
+end;
+
+function TStyledToolButton.GetStyleDrawType: TStyledButtonDrawType;
+begin
+  Result := inherited StyleDrawType;
 end;
 
 function TStyledToolButton.GetText: TCaption;
@@ -943,9 +951,17 @@ begin
     if IsSeparator <> WasSeparator then
     begin
       Width := DEFAULT_SEP_WIDTH;
+      StyleDrawType := StyleDrawType;
     end;
     UpdateButtonContent;
   end;
+end;
+
+procedure TStyledToolButton.SetStyleDrawType(
+  const AValue: TStyledButtonDrawType);
+begin
+  if not IsSeparator then
+    inherited StyleDrawType := AValue;
 end;
 
 procedure TStyledToolButton.SetToolBar(AToolBar: TStyledToolBar);
@@ -1279,6 +1295,12 @@ end;
 function TStyledToolbar.IsStoredStyleFamily: Boolean;
 begin
   Result := FStyleFamily <> DEFAULT_CLASSIC_FAMILY;
+end;
+
+procedure TStyledToolbar.Loaded;
+begin
+  inherited;
+  ResizeButtons;
 end;
 
 function TStyledToolbar.FindButtonFromAccel(Accel: Word): TStyledToolButton;

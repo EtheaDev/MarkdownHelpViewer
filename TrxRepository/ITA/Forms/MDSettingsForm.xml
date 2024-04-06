@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--stat:#=33
+<!--stat:#=36
 *=0
-@=33
+@=36
 ?=0
 0=0
 :stat-->  <DATAPACKET Version="2.0">
@@ -35,7 +35,7 @@
 <ROW Type="F" ComponentName="UILabel" PropertyName="Caption" OriginalValue="Language:" Translation="Lingua:" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Language:" TranslationStr="Lingua:"/>
 <ROW Type="F" ComponentName="stTheme" PropertyName="Caption" OriginalValue="Theme" Translation="Tema" Status="@" Deleted="FALSE" ClassName="TTabSheet" OriginalStr="Theme" TranslationStr="Tema"/>
 <ROW Type="F" ComponentName="ThemesRadioGroup" PropertyName="Caption" OriginalValue="Theme" Translation="Tema" Status="@" Deleted="FALSE" ClassName="TRadioGroup" OriginalStr="Theme" TranslationStr="Tema"/>
-<ROW Type="F" ComponentName="ThemesRadioGroup" PropertyName="Items" OriginalValue="Same as Windows&#013;&#010;Force Dark&#013;&#010;Force Light&#013;&#010;" Translation="Uguale a Windows&#013;&#010;Forza Scuro&#013;&#010;Forza Chiaro&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TRadioGroup" OriginalStr="Same as Windows&#013;&#010;Force Dark&#013;&#010;Force Light" TranslationStr="Uguale a Windows&#013;&#010;Forza Scuro&#013;&#010;Forza Chiaro"/>
+<ROW Type="F" ComponentName="ThemesRadioGroup" PropertyName="Items" OriginalValue="Same as Windows&#013;&#010;Force Dark&#013;&#010;Force Light&#013;&#010;" Translation="Come in Windows&#013;&#010;Forza Scuro&#013;&#010;Forza Chiaro&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TRadioGroup" OriginalStr="Same as Windows&#013;&#010;Force Dark&#013;&#010;Force Light" TranslationStr="Come in Windows&#013;&#010;Forza Scuro&#013;&#010;Forza Chiaro"/>
 <ROW Type="F" ComponentName="SelectThemeRadioGroup" PropertyName="Caption" OriginalValue="Selected Theme" Translation="Tema selezionato" Status="@" Deleted="FALSE" ClassName="TRadioGroup" OriginalStr="Selected Theme" TranslationStr="Tema selezionato"/>
 <ROW Type="F" ComponentName="tsFont" PropertyName="Caption" OriginalValue="Font" Translation="Font" Status="@" Deleted="FALSE" ClassName="TTabSheet" OriginalStr="Font" TranslationStr="Font"/>
 <ROW Type="F" ComponentName="HTMLGroupBox" PropertyName="Caption" OriginalValue="HTML Text (default)" Translation="Testo HTML (impostazione predefinita)" Status="@" Deleted="FALSE" ClassName="TGroupBox" OriginalStr="HTML Text (default)" TranslationStr="Testo HTML (impostazione predefinita)"/>
@@ -54,5 +54,8 @@
 <ROW Type="F" ComponentName="MenuButtonGroup" PropertyName="Items" OriginalValue="Back&#013;&#010;Preview&#013;&#010;Theme&#013;&#010;Font&#013;&#010;PDF Layout&#013;&#010;" Translation="Indietro&#013;&#010;Anteprima&#013;&#010;Tema&#013;&#010;Font&#013;&#010;Layout PDF&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TButtonGroup" OriginalStr="Back&#013;&#010;Preview&#013;&#010;Theme&#013;&#010;Font&#013;&#010;PDF Layout" TranslationStr="Indietro&#013;&#010;Anteprima&#013;&#010;Tema&#013;&#010;Font&#013;&#010;Layout PDF"/>
 <ROW Type="F" ComponentName="TitlePanel" PropertyName="Caption" OriginalValue="Settings" Translation="Impostazioni" Status="@" Deleted="FALSE" ClassName="TPanel" OriginalStr="Settings" TranslationStr="Impostazioni"/>
 <ROW Type="F" ComponentName="ShowDialectSelectionCheckBox" PropertyName="Caption" OriginalValue="Show selection in Viewer" Translation="Mostra la scelta" Status="@" Deleted="FALSE" ClassName="TCheckBox" OriginalStr="Show selection in Viewer" TranslationStr="Mostra la scelta"/>
+<ROW Type="F" ComponentName="ToolbarRoundedCheckBox" PropertyName="Caption" OriginalValue="Rounded buttons" Translation="Pulsanti arrotondati" Status="@" Deleted="FALSE" ClassName="TCheckBox" OriginalStr="Rounded buttons" TranslationStr="Pulsanti arrotondati"/>
+<ROW Type="F" ComponentName="ButtonsRoundedCheckBox" PropertyName="Caption" OriginalValue="Rounded Buttons" Translation="Pulsanti arrotondati" Status="@" Deleted="FALSE" ClassName="TCheckBox" OriginalStr="Rounded Buttons" TranslationStr="Pulsanti arrotondati"/>
+<ROW Type="F" ComponentName="ButtonsGroupBox" PropertyName="Caption" OriginalValue="Buttons" Translation="Pulsanti" Status="@" Deleted="FALSE" ClassName="TGroupBox" OriginalStr="Buttons" TranslationStr="Pulsanti"/>
 </ROWDATA>
 </DATAPACKET>

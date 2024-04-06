@@ -1,13 +1,14 @@
 {******************************************************************************}
 {                                                                              }
-{       TStyledButtonAttributes: a collection of Rendering attributes          }
-{       for Styled Components                                                  }
+{  TStyledButtonAttributes: a collection of Rendering attributes               }
+{  for Styled Components                                                       }
+{  TNotificationBadgeAttributes: a set of Rendering attributes for Badge       }
 {                                                                              }
-{       Copyright (c) 2022-2024 (Ethea S.r.l.)                                 }
-{       Author: Carlo Barazzetta                                               }
-{       Contributors:                                                          }
+{  Copyright (c) 2022-2024 (Ethea S.r.l.)                                      }
+{  Author: Carlo Barazzetta                                                    }
+{  Contributors:                                                               }
 {                                                                              }
-{       https://github.com/EtheaDev/StyledComponents                           }
+{  https://github.com/EtheaDev/StyledComponents                                }
 {                                                                              }
 {******************************************************************************}
 {                                                                              }
@@ -1380,7 +1381,7 @@ begin
           Inc(IX, AImageMargins.Left);
           Inc(IY, AImageMargins.Top);
           Dec(IY, AImageMargins.Bottom);
-          Inc(ATextRect.Left, IX + IW + AImageMargins.Right);
+          ATextRect.Left := IX + IW + AImageMargins.Right;
         end;
       iaRight:
         begin
@@ -1398,7 +1399,7 @@ begin
           Dec(IX, AImageMargins.Right);
           IY := Round(ATextRect.Top + (2*AScale));
           Inc(IY, AImageMargins.Top);
-          Inc(ATextRect.Top, IY + IH + AImageMargins.Bottom);
+          ATextRect.Top := IY + IH + AImageMargins.Bottom;
         end;
       iaBottom:
         begin

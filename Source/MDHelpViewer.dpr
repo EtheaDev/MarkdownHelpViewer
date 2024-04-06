@@ -43,8 +43,13 @@ uses
   vmHtmlToPdf in 'vmHtmlToPdf.pas',
   MarkDownHelpViewer in 'AppInterface\MarkDownHelpViewer.pas',
   MarkDownViewerComponents in 'Components\MarkDownViewerComponents.pas',
-  //Vcl.StyledTaskDialogFormUnit in '..\Ext\StyledComponents\source\Vcl.StyledTaskDialogFormUnit.pas' {StyledTaskDialogForm},
-  Skia.Vcl.StyledTaskDialogAnimatedUnit in '..\Ext\StyledComponents\source\Skia.Vcl.StyledTaskDialogAnimatedUnit.pas' {StyledTaskDialogAnimated},
+  {$IFDEF STYLEDCOMPONENTS}
+    {$IFDEF SKIA}
+    Skia.Vcl.StyledTaskDialogAnimatedUnit in '..\Ext\StyledComponents\source\Skia.Vcl.StyledTaskDialogAnimatedUnit.pas' {StyledTaskDialogAnimated},
+    {$ELSE}
+    Vcl.StyledTaskDialogFormUnit in '..\Ext\StyledComponents\source\Vcl.StyledTaskDialogFormUnit.pas' {StyledTaskDialogForm},
+    {$ENDIF}
+  {$ENDIF}
   MDHelpView.Messages in 'MDHelpView.Messages.pas';
 
 {$R *.res}

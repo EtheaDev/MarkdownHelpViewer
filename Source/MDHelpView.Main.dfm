@@ -38,8 +38,6 @@ object MainForm: TMainForm
     ActivePage = tsIndex
     Align = alLeft
     TabOrder = 0
-    ExplicitTop = 49
-    ExplicitHeight = 373
     object tsIndex: TTabSheet
       Hint = 'Markdown Content/Index'
       Caption = 'Content/Index'
@@ -63,7 +61,6 @@ object MainForm: TMainForm
         TabOrder = 0
         Touch.InteractiveGestures = [igPan]
         Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia]
-        ExplicitHeight = 337
       end
     end
     object tsFiles: TTabSheet
@@ -101,7 +98,6 @@ object MainForm: TMainForm
         Mask = '*.md'
         TabOrder = 1
         OnDblClick = acViewExecute
-        ExplicitHeight = 230
       end
       object edFileSearch: TEdit
         AlignWithMargins = True
@@ -126,7 +122,6 @@ object MainForm: TMainForm
         Anchors = [akRight, akBottom]
         Default = True
         TabOrder = 2
-        ExplicitTop = 316
       end
     end
     object tsSearch: TTabSheet
@@ -136,11 +131,10 @@ object MainForm: TMainForm
         AlignWithMargins = True
         Left = 3
         Top = 90
-        Width = 286
+        Width = 94
         Height = 15
         Align = alTop
         Caption = 'Select file to view:'
-        ExplicitWidth = 94
       end
       object paSearch: TPanel
         Left = 0
@@ -204,7 +198,6 @@ object MainForm: TMainForm
         ItemHeight = 15
         TabOrder = 1
         OnDblClick = acViewSearchExecute
-        ExplicitHeight = 200
       end
       object paView: TPanel
         Left = 0
@@ -214,7 +207,6 @@ object MainForm: TMainForm
         Align = alBottom
         BevelOuter = bvNone
         TabOrder = 2
-        ExplicitTop = 311
         DesignSize = (
           292
           32)
@@ -364,8 +356,6 @@ object MainForm: TMainForm
     BevelOuter = bvNone
     TabOrder = 2
     OnResize = ClientPanelResize
-    ExplicitTop = 52
-    ExplicitHeight = 367
     object HtmlViewer: THtmlViewer
       AlignWithMargins = True
       Left = 3
@@ -386,7 +376,6 @@ object MainForm: TMainForm
       TabOrder = 0
       Touch.InteractiveGestures = [igPan]
       Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia]
-      ExplicitHeight = 361
     end
   end
   object TActionList: TActionList

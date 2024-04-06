@@ -37,7 +37,7 @@ uses
   Vcl.WinXCtrls, SVGIconImage, Vcl.NumberBox, Vcl.Samples.Spin,
   CBMultiLanguage,
   {$IFDEF STYLEDCOMPONENTS}
-  Vcl.StyledComponentsHooks,
+  Vcl.StyledComponentsHooks, Vcl.ButtonStylesAttributes, Vcl.StyledButtonGroup,
   {$ENDIF}
   MDHelpView.FormsHookTrx;
 
@@ -87,6 +87,9 @@ type
     UILabel: TLabel;
     UIComboBox: TComboBox;
     ShowDialectSelectionCheckBox: TCheckBox;
+    ToolbarRoundedCheckBox: TCheckBox;
+    ButtonsGroupBox: TGroupBox;
+    ButtonsRoundedCheckBox: TCheckBox;
     procedure ExitFromSettings(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure MenuButtonGroupButtonClicked(Sender: TObject; Index: Integer);
@@ -196,7 +199,7 @@ begin
   for var I := Low(TAppLanguage) to High(TAppLanguage) do
   begin
     LLanguage := TAppLanguage(I);
-    UIComboBox.Items.Add(AENGLanguageDesc [LLanguage]);
+    UIComboBox.Items.Add(AENGLanguageDesc[LLanguage]);
   end;
 
   TitlePanel.Font.Height := Round(TitlePanel.Font.Height * 1.5);
@@ -228,6 +231,8 @@ begin
   ShowDialectSelectionCheckBox.Checked := ASettings.ShowDialectSelection;
   ProcessorDialectComboBox.ItemIndex := ord(ASettings.ProcessorDialect);
   UIComboBox.ItemIndex := ord(ASettings.GUILanguage);
+  ToolbarRoundedCheckBox.Checked := ASettings.ToolbarDrawRounded;
+  ButtonsRoundedCheckBox.Checked := Asettings.ButtonDrawRounded;
 
   RescalingImageCheckBox.Checked := ASettings.RescalingImage;
   DownloadFromWebCheckBox.Visible := ASettings is TViewerSettings;
@@ -269,6 +274,8 @@ begin
   ASettings.ShowDialectSelection := ShowDialectSelectionCheckBox.Checked;
   ASettings.ProcessorDialect := TMarkdownProcessorDialect(ProcessorDialectComboBox.ItemIndex);
   ASettings.GUILanguage := TAppLanguage(UIComboBox.ItemIndex);
+  ASettings.ToolbarDrawRounded := ToolbarRoundedCheckBox.Checked;
+  Asettings.ButtonDrawRounded := ButtonsRoundedCheckBox.Checked;
 
   ASettings.VCLStyleName := SelectedStyleName;
   ASettings.RescalingImage := RescalingImageCheckBox.Checked;

@@ -41,9 +41,9 @@ object MDSettingsForm: TMDSettingsForm
       object RenderingGroupBox: TGroupBox
         AlignWithMargins = True
         Left = 3
-        Top = 179
+        Top = 155
         Width = 622
-        Height = 89
+        Height = 75
         Align = alTop
         Caption = 'Images loading options'
         TabOrder = 2
@@ -67,15 +67,15 @@ object MDSettingsForm: TMDSettingsForm
       object MarkdownGroupBox: TGroupBox
         AlignWithMargins = True
         Left = 3
-        Top = 91
+        Top = 79
         Width = 622
-        Height = 82
+        Height = 70
         Align = alTop
         Caption = 'Markdown processor options'
         TabOrder = 1
         object ProcessorDialectLabel: TLabel
           Left = 15
-          Top = 19
+          Top = 23
           Width = 200
           Height = 15
           AutoSize = False
@@ -104,27 +104,35 @@ object MDSettingsForm: TMDSettingsForm
       object ToolbarGroupBox: TGroupBox
         AlignWithMargins = True
         Left = 3
-        Top = 274
+        Top = 236
         Width = 622
-        Height = 89
+        Height = 51
         Align = alTop
         Caption = 'Toolbar'
         TabOrder = 3
         object ShowCaptionCheckBox: TCheckBox
           Left = 15
           Top = 24
-          Width = 450
+          Width = 140
           Height = 17
           Caption = 'Show Captions'
           TabOrder = 0
         end
         object ColoredIconsCheckBox: TCheckBox
-          Left = 15
-          Top = 52
-          Width = 450
+          Left = 152
+          Top = 24
+          Width = 140
           Height = 17
           Caption = 'Colored icons'
           TabOrder = 1
+        end
+        object ToolbarRoundedCheckBox: TCheckBox
+          Left = 290
+          Top = 24
+          Width = 140
+          Height = 17
+          Caption = 'Rounded buttons'
+          TabOrder = 2
         end
       end
       object UserInterfaceGroupBox: TGroupBox
@@ -132,13 +140,13 @@ object MDSettingsForm: TMDSettingsForm
         Left = 3
         Top = 3
         Width = 622
-        Height = 82
+        Height = 70
         Align = alTop
         Caption = 'User interface'
         TabOrder = 0
         object UILabel: TLabel
           Left = 15
-          Top = 19
+          Top = 23
           Width = 200
           Height = 15
           AutoSize = False
@@ -150,6 +158,24 @@ object MDSettingsForm: TMDSettingsForm
           Width = 202
           Height = 23
           Style = csDropDownList
+          TabOrder = 0
+        end
+      end
+      object ButtonsGroupBox: TGroupBox
+        AlignWithMargins = True
+        Left = 3
+        Top = 293
+        Width = 622
+        Height = 43
+        Align = alTop
+        Caption = 'Buttons'
+        TabOrder = 4
+        object ButtonsRoundedCheckBox: TCheckBox
+          Left = 15
+          Top = 18
+          Width = 185
+          Height = 17
+          Caption = 'Rounded Buttons'
           TabOrder = 0
         end
       end
@@ -356,7 +382,7 @@ object MDSettingsForm: TMDSettingsForm
       end
       object MarginBottomEdit: TSpinEdit
         Left = 376
-        Top = 274
+        Top = 322
         Width = 90
         Height = 24
         MaxValue = 0
@@ -446,8 +472,8 @@ object MDSettingsForm: TMDSettingsForm
     TabOrder = 3
   end
   object OpenDialog: TOpenDialog
-    Left = 592
-    Top = 352
+    Left = 624
+    Top = 284
   end
   object SettingsImageList: TSVGIconImageList
     Size = 36
@@ -544,8 +570,8 @@ object MDSettingsForm: TMDSettingsForm
           '17V13H18.5V11.5H17V10.5H18.5V9Z" /></svg>'
       end>
     Scaled = True
-    Left = 492
-    Top = 368
+    Left = 396
+    Top = 280
   end
   object OrientationImageList: TSVGIconImageList
     Size = 128

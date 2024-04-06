@@ -14,16 +14,16 @@ Lang:=FRA
 <PARAMS/>
 </METADATA>
 <ROWDATA>
-<ROW OriginalValue="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" Translation="Confirmer l’exportation d’un seul fichier [Oui] ou de %d fichiers [Oui à tous] au format HTML ?" Count="5" Status="@"/>
-<ROW OriginalValue="Incorrect message received" Translation="Message incorrect reçu" Count="2" Status="@"/>
+<ROW OriginalValue="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" Translation="Confirmer l’exportation d’un seul fichier [Oui] ou de %d fichiers [Oui à tous] au format HTML ?" Count="6" Status="@"/>
+<ROW OriginalValue="Incorrect message received" Translation="Message incorrect reçu" Count="3" Status="@"/>
 <ROW OriginalValue="File &quot;%s&quot; succesfully saved. Do you want to open it now?" Translation="Le fichier &quot;%s&quot; a été enregistré avec succès. Voulez-vous l’ouvrir maintenant?" Count="1" Status="*"/>
-<ROW OriginalValue="HTML output folder" Translation="Dossier de sortie HTML" Count="5" Status="@"/>
-<ROW OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="Mot-clé &quot;%s&quot; introuvable dans les fichiers du dossier de travail : &quot;%s&quot;" Count="5" Status="*"/>
-<ROW OriginalValue="CONFIRMATION" Translation="CONFIRMATION" Count="5" Status="@"/>
-<ROW OriginalValue="ERROR!" Translation="ERREUR!" Count="5" Status="@"/>
-<ROW OriginalValue="INFORMATION" Translation="INFORMATION" Count="5" Status="@"/>
-<ROW OriginalValue="UNEXPECTED ERROR!" Translation="ERREUR INATTENDUE!" Count="5" Status="*"/>
-<ROW OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Le fichier &quot;%s&quot; a été enregistré avec succès. Voulez-vous l’ouvrir maintenant?" Count="4" Status="*"/>
-<ROW OriginalValue="Closing application to change GUI language" Translation="Fermeture de l’application pour changer la langue de l’interface graphique" Count="1" Status="@"/>
+<ROW OriginalValue="HTML output folder" Translation="Dossier de sortie HTML" Count="6" Status="@"/>
+<ROW OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="Mot-clé &quot;%s&quot; introuvable dans les fichiers du dossier de travail : &quot;%s&quot;" Count="6" Status="*"/>
+<ROW OriginalValue="CONFIRMATION" Translation="CONFIRMATION" Count="6" Status="@"/>
+<ROW OriginalValue="ERROR!" Translation="ERREUR!" Count="6" Status="@"/>
+<ROW OriginalValue="INFORMATION" Translation="INFORMATION" Count="6" Status="@"/>
+<ROW OriginalValue="UNEXPECTED ERROR!" Translation="ERREUR INATTENDUE!" Count="6" Status="*"/>
+<ROW OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Le fichier &quot;%s&quot; a été enregistré avec succès. Voulez-vous l’ouvrir maintenant?" Count="5" Status="*"/>
+<ROW OriginalValue="Closing application to change GUI language" Translation="Fermeture de l’application pour changer la langue de l’interface graphique" Count="2" Status="@"/>
 </ROWDATA>
 </DATAPACKET>

@@ -1,7 +1,7 @@
 {******************************************************************************}
 {                                                                              }
-{  StyledComponentsHooks: an interposer Unit to use Styled Components          }
-{  using Standard Delphi Controls Class Names                                  }
+{  StyledMessagesHooks: an interposer Unit to use Styled Dialog Boxes          }
+{  using Standard Delphi calls MessageDialog or ShowMessage                    }
 {                                                                              }
 {  Copyright (c) 2022-2024 (Ethea S.r.l.)                                      }
 {  Author: Carlo Barazzetta                                                    }
@@ -24,48 +24,58 @@
 {  limitations under the License.                                              }
 {                                                                              }
 {******************************************************************************}
-unit Vcl.StyledComponentsHooks;
+unit Vcl.StyledMessagesHooks;
 
 interface
 
 {$INCLUDE StyledComponents.inc}
 
 uses
-  Vcl.StyledButton
-  , Vcl.StyledDbNavigator
-  , Vcl.StyledToolbar
-  , Vcl.StyledButtonGroup
-  , Vcl.StyledCategoryButtons
+  Vcl.Dialogs
   ;
 
-type
-  //Interposer Class for TButton -> TStyledButton
-  TButton = class(TStyledButton) end;
+function MessageDlg(const Msg: string; DlgType: TMsgDlgType;
+  Buttons: TMsgDlgButtons; HelpCtx: Longint): Integer;
 
-  //Interposer Class for TBitBtn -> TStyledBitBtn
-  TBitBtn = class(TStyledBitBtn) end;
+function MessageDlgPos(const Msg: string; DlgType: TMsgDlgType;
+  Buttons: TMsgDlgButtons; HelpCtx: Longint;
+  X: Integer = -1; Y: Integer = -1): Integer;
 
-  //Interposer Class for TBitBtn -> TStyledSpeedButton
-  TSpeedButton = class(TStyledSpeedButton) end;
+function TaskDlgPos(const Title, Msg: string; DlgType: TMsgDlgType;
+  Buttons: TMsgDlgButtons; HelpCtx: Longint;
+  X: Integer = -1; Y: Integer = -1): Integer;
 
-  //Interposer Class for TDbNavigator -> TStyledDbNavigator
-  TDbNavigator = class(TStyledDbNavigator) end;
-
-  //Interposer Class for TBindNavigator -> TStyledBindNavigator
-  TBindNavigator = class(TStyledBindNavigator) end;
-
-  //Interposer Class for TToolbar -> TStyledToolbar
-  TToolbar = class(TStyledToolbar) end;
-
-  //Interposer Class for TToolbutton -> TStyledToolButton
-  TToolbutton = class(TStyledToolbutton) end;
-
-  //Interposer Class for TButtonGroup -> TStyledButtonGroup
-  TButtonGroup = class(TStyledButtonGroup) end;
-
-  //Interposer Class for TCategoryButtons -> TStyledCategoryButtons
-  TCategoryButtons = class(TStyledCategoryButtons) end;
+procedure ShowMessage(const Msg: string);
 
 implementation
+
+uses
+  Vcl.StyledTaskDialog
+  ;
+
+function MessageDlg(const Msg: string; DlgType: TMsgDlgType;
+  Buttons: TMsgDlgButtons; HelpCtx: Longint): Integer;
+begin
+  Result := StyledMessageDlg(Msg, DlgType, Buttons, HelpCtx);
+end;
+
+function MessageDlgPos(const Msg: string; DlgType: TMsgDlgType;
+  Buttons: TMsgDlgButtons; HelpCtx: Longint;
+  X: Integer = -1; Y: Integer = -1): Integer;
+begin
+  Result := StyledMessageDlgPos(Msg, DlgType, Buttons, HelpCtx, X, Y);
+end;
+
+function TaskDlgPos(const Title, Msg: string; DlgType: TMsgDlgType;
+  Buttons: TMsgDlgButtons; HelpCtx: Longint;
+  X: Integer = -1; Y: Integer = -1): Integer;
+begin
+  Result := StyledTaskDlgPos(Title, Msg, DlgType, Buttons, HelpCtx, X, Y);
+end;
+
+procedure ShowMessage(const Msg: string);
+begin
+  StyledShowMessage(Msg);
+end;
 
 end.

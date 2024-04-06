@@ -1,0 +1,215 @@
+<style type="text/css">
+code{
+  font-family: "Consolas", monospace;
+}
+pre{
+  border: 1px solid #ddd;
+  border-left: 3px solid #f36d33;
+  overflow: auto;
+  padding: 1em 1.5em;
+  display: block;
+}
+Blockquote{
+  border-left: 3px solid #d0d0d0;
+  padding-left: 0.5em;
+  margin-left:1em;
+}
+Blockquote p{
+  margin: 0;
+}
+table{
+  border:1px solid;
+  border-collapse:collapse;
+}
+th{  padding:5px;
+  border:1px solid;
+}
+td{
+  padding:5px;
+  border:1px solid;
+}
+</style>
+<h1>Markdown Help Viewer <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg" alt="License"/></a></h1>
+<p><strong>Latest Version 2.3.0 - 06 Apr 2024</strong></p>
+<p><strong>An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications</strong></p>
+<ul>
+<li><p>A &ldquo;Setup&rdquo; of the pre-built <strong>&ldquo;Markdown Help Viewer&rdquo;</strong> ready to use.</p>
+</li>
+<li><p>A unit (MarkdownHelpViewer.pas) to add the interface to Delphi Help System of your Delphi Application (from XE6 version to latest)</p>
+</li>
+<li><p>A VCL Visual Component (TMarkdownViewer) to automatically show Markdown file formatted in HTML (from XE6 version to latest)</p>
+</li>
+<li><p>A simple demo to show how to integrate the Help in your application, as exaplained <a href="./Demo/Help/README.md">here&hellip;</a></p>
+</li>
+<li><p>For editing and prepare the Help manual of your application we suggest to use the Editor contained into
+<a href="https://github.com/EtheaDev/MarkdownShellExtensions">&ldquo;Markdown Shell Extensions&rdquo;</a> project.</p>
+</li>
+</ul>
+<h3>Features</h3>
+<ul>
+<li><p>Supports Windows Vista, 7, 8, 10 and 11 (for 32 bits and 64 bits).</p>
+</li>
+<li><p>Themes (Dark and Light) according to user preferences of Windows Theme</p>
+</li>
+<li><p>Auto-detect Index file in the working folder</p>
+</li>
+<li><p>Very easy to integrate into Delphi Application</p>
+</li>
+</ul>
+<h3>Setup using the Installer</h3>
+<p>Click to download the <a href="https://github.com/EtheaDev/MarkdownHelpViewer/releases/latest/download/MarkDownHelpViewerSetup.exe">MarkDownHelpViewerSetup.exe</a> located also in the Release area. The Installer works both for 32 and 64 bit system.</p>
+<p><img src="./Images/Setup.png" alt="Markdown Setup_Program"/></p>
+<h3>Markdown Help Viewer in action</h3>
+<p>A useful Viewer for instant preview of Markdown formatted content help files (with auto-detection of Windows-Theme):</p>
+<p><img src="./Images/ContentPageDark.png" alt="Markdown Help Viewer"/></p>
+<p>The Viewer is &ldquo;localized&rdquo; for some languages. In this example the GUI with Italian language:</p>
+<p><img src="./Images/ContentPageIta.png" alt="Markdown Help Viewer Italian"/></p>
+<h3>Step to activate this Help into MarkdownHelpViewerDemo Application</h3>
+<p>Use MarkdownHelpViewer.pas (located into AppInterface folder) in dpr:</p>
+<pre><code class="Delphi">  MarkdownHelpViewer in '..\..\AppInterface\MarkDownHelpViewer.pas',
+</code></pre>
+<p>then specify the default file of the help:</p>
+<pre><code class="Delphi">  Application.HelpFile := ExtractFilePath(Application.ExeName)+'..\Help\Home.md';
+</code></pre>
+<p>If you have installed the viewer using the provided Setup, the installation folder of the Viewer is registere into:</p>
+<p><code>
+HKEY_CLASSES_ROOT\Applications\MDHelpViewer.exe\Shell\Open\Command
+</code>
+so the interface can launch the viewer automatically.</p>
+<p>If you don't want to use the provided Setup you can register the location of the Viewer built by yourself and deployed to a specific location, for example:</p>
+<pre><code class="Delphi">{$IFDEF WIN32}
+  RegisterMDViewerLocation(ExtractFilePath(Application.ExeName)+
+    '..\..\Bin32\MDHelpViewer.exe');
+{$ELSE}
+  RegisterMDViewerLocation(ExtractFilePath(Application.ExeName)+
+    '..\..\Bin64\MDHelpViewer.exe');
+{$ENDIF}
+</code></pre>
+<h3>Rules to open the correct file using HelpContext or HelpTopic</h3>
+<p>To test the application you can lauch the Home.md help using the menu About/Help: in the OnClick handler invoke the help:</p>
+<pre><code class="Delphi">procedure TfmMain.HelpMenuItemClick(Sender: TObject);
+begin
+  Application.HelpKeyword('home');
+end;
+</code></pre>
+<p>In any Delphi component, you can define HelpType (htKeyword or htContext) and the specify HelpKeyword (string) or HelpContext (Integer).</p>
+<p>When the user press &ldquo;F1&rdquo; inside the application, the HelpSystem is invoked with HelpKeyword or HelpContext.</p>
+<p>Then the interface searches in the same folder of default file (specified into Application.HelpFile) the specific file using those rules:</p>
+<h4>Rules of precedence:</h4>
+<ul>
+<li>first search a file named as the Keyword or the Context with any markdown extension (eg. 1000.md, MainForm.md)</li>
+<li>Then, try the Help Name and the Keyword (eg.Home1000.md, HomeMainForm.md)</li>
+<li>At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)</li>
+</ul>
+<h2>Release Notes</h2>
+<p>06 Apr 2024: ver. 2.3.0</p>
+<ul>
+<li>Updated Settings for Buttons Rendering</li>
+<li>Built with StyledComponents + SKIA (Delphi 12.1)</li>
+</ul>
+<p>20 Mar 2024: ver. 2.2.0</p>
+<ul>
+<li>Fixed loading content when Viewer is already open</li>
+</ul>
+<p>19 Mar 2024: ver. 2.1.2</p>
+<ul>
+<li>Added property &ldquo;AutoLoadOnHotSpotClick&rdquo; to TMarkdownViewer</li>
+<li>Fixed resize Font changing Monitor-DPI</li>
+<li>Fixed Toolbar switching Captions On/Off</li>
+<li>Reset scrollbar position to top after loading new file</li>
+</ul>
+<p>3 Jan 2024: ver. 2.1.1</p>
+<ul>
+<li>Changed Toolbar to Styledtoolbar</li>
+<li>Support for different GUI languages (italian, French, Deutch, Portuguese, Espagnol)</li>
+<li>Fix for File names with spaces</li>
+<li>Added ISMultiLanguage library engine for translations</li>
+<li>Added xml files of translations</li>
+<li>Removed ini files</li>
+</ul>
+<p>25 Oct 2023: ver. 2.0.1</p>
+<ul>
+<li>Added Export to HTML help files (experimental)</li>
+</ul>
+<p>23 Oct 2023: ver. 2.0.0</p>
+<ul>
+<li>Added use of Skia4Delphi</li>
+<li>Added support for new image format (webp and wbmp)</li>
+<li>Uses AnimatedStyledDialogs for messages</li>
+<li>Updated Markdown library with best support for CommonMark transformation:</li>
+</ul>
+<ol>
+<li>Subscript <sub>text</sub> and Superscript <sup>text</sup></li>
+<li>Formulas (using <a href="https://developers.google.com/chart/infographics/docs/formulas">Google Chart API</a>)</li>
+<li><mark>Markers</mark></li>
+<li><a href="https://www.markdownguide.org/basic-syntax/#reference-style-links">Reference-style Links</a></li>
+</ol>
+<p>20 Sep 2023: ver. 1.3.0</p>
+<ul>
+<li>Added Support for Delphi 12</li>
+<li>Close Viewer with Esc button</li>
+<li>Form-resize optimized</li>
+</ul>
+<p>30 Jun 2023: ver. 1.2.0</p>
+<ul>
+<li>Restored &ldquo;Settings&rdquo; function on Viewer</li>
+<li>Fixed Component loading content from MarkdownContent property</li>
+<li>Fixed Component loading images using FileName (now searches in same folder)</li>
+</ul>
+<p>29 Jun 2023: ver. 1.1.0</p>
+<ul>
+<li>Refactoring Folder/Source position (some files moved)</li>
+<li>Renamed &ldquo;Markdown&rdquo; identifier to &ldquo;Markdown&rdquo;</li>
+<li>Added Packages for other Delphi versions</li>
+<li>Added &ldquo;refresh&rdquo; button to reload file content</li>
+<li>Fix Resize performance</li>
+<li>Added &ldquo;RegisterMDViewerServerRoot&rdquo; to automate loading content into the Component</li>
+<li>Updated Component MarkdownViewer for autoloading content</li>
+</ul>
+<p>23 Jun 2023: ver. 1.0.0</p>
+<ul>
+<li>Viewer with lot of functions:</li>
+<li>Full source code of Delphi Project (MDHelpViewer.dproj)</li>
+<li>Support for Windows Light and Dark Themes</li>
+<li>Settings available for easy customization of GUI</li>
+<li>Unit MarkdownHelpViewer.pas for Delphi Applications</li>
+</ul>
+<h2>Markdown Help Viewer in depth</h2>
+<p>Learn more about &ldquo;MarkDown Help Viewer&rdquo; within our <a href="https://github.com/EtheaDev/MarkdownHelpViewer/wiki/MarkDown-Help-Viewer-in-Depth">wiki</a>. Dive deeper into everything related to this tool, its features, and how to make the most of it.</p>
+<h2>License</h2>
+<p>Licensed under the <a href="https://opensource.org/licenses/Apache-2.0">Apache License, Version 2.0</a> (the &ldquo;License&rdquo;);</p>
+<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &ldquo;AS IS&rdquo; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
+<h3>Other libraries from Ethea:</h3>
+<p><strong>SVGIconImageList</strong> - https://github.com/EtheaDev/SVGIconImageList/</p>
+<p><strong>StyledComponents</strong> - https://github.com/EtheaDev/StyledComponents</p>
+<p><strong>Delphi MarkdownProcessor</strong> - https://github.com/EtheaDev/MarkdownProcessor</p>
+<h3>Third parties libraries:</h3>
+<p><strong>OpenSLL Library</strong>: Cryptography and SSL/TLS Toolkit</p>
+<p>Copyright © 1998-2018 The OpenSSL Project.  All rights reserved.</p>
+<p><strong>Delphi Markdown</strong> - https://github.com/grahamegrieve/delphi-markdown</p>
+<p>Copyright (c) 2011+, Health Intersections Pty Ltd All rights reserved</p>
+<p><strong>Delphi Preview Handler</strong> - https://github.com/RRUZ/delphi-preview-handler</p>
+<p>The Initial Developer of the Original Code is Rodrigo Ruz V.
+Portions created by Rodrigo Ruz V. are Copyright © 2011-2023 Rodrigo Ruz V.</p>
+<p><strong>Synopse/SynPDF</strong> - https://github.com/synopse/SynPDF</p>
+<p>Copyright © Synopse: all right reserved.</p>
+<p><strong>HtmlToPdf</strong> - https://github.com/MuzioValerio/HtmlToPdf</p>
+<p>Copyright © Muzio Valerio.</p>
+<p><strong>Image32 Library</strong> - http://www.angusj.com/delphi/image32/Docs/_Body.htm</p>
+<p>Copyright ©2019-2023 Angus Johnson.</p>
+<p><strong>HTMLViewer</strong> - https://github.com/BerndGabriel/HtmlViewer</p>
+<p>Copyright (c) 1995 - 2008 by L. David Baldwin</p>
+<p>Copyright (c) 1995 - 2023 by Anders Melander (DitherUnit.pas)</p>
+<p>Copyright (c) 1995 - 2023 by Ron Collins (HtmlGif1.pas)</p>
+<p>Copyright (c) 2008 - 2009 by Sebastian Zierer (Delphi 2009 Port)</p>
+<p>Copyright (c) 2008 - 2010 by Arvid Winkelsdorf (Fixes)</p>
+<p>Copyright (c) 2009 - 2023 by HtmlViewer Team</p>
+<h1>External projects</h1>
+<p><strong><em>To simpilfy compilation of projects they are added into ext folder</em></strong></p>
+<p><a href="https://github.com/EtheaDev/SVGIconImageList">SVGIconImageList</a></p>
+<p><a href="https://github.com/BerndGabriel/HtmlViewer">HtmlViewer</a></p>
+<p><a href="https://github.com/RRUZ/vcl-styles-utils">vcl-styles-utils</a></p>
+<p><a href="https://github.com/EtheaDev/MarkdownProcessor">markdownProcessor</a></p>
+<p><a href="https://github.com/EtheaDev/StyledComponents">StyledComponents</a></p>
+<p><img src="/Setup/SupportingDelphi.jpg" alt="Delphi Support"/></p>
+<p>Related links: <a href="https://www.embarcadero.com/">embarcadero.com</a> - <a href="https://learndelphi.org/">learndelphi.org</a></p>

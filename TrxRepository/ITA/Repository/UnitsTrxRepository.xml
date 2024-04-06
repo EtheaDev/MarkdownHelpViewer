@@ -14,16 +14,16 @@ Lang:=ITA
 <PARAMS/>
 </METADATA>
 <ROWDATA>
-<ROW OriginalValue="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" Translation="Confermi esportazione di un singolo file [Si] o di %d file [Si a tutto] in formato HTML?" Count="4" Status="*"/>
+<ROW OriginalValue="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" Translation="Confermi esportazione di un singolo file [Si] o di %d file [Si a tutto] in formato HTML?" Count="5" Status="*"/>
 <ROW OriginalValue="File &quot;%s&quot; succesfully saved. Do you want to open it now?" Translation="Il file &quot;%s&quot; è stato salvato correttamente. Vuoi aprirlo ora?" Count="3" Status="*"/>
-<ROW OriginalValue="HTML output folder" Translation="Cartella salvataggio HTML" Count="4" Status="*"/>
-<ROW OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="La parola chiave &quot;%s&quot; non è stata trovata nella cartella di lavoro: &quot;%s&quot;" Count="4" Status="*"/>
-<ROW OriginalValue="CONFIRMATION" Translation="CONFERMA" Count="4" Status="*"/>
-<ROW OriginalValue="ERROR!" Translation="ERRORE!" Count="4" Status="*"/>
-<ROW OriginalValue="INFORMATION" Translation="INFORMAZIONE" Count="4" Status="*"/>
-<ROW OriginalValue="UNEXPECTED ERROR!" Translation="ERRORE INATTESO!" Count="4" Status="*"/>
-<ROW OriginalValue="Closing application to change GUI language" Translation="Riavvio l&apos;applicazione per cambiare la lingua." Count="1" Status="*"/>
-<ROW OriginalValue="Incorrect message received" Translation="Ricevuto messaggio non corretto." Count="1" Status="*"/>
-<ROW OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Il file &quot;%s&quot; è stato salvato correttamente. Vuoi aprirlo ora?" Count="1" Status="*"/>
+<ROW OriginalValue="HTML output folder" Translation="Cartella salvataggio HTML" Count="5" Status="*"/>
+<ROW OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="La parola chiave &quot;%s&quot; non è stata trovata nella cartella di lavoro: &quot;%s&quot;" Count="5" Status="*"/>
+<ROW OriginalValue="CONFIRMATION" Translation="CONFERMA" Count="5" Status="*"/>
+<ROW OriginalValue="ERROR!" Translation="ERRORE!" Count="5" Status="*"/>
+<ROW OriginalValue="INFORMATION" Translation="INFORMAZIONE" Count="5" Status="*"/>
+<ROW OriginalValue="UNEXPECTED ERROR!" Translation="ERRORE INATTESO!" Count="5" Status="*"/>
+<ROW OriginalValue="Closing application to change GUI language" Translation="Riavvio l&apos;applicazione per cambiare la lingua." Count="2" Status="*"/>
+<ROW OriginalValue="Incorrect message received" Translation="Ricevuto messaggio non corretto." Count="2" Status="*"/>
+<ROW OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Il file &quot;%s&quot; è stato salvato correttamente. Vuoi aprirlo ora?" Count="2" Status="*"/>
 </ROWDATA>
 </DATAPACKET>

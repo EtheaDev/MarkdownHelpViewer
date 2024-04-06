@@ -30,7 +30,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ExtCtrls, Vcl.Dialogs,
   Vcl.StdCtrls, Vcl.Menus, System.Actions, Vcl.ActnList, Vcl.StdActns,
   Vcl.ComCtrls, Vcl.ToolWin, MDHelpView.Resources, Vcl.FileCtrl,
   Vcl.DBCtrls, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList, Vcl.ExtActns,
@@ -40,6 +40,7 @@ uses
   SVGIconImageList, CBMultiLanguage,
   {$IFDEF STYLEDCOMPONENTS}
   Vcl.StyledComponentsHooks,
+  Vcl.StyledMessagesHooks,
   {$ENDIF}
   MDHelpView.FormsHookTrx;
 
@@ -54,11 +55,11 @@ type
     FileListBox: TFileListBox;
     edFileSearch: TEdit;
     btIndex: TButton;
+    btSearch: TButton;
+    btSearchView: TButton;
     edSearch: TEdit;
     lbSearch: TLabel;
     SearchListBox: TListBox;
-    btSearch: TButton;
-    btSearchView: TButton;
     lbSelectSearch: TLabel;
     acPreviousPage: TAction;
     acNextPage: TAction;
@@ -256,8 +257,14 @@ uses
 //  {$ENDIF}
   , Vcl.Styles.Ext
   {$ENDIF}
-  , Vcl.StyledTaskDialog
   , Vcl.ButtonGroup
+  {$IFDEF STYLEDCOMPONENTS}
+  , Vcl.StyledTaskDialog
+  , Vcl.StyledButton
+  , Vcl.ButtonStylesAttributes
+  , Vcl.StyledButtonGroup
+  , Vcl.StyledToolbar
+  {$ENDIF}
   , System.IniFiles
   , MDHelpView.Messages
   ;
@@ -298,7 +305,7 @@ var
 begin
   SaveDialog.Filter := Format('%s (*.htm)|*.htm', [HTML_FILES]);
   LOutputFolder := IncludeTrailingPathDelimiter(WorkingFolder)+'..\WebHelp\';
-  LResult := StyledMessageDlg(STR_CONFIRMATION,
+  LResult := MessageDlg(
     Format(CONFIRM_EXPORT_HTML, [FileListBox.Count-1]),
       TMsgDlgType.mtConfirmation,
       [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbYesToAll, TMsgDlgBtn.mbNo, TMsgDlgBtn.mbCancel],
@@ -553,7 +560,7 @@ begin
     WriteSettingsToIni;
     if LOldLanguage <> FViewerSettings.GUILanguage then
     begin
-      StyledMessageDlg(STR_INFORMATION,
+      MessageDlg(
         CLOSE_APP_FOR_LANG,
         TMsgDlgType.mtInformation,
         [TMsgDlgBtn.mbOK], 0);
@@ -613,7 +620,9 @@ begin
   acExportHTML.Visible := False;
   {$ENDIF}
   Screen.MessageFont.Size := Round(Screen.MessageFont.Size*1.2);
+  {$IFDEF STYLEDCOMPONENTS}
   InitializeStyledTaskDialogs(True, Screen.MessageFont);
+  {$ENDIF}
 
   LMarkdownMasks := GetFileMasks(AMarkdownFileExt);
   LHTMLMasks := GetFileMasks(AHTMLFileExt);
@@ -1052,7 +1061,7 @@ begin
   else
   begin
     ToolBar.ButtonHeight := Round(50 * ScaleFactor);
-    ToolBar.ButtonWidth := Round(60 * ScaleFactor);
+    ToolBar.ButtonWidth := Round(70 * ScaleFactor);
   end;
   ToolBar.Height := ToolBar.ButtonHeight + Round(4 * ScaleFactor);
   paTop.Height := ToolBar.Height;
@@ -1163,7 +1172,7 @@ end;
 
 procedure TMainForm.FileSavedAskToOpen(const AFileName: string);
 begin
-  if StyledMessageDlg(STR_INFORMATION, Format(FILE_SAVED,[AFileName]),
+  if MessageDlg(Format(FILE_SAVED,[AFileName]),
     TMsgDlgType.mtInformation, [mbYes, MbNo], 0) = mrYes then
   begin
     ShellExecute(handle, 'open', PChar(AFilename), nil, nil, SW_SHOWNORMAL);
@@ -1243,8 +1252,37 @@ end;
 
 procedure TMainForm.UpdateFromSettings;
 begin
-  UpdateApplicationStyle(FViewerSettings.VCLStyleName);
   FViewerSettings.ReadSettings;
+  UpdateApplicationStyle(FViewerSettings.VCLStyleName);
+
+  {$IFDEF STYLEDCOMPONENTS}
+  if FViewerSettings.ButtonDrawRounded then
+  begin
+    TStyledButton.RegisterDefaultRenderingStyle(btRounded);
+    TStyledButtonGroup.RegisterDefaultRenderingStyle(btRounded);
+    btIndex.StyleDrawType := btRounded;
+    btSearch.StyleDrawType := btRounded;
+    btSearchView.StyleDrawType := btRounded;
+  end
+  else
+  begin
+    TStyledButton.RegisterDefaultRenderingStyle(btRoundRect);
+    TStyledButtonGroup.RegisterDefaultRenderingStyle(btRoundRect);
+    btIndex.StyleDrawType := btRoundRect;
+    btSearch.StyleDrawType := btRoundRect;
+    btSearchView.StyleDrawType := btRoundRect;
+  end;
+  if FViewerSettings.ToolbarDrawRounded then
+  begin
+    TStyledToolbar.RegisterDefaultRenderingStyle(btRounded);
+    Toolbar.StyleDrawType := btRounded;
+  end
+  else
+  begin
+    TStyledToolbar.RegisterDefaultRenderingStyle(btRoundRect);
+    Toolbar.StyleDrawType := btRoundRect;
+  end;
+  {$ENDIF}
 
   PageControl.Visible := FViewerSettings.PageControlVisible;
   PageControl.Width := Round(FViewerSettings.PageControlSize * Self.ScaleFactor);
@@ -1385,7 +1423,7 @@ begin
   //This is an event-handler for exceptions that replace Delphi standard handler
   if E is EAccessViolation then
   begin
-    if StyledMessageDlg(STR_UNEXPECTED_ERROR,
+    if MessageDlg(
       Format('Unexpected Error: %s%s',[sLineBreak,E.Message]),
       TMsgDlgType.mtError,
       [TMsgDlgBtn.mbOK, TMsgDlgBtn.mbAbort], 0) = mrAbort then
@@ -1394,7 +1432,7 @@ begin
   else
   begin
 
-    StyledMessageDlg(STR_ERROR,
+    MessageDlg(
       Format('Error: %s%s',[sLineBreak,E.Message]),
       TMsgDlgType.mtError,
       [TMsgDlgBtn.mbOK, TMsgDlgBtn.mbHelp], 0);

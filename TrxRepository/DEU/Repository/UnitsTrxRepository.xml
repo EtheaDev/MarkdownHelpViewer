@@ -14,16 +14,16 @@ Lang:=DEU
 <PARAMS/>
 </METADATA>
 <ROWDATA>
-<ROW OriginalValue="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" Translation="Bestätigen Sie den Export der einzelnen Dateien [Ja] oder %d Dateien [Ja zu allen] im HTML-Format?" Count="6" Status="@"/>
-<ROW OriginalValue="Incorrect message received" Translation="Falsche Nachricht empfangen" Count="3" Status="@"/>
+<ROW OriginalValue="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" Translation="Bestätigen Sie den Export der einzelnen Dateien [Ja] oder %d Dateien [Ja zu allen] im HTML-Format?" Count="7" Status="@"/>
+<ROW OriginalValue="Incorrect message received" Translation="Falsche Nachricht empfangen" Count="4" Status="@"/>
 <ROW OriginalValue="File &quot;%s&quot; succesfully saved. Do you want to open it now?" Translation="Die Datei &quot;%s&quot; wurde erfolgreich gespeichert. Möchten Sie es jetzt öffnen?" Count="2" Status="@"/>
-<ROW OriginalValue="HTML output folder" Translation="HTML-Ausgabeordner" Count="6" Status="@"/>
-<ROW OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="Schlüsselwort &quot;%s&quot; in Dateien im Arbeitsordner nicht gefunden: &quot;%s&quot;" Count="6" Status="@"/>
-<ROW OriginalValue="CONFIRMATION" Translation="BESTÄTIGUNG" Count="6" Status="@"/>
-<ROW OriginalValue="ERROR!" Translation="FEHLER!" Count="6" Status="@"/>
-<ROW OriginalValue="INFORMATION" Translation="INFORMATION" Count="6" Status="@"/>
-<ROW OriginalValue="UNEXPECTED ERROR!" Translation="UNERWARTETER FEHLER!" Count="6" Status="@"/>
-<ROW OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Die Datei &quot;%s&quot; wurde erfolgreich gespeichert. Möchten Sie es jetzt öffnen?" Count="4" Status="@"/>
-<ROW OriginalValue="Closing application to change GUI language" Translation="Schließen der Anwendung zum Ändern der GUI-Sprache" Count="1" Status="@"/>
+<ROW OriginalValue="HTML output folder" Translation="HTML-Ausgabeordner" Count="7" Status="@"/>
+<ROW OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="Schlüsselwort &quot;%s&quot; in Dateien im Arbeitsordner nicht gefunden: &quot;%s&quot;" Count="7" Status="@"/>
+<ROW OriginalValue="CONFIRMATION" Translation="BESTÄTIGUNG" Count="7" Status="@"/>
+<ROW OriginalValue="ERROR!" Translation="FEHLER!" Count="7" Status="@"/>
+<ROW OriginalValue="INFORMATION" Translation="INFORMATION" Count="7" Status="@"/>
+<ROW OriginalValue="UNEXPECTED ERROR!" Translation="UNERWARTETER FEHLER!" Count="7" Status="@"/>
+<ROW OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Die Datei &quot;%s&quot; wurde erfolgreich gespeichert. Möchten Sie es jetzt öffnen?" Count="5" Status="@"/>
+<ROW OriginalValue="Closing application to change GUI language" Translation="Schließen der Anwendung zum Ändern der GUI-Sprache" Count="2" Status="@"/>
 </ROWDATA>
 </DATAPACKET>
