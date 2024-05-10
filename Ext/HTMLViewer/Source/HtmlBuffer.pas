@@ -1614,7 +1614,8 @@ begin
     CodePage := CP_UTF8
   else
 {$endif}
-  CodePage := CP_ACP;
+  //By Default use UTF8 encoding
+  CodePage := CP_UTF8;
 end;
 
 //-- BG ---------------------------------------------------------- 26.09.2012 --

@@ -618,7 +618,7 @@ end;
 
 var
   GDIPlusCount: integer;
-  InitToken: DWord;
+  InitToken: {$if CompilerVersion >= 34.0}NativeUInt{$else}ULONG{$ifend};
   Startup: GdiplusStartupInput;
 {$ifndef HasGDIPlus}
   LibHandle: THandle;

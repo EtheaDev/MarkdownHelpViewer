@@ -54,6 +54,7 @@ type
   TAutoAnimationType = (AnimateOnMouseOver, AnimateOnClick, AnimateAlways, AnimateOnFocus);
   TAutoAnimationTypes = set of TAutoAnimationType;
 
+  { TStyledAnimatedButtonRender }
   TStyledAnimatedButtonRender = class(TStyledButtonRender)
   private
     FAnimationHeight: Integer;
@@ -80,6 +81,7 @@ type
       const AClass: TStyledButtonClass;
       const AAppearance: TStyledButtonAppearance;
       const ADrawType: TStyledButtonDrawType;
+      const ACursor: TCursor;
       const AUseCustomDrawType: Boolean); override;
     property AnimationHeight: Integer read FAnimationHeight write SetAnimationHeight;
     property AnimationWidth: Integer read FAnimationWidth write SetAnimationWidth;
@@ -87,6 +89,8 @@ type
     property AutoSizeAnimationMargin: Integer read FAutoSizeAnimationMargin write SetAutoSizeAnimationMargin;
   end;
 
+  { TStyledAnimatedButton }
+  [ComponentPlatforms(pidWin32 or pidWin64)]
   TStyledAnimatedButton = class(TStyledButton)
   strict private
     FSkAnimatedImage: TSkAnimatedImage;
@@ -187,7 +191,8 @@ constructor TStyledAnimatedButtonRender.CreateStyled(AOwner: TControl;
   const AGetParentFont: TGetParentFont; const ASetParentFont: TSetParentFont;
   const AFamily: TStyledButtonFamily; const AClass: TStyledButtonClass;
   const AAppearance: TStyledButtonAppearance;
-  const ADrawType: TStyledButtonDrawType; const AUseCustomDrawType: Boolean);
+  const ADrawType: TStyledButtonDrawType;
+  const ACursor: TCursor; const AUseCustomDrawType: Boolean);
 begin
   inherited;
   AnimationHeight := DEFAULT_ANIM_SIZE;
