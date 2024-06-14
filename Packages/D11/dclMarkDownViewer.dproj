@@ -51,7 +51,7 @@
         <VerInfo_Keys>CompanyName=Ethea S.r.l.;FileDescription=MarkDown Help Viewer;FileVersion=2.0.0.0;InternalName=;LegalCopyright=Copyright Ethea S.r.l.;LegalTrademarks=;OriginalFilename=;ProgramID=;ProductName=;ProductVersion=2.0;Comments=</VerInfo_Keys>
         <DCC_Description>Ethea Markdown Help Viewer Components</DCC_Description>
         <DllSuffix>$(Auto)</DllSuffix>
-        <DCC_UnitSearchPath>..\..\Ext\HTMLViewer\Source;..\..\Ext\delphi-markdown\Source;..\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>..\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DesignOnlyPackage>true</DesignOnlyPackage>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_MajorVer>2</VerInfo_MajorVer>

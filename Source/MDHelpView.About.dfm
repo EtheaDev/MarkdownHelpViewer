@@ -29,7 +29,7 @@ object FrmAbout: TFrmAbout
     WordWrap = True
   end
   object LabelVersion: TLabel
-    Left = 400
+    Left = 396
     Top = 64
     Width = 35
     Height = 13
@@ -165,7 +165,7 @@ object FrmAbout: TFrmAbout
     ParentBackground = False
     TabOrder = 0
     object btnOK: TButton
-      Left = 360
+      Left = 356
       Top = 16
       Width = 75
       Height = 25

@@ -35,7 +35,7 @@ requires
   rtl,
   vclimg,
   vcl,
-  FrameViewer10_4;
+  FrameViewer;
 
 contains
   MarkDownViewerComponents in '..\..\Source\Components\MarkDownViewerComponents.pas',

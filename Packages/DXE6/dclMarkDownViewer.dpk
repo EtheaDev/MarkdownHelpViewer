@@ -27,7 +27,7 @@ package dclMarkDownViewer;
 {$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'Ethea Markdown Help Viewer Components'}
-{$LIBSUFFIX 'DXE6'}
+{$LIBSUFFIX '200'}
 {$DESIGNONLY}
 {$IMPLICITBUILD ON}
 

@@ -27,7 +27,7 @@ package MarkDownViewer;
 {$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'Ethea Markdown Help Viewer Components'}
-{$LIBSUFFIX 'D10_2'}
+{$LIBSUFFIX '250'}
 {$RUNONLY}
 {$IMPLICITBUILD ON}
 
@@ -35,7 +35,7 @@ requires
   rtl,
   vclimg,
   vcl,
-  FrameViewer10_2;
+  FrameViewer;
 
 contains
   MarkDownViewerComponents in '..\..\Source\Components\MarkDownViewerComponents.pas',

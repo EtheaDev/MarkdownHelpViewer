@@ -53,7 +53,7 @@ uses
   ;
 
 const
-  StyledButtonsVersion = '3.5.1';
+  StyledButtonsVersion = '3.5.4';
 
 resourcestring
   ERROR_SETTING_BUTTON_STYLE = 'Error setting Button Style: %s/%s/%s not available';
@@ -282,6 +282,7 @@ type
     procedure SetGroupIndex(const AValue: Integer);
     procedure SetShowCaption(const AValue: Boolean);
     procedure UpAllButtons;
+    function GetCaptionToDraw: string;
   protected
     FCustomDrawType: Boolean;
     FUseButtonLayout: Boolean;
@@ -959,6 +960,7 @@ type
     {$IFDEF D10_4+}
     property StyleName;
     {$ENDIF}
+    property Tag;
     property OnClick;
     property OnDblClick;
     property OnMouseActivate;
@@ -1476,6 +1478,7 @@ type
     property Spacing;
     property TabOrder;
     property TabStop;
+    property Tag;
     property Visible;
     property WordWrap;
     property StyleElements;
@@ -2575,7 +2578,7 @@ var
   LCaption: TCaption;
 begin
   if FShowCaption then
-    LCaption := Caption
+    LCaption := GetCaptionToDraw
   else
     LCaption := '';
   case FCaptionAlignment of
@@ -3767,6 +3770,16 @@ begin
   Result := FOwnerControl.Width;
 end;
 
+function TStyledButtonRender.GetCaptionToDraw: string;
+begin
+  if FOwnerControl is TCustomStyledGraphicButton then
+    Result := TCustomStyledGraphicButton(FOwnerControl).GetCaptionToDraw
+  else if FOwnerControl is TCustomStyledButton then
+    Result := TCustomStyledButton(FOwnerControl).GetCaptionToDraw
+  else
+    Result := '';
+end;
+
 function TStyledButtonRender.GetComponentHeight: Integer;
 begin
   Result := FOwnerControl.Height;
@@ -3926,7 +3939,7 @@ begin
   inherited Create(AOwner);
   FImageIndex := -1;
   FRender := GetRenderClass.CreateStyled(Self,
-    ControlClick, ControlFont, GetCaptionToDraw, SetCaption,
+    ControlClick, ControlFont, GetCaption, SetCaption,
       GetParentFont, SetParentFont,
       AFamily, AClass, AAppearance,
       _DefaultStyleDrawType, _DefaultCursor, _UseCustomDrawType);
@@ -3950,7 +3963,7 @@ begin
   inherited Create(AOwner);
   FImageIndex := -1;
   FRender := GetRenderClass.CreateStyled(Self,
-    ControlClick, ControlFont, GetCaptionToDraw, SetCaption,
+    ControlClick, ControlFont, GetCaption, SetCaption,
       GetParentFont, SetParentFont,
       AFamily, AClass, AAppearance,
       ADrawType, ACursor, AUseCustomDrawType);
@@ -5074,7 +5087,7 @@ begin
   ParentColor := False;
   FImageIndex := -1;
   FRender := GetRenderClass.CreateStyled(Self,
-    ControlClick, ControlFont, GetCaptionToDraw, SetCaption,
+    ControlClick, ControlFont, GetCaption, SetCaption,
       GetParentFont, SetParentFont,
       AFamily, AClass, AAppearance,
       _DefaultStyleDrawType, _DefaultCursor, _UseCustomDrawType);
@@ -5091,7 +5104,7 @@ begin
   ParentColor := False;
   FImageIndex := -1;
   FRender := GetRenderClass.CreateStyled(Self,
-    ControlClick, ControlFont, GetCaptionToDraw, SetCaption,
+    ControlClick, ControlFont, GetCaption, SetCaption,
       GetParentFont, SetParentFont,
       AFamily, AClass, AAppearance,
       ADrawType, ACursor, AUseCustomDrawType);
@@ -5325,15 +5338,18 @@ procedure TCustomStyledButton.SetDefault(const AValue: Boolean);
 var
   Form: TCustomForm;
 begin
-  FRender.Default := AValue;
-  if HandleAllocated then
+  if FRender.Default <> AValue then
   begin
-    Form := GetParentForm(Self);
-    if Form <> nil then
-      Form.Perform(CM_FOCUSCHANGED, 0, LPARAM(Form.ActiveControl));
+    FRender.Default := AValue;
+    if HandleAllocated then
+    begin
+      Form := GetParentForm(Self);
+      if (Form <> nil) and (Form.ActiveControl <> nil) then
+        Form.Perform(CM_FOCUSCHANGED, 0, LPARAM(Form.ActiveControl));
+    end;
+    if (csLoading in ComponentState) then
+      FRender.Active := FRender.Default;
   end;
-  if (csLoading in ComponentState) then
-    FRender.Active := FRender.Default;
 end;
 
 function TCustomStyledButton.GetCancel: Boolean;
@@ -5343,7 +5359,8 @@ end;
 
 procedure TCustomStyledButton.SetCancel(const AValue: Boolean);
 begin
-  FRender.Cancel := AValue;
+  if FRender.Cancel <> AValue then
+    FRender.Cancel := AValue;
 end;
 
 function TCustomStyledButton.GetDisabledImageIndex: TImageIndex;
