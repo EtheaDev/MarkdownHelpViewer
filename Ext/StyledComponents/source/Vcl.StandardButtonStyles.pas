@@ -5,7 +5,7 @@
 {                                                                              }
 {  Copyright (c) 2022-2024 (Ethea S.r.l.)                                      }
 {  Author: Carlo Barazzetta                                                    }
-{  Contributors: Ariel Montes                                                  }
+{  Contributors: Ariel Montes, Lance Rasmussen                                 }
 {                                                                              }
 {  https://github.com/EtheaDev/StyledComponents                                }
 {                                                                              }
@@ -184,6 +184,8 @@ begin
     mrTryAgain : begin AStyleAppearance := DEFAULT_APPEARANCE; end;
     mrContinue : begin AStyleAppearance := DEFAULT_APPEARANCE; end;
     mrHelp     : begin AStyleAppearance := DEFAULT_APPEARANCE; end;
+  else
+    GetStyleByModalResult(mrNone, AStyleClass, AStyleAppearance);
   end;
 end;
 
@@ -413,7 +415,7 @@ begin
       htmlToColor('#44617c'),htmlToColor('#6bafe2'),btRoundRect);
     RegisterThemeAttributes('Carbon',ttDark,htmlToColor('#c0c0c0'),clWhite,
       htmlToColor('#3a3a3a'),htmlToColor('#3e3e3e'),
-      htmlToColor('#191919'),htmlToColor('#191919'),btRect);
+      htmlToColor('#191919'),htmlToColor('#2E6176'),btRect);
     RegisterThemeAttributes('Charcoal Dark Slate',ttDark,htmlToColor('#a3a3a3'),clWhite,
       htmlToColor('#3a3a3a'),htmlToColor('#1f1f1f'),
       htmlToColor('#191919'),htmlToColor('#191919'),btRoundRect);
@@ -483,17 +485,19 @@ begin
     RegisterThemeAttributes('Material Patterns Blue',ttLight,clBlack,clBlack,
       htmlToColor('#e6ecf2'),htmlToColor('#e6ecf2'),
       htmlToColor('#c4d3df'),htmlToColor('#18a1e9'),btRoundRect);
-    { TODO: Old Delphi Styles
-    RegisterThemeAttributes('Metropolis UI Black',ttDark,clWhite,
-      clWebLightYellow,clWebLightYellow,clDkGray,btRoundRect);
-    RegisterThemeAttributes('Metropolis UI Blue',ttDark,clWhite,
-      clWebDarkSlategray,clWebDarkSlategray,clDkGray,btRoundRect);
-    RegisterThemeAttributes('Metropolis UI Dark',ttDark,clWhite,
-      clWebLightYellow,clWebLightYellow,clDkGray,btRoundRect);
-    RegisterThemeAttributes('Metropolis UI Green',ttDark,clWhite,
-      clWebLightGreen,clWebLightGreen,clWebLightgrey,btRoundRect);
-    }
-    RegisterThemeAttributes('Obsidian',ttLight,clBlack,clBlack,
+    RegisterThemeAttributes('Metropolis UI Black',ttDark,clWhite,clWhite,
+      htmlToColor('#1A1A1A'),htmlToColor('#1373A9'),
+      htmlToColor('#F8F8F8'),htmlToColor('#F8F8F8'),btRoundRect);
+    RegisterThemeAttributes('Metropolis UI Blue',ttDark,clWhite,clWhite,
+      htmlToColor('#1373A9'),htmlToColor('#E86625'),
+      htmlToColor('#F8F8F8'),htmlToColor('#F8F8F8'),btRoundRect);
+    RegisterThemeAttributes('Metropolis UI Dark',ttDark,clWhite,clWhite,
+      htmlToColor('#1A1A1A'),htmlToColor('#5E5E5E'),
+      htmlToColor('#F8F8F8'),htmlToColor('#F8F8F8'),btRect);
+    RegisterThemeAttributes('Metropolis UI Green',ttDark,clWhite,clWhite,
+      htmlToColor('#096C37'),htmlToColor('#247C4D'),
+      clWhite,clWhite,btRect);
+    RegisterThemeAttributes('Obsidian',ttDark,clBlack,clBlack,
       htmlToColor('#cfd2d7'),htmlToColor('#ffd24e'),
       htmlToColor('#2f2f2f'),htmlToColor('#2f2f2f'),btRoundRect);
     RegisterThemeAttributes('Onyx Blue',ttLight,clBlack,clWhite,
@@ -533,6 +537,9 @@ begin
       htmlToColor('#f9fafc'),htmlToColor('#eef6fb'),
       htmlToColor('#dde1e4'),htmlToColor('#dde1e4'),btRoundRect);
     RegisterThemeAttributes('Tablet Dark',ttDark,clWhite,clBlack,
+      htmlToColor('#3d4a79'),htmlToColor('#1abc9c'),
+      htmlToColor('#3d4a79'),htmlToColor('#1abc9c'),btRoundRect);
+    RegisterThemeAttributes('TabletDark',ttDark,clWhite,clBlack,
       htmlToColor('#3d4a79'),htmlToColor('#1abc9c'),
       htmlToColor('#3d4a79'),htmlToColor('#1abc9c'),btRoundRect);
     RegisterThemeAttributes('Tablet Light',ttLight,clBlack,clWhite,
@@ -620,6 +627,77 @@ begin
     RegisterThemeAttributes('Windows11 Impressive Light SE',ttLight,clBlack,clWhite,
       htmlToColor('#CAD4E6'),htmlToColor('#5172EF'),
       htmlToColor('#CAD4E6'),htmlToColor('#5172EF'),btRoundRect);
+
+    //New Third Parties Styles (provided by Lance Rasmussen)
+    RegisterThemeAttributes('CDE Frost: Blue',ttDark,clWhite,clWhite,
+      htmlToColor('#084f8a'),htmlToColor('#084f8a'),
+      htmlToColor('#084f8a'),clWhite,btRect);
+    RegisterThemeAttributes('CDE Frost: Teal',ttDark,clWhite,clWhite,
+      htmlToColor('#3F506D'),htmlToColor('#5172EF'),
+      htmlToColor('#3F506D'),htmlToColor('#5172EF'),btRoundRect);
+    RegisterThemeAttributes('CDE: Golden Graphite',ttDark,clWhite,clWhite,
+      htmlToColor('#3F506D'),htmlToColor('#5172EF'),
+      htmlToColor('#3F506D'),htmlToColor('#5172EF'),btRoundRect);
+    RegisterThemeAttributes('CDE Graphite: Blue',ttDark,clWhite,clWhite,
+      htmlToColor('#084f8a'),htmlToColor('#084f8a'),
+      htmlToColor('#084f8a'),clWhite,btRect);
+    RegisterThemeAttributes('CDE Graphite: Teal',ttDark,clWhite,clWhite,
+      htmlToColor('#3F506D'),htmlToColor('#5172EF'),
+      htmlToColor('#3F506D'),htmlToColor('#5172EF'),btRoundRect);
+    RegisterThemeAttributes('CDE Impressive: Dark',ttDark,clWhite,clWhite,
+      htmlToColor('#3F506D'),htmlToColor('#5172EF'),
+      htmlToColor('#3F506D'),htmlToColor('#5172EF'),btRoundRect);
+    RegisterThemeAttributes('CDE Impressive: Light',ttLight,clBlack,clWhite,
+      htmlToColor('#CAD4E6'),htmlToColor('#5172EF'),
+      htmlToColor('#CAD4E6'),htmlToColor('#5172EF'),btRoundRect);
+     RegisterThemeAttributes('CDE Modern: Dark',ttDark,clWhite,clWhite,
+      htmlToColor('#3F506D'),htmlToColor('#5172EF'),
+      htmlToColor('#3F506D'),htmlToColor('#5172EF'),btRoundRect);
+    RegisterThemeAttributes('CDE Modern: Light',ttLight,clBlack,clWhite,
+      htmlToColor('#CAD4E6'),htmlToColor('#5172EF'),
+      htmlToColor('#CAD4E6'),htmlToColor('#5172EF'),btRoundRect);
+    RegisterThemeAttributes('Raize Frost : Blue',ttDark,clWhite,clWhite,
+      htmlToColor('#084f8a'),htmlToColor('#084f8a'),
+      htmlToColor('#084f8a'),clWhite,btRect);
+    RegisterThemeAttributes('Raize Frost : Green',ttDark,clWhite,clWhite,
+      htmlToColor('#084f8a'),htmlToColor('#084f8a'),
+      htmlToColor('#084f8a'),clWhite,btRect);
+    RegisterThemeAttributes('Raize Frost : Orange',ttDark,clWhite,clWhite,
+      htmlToColor('#084f8a'),htmlToColor('#084f8a'),
+      htmlToColor('#084f8a'),clWhite,btRect);
+    RegisterThemeAttributes('Raize Frost : Purple',ttDark,clWhite,clWhite,
+      htmlToColor('#084f8a'),htmlToColor('#084f8a'),
+      htmlToColor('#084f8a'),clWhite,btRect);
+    RegisterThemeAttributes('Raize Frost : Red',ttDark,clWhite,clWhite,
+      htmlToColor('#084f8a'),htmlToColor('#084f8a'),
+      htmlToColor('#084f8a'),clWhite,btRect);
+    RegisterThemeAttributes('Raize Frost : Teal',ttDark,clWhite,clWhite,
+      htmlToColor('#084f8a'),htmlToColor('#084f8a'),
+      htmlToColor('#084f8a'),clWhite,btRect);
+    RegisterThemeAttributes('Raize Frost : Yellow',ttDark,clWhite,clWhite,
+      htmlToColor('#084f8a'),htmlToColor('#084f8a'),
+      htmlToColor('#084f8a'),clWhite,btRect);
+    RegisterThemeAttributes('Raize Graphite : Blue',ttDark,clWhite,clWhite,
+      htmlToColor('#084f8a'),htmlToColor('#084f8a'),
+      htmlToColor('#084f8a'),clWhite,btRect);
+    RegisterThemeAttributes('Raize Graphite : Green',ttDark,clWhite,clWhite,
+      htmlToColor('#084f8a'),htmlToColor('#084f8a'),
+      htmlToColor('#084f8a'),clWhite,btRect);
+    RegisterThemeAttributes('Raize Graphite : Orange',ttDark,clWhite,clWhite,
+      htmlToColor('#084f8a'),htmlToColor('#084f8a'),
+      htmlToColor('#084f8a'),clWhite,btRect);
+    RegisterThemeAttributes('Raize Graphite : Purple',ttDark,clWhite,clWhite,
+      htmlToColor('#084f8a'),htmlToColor('#084f8a'),
+      htmlToColor('#084f8a'),clWhite,btRect);
+    RegisterThemeAttributes('Raize Graphite : Red',ttDark,clWhite,clWhite,
+      htmlToColor('#084f8a'),htmlToColor('#084f8a'),
+      htmlToColor('#084f8a'),clWhite,btRect);
+    RegisterThemeAttributes('Raize Graphite : Teal',ttDark,clWhite,clWhite,
+      htmlToColor('#084f8a'),htmlToColor('#084f8a'),
+      htmlToColor('#084f8a'),clWhite,btRect);
+    RegisterThemeAttributes('Raize Graphite : Yellow',ttDark,clWhite,clWhite,
+      htmlToColor('#084f8a'),htmlToColor('#084f8a'),
+      htmlToColor('#084f8a'),clWhite,btRect);
   end;
 
   //IDE Styled

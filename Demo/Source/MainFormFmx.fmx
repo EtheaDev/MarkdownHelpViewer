@@ -515,6 +515,7 @@ object MainForm: TMainForm
     Size.PlatformDefault = False
     TabOrder = 2
     Text = 'Transform MD -> HTML'
+    TextSettings.Trimming = None
     OnClick = TransformButtonClick
   end
   object WebBrowser: TWebBrowser

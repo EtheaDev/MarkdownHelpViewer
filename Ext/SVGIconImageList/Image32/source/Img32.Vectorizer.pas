@@ -2,8 +2,8 @@ unit Img32.Vectorizer;
 
 (*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Version   :  4.4                                                             *
-* Date      :  17 December 2023                                                *
+* Version   :  4.6                                                             *
+* Date      :  18 September 2024                                               *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2019-2023                                         *
 * Purpose   :  Converts raster images to vector paths                          *
@@ -93,7 +93,7 @@ var
   i, len: integer;
 begin
   len := GetVertexCount(pt);
-  SetLength(Result, len);
+  NewPointDArray(Result, len, True);
   for i := 0 to len -1 do
   begin
     Result[i] := PointD(pt.X, pt.Y);

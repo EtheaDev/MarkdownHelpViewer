@@ -3,10 +3,24 @@ unit MainFormFmx;
 interface
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
-  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
-  MarkdownProcessor, FMX.Memo.Types, FMX.StdCtrls, FMX.Controls.Presentation,
-  FMX.ScrollBox, FMX.Memo, FMX.WebBrowser;
+  System.SysUtils
+  , System.Types
+  , System.UITypes
+  , System.Classes
+  , System.Variants
+  , FMX.Types
+  , FMX.Controls
+  , FMX.Forms
+  , FMX.Graphics
+  , FMX.Dialogs
+  , FMX.Memo.Types
+  , FMX.StdCtrls
+  , FMX.Controls.Presentation
+  , FMX.ScrollBox
+  , FMX.Memo
+  , FMX.WebBrowser
+  , MarkdownProcessor
+  ;
 
 resourcestring
   FILE_NOT_FOUND = 'File "%s" not found!';
@@ -36,16 +50,19 @@ var
 implementation
 
 uses
-  System.Win.Registry
-  , System.IOUtils
+  System.IOUtils
+{$IFDEF MSWINDOWS}
+  , System.Win.Registry
   , Winapi.ShellAPI
   , Winapi.Windows
   , MarkDownHelpViewer
+{$ENDIF}
   , MarkdownUtils
   ;
 
 {$R *.fmx}
 
+{$IFDEF MSWINDOWS}
 procedure ShowMarkdownFile(const AFileName: TFileName;
   const AHelpString: string; const AContext: Integer = 0);
 var
@@ -83,12 +100,22 @@ begin
     raise Exception.Create(MD_HELP_VIEWER_NOT_FOUND);
   {$ENDIF}
 end;
+{$ENDIF}
 
 procedure TMainForm.FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
   Shift: TShiftState);
+{$IFDEF MSWINDOWS}
+var
+  LFileName: string;
+{$ENDIF}
 begin
+{$IFDEF MSWINDOWS}
   if Key = vkF1 then
-    ShowMarkdownFile('ReadMe.md', 'README',0);
+  begin
+    LFileName := TPath.Combine(TPath.GetDocumentsPath,'ReadMe.md');
+    ShowMarkdownFile(LFileName, 'README',0);
+  end;
+{$ENDIF}
 end;
 
 procedure TMainForm.TransformButtonClick(Sender: TObject);

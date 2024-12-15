@@ -1,12 +1,13 @@
 {******************************************************************************}
 {                                                                              }
-{       Markdown Help Viewer: Demo                                             }
-{       (Help Viewer and Help Interfaces for Markdown files)                   }
+{       SVGIconImageList: An extended ImageList for Delphi/FMX                 }
+{       to simplify use of SVG Icons (resize, opacity and more...)             }
 {                                                                              }
-{       Copyright (c) 2023-2024 (Ethea S.r.l.)                                 }
+{       Copyright (c) 2019-2024 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
+{       Contributors:                                                          }
 {                                                                              }
-{       https://github.com/EtheaDev/MarkdownHelpViewer                         }
+{       https://github.com/EtheaDev/SVGIconImageList                           }
 {                                                                              }
 {******************************************************************************}
 {                                                                              }
@@ -23,31 +24,51 @@
 {  limitations under the License.                                              }
 {                                                                              }
 {******************************************************************************}
-program MarkdownHelpViewerDemo;
+unit FMX.SVGIconsUtils;
+
+interface
+
+Uses
+  System.Types
+  , FMX.ListBox
+  ;
+
+function UpdateSVGIconListView(const AListBox: TListBox): Integer;
+
+implementation
 
 uses
-  Forms,
-  MidasLib,
-  SysUtils,
-  MarkdownHelpViewer in '..\..\Source\AppInterface\MarkDownHelpViewer.pas',
-  MainForm in 'MainForm.pas' {fmMain},
-  DemoAbout in 'DemoAbout.pas' {FrmAbout},
-  MarkDownViewerComponents in '..\..\Source\Components\MarkDownViewerComponents.pas';
+  FMX.SVGIconImageList
+  , System.SysUtils
+  , System.Classes
+  ;
 
-{$R *.res}
-
+function UpdateSVGIconListView(const AListBox: TListBox): Integer;
+var
+  I: Integer;
+  LItem: TSVGIconSourceItem;
+  LListItem: TListBoxItem;
+  LSVGIconImageList: TSVGIconImageList;
 begin
-  Application.Initialize;
-  Application.MainFormOnTaskbar := True;
-  Application.Title := 'Markdown Help Viewer Demo App';
-  Application.HelpFile := ExtractFilePath(Application.ExeName)+'..\Help\Home.md';
-{$IFDEF WIN32}
-  RegisterMDViewerLocation(ExtractFilePath(Application.ExeName)+
-    '..\..\Bin32\MDHelpViewer.exe');
-{$ELSE}
-  RegisterMDViewerLocation(ExtractFilePath(Application.ExeName)+
-    '..\..\Bin64\MDHelpViewer.exe');
-{$ENDIF}
-  Application.CreateForm(TfmMain, fmMain);
-  Application.Run;
+  LSVGIconImageList := AListBox.Images as TSVGIconImageList;
+
+  AListBox.Items.BeginUpdate;
+  try
+    AListBox.Clear;
+    Result := LSVGIconImageList.Source.Count;
+    for I := 0 to Result -1 do
+    begin
+      LItem := LSVGIconImageList.Source.Items[I] as TSVGIconSourceItem;
+      LListItem := TListBoxItem.Create(AListBox);
+      LListItem.StyleLookup := 'CustomListBoxItemStyle';
+      LListItem.Text := Format('%d.%s', [LItem.Index,Litem.IconName]);
+      LListItem.ImageIndex := I;
+
+      AListBox.AddObject(LListItem);
+    end;
+  finally
+    AListBox.Items.EndUpdate;
+  end;
+end;
+
 end.

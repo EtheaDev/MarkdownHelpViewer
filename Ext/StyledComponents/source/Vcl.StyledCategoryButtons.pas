@@ -71,8 +71,19 @@ type
 
   TButtonProc = reference to procedure (Button: TStyledButtonItem);
 
+  TGetCategoryButtonsBadgeInfo = procedure (
+    const ACategoryIndex: Integer;
+    const AButtonItemIndex: Integer;
+    var ABadgeContent: string;
+    var ASize: TNotificationBadgeSize;
+    var APosition: TNotificationBadgePosition;
+    var AColor: TColor;
+    var AFontColor: TColor;
+    var AFontStyle: TFontStyles) of Object;
+
   { TStyledButtonCategory }
   TStyledButtonCategory = class(TButtonCategory)
+  protected
   public
     constructor Create(Collection: TCollection); override;
   end;
@@ -117,6 +128,7 @@ type
     function ApplyButtonStyle: Boolean;
     procedure LoadDefaultStyles;
   public
+    procedure Assign(Source: TPersistent); override;
     constructor Create(Collection: TCollection); override;
     procedure SetButtonStyle(const AStyleFamily: TStyledButtonFamily;
       const AStyleClass: TStyledButtonClass;
@@ -154,6 +166,9 @@ type
     FStyleAppearance: TStyledButtonAppearance;
     FCustomDrawType: Boolean;
     FStyleApplied: Boolean;
+
+    //Notification Badge event handler
+    FOnGetNotificationBadgeInfo: TGetCategoryButtonsBadgeInfo;
 
     FCaptionAlignment: TAlignment;
     FImageAlignment: TImageAlignment;
@@ -222,6 +237,7 @@ type
     procedure SetCursor(const AValue: TCursor);
     procedure SetImageAlignment(const AValue: TImageAlignment);
     function GetScaleFactor: Single;
+    function CalcMaxBorderWidth: Integer;
     function GetButtonCategories: TStyledButtonCategories;
     procedure SetButtonCategories(const AValue: TStyledButtonCategories);
     procedure SetImageMargins(const AValue: TImageMargins);
@@ -233,6 +249,9 @@ type
     //Windows messages
     procedure CMStyleChanged(var Message: TMessage); message CM_STYLECHANGED;
   protected
+    {$IFDEF D10_1+}
+    procedure ChangeScale(M, D: Integer; isDpiChange: Boolean); override;
+    {$ENDIF}
     procedure Loaded; override;
 
     function GetButtonCategoriesClass: TButtonCategoriesClass; override;
@@ -290,6 +309,9 @@ type
     property StyleFamily: TStyledButtonFamily read FStyleFamily write SetStyleFamily stored IsStoredStyleFamily;
     property StyleClass: TStyledButtonClass read FStyleClass write SetStyleClass stored IsStoredStyleClass;
     property StyleAppearance: TStyledButtonAppearance read FStyleAppearance write SetStyleAppearance stored IsStoredStyleAppearance;
+
+    //Notification Badge Info Event Handler
+    property OnGetNotificationBadgeInfo: TGetCategoryButtonsBadgeInfo read FOnGetNotificationBadgeInfo write FOnGetNotificationBadgeInfo;
   end;
 
 implementation
@@ -348,6 +370,21 @@ begin
   inherited;
   ApplyButtonStyle;
 end;
+
+{$IFDEF D10_1+}
+procedure TStyledCategoryButtons.ChangeScale(M, D: Integer;
+  isDpiChange: Boolean);
+begin
+  inherited;
+  {$IFNDEF D10_4+}
+  //Fixed in Delphi 10.4
+  ButtonWidth := MulDiv(ButtonWidth, M, D);
+  ButtonHeight := MulDiv(ButtonHeight, M, D);
+  Resize;
+  UpdateAllButtons;
+  {$ENDIF}
+end;
+{$ENDIF}
 
 constructor TStyledCategoryButtons.Create(AOwner: TComponent);
 begin
@@ -496,7 +533,8 @@ begin
 
   //Calculate LTextRect and LImageRect using ImageMargins and ImageAlignment
   CalcImageAndTextRect(ASurfaceRect, ACaption, LTextRect, LImageRect,
-    LImageWidth, LImageHeight, FImageAlignment, FImageMargins, GetScaleFactor);
+    LImageWidth, LImageHeight, FImageAlignment, FImageMargins,
+    CalcMaxBorderWidth, GetScaleFactor);
 
   if LUseImageList and not Assigned(OnDrawIcon) then
   begin
@@ -549,6 +587,12 @@ var
   LButtonItem: TStyledButtonItem;
   LDropDownRect: TRect;
   LColor: TColor;
+  LBadgeSize: TNotificationBadgeSize;
+  LBadgePosition: TNotificationBadgePosition;
+  LBadgeColor: TColor;
+  LBadgeFontColor: TColor;
+  LBadgeFontStyle: TFontStyles;
+  LBadgeContent: string;
 begin
   //Do not call inherited
   LButtonItem := AButton as TStyledButtonItem;
@@ -612,7 +656,27 @@ begin
         OnDrawIcon(Self, LButtonItem, ACanvas, LSurfaceRect, AState, FSpacing);
 
       LSurfaceRect := ClientRect;
-      //DrawNotificationBadge(ACanvas, LSurfaceRect);
+
+      //Get Notification Badge Infos by Event Handler
+      if Assigned(FOnGetNotificationBadgeInfo) then
+      begin
+        LBadgeSize := nbsNormal;
+        LBadgePosition := nbpTopRight;
+        LBadgeColor := DEFAULT_BADGE_COLOR;
+        LBadgeFontColor := DEFAULT_BADGE_FONT_COLOR;
+        LBadgeContent := '';
+        LBadgeFontStyle := [fsBold];
+        FOnGetNotificationBadgeInfo(
+          AButton.Category.Index, AButton.Index,
+          LBadgeContent, LBadgeSize, LBadgePosition,
+          LBadgeColor, LBadgeFontColor, LBadgeFontStyle);
+        if LBadgeContent <> '' then
+        begin
+          DrawButtonNotificationBadge(ACanvas, ARect, GetScaleFactor,
+            LBadgeContent, LBadgeSize, LBadgePosition,
+            LBadgeColor, LBadgeFontColor, LBadgeFontStyle);
+        end;
+      end;
   (*
       { Show insert indications }
       if [bdsInsertLeft, bdsInsertTop, bdsInsertRight, bdsInsertBottom] * State <> [] then
@@ -710,6 +774,15 @@ begin
       iaBottom: FImageMargins.Bottom := AdJustMargin(FImageMargins.Bottom, DEFAULT_IMAGE_VMARGIN);
     end;
   end;
+end;
+
+function TStyledCategoryButtons.CalcMaxBorderWidth: Integer;
+begin
+  Result := Max(Max(Max(Max(FButtonStyleNormal.BorderWidth,
+    FButtonStylePressed.BorderWidth),
+    FButtonStyleSelected.BorderWidth),
+    FButtonStyleHot.BorderWidth),
+    FButtonStyleDisabled.BorderWidth);
 end;
 
 function TStyledCategoryButtons.ImageMarginsStored: Boolean;
@@ -1336,6 +1409,20 @@ begin
     FStyleRadius := CategoryButtons.StyleRadius;
     FStyleRoundedCorners := CategoryButtons.StyleRoundedCorners;
     FStyleDrawType := CategoryButtons.StyleDrawType;
+  end;
+end;
+
+procedure TStyledButtonItem.Assign(Source: TPersistent);
+begin
+  inherited Assign(Source);
+  if Source is TStyledButtonItem then
+  begin
+    FStyleRadius := TStyledButtonItem(Source).StyleRadius;
+    FStyleDrawType := TStyledButtonItem(Source).StyleDrawType;
+    FStyleRoundedCorners := TStyledButtonItem(Source).StyleRoundedCorners;
+    FStyleFamily := TStyledButtonItem(Source).StyleFamily;
+    FStyleClass := TStyledButtonItem(Source).StyleClass;
+    FStyleAppearance := TStyledButtonItem(Source).StyleAppearance;
   end;
 end;
 

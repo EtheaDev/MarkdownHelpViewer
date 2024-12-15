@@ -1,6 +1,9 @@
 //To silent Hint messege of engine used
 {.$DEFINE SvgDisableEngineHint}
 
+//To use old OpenPictureDialog with image preview
+{.$DEFINE OldPictureDialog}
+
 //Prefer Engine Direct2D by Kiriakos Vlahos
 //if supported by Windows Platform (from Windows Creators update)
 {.$DEFINE PreferNativeSvgSupport}
@@ -190,6 +193,10 @@
 
 {$IFDEF D10_3+}
   {$Define HiDPISupport}
+{$ENDIF}
+
+{$IFDEF DXE8+}
+  {$DEFINE UseRESTClientSearch}
 {$ENDIF}
 
 

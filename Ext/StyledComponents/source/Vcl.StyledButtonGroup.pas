@@ -69,6 +69,15 @@ type
 
   TGrpButtonProc = reference to procedure (Button: TStyledGrpButtonItem);
 
+  TGetButtonGroupBadgeInfo = procedure (
+    const AButtonItemIndex: Integer;
+    var ABadgeContent: string;
+    var ASize: TNotificationBadgeSize;
+    var APosition: TNotificationBadgePosition;
+    var AColor: TColor;
+    var AFontColor: TColor;
+    var AFontStyle: TFontStyles) of Object;
+
   { TStyledGrpButtonItems }
   TStyledGrpButtonItems = class(TGrpButtonItems)
   private
@@ -142,6 +151,9 @@ type
     FCustomDrawType: Boolean;
     FStyleApplied: Boolean;
 
+    //Notification Badge event handler
+    FOnGetNotificationBadgeInfo: TGetButtonGroupBadgeInfo;
+
     FCaptionAlignment: TAlignment;
     FImageAlignment: TImageAlignment;
     FImageMargins: TImageMargins;
@@ -210,6 +222,7 @@ type
     procedure SetCursor(const AValue: TCursor);
     procedure SetImageAlignment(const AValue: TImageAlignment);
     function GetScaleFactor: Single;
+    function CalcMaxBorderWidth: Integer;
     function GetGrpButtonItems: TStyledGrpButtonItems;
     procedure SetGrpButtonItems(const AValue: TStyledGrpButtonItems);
     procedure SetImageMargins(const AValue: TImageMargins);
@@ -276,6 +289,9 @@ type
     property StyleFamily: TStyledButtonFamily read FStyleFamily write SetStyleFamily stored IsStoredStyleFamily;
     property StyleClass: TStyledButtonClass read FStyleClass write SetStyleClass stored IsStoredStyleClass;
     property StyleAppearance: TStyledButtonAppearance read FStyleAppearance write SetStyleAppearance stored IsStoredStyleAppearance;
+
+    //Notification Badge Info Event Handler
+    property OnGetNotificationBadgeInfo: TGetButtonGroupBadgeInfo read FOnGetNotificationBadgeInfo write FOnGetNotificationBadgeInfo;
   end;
 
 implementation
@@ -447,7 +463,7 @@ begin
     R.Right := ASurfaceRect.Right - ASpacing;
   if ASurfaceRect.Left > R.Left - ASpacing then
     R.Left := ASurfaceRect.Left + ASpacing;
-  ACanvas.TextRect(R, LText, [tfEndEllipsis]);
+  ACanvas.TextRect(R, LText, [TTextFormats.tfEndEllipsis]);
 end;
 
 procedure TStyledButtonGroup.DrawCaptionAndImage(
@@ -482,7 +498,8 @@ begin
 
   //Calculate LTextRect and LImageRect using ImageMargins and ImageAlignment
   CalcImageAndTextRect(ASurfaceRect, ACaption, LTextRect, LImageRect,
-    LImageWidth, LImageHeight, FImageAlignment, FImageMargins, GetScaleFactor);
+    LImageWidth, LImageHeight, FImageAlignment, FImageMargins,
+    CalcMaxBorderWidth, GetScaleFactor);
 
   if LUseImageList and not Assigned(OnDrawIcon) then
   begin
@@ -558,6 +575,12 @@ var
   LButtonItem: TStyledGrpButtonItem;
   LDropDownRect: TRect;
   LColor: TColor;
+  LBadgeSize: TNotificationBadgeSize;
+  LBadgePosition: TNotificationBadgePosition;
+  LBadgeColor: TColor;
+  LBadgeFontColor: TColor;
+  LBadgeFontStyle: TFontStyles;
+  LBadgeContent: string;
 begin
   //Do not call inherited
   LButtonItem := Items[AIndex] as TStyledGrpButtonItem;
@@ -621,7 +644,27 @@ begin
         OnDrawIcon(Self, AIndex, ACanvas, LSurfaceRect, AState, FSpacing);
 
       LSurfaceRect := ClientRect;
-      //DrawNotificationBadge(ACanvas, LSurfaceRect);
+
+      //Get Notification Badge Infos by Event Handler
+      if Assigned(FOnGetNotificationBadgeInfo) then
+      begin
+        LBadgeSize := nbsNormal;
+        LBadgePosition := nbpTopRight;
+        LBadgeColor := DEFAULT_BADGE_COLOR;
+        LBadgeFontColor := DEFAULT_BADGE_FONT_COLOR;
+        LBadgeContent := '';
+        LBadgeFontStyle := [fsBold];
+        FOnGetNotificationBadgeInfo(
+          LButtonItem.Index,
+          LBadgeContent, LBadgeSize, LBadgePosition,
+          LBadgeColor, LBadgeFontColor, LBadgeFontStyle);
+        if LBadgeContent <> '' then
+        begin
+          DrawButtonNotificationBadge(ACanvas, ARect, GetScaleFactor,
+            LBadgeContent, LBadgeSize, LBadgePosition,
+            LBadgeColor, LBadgeFontColor, LBadgeFontStyle);
+        end;
+      end;
   (*
       { Show insert indications }
       if [bdsInsertLeft, bdsInsertTop, bdsInsertRight, bdsInsertBottom] * State <> [] then
@@ -719,6 +762,15 @@ begin
       iaBottom: FImageMargins.Bottom := AdJustMargin(FImageMargins.Bottom, DEFAULT_IMAGE_VMARGIN);
     end;
   end;
+end;
+
+function TStyledButtonGroup.CalcMaxBorderWidth: Integer;
+begin
+  Result := Max(Max(Max(Max(FButtonStyleNormal.BorderWidth,
+    FButtonStylePressed.BorderWidth),
+    FButtonStyleSelected.BorderWidth),
+    FButtonStyleHot.BorderWidth),
+    FButtonStyleDisabled.BorderWidth);
 end;
 
 function TStyledButtonGroup.ImageMarginsStored: Boolean;

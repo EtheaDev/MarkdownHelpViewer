@@ -1,9 +1,9 @@
 object StyledTaskDialogForm: TStyledTaskDialogForm
   Left = 0
   Top = 0
-  BorderIcons = []
+  BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
-  ClientHeight = 244
+  ClientHeight = 286
   ClientWidth = 992
   Color = clWindow
   Constraints.MinHeight = 200
@@ -15,43 +15,56 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
   Font.Style = []
   KeyPreview = True
   Position = poMainFormCenter
+  OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   TextHeight = 15
-  object BottomBevel: TBevel
-    Left = 0
-    Top = 184
-    Width = 992
-    Height = 3
-    Align = alBottom
-    Shape = bsBottomLine
-  end
   object FooterPanel: TPanel
-    Left = 0
-    Top = 187
-    Width = 992
-    Height = 57
+    AlignWithMargins = True
+    Left = 4
+    Top = 260
+    Width = 984
+    Height = 26
+    Margins.Left = 4
+    Margins.Top = 0
+    Margins.Right = 4
+    Margins.Bottom = 0
     Align = alBottom
     BevelEdges = [beTop]
     BevelKind = bkFlat
     BevelOuter = bvNone
     ParentBackground = False
-    TabOrder = 0
-    object FooterTextLabel: TLabel
+    TabOrder = 6
+    Visible = False
+    object FooterIconPanel: TPanel
       AlignWithMargins = True
       Left = 4
+      Top = 2
+      Width = 25
+      Height = 20
+      Margins.Left = 4
+      Margins.Top = 2
+      Margins.Right = 4
+      Margins.Bottom = 2
+      Align = alLeft
+      BevelOuter = bvNone
+      TabOrder = 0
+    end
+    object FooterTextLabel: TLinkLabel
+      AlignWithMargins = True
+      Left = 37
       Top = 4
-      Width = 83
-      Height = 15
+      Width = 87
+      Height = 19
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      Align = alTop
       Caption = 'FooterTextLabel'
-      WordWrap = True
+      TabOrder = 1
+      OnLinkClick = TextLabelLinkClick
     end
   end
   object CenterPanel: TPanel
@@ -59,35 +72,46 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
     Left = 4
     Top = 4
     Width = 984
-    Height = 136
+    Height = 73
     Margins.Left = 4
     Margins.Top = 4
     Margins.Right = 4
     Margins.Bottom = 4
     Align = alClient
     BevelOuter = bvNone
-    Color = clWindow
-    ParentBackground = False
-    TabOrder = 1
+    ParentColor = True
+    TabOrder = 0
     object ImagePanel: TPanel
       AlignWithMargins = True
       Left = 4
       Top = 4
-      Width = 128
-      Height = 128
+      Width = 64
+      Height = 65
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
       Align = alLeft
       BevelOuter = bvNone
+      ParentColor = True
       TabOrder = 0
+      object IconContainer: TPanel
+        Left = 0
+        Top = 0
+        Width = 64
+        Height = 64
+        Align = alTop
+        BevelOuter = bvNone
+        ParentColor = True
+        TabOrder = 0
+      end
     end
     object MessageScrollBox: TScrollBox
-      Left = 136
+      Left = 72
       Top = 0
-      Width = 848
-      Height = 136
+      Width = 912
+      Height = 73
+      HorzScrollBar.Visible = False
       VertScrollBar.Visible = False
       Align = alClient
       BevelInner = bvNone
@@ -98,7 +122,7 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
         AlignWithMargins = True
         Left = 4
         Top = 4
-        Width = 46
+        Width = 904
         Height = 15
         Margins.Left = 4
         Margins.Top = 4
@@ -107,13 +131,14 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
         Align = alTop
         Caption = 'Title Text'
         WordWrap = True
+        ExplicitWidth = 46
       end
       object AutoSizeLabel: TLabel
         AlignWithMargins = True
         Left = 4
         Top = 27
-        Width = 840
-        Height = 13
+        Width = 904
+        Height = 15
         Margins.Left = 4
         Margins.Top = 4
         Margins.Right = 4
@@ -126,9 +151,9 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
       object TextLabel: TLinkLabel
         AlignWithMargins = True
         Left = 4
-        Top = 46
-        Width = 840
-        Height = 15
+        Top = 50
+        Width = 904
+        Height = 19
         Margins.Left = 4
         Margins.Top = 4
         Margins.Right = 4
@@ -142,188 +167,292 @@ object StyledTaskDialogForm: TStyledTaskDialogForm
       end
     end
   end
-  object ButtonsPanel: TPanel
-    Left = 0
-    Top = 144
-    Width = 992
-    Height = 40
+  object CommandLinksPanel: TPanel
+    AlignWithMargins = True
+    Left = 4
+    Top = 130
+    Width = 984
+    Height = 62
     Margins.Left = 4
     Margins.Top = 4
     Margins.Right = 4
     Margins.Bottom = 4
     Align = alBottom
     BevelOuter = bvNone
-    DoubleBuffered = False
-    ParentBackground = False
-    ParentDoubleBuffered = False
+    ParentColor = True
     TabOrder = 2
+    Visible = False
+  end
+  object VerificationPanel: TPanel
+    AlignWithMargins = True
+    Left = 4
+    Top = 236
+    Width = 984
+    Height = 24
+    Margins.Left = 4
+    Margins.Top = 0
+    Margins.Right = 4
+    Margins.Bottom = 0
+    Align = alBottom
+    BevelOuter = bvNone
+    ParentBackground = False
+    TabOrder = 4
+    Visible = False
+    object VerificationCheckBox: TCheckBox
+      AlignWithMargins = True
+      Left = 8
+      Top = 0
+      Width = 972
+      Height = 24
+      Margins.Left = 8
+      Margins.Top = 0
+      Margins.Right = 4
+      Margins.Bottom = 0
+      Align = alClient
+      TabOrder = 0
+      WordWrap = True
+      OnClick = VerificationCheckBoxClick
+    end
+  end
+  object RadioGroupPanel: TPanel
+    AlignWithMargins = True
+    Left = 4
+    Top = 105
+    Width = 984
+    Height = 21
+    Margins.Left = 4
+    Margins.Top = 0
+    Margins.Right = 4
+    Margins.Bottom = 0
+    Align = alBottom
+    BevelOuter = bvNone
+    ParentColor = True
+    TabOrder = 5
+    Visible = False
+  end
+  object ExpandedPanel: TPanel
+    AlignWithMargins = True
+    Left = 4
+    Top = 81
+    Width = 984
+    Height = 24
+    Margins.Left = 4
+    Margins.Top = 0
+    Margins.Right = 4
+    Margins.Bottom = 0
+    Align = alBottom
+    BevelOuter = bvNone
+    TabOrder = 1
+    Visible = False
+    object ExpandLabel: TLabel
+      AlignWithMargins = True
+      Left = 31
+      Top = 4
+      Width = 950
+      Height = 16
+      Margins.Top = 4
+      Margins.Bottom = 4
+      Align = alClient
+      ExplicitWidth = 3
+      ExplicitHeight = 15
+    end
+    object ExpandButton: TStyledButton
+      AlignWithMargins = True
+      Left = 3
+      Top = 2
+      Width = 22
+      Height = 20
+      Margins.Top = 2
+      Margins.Bottom = 2
+      Align = alLeft
+      Caption = '+'
+      TabOrder = 0
+      OnClick = ExpandButtonClick
+    end
+  end
+  object ButtonsPanel: TPanel
+    AlignWithMargins = True
+    Left = 4
+    Top = 196
+    Width = 984
+    Height = 40
+    Margins.Left = 4
+    Margins.Top = 0
+    Margins.Right = 4
+    Margins.Bottom = 0
+    Align = alBottom
+    BevelEdges = [beTop]
+    BevelKind = bkFlat
+    BevelOuter = bvNone
+    ParentBackground = False
+    TabOrder = 3
     object YesButton: TStyledButton
       AlignWithMargins = True
-      Left = 35
+      Left = 27
       Top = 4
       Width = 74
-      Height = 32
+      Height = 30
       Margins.Top = 4
       Margins.Bottom = 4
       Align = alRight
-      OnClick = ButtonClick
       Caption = 'Yes'
       ModalResult = 6
       TabOrder = 0
+      OnClick = ButtonClick
     end
     object NoButton: TStyledButton
       AlignWithMargins = True
-      Left = 115
+      Left = 107
       Top = 4
       Width = 74
-      Height = 32
+      Height = 30
       Margins.Top = 4
       Margins.Bottom = 4
       Align = alRight
-      OnClick = ButtonClick
       Caption = 'No'
       ModalResult = 7
       TabOrder = 1
+      OnClick = ButtonClick
     end
     object OKButton: TStyledButton
       AlignWithMargins = True
-      Left = 195
+      Left = 187
       Top = 4
       Width = 74
-      Height = 32
+      Height = 30
       Margins.Top = 4
       Margins.Bottom = 4
       Align = alRight
-      OnClick = ButtonClick
       Caption = 'OK'
       ModalResult = 1
       TabOrder = 2
+      OnClick = ButtonClick
     end
     object CancelButton: TStyledButton
       AlignWithMargins = True
-      Left = 275
+      Left = 267
       Top = 4
       Width = 74
-      Height = 32
+      Height = 30
       Margins.Top = 4
       Margins.Bottom = 4
       Align = alRight
-      OnClick = ButtonClick
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 3
+      OnClick = ButtonClick
     end
     object AbortButton: TStyledButton
       AlignWithMargins = True
-      Left = 355
+      Left = 347
       Top = 4
       Width = 74
-      Height = 32
+      Height = 30
       Margins.Top = 4
       Margins.Bottom = 4
       Align = alRight
-      OnClick = ButtonClick
       Caption = 'Abort'
       ModalResult = 3
       TabOrder = 4
+      OnClick = ButtonClick
     end
     object RetryButton: TStyledButton
       AlignWithMargins = True
-      Left = 435
+      Left = 427
       Top = 4
       Width = 74
-      Height = 32
+      Height = 30
       Margins.Top = 4
       Margins.Bottom = 4
       Align = alRight
-      OnClick = ButtonClick
       Caption = 'Retry'
       ModalResult = 4
       TabOrder = 5
+      OnClick = ButtonClick
     end
     object IgnoreButton: TStyledButton
       AlignWithMargins = True
-      Left = 515
+      Left = 507
       Top = 4
       Width = 74
-      Height = 32
+      Height = 30
       Margins.Top = 4
       Margins.Bottom = 4
       Align = alRight
-      OnClick = ButtonClick
       Caption = 'Ignore'
       ModalResult = 5
       TabOrder = 6
+      OnClick = ButtonClick
     end
     object AllButton: TStyledButton
       AlignWithMargins = True
-      Left = 595
+      Left = 587
       Top = 4
       Width = 74
-      Height = 32
+      Height = 30
       Margins.Top = 4
       Margins.Bottom = 4
       Align = alRight
-      OnClick = ButtonClick
       Caption = 'All'
       ModalResult = 12
       TabOrder = 7
+      OnClick = ButtonClick
     end
     object NoToAllButton: TStyledButton
       AlignWithMargins = True
-      Left = 675
+      Left = 667
       Top = 4
       Width = 74
-      Height = 32
+      Height = 30
       Margins.Top = 4
       Margins.Bottom = 4
       Align = alRight
-      OnClick = ButtonClick
       Caption = 'No to All'
       ModalResult = 13
       TabOrder = 8
+      OnClick = ButtonClick
     end
     object YesToAllButton: TStyledButton
       AlignWithMargins = True
-      Left = 755
+      Left = 747
       Top = 4
       Width = 74
-      Height = 32
+      Height = 30
       Margins.Top = 4
       Margins.Bottom = 4
       Align = alRight
-      OnClick = ButtonClick
       Caption = 'Yes to All'
       ModalResult = 14
       TabOrder = 9
+      OnClick = ButtonClick
     end
     object HelpButton: TStyledButton
       AlignWithMargins = True
-      Left = 835
+      Left = 827
       Top = 4
       Width = 74
-      Height = 32
+      Height = 30
       Margins.Top = 4
       Margins.Bottom = 4
       Align = alRight
-      OnClick = HelpButtonClick
       Caption = 'Help'
       ModalResult = 9
       TabOrder = 10
+      OnClick = HelpButtonClick
     end
     object CloseButton: TStyledButton
       AlignWithMargins = True
-      Left = 915
+      Left = 907
       Top = 4
       Width = 74
-      Height = 32
+      Height = 30
       Margins.Top = 4
       Margins.Bottom = 4
       Align = alRight
-      OnClick = ButtonClick
       Caption = 'Close'
       ModalResult = 8
       TabOrder = 11
+      OnClick = ButtonClick
     end
   end
 end
