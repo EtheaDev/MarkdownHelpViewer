@@ -3,7 +3,7 @@
 {       CBMultiLanguage                                                        }
 {       (Localization engine)                                                  }
 {                                                                              }
-{       Copyright (c) 2005-2024 (Ethea S.r.l.)                                 }
+{       Copyright (c) 2005-2025 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
 {                                                                              }
 {       https://github.com/EtheaDev/CBMultiLanguage                            }

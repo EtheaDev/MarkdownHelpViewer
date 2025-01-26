@@ -1,6 +1,6 @@
 ﻿# Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**Latest Version 2.3.3 - 16 Dec 2024**
+**Latest Version 2.3.4 - 26 Jan 2025**
 
 **An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications**
 
@@ -17,7 +17,7 @@
 
 ### Features
 
-- Supports Windows Vista, 7, 8, 10 and 11 (for 32 bits and 64 bits).
+- Supports Windows 8, 10 and 11 (for 32 bits and 64 bits).
 
 - Themes (Dark and Light) according to user preferences of Windows Theme
 
@@ -97,6 +97,10 @@ Then the interface searches in the same folder of default file (specified into A
 - At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)
 
 ## Release Notes ##
+
+26 Jan 2025: ver. 2.3.4
+- Added Export to HTML of every markdown files
+- Updated External libraries
 
 16 Dec 2024: ver. 2.3.3
 - Updated Demo for FireMonkey

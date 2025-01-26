@@ -3,7 +3,7 @@
 {       Markdown Help Viewer: Main Form                                        }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
-{       Copyright (c) 2023-2024 (Ethea S.r.l.)                                 }
+{       Copyright (c) 2023-2025 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
 {       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
 {                                                                              }
@@ -306,7 +306,7 @@ begin
   SaveDialog.Filter := Format('%s (*.htm)|*.htm', [HTML_FILES]);
   LOutputFolder := IncludeTrailingPathDelimiter(WorkingFolder)+'..\WebHelp\';
   LResult := MessageDlg(
-    Format(CONFIRM_EXPORT_HTML, [FileListBox.Count-1]),
+    Format(CONFIRM_EXPORT_HTML, [FileListBox.Count]),
       TMsgDlgType.mtConfirmation,
       [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbYesToAll, TMsgDlgBtn.mbNo, TMsgDlgBtn.mbCancel],
       0);
@@ -359,11 +359,7 @@ end;
 
 procedure TMainForm.acExportHTMLUpdate(Sender: TObject);
 begin
-  {$IFNDEF DEBUG}
-  acExportHTML.Visible := False;
-  {$ELSE}
-  //acExportHTML.Enabled := FileExists(FCurrentFileName);
-  {$ENDIF}
+  acExportHTML.Enabled := FileExists(FCurrentFileName);
 end;
 
 procedure TMainForm.acFileOpenAccept(Sender: TObject);
@@ -616,9 +612,6 @@ procedure TMainForm.FormCreate(Sender: TObject);
 var
   LMarkdownMasks, LHTMLMasks: string;
 begin
-  {$IFNDEF DEBUG}
-  acExportHTML.Visible := False;
-  {$ENDIF}
   Screen.MessageFont.Size := Round(Screen.MessageFont.Size*1.2);
   {$IFDEF STYLEDCOMPONENTS}
   InitializeStyledTaskDialogs(True, Screen.MessageFont);

@@ -3,7 +3,7 @@
 {       SVGIconImageList: An extended ImageList for Delphi/VCL                 }
 {       to simplify use of SVG Icons (resize, opacity and more...)             }
 {                                                                              }
-{       Copyright (c) 2019-2024 (Ethea S.r.l.)                                 }
+{       Copyright (c) 2019-2025 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
 {       Contributors: Vincent Parrett, Kiriakos Vlahos                         }
 {                                                                              }
@@ -95,8 +95,13 @@ var
   BmpRGBA: ^TRGBAArray;
   PngRGB: ^TRGB;
 begin
+  if (aBitmap.Height = 0) or (aBitmap.Width = 0) then
+  begin
+    Result := TPNGImage.CreateBlank(COLOR_RGBALPHA, 8, 1 , 1);
+    Exit;
+  end;
   //201011 Thomas Wassermann
-  Result := TPNGImage.CreateBlank(COLOR_RGBALPHA, 8, aBitmap.Width , aBitmap.Height);
+  Result := TPNGImage.CreateBlank(COLOR_RGBALPHA, 8, aBitmap.Width, aBitmap.Height);
 
   Result.CreateAlpha;
   Result.Canvas.CopyMode:= cmSrcCopy;

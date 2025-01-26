@@ -2,10 +2,10 @@ unit Img32.Vector;
 
 (*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Version   :  4.6                                                             *
-* Date      :  17 October 2024                                                 *
+* Version   :  4.7                                                             *
+* Date      :  6 January 2025                                                  *
 * Website   :  http://www.angusj.com                                           *
-* Copyright :  Angus Johnson 2019-2024                                         *
+* Copyright :  Angus Johnson 2019-2025                                         *
 *                                                                              *
 * Purpose   :  Vector drawing for TImage32                                     *
 *                                                                              *
@@ -262,6 +262,7 @@ type
 
   function GetBoundsD(const path: TPathD): TRectD; overload;
   function GetBoundsD(const paths: TPathsD): TRectD; overload;
+  function GetBoundsD(const paths: TArrayOfPathsD): TRectD; overload;
 
   function GetRotatedRectBounds(const rec: TRect; angle: double): TRect; overload;
   function GetRotatedRectBounds(const rec: TRectD; angle: double): TRectD; overload;
@@ -332,8 +333,8 @@ type
   function RectsIntersect(const rec1, rec2: TRectD): Boolean; overload;
   function IntersectRect(const rec1, rec2: TRectD): TRectD; overload;
 
-  //UnionRect: this behaves differently to types.UnionRect
-  //in that if either parameter is empty the other parameter is returned
+  // UnionRect: this behaves differently to types.UnionRect
+  // in that if either parameter is empty the other parameter is returned
   function UnionRect(const rec1, rec2: TRect): TRect; overload;
   function UnionRect(const rec1, rec2: TRectD): TRectD; overload;
 
@@ -2427,12 +2428,6 @@ begin
   if scale = 0 then scale := 1.0;
 
   absDelta := Abs(delta);
-  if absDelta < MinStrokeWidth/2 then
-  begin
-    if delta < 0 then
-      delta := -MinStrokeWidth/2 else
-      delta := MinStrokeWidth/2;
-  end;
   if absDelta * scale < 1 then
     joinStyle := jsButt
   else if joinStyle = jsAuto then
@@ -2441,6 +2436,14 @@ begin
       joinStyle := jsSquare else
       joinStyle := jsRound;
   end;
+
+  if absDelta < MinStrokeWidth/2 then
+  begin
+    if delta < 0 then
+      delta := -MinStrokeWidth/2 else
+      delta := MinStrokeWidth/2;
+  end;
+
 
   if assigned(normals) then
     norms := normals else
@@ -3572,6 +3575,36 @@ begin
 //    AppendPath(Result, GrowOpenLine(tmp[i],
 //      lineWidth, joinStyle, endStyle, 2));
     AppendPath(Result, GrowClosedLine(tmp[i], lineWidth, joinStyle, 2));
+end;
+//------------------------------------------------------------------------------
+
+function GetBoundsD(const paths: TArrayOfPathsD): TRectD;
+var
+  i, len: integer;
+  rec: TRectD;
+begin
+  len := Length(paths);
+  i := 0;
+  while (i < len) do
+  begin
+    rec := GetBoundsD(paths[i]);
+    if not IsEmptyRect(rec) then Break;
+    inc(i);
+  end;
+
+  if i = len then
+  begin
+    Result := NullRectD;
+    Exit;
+  end;
+  Result := rec;
+
+  for i := i + 1 to len -1 do
+  begin
+    rec := GetBoundsD(paths[i]);
+    if IsEmptyRect(rec) then Continue;
+    Result := UnionRect(Result, rec);
+  end;
 end;
 //------------------------------------------------------------------------------
 

@@ -2,7 +2,7 @@
 {                                                                              }
 {       This units implements the interfaces for the Help Viewer               }
 {                                                                              }
-{       Copyright (c) 2023-2024 (Ethea S.r.l.)                                 }
+{       Copyright (c) 2023-2025 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
 {       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
 {                                                                              }

@@ -3,7 +3,7 @@
 {       Markdown Help Viewer: Demo  About Form                                 }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
-{       Copyright (c) 2023-2024 (Ethea S.r.l.)                                 }
+{       Copyright (c) 2023-2025 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
 {                                                                              }
 {       https://github.com/EtheaDev/MarkdownHelpViewer                         }
