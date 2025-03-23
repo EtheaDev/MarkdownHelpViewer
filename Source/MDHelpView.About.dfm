@@ -241,7 +241,7 @@ object FrmAbout: TFrmAbout
       
         '- Image32 Library - http://www.angusj.com/delphi/image32/Docs/_B' +
         'ody.htm'
-      'Copyright '#169'2019-2023 Angus Johnson.'
+      'Copyright '#169'2019-2025 Angus Johnson.'
       ''
       'HTMLViewer - https://github.com/BerndGabriel/HtmlViewer'
       'Copyright (c) 1995 - 2008 by L. David Baldwin'

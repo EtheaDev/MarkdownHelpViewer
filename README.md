@@ -1,6 +1,6 @@
 ﻿# Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**Latest Version 2.3.4 - 26 Jan 2025**
+**Latest Version 2.3.5 - 23 Mar 2025**
 
 **An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications**
 
@@ -97,6 +97,12 @@ Then the interface searches in the same folder of default file (specified into A
 - At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)
 
 ## Release Notes ##
+
+23 Mar 2025: ver. 2.3.5
+- Added Custom Event Handlers to TMarkdownViewer component (OnFileNameClicked, OnURLClicked)
+- Fixed Refresh also for Index page
+- Fixed loading svg files in utf8 format
+- Built with Delphi 12.3
 
 26 Jan 2025: ver. 2.3.4
 - Added Export to HTML of every markdown files

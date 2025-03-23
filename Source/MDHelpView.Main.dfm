@@ -236,7 +236,7 @@ object MainForm: TMainForm
       50)
     object ProcessorDialectLabel: TLabel
       Left = 655
-      Top = -1
+      Top = 6
       Width = 127
       Height = 15
       Anchors = [akTop, akRight]
@@ -247,7 +247,7 @@ object MainForm: TMainForm
     end
     object ProcessorDialectComboBox: TComboBox
       Left = 655
-      Top = 13
+      Top = 20
       Width = 127
       Height = 23
       Hint = 'Markdown Tranformation Dialect'
@@ -497,6 +497,7 @@ object MainForm: TMainForm
       Hint = 'Refresh content (reloading file)'
       ImageIndex = 14
       ImageName = 'refresh'
+      ShortCut = 116
       OnExecute = acRefreshExecute
       OnUpdate = acRefreshUpdate
     end

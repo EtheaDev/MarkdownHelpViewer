@@ -1,4 +1,4 @@
-﻿## Index of Demo
+﻿## HelpViewer Demo - Index
 * [Readme file](README.md)
 
 * [Application Description](home.md)

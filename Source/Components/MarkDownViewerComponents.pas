@@ -44,6 +44,7 @@ interface
 uses
   System.Classes
   , System.SysUtils
+  , Winapi.Windows
   , Vcl.Graphics
   , Vcl.Controls
   , HTMLUn2
@@ -60,6 +61,9 @@ resourcestring
 Type
   TFolderName = string;
 
+  TFileNameClicked = procedure (const AFileName: TFileName; out AHandled: Boolean) of Object;
+  TURLClicked = procedure (const AURL: string; out AHandled: Boolean) of Object;
+
   TCustomMarkdownViewer = class(THTMLViewer)
   private
     FFileName: TFileName;
@@ -72,6 +76,8 @@ Type
     FImageRequest: TGetImageEvent;
     FTabStop: Boolean;
     FAutoLoadOnHotSpotClick: boolean;
+    FOnURLClicked: TURLClicked;
+    FOnFileNameClicked: TFileNameClicked;
     procedure SetFileName(const AValue: TFileName);
     procedure SetProcessorDialect(const AValue: TMarkdownProcessorDialect);
     function IsCssStyleStored: Boolean;
@@ -164,6 +170,10 @@ Type
     property PrintScale stored IsPrintScaleStored;
     property Text: string read GetText stored False;
     property Touch stored IsTouchStored;
+
+    //Custom Event Handlers
+    property OnFileNameClicked: TFileNameClicked read FOnFileNameClicked write FOnFileNameClicked;
+    property OnURLClicked: TURLClicked read FOnURLClicked write FOnURLClicked;
   end;
 
   TMarkdownViewer = class(TCustomMarkdownViewer)
@@ -177,6 +187,8 @@ Type
     property HtmlContent;
     property MarkdownContent;
     property OnImageRequest;
+    property OnFileNameClicked;
+    property OnURLClicked;
   end;
 
   THookControlActionLink = class(TControlActionLink)
@@ -198,6 +210,8 @@ uses
   , HTMLSubs
   , Winapi.GDIPOBJ
   , Winapi.GDIPAPI
+  , Winapi.ShLwApi
+  , Winapi.ShellAPI
   , Vcl.Imaging.pngImage
   ;
 
@@ -838,17 +852,32 @@ var
   LRootFolder: string;
 begin
   Result := Inherited HotSpotClickHandled;
-  if not Result and FAutoLoadOnHotSpotClick then
+  if not Result then
   begin
-    //Try to load the file
+    //Prepare FileName
     LRootFolder := ServerRoot;
     if LRootFolder = '' then
       LRootFolder := _ServerRoot;
     LFileName := IncludeTrailingPathDelimiter(LRootFolder)+URL;
-    if FileExists(LFileName) then
+    //User Event
+    if Assigned(FOnFileNameClicked) then
+      FOnFileNameClicked(LFileName, Result);
+    //Auto load file
+    if not Result and FileExists(LFileName) and FAutoLoadOnHotSpotClick then
     begin
       LoadFromFile(LFileName);
       Result := True;
+    end
+    else if PathIsURL(PChar(URL)) then
+    begin
+      if Assigned(FOnURLClicked) then
+        FOnURLClicked(URL, Result);
+      if not Result and FAutoLoadOnHotSpotClick  then
+      begin
+        //Try to Open an URL
+        ShellExecute(0, 'open', PChar(URL), nil, nil, SW_SHOWNORMAL);
+        Result := True;
+      end;
     end;
   end;
 end;

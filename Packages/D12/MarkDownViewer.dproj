@@ -2,7 +2,7 @@
     <PropertyGroup>
         <ProjectGuid>{EF5E1B90-19B5-4AD5-8F24-98AB55D1C39B}</ProjectGuid>
         <MainSource>MarkDownViewer.dpk</MainSource>
-        <ProjectVersion>20.2</ProjectVersion>
+        <ProjectVersion>20.3</ProjectVersion>
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Release</Config>

@@ -175,7 +175,7 @@ type
     procedure TransformTo(const AHTMLViewer: THtmlViewer;
       const AMdContent: string; const AReloadImage: Boolean;
       const APreservePosition: Boolean);
-    procedure LoadIndex(const AFileName: TFileName);
+    function LoadIndex(const AFileName: TFileName): Boolean;
     procedure LoadCSS(const AFileName: TFileName);
     function TryLoadCSS(const AFileName: TFileName): Boolean;
     procedure SetHTMLFontSize(const Value: Integer);
@@ -888,9 +888,10 @@ begin
   AHtmlViewer.Update;
 end;
 
-procedure TMainForm.LoadIndex(const AFileName: TFileName);
+function TMainForm.LoadIndex(const AFileName: TFileName): Boolean;
 begin
-  if FileExists(AFileName) then
+  Result := FileExists(AFileName);
+  if Result then
   begin
     if CurrentIndexFileName <> AFileName then
     begin
@@ -939,8 +940,8 @@ end;
 
 procedure TMainForm.LoadAndTransformFileIndex(const AFileName: TFileName);
 begin
-  LoadIndex(AFileName);
-  TransformTo(HtmlViewerIndex, FMdIndexContent, True, False);
+  if LoadIndex(AFileName) then
+    TransformTo(HtmlViewerIndex, FMdIndexContent, True, False);
 end;
 
 procedure TMainForm.LoadCSS(const AFileName: TFileName);
@@ -1186,6 +1187,12 @@ procedure TMainForm.acRefreshExecute(Sender: TObject);
 begin
   dmResources.StopLoadingImages(False);
   LoadAndTransformFile(FCurrentFileName);
+  if (FMdIndexContent <> '') then
+  begin
+    var LFileName := FCurrentIndexFileName;
+    FCurrentIndexFileName := '';
+    LoadAndTransformFileIndex(LFileName);
+  end;
 end;
 
 procedure TMainForm.acRefreshUpdate(Sender: TObject);
@@ -1229,7 +1236,7 @@ begin
     FFirstTime := True;
     //UpdateWindowPos;
 
-    //automatically load the file that is passed as the first paramete
+    //automatically load the file that is passed as the first parameter
     LFileName := ParamStr(1);
     if FileExists(LFileName) then
       LoadAndTransformFile(LFileName);
