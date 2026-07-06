@@ -1,6 +1,6 @@
 ﻿# Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**Latest Version 2.5.3 - 26 Jun 2026**
+**Latest Version 2.5.4 - 06 Jul 2026**
 
 **An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications**
 
@@ -135,6 +135,13 @@ Then the interface searches in the same folder of default file (specified into A
 - At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)
 
 ## Release Notes ##
+06 Jul 2026: ver. 2.5.4
+- Added a configurable HTML stylesheet (CSS) in Settings (Preview page), with CSS syntax highlighting.
+- Added the "Allow unsafe HTML" option in Settings (off by default): lets native HTML (script, iframe, object...) in the markdown pass through to the output instead of being escaped.
+- TMarkdownViewer component: new AllowUnsafe property (default False), passed to the markdown processor.
+- The Settings dialog can now be closed with the Esc key.
+- Updated the GUI translation files (XML).
+
 26 Jun 2026: ver. 2.5.3
 - Fixed Access Violation in the fenced code-block syntax highlighter when the theme or font changed (e.g. zooming the preview).
 

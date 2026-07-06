@@ -14,26 +14,26 @@ Lang:=DEU
 <PARAMS/>
 </METADATA>
 <ROWDATA>
-<ROW OriginalValue="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" Translation="Best&#228;tigen Sie den Export der einzelnen Dateien [Ja] oder %d Dateien [Ja zu allen] im HTML-Format?" Count="10" Status="@"/>
-<ROW OriginalValue="Incorrect message received" Translation="Falsche Nachricht empfangen" Count="7" Status="@"/>
+<ROW OriginalValue="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" Translation="Best&#228;tigen Sie den Export der einzelnen Dateien [Ja] oder %d Dateien [Ja zu allen] im HTML-Format?" Count="11" Status="@"/>
+<ROW OriginalValue="Incorrect message received" Translation="Falsche Nachricht empfangen" Count="8" Status="@"/>
 <ROW OriginalValue="File &quot;%s&quot; succesfully saved. Do you want to open it now?" Translation="Die Datei &quot;%s&quot; wurde erfolgreich gespeichert. M&#246;chten Sie es jetzt &#246;ffnen?" Count="2" Status="@"/>
-<ROW OriginalValue="HTML output folder" Translation="HTML-Ausgabeordner" Count="10" Status="@"/>
-<ROW OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="Schl&#252;sselwort &quot;%s&quot; in Dateien im Arbeitsordner nicht gefunden: &quot;%s&quot;" Count="10" Status="@"/>
-<ROW OriginalValue="CONFIRMATION" Translation="BEST&#196;TIGUNG" Count="10" Status="@"/>
-<ROW OriginalValue="ERROR!" Translation="FEHLER!" Count="10" Status="@"/>
-<ROW OriginalValue="INFORMATION" Translation="INFORMATION" Count="10" Status="@"/>
-<ROW OriginalValue="UNEXPECTED ERROR!" Translation="UNERWARTETER FEHLER!" Count="10" Status="@"/>
-<ROW OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Die Datei &quot;%s&quot; wurde erfolgreich gespeichert. M&#246;chten Sie es jetzt &#246;ffnen?" Count="8" Status="@"/>
-<ROW OriginalValue="Closing application to change GUI language" Translation="Schlie&#223;en der Anwendung zum &#196;ndern der GUI-Sprache" Count="5" Status="@"/>
-<ROW OriginalValue="Check for updates" Translation="Nach Updates suchen" Count="2" Status="@"/>
-<ROW OriginalValue="Download of installer stopped!" Translation="Download des Installers gestoppt!" Count="2" Status="@"/>
-<ROW OriginalValue="Error downloading!" Translation="Fehler beim Herunterladen!" Count="2" Status="@"/>
-<ROW OriginalValue="Error checking if a new update for the application is available: %s" Translation="Fehler bei der &#220;berpr&#252;fung, ob ein neues Update f&#252;r die Anwendung verf&#252;gbar ist: %s" Count="2" Status="@"/>
-<ROW OriginalValue="A new version is available:" Translation="Eine neue Version ist verf&#252;gbar:" Count="2" Status="@"/>
-<ROW OriginalValue="Current version: %s - Available version: %s" Translation="Aktuelle Version: %s - Verf&#252;gbare Version: %s" Count="2" Status="@"/>
-<ROW OriginalValue="Do you want to dowload and install the new version?" Translation="M&#246;chten Sie die neue Version herunterladen und installieren?" Count="2" Status="@"/>
-<ROW OriginalValue="No updates available." Translation="Es sind keine Updates verf&#252;gbar." Count="2" Status="@"/>
-<ROW OriginalValue="You have already the latest version: %s" Translation="Sie haben bereits die neueste Version: %s" Count="2" Status="@"/>
-<ROW OriginalValue="Stop download!" Translation="Download stoppen!" Count="2" Status="@"/>
+<ROW OriginalValue="HTML output folder" Translation="HTML-Ausgabeordner" Count="11" Status="@"/>
+<ROW OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="Schl&#252;sselwort &quot;%s&quot; in Dateien im Arbeitsordner nicht gefunden: &quot;%s&quot;" Count="11" Status="@"/>
+<ROW OriginalValue="CONFIRMATION" Translation="BEST&#196;TIGUNG" Count="11" Status="@"/>
+<ROW OriginalValue="ERROR!" Translation="FEHLER!" Count="11" Status="@"/>
+<ROW OriginalValue="INFORMATION" Translation="INFORMATION" Count="11" Status="@"/>
+<ROW OriginalValue="UNEXPECTED ERROR!" Translation="UNERWARTETER FEHLER!" Count="11" Status="@"/>
+<ROW OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Die Datei &quot;%s&quot; wurde erfolgreich gespeichert. M&#246;chten Sie es jetzt &#246;ffnen?" Count="9" Status="@"/>
+<ROW OriginalValue="Closing application to change GUI language" Translation="Schlie&#223;en der Anwendung zum &#196;ndern der GUI-Sprache" Count="6" Status="@"/>
+<ROW OriginalValue="Check for updates" Translation="Nach Updates suchen" Count="3" Status="@"/>
+<ROW OriginalValue="Download of installer stopped!" Translation="Download des Installers gestoppt!" Count="3" Status="@"/>
+<ROW OriginalValue="Error downloading!" Translation="Fehler beim Herunterladen!" Count="3" Status="@"/>
+<ROW OriginalValue="Error checking if a new update for the application is available: %s" Translation="Fehler bei der &#220;berpr&#252;fung, ob ein neues Update f&#252;r die Anwendung verf&#252;gbar ist: %s" Count="3" Status="@"/>
+<ROW OriginalValue="A new version is available:" Translation="Eine neue Version ist verf&#252;gbar:" Count="3" Status="@"/>
+<ROW OriginalValue="Current version: %s - Available version: %s" Translation="Aktuelle Version: %s - Verf&#252;gbare Version: %s" Count="3" Status="@"/>
+<ROW OriginalValue="Do you want to dowload and install the new version?" Translation="M&#246;chten Sie die neue Version herunterladen und installieren?" Count="3" Status="@"/>
+<ROW OriginalValue="No updates available." Translation="Es sind keine Updates verf&#252;gbar." Count="3" Status="@"/>
+<ROW OriginalValue="You have already the latest version: %s" Translation="Sie haben bereits die neueste Version: %s" Count="3" Status="@"/>
+<ROW OriginalValue="Stop download!" Translation="Download stoppen!" Count="3" Status="@"/>
 </ROWDATA>
 </DATAPACKET>

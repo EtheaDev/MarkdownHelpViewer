@@ -1,11 +1,11 @@
-{******************************************************************************}
+ï»¿{******************************************************************************}
 {                                                                              }
 {       Markdown Help Viewer: Settings Form                                    }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
 {       Copyright (c) 2023-2026 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
-{       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
+{       Contributors: Nicolï¿½ Boccignone, Emanuele Biglia                       }
 {                                                                              }
 {       https://github.com/EtheaDev/MarkdownHelpViewer                         }
 {                                                                              }
@@ -39,14 +39,14 @@ uses
   {$IFDEF STYLEDCOMPONENTS}
   Vcl.StyledComponentsHooks, Vcl.ButtonStylesAttributes, Vcl.StyledButtonGroup,
   {$ENDIF}
-  MDHelpView.FormsHookTrx;
+  MDHelpView.FormsHookTrx, SynEdit;
 
 type
   TMDSettingsForm = class(TFormHook)
     pc: TPageControl;
-    stGeneral: TTabSheet;
-    tsFont: TTabSheet;
-    stTheme: TTabSheet;
+    tsGeneral: TTabSheet;
+    tsPreview: TTabSheet;
+    tsTheme: TTabSheet;
     StatusBar: TStatusBar;
     OpenDialog: TOpenDialog;
     SettingsImageList: TSVGIconImageList;
@@ -56,15 +56,6 @@ type
     ThemesRadioGroup: TRadioGroup;
     SelectThemeRadioGroup: TRadioGroup;
     ThemeClientPanel: TPanel;
-    HTMLGroupBox: TGroupBox;
-    FontNameLabel: TLabel;
-    FontSizeLabel: TLabel;
-    HTMLFontComboBox: TComboBox;
-    HTMLFontSizeEdit: TEdit;
-    HTMLUpDown: TUpDown;
-    RenderingGroupBox: TGroupBox;
-    DownloadFromWebCheckBox: TCheckBox;
-    RescalingImageCheckBox: TCheckBox;
     tsPDFLayout: TTabSheet;
     OrientationImageList: TSVGIconImageList;
     OrientationRadioGroup: TRadioGroup;
@@ -78,15 +69,11 @@ type
     MarginLeftLabel: TLabel;
     MarginRightLabel: TLabel;
     MarginBottomLabel: TLabel;
-    MarkdownGroupBox: TGroupBox;
-    ProcessorDialectComboBox: TComboBox;
-    ProcessorDialectLabel: TLabel;
     ShowCaptionCheckBox: TCheckBox;
     ColoredIconsCheckBox: TCheckBox;
     UserInterfaceGroupBox: TGroupBox;
     UILabel: TLabel;
     UIComboBox: TComboBox;
-    ShowDialectSelectionCheckBox: TCheckBox;
     ToolbarRoundedCheckBox: TCheckBox;
     ButtonsGroupBox: TGroupBox;
     ButtonsRoundedCheckBox: TCheckBox;
@@ -97,8 +84,26 @@ type
     AutoUpdateCheckBox: TCheckBox;
     CheckNDaysLabel: TLabel;
     CheckNDaysSpinEdit: TSpinEdit;
+    HTMLViewerStyleGroupBox: TGroupBox;
+    StyleSynEdit: TSynEdit;
+    HTMLViewerRenderingGroupBox: TGroupBox;
+    HTMLGroupBox: TGroupBox;
+    FontNameLabel: TLabel;
+    FontSizeLabel: TLabel;
+    HTMLFontComboBox: TComboBox;
+    HTMLFontSizeEdit: TEdit;
+    HTMLUpDown: TUpDown;
+    MarkdownGroupBox: TGroupBox;
+    ProcessorDialectLabel: TLabel;
+    ProcessorDialectComboBox: TComboBox;
+    ShowDialectSelectionCheckBox: TCheckBox;
+    RenderingGroupBox: TGroupBox;
+    DownloadFromWebCheckBox: TCheckBox;
+    RescalingImageCheckBox: TCheckBox;
+    AllowUnsafeHTMLCheckBox: TCheckBox;
     procedure ExitFromSettings(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure MenuButtonGroupButtonClicked(Sender: TObject; Index: Integer);
     procedure SelectThemeRadioGroupClick(Sender: TObject);
     procedure ThemesRadioGroupClick(Sender: TObject);
@@ -136,11 +141,22 @@ uses
 {$ENDIF}
   MarkdownProcessor
   , MarkdownUtils
+  , SynHighlighterCss
+  , MarkDownViewerComponents
   , MDHelpView.Registry
   , MDHelpView.Messages
   , MDHelpView.Main;
 
 {$R *.dfm}
+
+//Normalize a stylesheet for comparison: ignore line-endings and surrounding
+//whitespace, so "same as default" detection is robust to editor formatting.
+function NormalizedCSS(const AValue: string): string;
+begin
+  Result := StringReplace(AValue, #13, '', [rfReplaceAll]);
+  Result := StringReplace(Result, #10, '', [rfReplaceAll]);
+  Result := Trim(Result);
+end;
 
 function ShowSettings(const AParentRect: TRect;
   const ATitle: string;
@@ -208,9 +224,9 @@ var
   LLanguage: TAppLanguage;
 begin
   HTMLFontComboBox.Items.Assign(Screen.Fonts);
-  stGeneral.TabVisible := false;
-  tsFont.TabVisible := false;
-  stTheme.TabVisible := false;
+  tsGeneral.TabVisible := false;
+  tsPreview.TabVisible := false;
+  tsTheme.TabVisible := false;
   tsPDFLayout.TabVisible := false;
   tsUpdates.TabVisible := false;
   for var I := Low(TAppLanguage) to High(TAppLanguage) do
@@ -223,6 +239,24 @@ begin
   MenuButtonGroup.Font.Height := Round(MenuButtonGroup.Font.Height * 1.2);
 
   UpdateGroupBox.Caption := CHECK_FOR_UPDATE_BTN;
+
+  //Syntax highlighting for the HTML default-style editor (CSS). Owned by the
+  //form, so it is freed automatically.
+  StyleSynEdit.Highlighter := TSynCssSyn.Create(Self);
+
+  //Allow closing the dialog with Esc.
+  KeyPreview := True;
+  OnKeyDown := FormKeyDown;
+end;
+
+procedure TMDSettingsForm.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (Key = VK_ESCAPE) and (Shift = []) then
+  begin
+    Key := 0;
+    ExitFromSettings(nil);
+  end;
 end;
 
 procedure TMDSettingsForm.FormDestroy(Sender: TObject);
@@ -256,6 +290,16 @@ begin
 
   ShowDialectSelectionCheckBox.Checked := ASettings.ShowDialectSelection;
   ProcessorDialectComboBox.ItemIndex := ord(ASettings.ProcessorDialect);
+  AllowUnsafeHTMLCheckBox.Checked := ASettings.AllowUnsafeHTML;
+
+  //Load the HTML default stylesheet: the user's custom CSS if set, otherwise
+  //the built-in default (so the user always edits starting from it).
+  if ASettings.CustomCSS <> '' then
+    StyleSynEdit.Text := ASettings.CustomCSS
+  else
+    StyleSynEdit.Text := GetMarkdownDefaultCSS;
+  StyleSynEdit.Modified := False;
+
   UIComboBox.ItemIndex := ord(ASettings.GUILanguage);
   ToolbarRoundedCheckBox.Checked := ASettings.ToolbarDrawRounded;
   ButtonsRoundedCheckBox.Checked := ASettings.ButtonDrawRounded;
@@ -311,6 +355,15 @@ begin
 
   ASettings.ShowDialectSelection := ShowDialectSelectionCheckBox.Checked;
   ASettings.ProcessorDialect := TMarkdownProcessorDialect(ProcessorDialectComboBox.ItemIndex);
+  ASettings.AllowUnsafeHTML := AllowUnsafeHTMLCheckBox.Checked;
+
+  //Save the stylesheet only when it differs from the built-in default; when it
+  //matches, store empty so the viewer keeps inheriting future default changes.
+  if NormalizedCSS(StyleSynEdit.Text) = NormalizedCSS(GetMarkdownDefaultCSS) then
+    ASettings.CustomCSS := ''
+  else
+    ASettings.CustomCSS := StyleSynEdit.Text;
+
   ASettings.GUILanguage := TAppLanguage(UIComboBox.ItemIndex);
   ASettings.ToolbarDrawRounded := ToolbarRoundedCheckBox.Checked;
   Asettings.ButtonDrawRounded := ButtonsRoundedCheckBox.Checked;

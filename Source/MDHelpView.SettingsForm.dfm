@@ -30,86 +30,24 @@ object MDSettingsForm: TMDSettingsForm
     Top = 41
     Width = 636
     Height = 422
-    ActivePage = stGeneral
+    ActivePage = tsGeneral
     Align = alClient
     Images = SettingsImageList
     TabOrder = 0
-    object stGeneral: TTabSheet
-      Caption = 'Preview'
-      ImageIndex = 4
-      ImageName = 'eye-settings'
-      object RenderingGroupBox: TGroupBox
-        AlignWithMargins = True
-        Left = 3
-        Top = 155
-        Width = 622
-        Height = 75
-        Align = alTop
-        Caption = 'Images loading options'
-        TabOrder = 2
-        object DownloadFromWebCheckBox: TCheckBox
-          Left = 15
-          Top = 51
-          Width = 450
-          Height = 17
-          Caption = 'Download from WEB'
-          TabOrder = 1
-        end
-        object RescalingImageCheckBox: TCheckBox
-          Left = 15
-          Top = 24
-          Width = 450
-          Height = 17
-          Caption = 'Rescaling to viewer size'
-          TabOrder = 0
-        end
-      end
-      object MarkdownGroupBox: TGroupBox
+    object tsGeneral: TTabSheet
+      Caption = 'General'
+      ImageIndex = 5
+      ImageName = 'developer-board'
+      object ToolbarGroupBox: TGroupBox
         AlignWithMargins = True
         Left = 3
         Top = 79
         Width = 622
-        Height = 70
-        Align = alTop
-        Caption = 'Markdown processor options'
-        TabOrder = 1
-        object ProcessorDialectLabel: TLabel
-          Left = 15
-          Top = 23
-          Width = 200
-          Height = 15
-          AutoSize = False
-          Caption = 'Dialect:'
-        end
-        object ProcessorDialectComboBox: TComboBox
-          Left = 15
-          Top = 40
-          Width = 260
-          Height = 23
-          Style = csDropDownList
-          TabOrder = 0
-          Items.Strings = (
-            'DaringFireball'
-            'CommonMark')
-        end
-        object ShowDialectSelectionCheckBox: TCheckBox
-          Left = 281
-          Top = 43
-          Width = 300
-          Height = 17
-          Caption = 'Show selection in Viewer'
-          TabOrder = 1
-        end
-      end
-      object ToolbarGroupBox: TGroupBox
-        AlignWithMargins = True
-        Left = 3
-        Top = 236
-        Width = 622
         Height = 51
         Align = alTop
         Caption = 'Toolbar'
-        TabOrder = 3
+        TabOrder = 1
+        ExplicitTop = 236
         object ToolButtonWidthLabel: TLabel
           Left = 461
           Top = 24
@@ -163,6 +101,7 @@ object MDSettingsForm: TMDSettingsForm
         Align = alTop
         Caption = 'User interface'
         TabOrder = 0
+        ExplicitLeft = 2
         object UILabel: TLabel
           Left = 15
           Top = 23
@@ -183,12 +122,13 @@ object MDSettingsForm: TMDSettingsForm
       object ButtonsGroupBox: TGroupBox
         AlignWithMargins = True
         Left = 3
-        Top = 293
+        Top = 136
         Width = 622
         Height = 43
         Align = alTop
         Caption = 'Buttons'
-        TabOrder = 4
+        TabOrder = 2
+        ExplicitTop = 293
         object ButtonsRoundedCheckBox: TCheckBox
           Left = 15
           Top = 18
@@ -199,7 +139,201 @@ object MDSettingsForm: TMDSettingsForm
         end
       end
     end
-    object stTheme: TTabSheet
+    object tsPreview: TTabSheet
+      Caption = 'Preview'
+      ImageIndex = 4
+      ImageName = 'eye-settings'
+      object HTMLViewerStyleGroupBox: TGroupBox
+        Left = 279
+        Top = 0
+        Width = 349
+        Height = 373
+        Align = alClient
+        Caption = 'HTML Stylesheet (.css)'
+        TabOrder = 0
+        ExplicitWidth = 371
+        ExplicitHeight = 401
+        object StyleSynEdit: TSynEdit
+          AlignWithMargins = True
+          Left = 5
+          Top = 20
+          Width = 339
+          Height = 348
+          Align = alClient
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Courier New'
+          Font.Style = []
+          Font.Quality = fqClearTypeNatural
+          TabOrder = 0
+          CodeFolding.GutterShapeSize = 11
+          CodeFolding.IndentGuidesColor = clBlack
+          CodeFolding.IndentGuides = False
+          UseCodeFolding = False
+          Gutter.Font.Charset = DEFAULT_CHARSET
+          Gutter.Font.Color = clWindowText
+          Gutter.Font.Height = -11
+          Gutter.Font.Name = 'Consolas'
+          Gutter.Font.Style = []
+          Gutter.Font.Quality = fqClearTypeNatural
+          Gutter.Width = 0
+          Gutter.Bands = <>
+          ScrollbarAnnotations = <>
+          FontSmoothing = fsmNone
+          ExplicitWidth = 358
+        end
+      end
+      object HTMLViewerRenderingGroupBox: TGroupBox
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
+        Width = 273
+        Height = 367
+        Align = alLeft
+        Caption = 'HTML Rendering Options'
+        TabOrder = 1
+        ExplicitLeft = 5
+        object HTMLGroupBox: TGroupBox
+          AlignWithMargins = True
+          Left = 5
+          Top = 237
+          Width = 263
+          Height = 126
+          Align = alTop
+          Caption = 'HTML Text (default)'
+          TabOrder = 2
+          ExplicitLeft = 10
+          ExplicitTop = 28
+          object FontNameLabel: TLabel
+            Left = 15
+            Top = 19
+            Width = 200
+            Height = 15
+            AutoSize = False
+            Caption = 'Font name'
+          end
+          object FontSizeLabel: TLabel
+            Left = 15
+            Top = 65
+            Width = 200
+            Height = 15
+            AutoSize = False
+            Caption = 'Size'
+          end
+          object HTMLFontComboBox: TComboBox
+            Left = 15
+            Top = 36
+            Width = 240
+            Height = 22
+            Style = csOwnerDrawFixed
+            Sorted = True
+            TabOrder = 0
+          end
+          object HTMLFontSizeEdit: TEdit
+            Left = 15
+            Top = 82
+            Width = 34
+            Height = 23
+            Alignment = taRightJustify
+            NumbersOnly = True
+            TabOrder = 1
+            Text = '12'
+          end
+          object HTMLUpDown: TUpDown
+            Left = 49
+            Top = 82
+            Width = 16
+            Height = 23
+            Associate = HTMLFontSizeEdit
+            Min = 8
+            Max = 30
+            Position = 12
+            TabOrder = 2
+          end
+        end
+        object MarkdownGroupBox: TGroupBox
+          AlignWithMargins = True
+          Left = 5
+          Top = 20
+          Width = 263
+          Height = 130
+          Align = alTop
+          Caption = 'Markdown processor options'
+          TabOrder = 0
+          object ProcessorDialectLabel: TLabel
+            Left = 15
+            Top = 44
+            Width = 200
+            Height = 15
+            AutoSize = False
+            Caption = 'Dialect:'
+          end
+          object ProcessorDialectComboBox: TComboBox
+            Left = 15
+            Top = 64
+            Width = 240
+            Height = 23
+            Style = csDropDownList
+            TabOrder = 1
+            Items.Strings = (
+              'DaringFireball'
+              'CommonMark')
+          end
+          object ShowDialectSelectionCheckBox: TCheckBox
+            Left = 15
+            Top = 21
+            Width = 240
+            Height = 17
+            Caption = 'Show selection in Viewer'
+            TabOrder = 0
+          end
+          object AllowUnsafeHTMLCheckBox: TCheckBox
+            Left = 15
+            Top = 99
+            Width = 240
+            Height = 17
+            Hint = 
+              'When enabled, native HTML in the markdown (e.g. <script>, <ifram' +
+              'e>, <object>) is passed through to the preview instead of being ' +
+              'neutralized. Leave off unless you trust the file.'
+            Caption = 'Allow unsafe HTML (script, iframe...)'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 2
+          end
+        end
+        object RenderingGroupBox: TGroupBox
+          AlignWithMargins = True
+          Left = 5
+          Top = 156
+          Width = 263
+          Height = 75
+          Align = alTop
+          Caption = 'Images loading options'
+          TabOrder = 1
+          ExplicitLeft = 3
+          ExplicitTop = 118
+          object DownloadFromWebCheckBox: TCheckBox
+            Left = 15
+            Top = 51
+            Width = 240
+            Height = 17
+            Caption = 'Download from WEB'
+            TabOrder = 1
+          end
+          object RescalingImageCheckBox: TCheckBox
+            Left = 15
+            Top = 24
+            Width = 240
+            Height = 17
+            Caption = 'Rescaling to viewer size'
+            TabOrder = 0
+          end
+        end
+      end
+    end
+    object tsTheme: TTabSheet
       Caption = 'Theme'
       ImageIndex = 2
       ImageName = 'theme-light-dark'
@@ -248,67 +382,6 @@ object MDSettingsForm: TMDSettingsForm
         BevelOuter = bvNone
         TabOrder = 1
         StyleElements = []
-      end
-    end
-    object tsFont: TTabSheet
-      Caption = 'Font'
-      ImageIndex = 1
-      ImageName = 'alphabetical-variant'
-      object HTMLGroupBox: TGroupBox
-        AlignWithMargins = True
-        Left = 3
-        Top = 3
-        Width = 622
-        Height = 121
-        Align = alTop
-        Caption = 'HTML Text (default)'
-        TabOrder = 0
-        object FontNameLabel: TLabel
-          Left = 15
-          Top = 19
-          Width = 200
-          Height = 15
-          AutoSize = False
-          Caption = 'Font name'
-        end
-        object FontSizeLabel: TLabel
-          Left = 15
-          Top = 65
-          Width = 200
-          Height = 15
-          AutoSize = False
-          Caption = 'Size'
-        end
-        object HTMLFontComboBox: TComboBox
-          Left = 15
-          Top = 36
-          Width = 225
-          Height = 22
-          Style = csOwnerDrawFixed
-          Sorted = True
-          TabOrder = 0
-        end
-        object HTMLFontSizeEdit: TEdit
-          Left = 15
-          Top = 82
-          Width = 34
-          Height = 23
-          Alignment = taRightJustify
-          NumbersOnly = True
-          TabOrder = 1
-          Text = '12'
-        end
-        object HTMLUpDown: TUpDown
-          Left = 49
-          Top = 82
-          Width = 16
-          Height = 23
-          Associate = HTMLFontSizeEdit
-          Min = 8
-          Max = 30
-          Position = 12
-          TabOrder = 2
-        end
       end
     end
     object tsPDFLayout: TTabSheet
@@ -488,7 +561,6 @@ object MDSettingsForm: TMDSettingsForm
     BevelOuter = bvNone
     BorderStyle = bsNone
     ButtonHeight = 48
-    ButtonWidth = 48
     ButtonOptions = [gboFullSize, gboGroupStyle, gboShowCaptions]
     Images = SettingsImageList
     Items = <
@@ -496,6 +568,11 @@ object MDSettingsForm: TMDSettingsForm
         Caption = 'Back'
         ImageIndex = 3
         ImageName = 'arrow-left'
+      end
+      item
+        Caption = 'General'
+        ImageIndex = 5
+        ImageName = 'alphabetical-variant'
       end
       item
         Caption = 'Preview'
@@ -506,11 +583,6 @@ object MDSettingsForm: TMDSettingsForm
         Caption = 'Theme'
         ImageIndex = 2
         ImageName = 'theme-light-dark'
-      end
-      item
-        Caption = 'Font'
-        ImageIndex = 1
-        ImageName = 'alphabetical-variant'
       end
       item
         Caption = 'PDF Layout'
@@ -524,6 +596,8 @@ object MDSettingsForm: TMDSettingsForm
       end>
     TabOrder = 2
     OnButtonClicked = MenuButtonGroupButtonClicked
+    ExplicitLeft = 1
+    ExplicitTop = 35
   end
   object TitlePanel: TPanel
     Left = 0

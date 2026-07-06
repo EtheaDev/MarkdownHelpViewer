@@ -748,6 +748,8 @@ function TMainForm.GetCssContent: string;
 begin
   if FCssContent <> '' then
     Result := FCssContent
+  else if FViewerSettings.CustomCSS <> '' then
+    Result := FViewerSettings.CustomCSS
   else
     Result := GetMarkdownDefaultCSS;
 end;
@@ -910,6 +912,8 @@ begin
     LMarkdownProcessor := TMarkdownProcessor.CreateDialect(
       FViewerSettings.ProcessorDialect);
     Try
+      //Safe mode by default: native HTML is neutralized unless the user opted in.
+      LMarkdownProcessor.AllowUnsafe := FViewerSettings.AllowUnsafeHTML;
       //Optional syntax highlighting of fenced code blocks. The form owns the
       //emitter, so we detach it before freeing the processor (TConfiguration
       //frees its codeBlockEmitter).

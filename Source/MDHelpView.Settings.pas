@@ -5,7 +5,7 @@
 {                                                                              }
 {       Copyright (c) 2023-2026 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
-{       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
+{       Contributors: Nicolï¿½ Boccignone, Emanuele Biglia                       }
 {                                                                              }
 {       https://github.com/EtheaDev/MarkdownHelpViewer                         }
 {                                                                              }
@@ -100,6 +100,8 @@ type
     FShowToolbarCaptions: Boolean;
     FUseColoredIcons: Boolean;
     FDownloadFromWEB: Boolean;
+    FAllowUnsafeHTML: Boolean;
+    FCustomCSS: string;
     FButtonDrawRounded: Boolean;
     FToolbarDrawRounded: Boolean;
     FToolbarButtonWidth: Integer;
@@ -130,6 +132,13 @@ type
     constructor CreateSettings;
     destructor Destroy; override;
     property DownloadFromWEB: Boolean read FDownloadFromWEB write SetDownloadFromWEB;
+    //When True the markdown processor lets native HTML (script/iframe/object...)
+    //pass through to the output; default False (safe mode). Unrelated to
+    //DownloadFromWEB (remote image loading).
+    property AllowUnsafeHTML: Boolean read FAllowUnsafeHTML write FAllowUnsafeHTML;
+    //User-defined stylesheet prepended to the generated HTML. Empty = built-in
+    //default (GetMarkdownDefaultCSS). Stored Base64-encoded in the INI (multi-line).
+    property CustomCSS: string read FCustomCSS write FCustomCSS;
 
     class var FSettingsFileName: string;
     class var FSettingsPath: string;
@@ -181,6 +190,7 @@ uses
   , System.Rtti
   , System.StrUtils
   , System.IOUtils
+  , System.NetEncoding
   , Winapi.ShlObj
   , Winapi.Windows
 {$IFNDEF DISABLE_STYLES}
@@ -192,6 +202,36 @@ uses
 //  , SynEdit
   , Winapi.Messages
   ;
+
+//Encode/decode a multi-line string to a single INI-safe line. Base64 without
+//line wrapping (CharsPerLine = 0) so the result has no CR/LF.
+function EncodeIniText(const AValue: string): string;
+var
+  LEnc: TBase64Encoding;
+begin
+  if AValue = '' then
+    Exit('');
+  LEnc := TBase64Encoding.Create(0);
+  try
+    Result := LEnc.EncodeBytesToString(TEncoding.UTF8.GetBytes(AValue));
+  finally
+    LEnc.Free;
+  end;
+end;
+
+function DecodeIniText(const AValue: string): string;
+var
+  LEnc: TBase64Encoding;
+begin
+  if AValue = '' then
+    Exit('');
+  LEnc := TBase64Encoding.Create(0);
+  try
+    Result := TEncoding.UTF8.GetString(LEnc.DecodeStringToBytes(AValue));
+  finally
+    LEnc.Free;
+  end;
+end;
 
 const
   LAST_OPENED_SECTION = 'LastOpened';
@@ -385,6 +425,8 @@ begin
     FIniFile.ReadInteger(HTML_VIEWER, 'ProcessorDialect', ord(mdCommonMark)));
   ShowDialectSelection := FIniFile.ReadBool(HTML_VIEWER, 'ShowDialectSelection', False);
   DownloadFromWEB := FIniFile.ReadBool(HTML_VIEWER, 'DownloadFromWEB', True);
+  AllowUnsafeHTML := FIniFile.ReadBool(HTML_VIEWER, 'AllowUnsafeHTML', False);
+  CustomCSS := DecodeIniText(FIniFile.ReadString(HTML_VIEWER, 'CustomCSS', ''));
   CurrentFileName := FIniFile.ReadString(HTML_VIEWER, 'CurrentFileName', '');
   CurrentIndexFileName := FIniFile.ReadString(HTML_VIEWER, 'CurrentIndexFileName', '');
 
@@ -492,6 +534,8 @@ begin
   FIniFile.WriteBool(HTML_VIEWER, 'ShowDialectSelection', FShowDialectSelection);
   FIniFile.WriteInteger(HTML_VIEWER, 'ProcessorDialect', Ord(FProcessorDialect));
   FIniFile.WriteBool(HTML_VIEWER, 'DownloadFromWEB', FDownloadFromWEB);
+  FIniFile.WriteBool(HTML_VIEWER, 'AllowUnsafeHTML', FAllowUnsafeHTML);
+  FIniFile.WriteString(HTML_VIEWER, 'CustomCSS', EncodeIniText(FCustomCSS));
   FIniFile.WriteString(HTML_VIEWER, 'CurrentFileName', CurrentFileName);
   FIniFile.WriteString(HTML_VIEWER, 'CurrentIndexFileName', CurrentIndexFileName);
 

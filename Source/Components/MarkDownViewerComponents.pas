@@ -72,6 +72,7 @@ Type
     FHTMLContent: TStringList;
     FCssStyle: TStringList;
     FProcessorDialect: TMarkdownProcessorDialect;
+    FAllowUnsafe: Boolean;
     FRescalingImage: Boolean;
     FStream: TMemoryStream;
     FImageRequest: TGetImageEvent;
@@ -132,7 +133,8 @@ Type
       const IsHTMLContent: Boolean = False);
     function TransformContent(const AMarkdownContent: string;
       AProcessorDialect: TMarkdownProcessorDialect = mdCommonMark;
-      const ACssStyle: string = ''): string;
+      const ACssStyle: string = '';
+      const AAllowUnsafe: Boolean = False): string;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure RefreshViewer(const AReloadImages, ARescalingImage: Boolean;
@@ -143,6 +145,9 @@ Type
     property CssStyle: TStringList read FCssStyle write SetCssStyle stored IsCssStyleStored;
     property FileName: TFileName read FFileName write SetFileName;
     property ProcessorDialect: TMarkdownProcessorDialect read FProcessorDialect write SetProcessorDialect default mdCommonMark;
+    //When True, native HTML (script/iframe/object...) in the markdown is passed
+    //through to the output; default False (safe mode: such tags are escaped).
+    property AllowUnsafe: Boolean read FAllowUnsafe write FAllowUnsafe default False;
     property RescalingImage: Boolean read FRescalingImage write SetRescalingImage default False;
     property HtmlContent: TStringList read FHTMLContent write SetHTMLContent stored IsHtmlContentStored;
     property MarkdownContent: TStringList read FMarkdownContent write SetMarkdownContent;
@@ -185,6 +190,7 @@ Type
     property CssStyle;
     property FileName;
     property ProcessorDialect;
+    property AllowUnsafe;
     property RescalingImage;
     property HtmlContent;
     property MarkdownContent;
@@ -264,6 +270,10 @@ function GetMarkdownDefaultCSS: string;
 begin
   Result :=
     '<style type="text/css">'+sLineBreak+
+    'img{'+sLineBreak+
+    '  max-width: 100%;'+sLineBreak+
+    '  height: auto;'+sLineBreak+
+    '}'+sLineBreak+
     'code{'+sLineBreak+
     '  font-family: "Consolas", monospace;'+sLineBreak+
     '}'+sLineBreak+
@@ -577,7 +587,7 @@ end;
 procedure TCustomMarkdownViewer.MDContentChanged(Sender: TObject);
 begin
   //Transform content into HtmlViewer
-  FHTMLContent.Text := TransformContent(FMarkdownContent.Text, FProcessorDialect, FCssStyle.Text);
+  FHTMLContent.Text := TransformContent(FMarkdownContent.Text, FProcessorDialect, FCssStyle.Text, FAllowUnsafe);
 end;
 
 procedure TCustomMarkdownViewer.RefreshViewer(
@@ -711,7 +721,8 @@ end;
 
 function TCustomMarkdownViewer.TransformContent(const AMarkdownContent: string;
   AProcessorDialect: TMarkdownProcessorDialect = mdCommonMark;
-  const ACssStyle: string = ''): string;
+  const ACssStyle: string = '';
+  const AAllowUnsafe: Boolean = False): string;
 var
   LMarkdownProcessor: TMarkdownProcessor;
   LBackground: TColor;
@@ -721,6 +732,8 @@ begin
   //Transform file Markdown in HTML using TMarkdownProcessor
   LMarkdownProcessor := TMarkdownProcessor.CreateDialect(AProcessorDialect);
   Try
+    //Safe mode by default: native HTML is neutralized unless AllowUnsafe is set.
+    LMarkdownProcessor.AllowUnsafe := AAllowUnsafe;
     //Optional syntax highlighting of fenced code blocks. The caller owns the
     //emitter, so we detach it before freeing the processor (TConfiguration
     //frees its codeBlockEmitter).
