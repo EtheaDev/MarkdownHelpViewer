@@ -1,11 +1,11 @@
-{******************************************************************************}
+﻿{******************************************************************************}
 {                                                                              }
 {       Markdown Help Viewer                                                   }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
 {       Copyright (c) 2023-2026 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
-{       Contributors: Nicol� Boccignone, Emanuele Biglia                       }
+{       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
 {                                                                              }
 {       https://github.com/EtheaDev/MarkdownHelpViewer                         }
 {                                                                              }
@@ -27,7 +27,6 @@
 program MDHelpViewer;
 
 uses
-  MidasLib,
   Vcl.Forms,
   Vcl.Themes,
   Vcl.Styles,

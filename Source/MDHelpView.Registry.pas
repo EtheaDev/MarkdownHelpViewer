@@ -1,11 +1,11 @@
-{******************************************************************************}
+﻿{******************************************************************************}
 {                                                                              }
 {       Markdown Help Viewer: Registry utilities                               }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
 {       Copyright (c) 2023-2026 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
-{       Contributors: Nicol� Boccignone, Emanuele Biglia                       }
+{       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
 {                                                                              }
 {       https://github.com/EtheaDev/MarkdownHelpViewer                         }
 {                                                                              }
@@ -51,6 +51,17 @@ implementation
 uses
   SysUtils;
 
+//A registry failure is not an error for the caller (it falls back to a default),
+//but a silently swallowed exception is impossible to diagnose: in a debug build
+//it is at least reported to the debug output.
+procedure LogRegError(const ARegPath: string; E: Exception);
+begin
+{$IFDEF DEBUG}
+  OutputDebugString(PChar(Format('MDHelpViewer - registry "%s": %s (%s)',
+    [ARegPath, E.Message, E.ClassName])));
+{$ENDIF}
+end;
+
 function RegWriteStr(const RegPath, RegValue: string; const Str: string; const RootKey: HKEY): boolean;
 var
   Reg: TRegistry;
@@ -66,7 +77,11 @@ begin
       Reg.Free;
     end;
   except
-    Result := False;
+    on E: Exception do
+    begin
+      LogRegError(RegPath, E);
+      Result := False;
+    end;
   end;
 end;
 
@@ -78,14 +93,20 @@ begin
     Reg := TRegistry.Create;
     try
       Reg.RootKey := RootKey;
-      Result := Reg.OpenKey(RegPath, True);
+      //Read-only: OpenKey(..., True) would create the key as a side effect
+      //(and fail without administrative rights when RootKey is HKLM).
+      Result := Reg.OpenKeyReadOnly(RegPath);
       if Result then
         Str := Reg.ReadString(RegValue);
     finally
       Reg.Free;
     end;
   except
-    Result := False;
+    on E: Exception do
+    begin
+      LogRegError(RegPath, E);
+      Result := False;
+    end;
   end;
 end;
 
@@ -104,7 +125,11 @@ begin
       Reg.Free;
     end;
   except
-    Result := False;
+    on E: Exception do
+    begin
+      LogRegError(RegPath, E);
+      Result := False;
+    end;
   end;
 end;
 
@@ -116,14 +141,20 @@ begin
     Reg := TRegistry.Create;
     try
       Reg.RootKey := RootKey;
-      Result := Reg.OpenKey(RegPath, True);
+      //Read-only: OpenKey(..., True) would create the key as a side effect
+      //(and fail without administrative rights when RootKey is HKLM).
+      Result := Reg.OpenKeyReadOnly(RegPath);
       if Result then
         IntValue := Reg.ReadInteger(RegValue);
     finally
       Reg.Free;
     end;
   except
-    Result := False;
+    on E: Exception do
+    begin
+      LogRegError(RegPath, E);
+      Result := False;
+    end;
   end;
 end;
 
@@ -140,27 +171,36 @@ begin
       Reg.Free;
     end;
   except
-    Result := False;
+    on E: Exception do
+    begin
+      LogRegError(RegPath, E);
+      Result := False;
+    end;
   end;
 end;
 
 function IsWindows11: Boolean;
+const
+  //First build of Windows 11
+  WINDOWS11_FIRST_BUILD = 22000;
 var
   Reg: TRegistry;
-  VersionInfo: TOSVersionInfo;
 begin
-  VersionInfo.dwOSVersionInfoSize := sizeOf(TOSVersionInfo);
+  //NB: the build number is read from the registry and not from TOSVersion,
+  //because the value reported by the API depends on the application manifest.
+  //The previous version switched on a TOSVersionInfo record that was never
+  //filled by GetVersionEx: it read uninitialized memory and worked only
+  //because the "else" branch happens to be the right one.
+  Result := False;
   Reg := TRegistry.Create;
   Try
     Reg.RootKey := HKEY_LOCAL_MACHINE;
-    case VersionInfo.dwPlatformID of
-      VER_PLATFORM_WIN32_WINDOWS:
-        Reg.OpenKeyReadOnly('\Software\Microsoft\Windows\CurrentVersion');
-    else
-      Reg.OpenKeyReadOnly('\Software\Microsoft\Windows NT\CurrentVersion');
-    end;
-    Result :=  StrToIntDef(Reg.ReadString('CurrentBuild'), 0) >= 22000;
-    Reg.CloseKey;
+    if Reg.OpenKeyReadOnly('\Software\Microsoft\Windows NT\CurrentVersion') then
+    Try
+      Result := StrToIntDef(Reg.ReadString('CurrentBuild'), 0) >= WINDOWS11_FIRST_BUILD;
+    Finally
+      Reg.CloseKey;
+    End;
   Finally
     Reg.Free;
   End;

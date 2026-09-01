@@ -33,7 +33,7 @@ uses
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.ExtCtrls, Vcl.Dialogs,
   Vcl.StdCtrls, Vcl.Menus, System.Actions, Vcl.ActnList, Vcl.StdActns,
   Vcl.ComCtrls, Vcl.ToolWin, MDHelpView.Resources, Vcl.FileCtrl,
-  Vcl.DBCtrls, System.ImageList, Vcl.ImgList, Vcl.VirtualImageList, Vcl.ExtActns,
+  System.ImageList, Vcl.ImgList, Vcl.VirtualImageList, Vcl.ExtActns,
   MDHelpView.Settings,
   HTMLUn2, HtmlView, HtmlGlobals,
   vmHtmlToPdf, SVGIconImageListBase,
@@ -150,6 +150,11 @@ type
   private
     FRememberToResize: boolean;
     FLoading: boolean;
+    //True while the HTML viewer is loading/laying out content: see the
+    //re-entrancy guard in ShowMarkdownAsHTML
+    FRendering: Boolean;
+    //Version string of the running executable, read once from VERSIONINFO
+    FVersionString: string;
     FOldViewerResize: Integer;
     FFirstTime: Boolean;
     FOpenedFileList: TStringList;
@@ -184,9 +189,9 @@ type
     procedure WriteSettingsToIni;
     procedure UpdateApplicationStyle(const AVCLStyleName: string);
     function Load(const AFileName: TFileName): Boolean;
-    function TransformMDToHTML(const AMdContent: string): string;
+    function TransformMDToHTML(const AMdContent, AHtmlContent: string): string;
     procedure TransformTo(const AHTMLViewer: THtmlViewer;
-      const AMdContent: string; const AReloadImage: Boolean;
+      const AMdContent, AHtmlContent: string; const AReloadImage: Boolean;
       const APreservePosition: Boolean);
     function LoadIndex(const AFileName: TFileName): Boolean;
     procedure LoadCSS(const AFileName: TFileName);
@@ -212,6 +217,7 @@ type
     function GetDialectSelectionVisible: Boolean;
     function GetToolbarWidth: Integer;
     function GetIndexOfWorkingFolder(const AWorkingFolder: string): TFileName;
+    function OpenExternalLink(const AUrl: string): Boolean;
     property HTMLFontSize: Integer read FHTMLFontSize write SetHTMLFontSize;
     property HTMLFontName: string read FHTMLFontName write SetHTMLFontName;
     property WorkingFolder: string read FWorkingFolder write SetWorkingFolder;
@@ -222,10 +228,7 @@ type
     property UseColoredIcons: Boolean read FUseColoredIcons write SetUseColoredIcons;
     property CSSContent: string read GetCssContent;
     property DialectSelectionVisible: Boolean read GetDialectSelectionVisible;
-  protected
-    procedure Loaded; override;
   public
-    procedure SetBounds(ALeft, ATop, AWidth, AHeight: Integer); override;
     procedure ManageExceptions(Sender: TObject; E: Exception);
     procedure WMCopyData(var Message: TMessage); message WM_COPYDATA;
   end;
@@ -242,6 +245,7 @@ uses
   MarkdownProcessor
   , MarkDownUtils
   , System.Math
+  , System.Types
   , System.UITypes
   , System.IOUtils
   , MDHelpView.SettingsForm
@@ -294,22 +298,46 @@ var
   LResult: TModalResult;
   LMdContent, LHtmlContent: string;
 
-  procedure ConvertAndSaveFile(const AInputFileName, AOutputFileName: TFileName);
+  //Rewrites the links to markdown files so that they point to the exported
+  //.htm files.
+  //NB: only the end of an href is replaced - the extension followed by the
+  //closing quote or by an anchor - and the longest extensions are handled
+  //first. A plain replace of every extension over the whole document turned
+  //'.mdown' into '.htmown' (because '.md' was replaced first) and rewrote any
+  //occurrence of the text ".md" in the prose as well.
+  function ReplaceMarkdownLinks(const AHtml: string): string;
   var
-    LExt: string;
-    I: Integer;
+    I, J: Integer;
+    LExts: TArray<string>;
+    LSwap: string;
+  begin
+    LExts := Copy(AMarkdownFileExt);
+    for I := Low(LExts) to High(LExts) - 1 do
+      for J := I + 1 to High(LExts) do
+        if Length(LExts[J]) > Length(LExts[I]) then
+        begin
+          LSwap := LExts[I];
+          LExts[I] := LExts[J];
+          LExts[J] := LSwap;
+        end;
+    Result := AHtml;
+    for I := Low(LExts) to High(LExts) do
+    begin
+      Result := StringReplace(Result, LExts[I] + '"', '.htm"',
+        [rfReplaceAll, rfIgnoreCase]);
+      Result := StringReplace(Result, LExts[I] + '#', '.htm#',
+        [rfReplaceAll, rfIgnoreCase]);
+    end;
+  end;
+
+  procedure ConvertAndSaveFile(const AInputFileName, AOutputFileName: TFileName);
   begin
     if FileExists(AInputFileName) then
     begin
       LMdContent := TryLoadTextFile(AInputFileName);
-      LHtmlContent := TransformMDToHTML(LMdContent);
-      //Replace href of .md files to .htm files
-      for I := Low(AMarkdownFileExt) to High(AMarkdownFileExt) do
-      begin
-        LExt := AMarkdownFileExt[I];
-        LHtmlContent := StringReplace(LHtmlContent, LExt, '.htm',
-          [rfReplaceAll, rfIgnoreCase]);
-      end;
+      //The exported files are markdown (the list is filtered by extension), so
+      //there is no HTML fallback content to pass
+      LHtmlContent := ReplaceMarkdownLinks(TransformMDToHTML(LMdContent, ''));
       SaveUTF8File(AOutputFileName, LHtmlContent);
     end;
   end;
@@ -537,8 +565,10 @@ begin
       if SearchListBox.Items.Count > 0 then
         SearchListBox.SetFocus
       else
-        raise Exception.CreateFmt(NO_KEYWORD_MATCH,
-          [LKeyword, FWorkingFolder]);
+        //NB: "no match" is a normal outcome of a search, not an error: it used
+        //to be raised as an exception and shown as an error dialog.
+        StyledMessageDlg(Format(NO_KEYWORD_MATCH, [LKeyword, FWorkingFolder]),
+          TMsgDlgType.mtInformation, [TMsgDlgBtn.mbOK], 0);
     finally
       LFileList.Free;
     end;
@@ -612,8 +642,11 @@ begin
   FViewerSettings.WindowState := Self.WindowState;
 
   Self.WindowState := TWindowState.wsNormal;
-  FViewerSettings.WindowLeft := Round(Max(Self.Left,0) / ScaleFactor);
-  FViewerSettings.WindowTop := Round(Max(Self.Top,0) / ScaleFactor);
+  //NB: negative coordinates are saved as they are (a monitor to the left of,
+  //or above, the primary one is a normal setup). Clamping them to zero moved
+  //the window to the primary monitor at every restart.
+  FViewerSettings.WindowLeft := Round(Self.Left / ScaleFactor);
+  FViewerSettings.WindowTop := Round(Self.Top / ScaleFactor);
   FViewerSettings.WindowWidth := Round(Self.ClientWidth / ScaleFactor);
   FViewerSettings.WindowHeight := Round(Self.ClientHeight / ScaleFactor);
 
@@ -672,8 +705,8 @@ begin
   if (Shift = [ssCtrl]) then
   begin
     HTMLFontSize := HTMLFontSize - 1;
-    TransformTo(HtmlViewer, FMdContent, True, True);
-    TransformTo(HtmlViewerIndex, FMdIndexContent, True, True);
+    TransformTo(HtmlViewer, FMdContent, FHtmlContent, True, True);
+    TransformTo(HtmlViewerIndex, FMdIndexContent, FHtmlIndexContent, True, True);
     Handled := True;
   end;
 end;
@@ -733,8 +766,8 @@ begin
   if (Shift = [ssCtrl]) then
   begin
     HTMLFontSize := HTMLFontSize + 1;
-    TransformTo(HtmlViewer, FMdContent, True, True);
-    TransformTo(HtmlViewerIndex, FMdIndexContent, True, True);
+    TransformTo(HtmlViewer, FMdContent, FHtmlContent, True, True);
+    TransformTo(HtmlViewerIndex, FMdIndexContent, FHtmlIndexContent, True, True);
     Handled := True;
   end;
 end;
@@ -761,12 +794,46 @@ begin
     ((FMdIndexContent <> '') or (FMdContent <> ''));
 end;
 
+function TMainForm.OpenExternalLink(const AUrl: string): Boolean;
+var
+  LScheme: string;
+  P: Integer;
+begin
+  //Only web links and mail addresses are opened straight away. Anything else -
+  //a local executable, a UNC path, an unknown protocol - would reach
+  //ShellExecute from a document written by somebody else, so it is confirmed
+  //with the user first.
+  Result := True;
+  P := Pos(':', AUrl);
+  if P > 1 then
+    LScheme := LowerCase(Copy(AUrl, 1, P - 1))
+  else
+    LScheme := '';
+  if (LScheme <> 'http') and (LScheme <> 'https') and (LScheme <> 'mailto') then
+  begin
+    if StyledMessageDlg(Format(CONFIRM_OPEN_LINK, [AUrl]),
+      TMsgDlgType.mtWarning, [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0) <> mrYes then
+      Exit;
+  end;
+  ShellExecute(0, 'open', PChar(AUrl), nil, nil, SW_SHOWNORMAL);
+end;
+
 procedure TMainForm.HtmlViewerHotSpotClick(Sender: TObject;
   const ASource: ThtString; var Handled: Boolean);
 var
   LFileName: TFileName;
 begin
   LFileName := ASource;
+
+  //An anchor inside the current page is handled by the viewer itself.
+  //NB: it used to end up in ShellExecute (which did nothing) with Handled set
+  //to True, so in-page links did not work at all.
+  if (LFileName <> '') and (LFileName[1] = '#') then
+  begin
+    Handled := False;
+    Exit;
+  end;
+
   if not FileExists(LFileName) then
     LFileName := FWorkingFolder+LFileName;
   if not FileExists(LFileName) then
@@ -778,8 +845,7 @@ begin
     end
     else
     begin
-      ShellExecute(0, 'open', PChar(ASource), nil, nil, SW_SHOWNORMAL);
-      Handled := True;
+      Handled := OpenExternalLink(ASource);
     end;
   end
   else
@@ -871,7 +937,9 @@ begin
       //Search for a css file into this folder
       if not TryLoadCSS(LWorkingFolder+'Home.css')
         and not TryLoadCSS(LWorkingFolder+'Index.css')
-        and not TryLoadCSS(LWorkingFolder+ChangeFileExt(FCurrentFileName,'.css')) then
+        //NB: FCurrentFileName is a full path, so only its file name must be
+        //appended to LWorkingFolder (otherwise the result is "C:\dir\C:\dir\file.css")
+        and not TryLoadCSS(LWorkingFolder+ExtractFileName(ChangeFileExt(FCurrentFileName,'.css'))) then
       begin
         CurrentCSSFileName := '';
       end;
@@ -899,7 +967,7 @@ begin
   end;
 end;
 
-function TMainForm.TransformMDToHTML(const AMdContent: string): string;
+function TMainForm.TransformMDToHTML(const AMdContent, AHtmlContent: string): string;
 var
   LMarkdownProcessor: TMarkdownProcessor;
   LBackground, LForeground: TColor;
@@ -940,18 +1008,21 @@ begin
   end
   else
   begin
-    //No transform required
-    Result := FHtmlContent;
+    //No transform required: the source is already HTML.
+    //NB: the fallback content is a parameter and no longer the FHtmlContent
+    //field. The index pane calls this with FMdIndexContent, so with an HTML
+    //index file it used to receive the HTML of the *main* document.
+    Result := AHtmlContent;
   end;
 end;
 
 procedure TMainForm.TransformTo(const AHTMLViewer: THtmlViewer;
-  const AMdContent: string; const AReloadImage: Boolean;
+  const AMdContent, AHtmlContent: string; const AReloadImage: Boolean;
   const APreservePosition: Boolean);
 var
   LHtml: string;
 begin
-  LHtml := TransformMDToHTML(AMdContent);
+  LHtml := TransformMDToHTML(AMdContent, AHtmlContent);
   //Load html content into HtmlViewer
   ShowMarkdownAsHTML(AHTMLViewer, LHtml, AReloadImage, APreservePosition);
 end;
@@ -970,18 +1041,32 @@ procedure TMainForm.ShowMarkdownAsHTML(const AHTMLViewer: THTMLViewer;
 var
   LOldPos: Integer;
 begin
+  //NB: re-entrancy guard. dmResources.HtmlViewerImageRequest calls
+  //Application.ProcessMessages to keep the UI responsive (and to let ESC stop
+  //the loading) while the images are fetched: that pumps the message queue in
+  //the middle of the HTML layout, so a user action - a click on a link, the
+  //mouse wheel, a refresh - could start a second rendering while the first one
+  //is still running. Re-entering LoadFromString there is a reliable way to get
+  //an Access Violation.
+  if FRendering then
+    Exit;
+
+  //NB: read the scroll position *before* Clear, which resets it to zero:
+  //reading it afterwards would always restore the top of the document.
+  LOldPos := AHtmlViewer.VScrollBarPosition;
   if AReloadImages then
     AHtmlViewer.clear;
   if AHTMLContent = '' then
     Exit;
   //Load HTML content into HTML-Viewer
-  LOldPos := AHtmlViewer.VScrollBarPosition;
+  FRendering := True;
   try
     AHtmlViewer.DefFontSize := FViewerSettings.HTMLFontSize;
     AHtmlViewer.DefFontName := FViewerSettings.HTMLFontName;
     AHtmlViewer.LoadFromString(AHTMLContent);
     dmResources.StopLoadingImages(False);
   finally
+    FRendering := False;
     if APreservePosition then
       AHtmlViewer.VScrollBarPosition := LOldPos;
   end;
@@ -1031,7 +1116,7 @@ begin
   try
      if Load(AFileName) then
      begin
-       TransformTo(HtmlViewer, FMdContent, True, False);
+       TransformTo(HtmlViewer, FMdContent, FHtmlContent, True, False);
      end;
   finally
     Screen.Cursor := crDefault;
@@ -1041,7 +1126,7 @@ end;
 procedure TMainForm.LoadAndTransformFileIndex(const AFileName: TFileName);
 begin
   if LoadIndex(AFileName) then
-    TransformTo(HtmlViewerIndex, FMdIndexContent, True, False);
+    TransformTo(HtmlViewerIndex, FMdIndexContent, FHtmlIndexContent, True, False);
 end;
 
 procedure TMainForm.ActionListUpdate(Action: TBasicAction;
@@ -1071,18 +1156,26 @@ begin
     InitPDFDialog(SaveDialogPDF, InitialDir);
     InitHTMLDialog(SaveDialogHTML, InitialDir);
 
-    //Check for new version available
+    //Check for new version available.
+    //NB: the HTTP call runs in background. Performing it here, inside an
+    //action-update handler, used to freeze the UI at startup whenever the
+    //network was slow or unreachable.
     if FViewerSettings.IsTimeToCheckNewVersion then
-    begin
-      if AcceptNewSetup(False) then
-        ShowAboutForm(DialogPosRect, Title_MDHViewer, True);
-    end;
+      CheckNewSetupAsync(
+        procedure(ACurrentVersion, ANewVersion: string)
+        begin
+          if StyledMessageDlg(Format(NEW_VERSION_AVAILABLE,
+            [ACurrentVersion, ANewVersion]),
+            TMsgDlgType.mtWarning,
+            [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo, TMsgDlgBtn.mbCancel], 0) = mrYes then
+            ShowAboutForm(DialogPosRect, Title_MDHViewer, True);
+        end);
   end;
 
   if FRememberToResize then
   begin
     FRememberToResize := False;
-    TransformTo(HtmlViewer, FMdContent, True, False);
+    TransformTo(HtmlViewer, FMdContent, FHtmlContent, True, False);
   end;
   UpdateGui;
 end;
@@ -1112,11 +1205,6 @@ begin
   end;
 end;
 
-procedure TMainForm.Loaded;
-begin
-  inherited;
-end;
-
 procedure TMainForm.ProcessorDialectComboBoxSelect(Sender: TObject);
 var
   LDialect: TMarkdownProcessorDialect;
@@ -1126,15 +1214,10 @@ begin
   begin
     FViewerSettings.ProcessorDialect:= LDialect;
     WriteSettingsToIni;
-    TransformTo(HtmlViewer, FMdContent, False, False);
+    TransformTo(HtmlViewer, FMdContent, FHtmlContent, False, False);
 
-    TransformTo(HtmlViewerIndex, FMdIndexContent, False, False);
+    TransformTo(HtmlViewerIndex, FMdIndexContent, FHtmlIndexContent, False, False);
   end;
-end;
-
-procedure TMainForm.SetBounds(ALeft, ATop, AWidth, AHeight: Integer);
-begin
-  inherited;
 end;
 
 procedure TMainForm.SetCurrentCSSFileName(const Value: TFileName);
@@ -1360,12 +1443,27 @@ begin
 end;
 
 procedure TMainForm.UpdateWindowPos;
+var
+  LDesktop: TRect;
 begin
   //Set Bounds of Windows
   Self.ClientWidth := Round(FViewerSettings.WindowWidth * ScaleFactor);
   Self.ClientHeight := Round(FViewerSettings.WindowHeight * ScaleFactor);
   Self.Left := Round(FViewerSettings.WindowLeft * ScaleFactor);
   Self.Top := Round(FViewerSettings.WindowTop * ScaleFactor);
+
+  //The saved position can fall outside the monitors currently connected (the
+  //window was last closed on a screen that is no longer attached, or the
+  //resolution changed): in that case the form would open invisible, so it is
+  //brought back to the center of the work area.
+  LDesktop := Screen.DesktopRect;
+  if not PtInRect(LDesktop,
+    Point(Self.Left + (Self.Width div 2), Self.Top + Round(20 * ScaleFactor))) then
+  begin
+    Self.Left := Screen.WorkAreaLeft + ((Screen.WorkAreaWidth - Self.Width) div 2);
+    Self.Top := Screen.WorkAreaTop + ((Screen.WorkAreaHeight - Self.Height) div 2);
+  end;
+
   Self.WindowState := FViewerSettings.WindowState;
 end;
 
@@ -1415,9 +1513,9 @@ begin
   paTop.Repaint;
   UseColoredIcons := FViewerSettings.UseColoredIcons;
 
-  TransformTo(HtmlViewer, FMdContent, True, True);
+  TransformTo(HtmlViewer, FMdContent, FHtmlContent, True, True);
 
-  TransformTo(HtmlViewerIndex, FMdIndexContent, True, True);
+  TransformTo(HtmlViewerIndex, FMdIndexContent, FHtmlIndexContent, True, True);
 end;
 
 function TMainForm.GetToolbarWidth: Integer;
@@ -1508,7 +1606,11 @@ procedure TMainForm.UpdateCaption;
 var
   LTitleAndVersion: string;
 begin
-  LTitleAndVersion := Format('%s (Ver. %s)', [Application.Title, GetVersionString(GetModuleLocation(), '%d.%d.%d')]);
+  //The version is read from the VERSIONINFO resource only the first time:
+  //UpdateCaption is called on every file load and the value never changes.
+  if FVersionString = '' then
+    FVersionString := GetVersionString(GetModuleLocation(), '%d.%d.%d');
+  LTitleAndVersion := Format('%s (Ver. %s)', [Application.Title, FVersionString]);
   if CurrentFileName <> '' then
     Caption := Format('%s - %s', [LTitleAndVersion, CurrentFileName])
   else
@@ -1521,21 +1623,53 @@ var
   LFilePath, LFileName: string[255];
   LFullName: string;
   r :  PRecToPass;
+  LRecordW: THelpInfoToPassW;
 begin
+  Message.Result := 0;
   p := PCopyDataStruct( Message.lParam );
-  if (p <> nil) then
+  if p = nil then
   begin
-    r := PRecToPass(PCopyDataStruct(Message.LParam)^.lpData);
+    ShowMessage(ERR_MSG_RECEIVED);
+    Exit;
+  end;
+
+  //Any process can send a WM_COPYDATA to this window: accept only messages
+  //carrying one of our signatures and a payload of exactly the expected size,
+  //otherwise reading the record would go past the end of the buffer.
+  LFullName := '';
+  if (p^.dwData = MD_HELP_COPYDATA_ID_W) and
+    (p^.cbData = SizeOf(THelpInfoToPassW)) and (p^.lpData <> nil) then
+  begin
+    //Unicode message: paths with characters outside the system codepage arrive
+    //intact. Copied locally and forcibly terminated, so that a malformed
+    //payload cannot make the string read past the buffer.
+    Move(p^.lpData^, LRecordW, SizeOf(LRecordW));
+    LRecordW.FilePath[High(LRecordW.FilePath)] := #0;
+    LRecordW.FileName[High(LRecordW.FileName)] := #0;
+    LFullName := StripQuotes(string(PWideChar(@LRecordW.FilePath[0])) +
+      string(PWideChar(@LRecordW.FileName[0])));
+  end
+  else if (p^.dwData = MD_HELP_COPYDATA_ID) and
+    (p^.cbData = SizeOf(THelpInfoToPass)) and (p^.lpData <> nil) then
+  begin
+    //Legacy message, sent by a client library that predates the Unicode one
+    r := PRecToPass(p^.lpData);
     LFilePath := r^.FilePath;
     LFileName := r^.FileName;
-    LFullName := StripQuotes(String(LFilePath+LFileName));
     {$WARN IMPLICIT_STRING_CAST OFF}
+    LFullName := StripQuotes(String(LFilePath+LFileName));
+  end;
+
+  if LFullName <> '' then
+  begin
     LoadAndTransformFile(LFullName);
     if Self.WindowState = wsMinimized then
       Self.WindowState := wsNormal;
-  end
-  else
-    ShowMessage(ERR_MSG_RECEIVED);
+    //Tell the sender the request has been handled
+    Message.Result := 1;
+  end;
+  //A WM_COPYDATA without our signature belongs to somebody else: it is ignored
+  //silently, leaving Message.Result = 0.
 end;
 
 procedure TMainForm.ManageExceptions(Sender: TObject; E: Exception);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--stat:#=21
-*=21
+<!--stat:#=24
+*=24
 @=0
 Lang:=ITA
 :stat-->  <DATAPACKET Version="2.0">
@@ -14,26 +14,29 @@ Lang:=ITA
 <PARAMS/>
 </METADATA>
 <ROWDATA>
-<ROW OriginalValue="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" Translation="Confermi esportazione di un singolo file [Si] o di %d file [Si a tutto] in formato HTML?" Count="9" Status="*"/>
+<ROW OriginalValue="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" Translation="Confermi esportazione di un singolo file [Si] o di %d file [Si a tutto] in formato HTML?" Count="10" Status="*"/>
 <ROW OriginalValue="File &quot;%s&quot; succesfully saved. Do you want to open it now?" Translation="Il file &quot;%s&quot; &#232; stato salvato correttamente. Vuoi aprirlo ora?" Count="3" Status="*"/>
-<ROW OriginalValue="HTML output folder" Translation="Cartella salvataggio HTML" Count="9" Status="*"/>
-<ROW OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="La parola chiave &quot;%s&quot; non &#232; stata trovata nella cartella di lavoro: &quot;%s&quot;" Count="9" Status="*"/>
-<ROW OriginalValue="CONFIRMATION" Translation="CONFERMA" Count="9" Status="*"/>
-<ROW OriginalValue="ERROR!" Translation="ERRORE!" Count="9" Status="*"/>
-<ROW OriginalValue="INFORMATION" Translation="INFORMAZIONE" Count="9" Status="*"/>
-<ROW OriginalValue="UNEXPECTED ERROR!" Translation="ERRORE INATTESO!" Count="9" Status="*"/>
-<ROW OriginalValue="Closing application to change GUI language" Translation="Riavvio l&apos;applicazione per cambiare la lingua." Count="6" Status="*"/>
-<ROW OriginalValue="Incorrect message received" Translation="Ricevuto messaggio non corretto." Count="6" Status="*"/>
-<ROW OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Il file &quot;%s&quot; &#232; stato salvato correttamente. Vuoi aprirlo ora?" Count="6" Status="*"/>
-<ROW OriginalValue="Check for updates" Translation="Cerca aggiornamenti" Count="3" Status="*"/>
-<ROW OriginalValue="Download of installer stopped!" Translation="Scaricamento dell&apos;installer arrestato!" Count="3" Status="*"/>
-<ROW OriginalValue="Error downloading!" Translation="Errore in scaricamento!" Count="3" Status="*"/>
-<ROW OriginalValue="Error checking if a new update for the application is available: %s" Translation="Errore durante il controllo se &#232; disponibile un nuovo aggiornamento per l&apos;applicazione: %s" Count="3" Status="*"/>
-<ROW OriginalValue="A new version is available:" Translation="Una nuova versione &#232; disponibile:" Count="3" Status="*"/>
-<ROW OriginalValue="Current version: %s - Available version: %s" Translation="Versione corrente: %s - Versione disponibile: %s" Count="3" Status="*"/>
-<ROW OriginalValue="Do you want to dowload and install the new version?" Translation="Vuoi scaricare ed installare la nuova versione?" Count="3" Status="*"/>
-<ROW OriginalValue="No updates available." Translation="Nessun aggiornamento disponibile." Count="3" Status="*"/>
-<ROW OriginalValue="You have already the latest version: %s" Translation="Stai gi&#224; utilizzando l&apos;ultima versione: %s" Count="3" Status="*"/>
-<ROW OriginalValue="Stop download!" Translation="Arresta scaricamento!" Count="3" Status="*"/>
+<ROW OriginalValue="HTML output folder" Translation="Cartella salvataggio HTML" Count="10" Status="*"/>
+<ROW OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="La parola chiave &quot;%s&quot; non &#232; stata trovata nella cartella di lavoro: &quot;%s&quot;" Count="10" Status="*"/>
+<ROW OriginalValue="CONFIRMATION" Translation="CONFERMA" Count="10" Status="*"/>
+<ROW OriginalValue="ERROR!" Translation="ERRORE!" Count="10" Status="*"/>
+<ROW OriginalValue="INFORMATION" Translation="INFORMAZIONE" Count="10" Status="*"/>
+<ROW OriginalValue="UNEXPECTED ERROR!" Translation="ERRORE INATTESO!" Count="10" Status="*"/>
+<ROW OriginalValue="Closing application to change GUI language" Translation="Riavvio l&apos;applicazione per cambiare la lingua." Count="7" Status="*"/>
+<ROW OriginalValue="Incorrect message received" Translation="Ricevuto messaggio non corretto." Count="7" Status="*"/>
+<ROW OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Il file &quot;%s&quot; &#232; stato salvato correttamente. Vuoi aprirlo ora?" Count="7" Status="*"/>
+<ROW OriginalValue="Check for updates" Translation="Cerca aggiornamenti" Count="4" Status="*"/>
+<ROW OriginalValue="Download of installer stopped!" Translation="Scaricamento dell&apos;installer arrestato!" Count="4" Status="*"/>
+<ROW OriginalValue="Error downloading!" Translation="Errore in scaricamento!" Count="4" Status="*"/>
+<ROW OriginalValue="Error checking if a new update for the application is available: %s" Translation="Errore durante il controllo se &#232; disponibile un nuovo aggiornamento per l&apos;applicazione: %s" Count="4" Status="*"/>
+<ROW OriginalValue="A new version is available:" Translation="Una nuova versione &#232; disponibile:" Count="4" Status="*"/>
+<ROW OriginalValue="Current version: %s - Available version: %s" Translation="Versione corrente: %s - Versione disponibile: %s" Count="4" Status="*"/>
+<ROW OriginalValue="Do you want to dowload and install the new version?" Translation="Vuoi scaricare ed installare la nuova versione?" Count="4" Status="*"/>
+<ROW OriginalValue="No updates available." Translation="Nessun aggiornamento disponibile." Count="4" Status="*"/>
+<ROW OriginalValue="You have already the latest version: %s" Translation="Stai gi&#224; utilizzando l&apos;ultima versione: %s" Count="4" Status="*"/>
+<ROW OriginalValue="Stop download!" Translation="Arresta scaricamento!" Count="4" Status="*"/>
+<ROW OriginalValue="The document contains a link which is not a web page:" Translation="Il documento contiene un collegamento che non &#232; una pagina web:" Count="1" Status="*"/>
+<ROW OriginalValue="%s" Translation="%s" Count="1" Status="*"/>
+<ROW OriginalValue="Do you want to open it with the associated application?" Translation="Vuoi aprirlo con l&apos;applicazione associata?" Count="1" Status="*"/>
 </ROWDATA>
 </DATAPACKET>

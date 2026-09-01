@@ -1,6 +1,6 @@
 ﻿# Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**Latest Version 2.5.4 - 06 Jul 2026**
+**Latest Version 2.5.5 - 01 Sep 2026**
 
 **An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications**
 
@@ -135,6 +135,19 @@ Then the interface searches in the same folder of default file (specified into A
 - At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)
 
 ## Release Notes ##
+01 Sep 2026: ver. 2.5.5
+- TMarkdownViewer component: .html/.htm files are now recognized and rendered as HTML instead of being shown as source; fixed double rendering when loading a document, and the scroll position is now really preserved.
+- Help interface: GetHelpFile('') returns the base file (DisplayTopic and GetHelpStrings were broken) and the query methods no longer raise exceptions when Application.HelpFile is empty.
+- IPC: new Unicode WM_COPYDATA message with automatic fallback to the legacy ANSI one, so file paths with characters outside the current codepage are no longer lost; the receiver validates signature and payload size.
+- Viewer: the index panel no longer lists the main document; fixed the per-file CSS path, the HTML export no longer alters the document text, internal anchors (#section) now work, and a confirmation is asked before opening non-web links.
+- Settings: the PDF page orientation is now persisted, and the window position is correctly restored on secondary monitors (centered again if the saved screen no longer exists).
+- Fixed the version check: ECheckNewVersionException is a real exception class (it used to swallow any exception, AV included), with explicit timeouts and the startup check moved to background.
+- Remote images: no temporary files left behind, decoder chosen from the URL extension, limited manual redirects.
+- Faster loading of large text files (single-pass reading with encoding detection from BOM or UTF-8 validation).
+- Fixed source files encoding: accented literals were compiled as mojibake in ten units; repaired the affected Italian translations and translated CONFIRM_OPEN_LINK in all six languages.
+- Code cleanup: removed dead code and unused units, reducing the executable size by about 435 KB.
+- Version aligned to 2.5.5 on application, setup, design-time constant and all the packages projects.
+
 06 Jul 2026: ver. 2.5.4
 - Added a configurable HTML stylesheet (CSS) in Settings (Preview page), with CSS syntax highlighting.
 - Added the "Allow unsafe HTML" option in Settings (off by default): lets native HTML (script, iframe, object...) in the markdown pass through to the output instead of being escaped.

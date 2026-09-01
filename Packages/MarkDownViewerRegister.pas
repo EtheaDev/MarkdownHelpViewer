@@ -1,4 +1,4 @@
-{******************************************************************************}
+﻿{******************************************************************************}
 {                                                                              }
 {       Viewer Components Registration                                         }
 {                                                                              }
@@ -85,7 +85,8 @@ uses
 
 const
   HELP_URL = 'https://ethea.it/docs/markdowntools/';
-  PROJECT_VER = '2.3.7';
+  //NB: keep aligned with the FileVersion of the .dproj files
+  PROJECT_VER = '2.5.5';
 var
   AMarkdownFileExt: TArray<String>;
   AHTMLFileExt: TArray<String>;
@@ -158,7 +159,7 @@ begin
   if Index = 0 then
     Result := 'Load from file...';
   if Index = 1 then
-    Result := Format('Ver. %s - � Ethea S.r.l. - Open Web Help...',
+    Result := Format('Ver. %s - © Ethea S.r.l. - Open Web Help...',
       [PROJECT_VER]);
 end;
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--stat:#=17
+<!--stat:#=18
 *=0
 @=17
 ?=0
@@ -38,5 +38,6 @@
 <ROW Type="M" ComponentName="Message" PropertyName="DOWNLOAD_STOPPED" OriginalValue="Download of installer stopped!" Translation="Le t&#233;l&#233;chargement de l&#8217;installateur s&#8217;est arr&#234;t&#233; !" Status="@" Deleted="FALSE" OriginalStr="Download of installer stopped!" TranslationStr="Le t&#233;l&#233;chargement de l&#8217;installateur s&#8217;est arr&#234;t&#233; !"/>
 <ROW Type="M" ComponentName="Message" PropertyName="DOWNLOADING_ERROR" OriginalValue="Error downloading!" Translation="Erreur de t&#233;l&#233;chargement !" Status="@" Deleted="FALSE" OriginalStr="Error downloading!" TranslationStr="Erreur de t&#233;l&#233;chargement !"/>
 <ROW Type="M" ComponentName="Message" PropertyName="ERROR_CHECKING_NEW_VERSION" OriginalValue="Error checking if a new update for the application is available: %s" Translation="Erreur lors de la v&#233;rification de la disponibilit&#233; d&#8217;une nouvelle mise &#224; jour de l&#8217;application : %s" Status="@" Deleted="FALSE" OriginalStr="Error checking if a new update for the application is available: %s" TranslationStr="Erreur lors de la v&#233;rification de la disponibilit&#233; d&#8217;une nouvelle mise &#224; jour de l&#8217;application : %s"/>
+<ROW Type="M" ComponentName="Message" PropertyName="CONFIRM_OPEN_LINK" OriginalValue="The document contains a link which is not a web page:&#013;&#010;%s&#013;&#010;Do you want to open it with the associated application?" Translation="Le document contient un lien qui n&#8217;est pas une page web :&#013;&#010;%s&#013;&#010;Voulez-vous l&#8217;ouvrir avec l&#8217;application associ&#233;e ?" Status="@" Deleted="FALSE" OriginalStr="The document contains a link which is not a web page:&#013;&#010;%s&#013;&#010;Do you want to open it with the associated application?" TranslationStr="Le document contient un lien qui n&#8217;est pas une page web :&#013;&#010;%s&#013;&#010;Voulez-vous l&#8217;ouvrir avec l&#8217;application associ&#233;e ?"/>
 </ROWDATA>
 </DATAPACKET>

@@ -1,11 +1,11 @@
-{******************************************************************************}
+﻿{******************************************************************************}
 {                                                                              }
 {       Markdown Help Viewer: Miscellaneous utilities                          }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
 {       Copyright (c) 2023-2026 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
-{       Contributors: Nicol� Boccignone, Emanuele Biglia                       }
+{       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
 {                                                                              }
 {       https://github.com/EtheaDev/MarkdownHelpViewer                         }
 {                                                                              }
@@ -57,9 +57,6 @@ resourcestring
     FormatString: string = '%d.%d.%d'): string;
   function StripQuotes(const AValue: string): string;
 
-resourcestring
-  STextNotFound = 'Text not found';
-
 implementation
 
 uses
@@ -80,14 +77,6 @@ var
   lpBuffer: array [0 .. MAX_PATH] of Char;
 begin
   GetTempPath(MAX_PATH, @lpBuffer);
-  Result := StrPas(lpBuffer);
-end;
-
-function GetWindowsDirectory: string;
-var
-  lpBuffer: array [0 .. MAX_PATH] of Char;
-begin
-  WinApi.Windows.GetWindowsDirectory(@lpBuffer, MAX_PATH);
   Result := StrPas(lpBuffer);
 end;
 

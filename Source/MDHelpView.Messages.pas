@@ -1,11 +1,11 @@
-{******************************************************************************}
+Ôªø{******************************************************************************}
 {                                                                              }
 {       Markdown Help Viewer: messages Unit                                    }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
 {       Copyright (c) 2023-2026 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
-{       Contributors: NicolÚ Boccignone, Emanuele Biglia                       }
+{       Contributors: Nicol√≤ Boccignone, Emanuele Biglia                       }
 {                                                                              }
 {       https://github.com/EtheaDev/MarkdownHelpViewer                         }
 {                                                                              }
@@ -44,6 +44,7 @@ interface
   function DOWNLOAD_STOPPED: string;
   function DOWNLOADING_ERROR: string;
   function ERROR_CHECKING_NEW_VERSION: string;
+  function CONFIRM_OPEN_LINK: string;
 
   procedure RegisterMessages;
 
@@ -82,12 +83,12 @@ const
 
   function FILE_SAVED: string;
   begin Result := GetMsgMultiLanguage(UN,'FILE_SAVED',
-    'Il file "%s" Ë stato salvato correttamente. Vuoi aprirlo ora?',
+    'Il file "%s" √® stato salvato correttamente. Vuoi aprirlo ora?',
     'File "%s" successfully saved. Do you want to open it now?'); end;
 
   function NO_KEYWORD_MATCH: string;
   begin Result := GetMsgMultiLanguage(UN,'NO_KEYWORD_MATCH',
-    'La parola chiave "%s" non Ë stata trovata nella cartella di lavoro: "%s"',
+    'La parola chiave "%s" non √® stata trovata nella cartella di lavoro: "%s"',
     'Keyword "%s" not found in files into working folder: "%s"'); end;
 
   function CONFIRM_EXPORT_HTML: string;
@@ -107,7 +108,7 @@ const
 
   function NEW_VERSION_AVAILABLE: string;
   begin Result := GetMsgMultiLanguage(UN,'NEW_VERSION_AVAILABLE',
-    'Una nuova versione Ë disponibile:'+sLineBreak+
+    'Una nuova versione √® disponibile:'+sLineBreak+
     'Versione corrente: %s - Versione disponibile: %s'+sLineBreak+
     'Vuoi scaricare ed installare la nuova versione?',
     'A new version is available:'+sLineBreak+
@@ -117,7 +118,7 @@ const
   function NEW_VERSION_NOT_AVAILABLE: string;
   begin Result := GetMsgMultiLanguage(UN,'NEW_VERSION_NOT_AVAILABLE',
     'Nessun aggiornamento disponibile.'+sLineBreak+
-    'Stai gi‡ utilizzando l''ultima versione: %s',
+    'Stai gi√† utilizzando l''ultima versione: %s',
     'No updates available.'+sLineBreak+
     'You have already the latest version: %s'); end;
 
@@ -143,8 +144,17 @@ const
 
   function ERROR_CHECKING_NEW_VERSION: string;
   begin Result := GetMsgMultiLanguage(UN,'ERROR_CHECKING_NEW_VERSION',
-    'Errore durante il controllo se Ë disponibile un nuovo aggiornamento per l''applicazione: %s',
+    'Errore durante il controllo se √® disponibile un nuovo aggiornamento per l''applicazione: %s',
     'Error checking if a new update for the application is available: %s'); end;
+
+  function CONFIRM_OPEN_LINK: string;
+  begin Result := GetMsgMultiLanguage(UN,'CONFIRM_OPEN_LINK',
+    'Il documento contiene un collegamento che non √® una pagina web:'+sLineBreak+
+    '%s'+sLineBreak+
+    'Vuoi aprirlo con l''applicazione associata?',
+    'The document contains a link which is not a web page:'+sLineBreak+
+    '%s'+sLineBreak+
+    'Do you want to open it with the associated application?'); end;
 
   procedure RegisterMessages;
   begin
@@ -167,6 +177,7 @@ const
       DOWNLOAD_STOPPED;
       DOWNLOADING_ERROR;
       ERROR_CHECKING_NEW_VERSION;
+      CONFIRM_OPEN_LINK;
     Finally
       EndMessagesRegistration(UN);
     End;

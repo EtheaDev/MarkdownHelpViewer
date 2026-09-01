@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--stat:#=17
+<!--stat:#=18
 *=0
 @=17
 ?=0
@@ -38,5 +38,6 @@
 <ROW Type="M" ComponentName="Message" PropertyName="DOWNLOAD_STOPPED" OriginalValue="Download of installer stopped!" Translation="&#161;Descarga del instalador detenida!" Status="@" Deleted="FALSE" OriginalStr="Download of installer stopped!" TranslationStr="&#161;Descarga del instalador detenida!"/>
 <ROW Type="M" ComponentName="Message" PropertyName="DOWNLOADING_ERROR" OriginalValue="Error downloading!" Translation="&#161;Error al descargar!" Status="@" Deleted="FALSE" OriginalStr="Error downloading!" TranslationStr="&#161;Error al descargar!"/>
 <ROW Type="M" ComponentName="Message" PropertyName="ERROR_CHECKING_NEW_VERSION" OriginalValue="Error checking if a new update for the application is available: %s" Translation="Error al comprobar si hay disponible una nueva actualizaci&#243;n para la aplicaci&#243;n: %s" Status="@" Deleted="FALSE" OriginalStr="Error checking if a new update for the application is available: %s" TranslationStr="Error al comprobar si hay disponible una nueva actualizaci&#243;n para la aplicaci&#243;n: %s"/>
+<ROW Type="M" ComponentName="Message" PropertyName="CONFIRM_OPEN_LINK" OriginalValue="The document contains a link which is not a web page:&#013;&#010;%s&#013;&#010;Do you want to open it with the associated application?" Translation="El documento contiene un enlace que no es una p&#225;gina web:&#013;&#010;%s&#013;&#010;&#191;Quieres abrirlo con la aplicaci&#243;n asociada?" Status="@" Deleted="FALSE" OriginalStr="The document contains a link which is not a web page:&#013;&#010;%s&#013;&#010;Do you want to open it with the associated application?" TranslationStr="El documento contiene un enlace que no es una p&#225;gina web:&#013;&#010;%s&#013;&#010;&#191;Quieres abrirlo con la aplicaci&#243;n asociada?"/>
 </ROWDATA>
 </DATAPACKET>

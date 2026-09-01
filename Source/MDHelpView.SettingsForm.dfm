@@ -47,7 +47,6 @@ object MDSettingsForm: TMDSettingsForm
         Align = alTop
         Caption = 'Toolbar'
         TabOrder = 1
-        ExplicitTop = 236
         object ToolButtonWidthLabel: TLabel
           Left = 461
           Top = 24
@@ -101,10 +100,9 @@ object MDSettingsForm: TMDSettingsForm
         Align = alTop
         Caption = 'User interface'
         TabOrder = 0
-        ExplicitLeft = 2
         object UILabel: TLabel
           Left = 15
-          Top = 23
+          Top = 21
           Width = 200
           Height = 15
           AutoSize = False
@@ -128,7 +126,6 @@ object MDSettingsForm: TMDSettingsForm
         Align = alTop
         Caption = 'Buttons'
         TabOrder = 2
-        ExplicitTop = 293
         object ButtonsRoundedCheckBox: TCheckBox
           Left = 15
           Top = 18
@@ -151,8 +148,6 @@ object MDSettingsForm: TMDSettingsForm
         Align = alClient
         Caption = 'HTML Stylesheet (.css)'
         TabOrder = 0
-        ExplicitWidth = 371
-        ExplicitHeight = 401
         object StyleSynEdit: TSynEdit
           AlignWithMargins = True
           Left = 5
@@ -181,7 +176,6 @@ object MDSettingsForm: TMDSettingsForm
           Gutter.Bands = <>
           ScrollbarAnnotations = <>
           FontSmoothing = fsmNone
-          ExplicitWidth = 358
         end
       end
       object HTMLViewerRenderingGroupBox: TGroupBox
@@ -193,7 +187,6 @@ object MDSettingsForm: TMDSettingsForm
         Align = alLeft
         Caption = 'HTML Rendering Options'
         TabOrder = 1
-        ExplicitLeft = 5
         object HTMLGroupBox: TGroupBox
           AlignWithMargins = True
           Left = 5
@@ -203,8 +196,6 @@ object MDSettingsForm: TMDSettingsForm
           Align = alTop
           Caption = 'HTML Text (default)'
           TabOrder = 2
-          ExplicitLeft = 10
-          ExplicitTop = 28
           object FontNameLabel: TLabel
             Left = 15
             Top = 19
@@ -312,8 +303,6 @@ object MDSettingsForm: TMDSettingsForm
           Align = alTop
           Caption = 'Images loading options'
           TabOrder = 1
-          ExplicitLeft = 3
-          ExplicitTop = 118
           object DownloadFromWebCheckBox: TCheckBox
             Left = 15
             Top = 51
@@ -571,7 +560,7 @@ object MDSettingsForm: TMDSettingsForm
       end
       item
         Caption = 'General'
-        ImageIndex = 5
+        ImageIndex = 1
         ImageName = 'alphabetical-variant'
       end
       item
@@ -596,8 +585,6 @@ object MDSettingsForm: TMDSettingsForm
       end>
     TabOrder = 2
     OnButtonClicked = MenuButtonGroupButtonClicked
-    ExplicitLeft = 1
-    ExplicitTop = 35
   end
   object TitlePanel: TPanel
     Left = 0

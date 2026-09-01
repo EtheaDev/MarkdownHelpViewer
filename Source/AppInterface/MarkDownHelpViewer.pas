@@ -1,4 +1,4 @@
-{******************************************************************************}
+﻿{******************************************************************************}
 {                                                                              }
 {       This units implements the interfaces for the Help Viewer               }
 {                                                                              }
@@ -36,13 +36,31 @@ uses
   , System.Classes
   ;
 
+const
+  //Signatures carried by TCopyDataStruct.dwData: they let the receiver tell a
+  //help request from any other WM_COPYDATA sent to its window.
+  MD_HELP_COPYDATA_ID = 3232;   //legacy message, ANSI payload
+  MD_HELP_COPYDATA_ID_W = 3233; //Unicode payload
+
 type
+  //Legacy layout. ShortString means an implicit Unicode->ANSI conversion, so
+  //any character outside the system codepage is lost. It is still supported
+  //because the viewers already installed understand only this message.
   THelpInfoToPass = packed record
     FilePath: string[255]; //Path of help file to open
     FileName: string[255]; //Help file to open
     Context : integer; //Context
   end;
   PRecToPass = ^THelpInfoToPass;
+
+  //Unicode layout: preserves paths with characters outside the system codepage
+  //(the product is localized in six languages, Russian included).
+  THelpInfoToPassW = packed record
+    FilePath: array[0..MAX_PATH] of WideChar; //Path of help file to open
+    FileName: array[0..MAX_PATH] of WideChar; //Help file to open
+    Context : Integer; //Context
+  end;
+  PRecToPassW = ^THelpInfoToPassW;
 
   TUnderstandsHelpContext = procedure(const AContext: {$if CompilerVersion > 31}THelpContext{$else}Integer{$endif};
       var AKeyword: string);
@@ -203,6 +221,9 @@ var
   LExt: string;
   LFileName: TFileName;
 begin
+  Result := False;
+  if Length(AFileExtensions) = 0 then
+    Exit;
   LExt := ExtractFileExt(AFileName);
   if LExt = '' then
     LFileName := AFileName+AFileExtensions[0]
@@ -268,13 +289,37 @@ const
 var
   Rec: TSearchRec;
   Path: string;
+  LMasks: TArray<string>;
+  I: Integer;
+
+  //Extensions is a mask list like '*.md;*.mkd': the extension of the file must
+  //match one entry as a whole. The previous AnsiPos test was case sensitive
+  //(README.MD was skipped) and matched substrings (the '.md' extension also
+  //matched the '*.mdown' entry).
+  function HasWantedExtension(const AFileName: string): Boolean;
+  var
+    LExt: string;
+    J: Integer;
+  begin
+    Result := False;
+    LExt := ExtractFileExt(AFileName);
+    if LExt = '' then
+      Exit;
+    for J := Low(LMasks) to High(LMasks) do
+      if SameText(LMasks[J], '*' + LExt) then
+        Exit(True);
+  end;
+
 begin
+  LMasks := Extensions.Split([';']);
+  for I := Low(LMasks) to High(LMasks) do
+    LMasks[I] := Trim(LMasks[I]);
   Path := IncludeTrailingBackslash(PathName);
   if FindFirst(Path + FileMask, FileAttrib, Rec) = 0 then
   begin
     try
       repeat
-        if AnsiPos(ExtractFileExt(Rec.Name), Extensions) > 0 then
+        if HasWantedExtension(Rec.Name) then
           FileNames.Add(Rec.Name);
       until FindNext(Rec) <> 0;
     finally
@@ -283,7 +328,9 @@ begin
   end;
 end;
 
-function EnumWindowsProc(Wnd: DWORD; var EI: TEnumInfo): Bool; stdcall;
+//NB: the window handle is declared HWND and not DWORD: on Win64 a HWND is
+//pointer sized, so a DWORD would truncate it.
+function EnumWindowsProc(Wnd: HWND; var EI: TEnumInfo): Bool; stdcall;
 var
   PID: DWORD;
 begin
@@ -296,7 +343,7 @@ begin
     EI.HWND := WND;
 end;
 
-function FindMainWindow(PID: DWORD): DWORD;
+function FindMainWindow(PID: DWORD): HWND;
 var
   EI: TEnumInfo;
 begin
@@ -306,7 +353,7 @@ begin
   Result := EI.HWND;
 end;
 
-function GetHWndByPID(const hPID: THandle): THandle;
+function GetHWndByPID(const hPID: DWORD): HWND;
 begin
   if hPID<>0 then
     Result:=FindMainWindow(hPID)
@@ -321,41 +368,78 @@ var
   FSnapshotHandle: THandle; //Process snapshot handle
   FProcessEntry32: TProcessEntry32; //Structural information of the process entry
   ContinueLoop: BOOL;
-  MyHwnd: THandle;
+  MyHwnd: HWND;
   cd: TCopyDataStruct;
   LExeFileName: TFileName;
+  LFilePath, LFileName: string;
   LParamFilePath: string[255];
   LParamFileName: string[255];
   LRecord: THelpInfoToPass;
+  LRecordW: THelpInfoToPassW;
 begin
   Result := False;
   FSnapshotHandle := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS,0); //Create a process snapshot
-  FProcessEntry32.dwSize := Sizeof(FProcessEntry32);
-  ContinueLoop := Process32First(FSnapshotHandle,FProcessEntry32); //Get the first process in the system
-  LExeFileName := ExtractFileName(AExeName);
-  LParamFileName := ExtractFileName(AFileName);
-  LParamFilePath := ExtractFilePath(AFileName);
-  while ContinueLoop do
-  begin
-    ProcessName := FProcessEntry32.szExeFile;
-    if SameText(ProcessName, LExeFileName) then
+  if FSnapshotHandle = INVALID_HANDLE_VALUE then
+    Exit;
+  try
+    FProcessEntry32.dwSize := Sizeof(FProcessEntry32);
+    ContinueLoop := Process32First(FSnapshotHandle,FProcessEntry32); //Get the first process in the system
+    LExeFileName := ExtractFileName(AExeName);
+    LFileName := ExtractFileName(AFileName);
+    LFilePath := ExtractFilePath(AFileName);
+    LParamFileName := LFileName;
+    LParamFilePath := LFilePath;
+    while ContinueLoop do
     begin
-      MyHwnd := GetHWndByPID(FProcessEntry32.th32ProcessID);
-      LRecord.FilePath := LParamFilePath;
-      LRecord.FileName := LParamFileName;
-      LRecord.Context := AHelpContext;
-      cd.dwData := 3232;
-      cd.cbData := sizeof(LRecord);
-      cd.lpData := @LRecord;
-      SendMessage(MyHwnd, WM_ACTIVATE, 0, 0);
-      SendMessage(MyHwnd, WM_SETFOCUS, 0, 0);
-      SetWindowPos(MyHwnd, HWND_TOP, 0, 0, 0, 0, SWP_NoMove or SWP_NoSize);
-      SendMessage(MyHwnd, WM_COPYDATA, 0, NativeInt(@cd) );
-      Result := True;
+      ProcessName := FProcessEntry32.szExeFile;
+      if SameText(ProcessName, LExeFileName) then
+      begin
+        MyHwnd := GetHWndByPID(FProcessEntry32.th32ProcessID);
+        //Without a main window there is nothing to send the message to: keep
+        //looking, so that the caller can fall back to ShellExecute when no
+        //running instance can actually receive the request.
+        if MyHwnd <> 0 then
+        begin
+          SendMessage(MyHwnd, WM_ACTIVATE, 0, 0);
+          SendMessage(MyHwnd, WM_SETFOCUS, 0, 0);
+          SetWindowPos(MyHwnd, HWND_TOP, 0, 0, 0, 0, SWP_NoMove or SWP_NoSize);
+
+          //The Unicode message is tried first: a viewer that understands it
+          //answers 1. Older viewers do not handle this signature and leave the
+          //result at 0, so the legacy message is sent instead.
+          FillChar(LRecordW, SizeOf(LRecordW), 0);
+          StrLCopy(LRecordW.FilePath, PChar(LFilePath), MAX_PATH);
+          StrLCopy(LRecordW.FileName, PChar(LFileName), MAX_PATH);
+          LRecordW.Context := AHelpContext;
+          cd.dwData := MD_HELP_COPYDATA_ID_W;
+          cd.cbData := SizeOf(LRecordW);
+          cd.lpData := @LRecordW;
+          Result := SendMessage(MyHwnd, WM_COPYDATA, 0, NativeInt(@cd)) <> 0;
+
+          if not Result then
+          begin
+            //Legacy message: the path is converted to ANSI, so characters
+            //outside the system codepage are lost. Nothing else is possible
+            //with a viewer that predates the Unicode message.
+            LRecord.FilePath := LParamFilePath;
+            LRecord.FileName := LParamFileName;
+            LRecord.Context := AHelpContext;
+            cd.dwData := MD_HELP_COPYDATA_ID;
+            cd.cbData := sizeof(LRecord);
+            cd.lpData := @LRecord;
+            SendMessage(MyHwnd, WM_COPYDATA, 0, NativeInt(@cd) );
+            //Old viewers never set the message result, so success cannot be
+            //verified: as before, the request is assumed to be handled.
+            Result := True;
+          end;
+          Break;
+        end;
+      end;
+      ContinueLoop := Process32Next(FSnapshotHandle,FProcessEntry32);
     end;
-    ContinueLoop := Process32Next(FSnapshotHandle,FProcessEntry32);
+  finally
+    CloseHandle(FSnapshotHandle); // Release the snapshot handle
   end;
-  CloseHandle(FSnapshotHandle); // Release the snapshot handle
 end;
 
 {==========================================================================}
@@ -420,6 +504,11 @@ var
   LRegistry: TRegistry;
   LFileName: TFileName;
 begin
+  //No help file resolved: the querying methods stay silent, so the error is
+  //reported here, where help is actually being displayed.
+  if AFileName = '' then
+    raise Exception.Create(HELP_FILE_NOT_SET);
+
   //Check the presence of Markdown file to show
   if not FileExists(AFileName) then
     raise EInOutError.CreateFmt(FILE_NOT_FOUND, [AFileName]);
@@ -580,8 +669,13 @@ begin
   if Assigned(FHelpManager) then
     LFileName := HelpManager.GetHelpFile;
 
+  //NB: no exception here. This method also serves the querying methods of
+  //ICustomHelpViewer/IExtendedHelpViewer (UnderstandsKeyword, UnderstandsTopic,
+  //UnderstandsContext), which must simply answer "not handled" when the host
+  //application has no help file assigned. The error is raised by
+  //ShowMarkdownFile, i.e. only when help is really being displayed.
   if LFileName = '' then
-    raise Exception.Create(HELP_FILE_NOT_SET);
+    Exit;
 
   if HelpKeyword <> '' then
   begin
@@ -589,7 +683,10 @@ begin
       Result := LFileName
     else
       Result := '';
-  end;
+  end
+  else
+    //No keyword: the help file itself (used by DisplayTopic and GetHelpStrings)
+    Result := LFileName;
 end;
 
 function TMarkdownHelpViewer.GetHelpFile(const HelpContext:
@@ -602,8 +699,10 @@ begin
   if Assigned(FHelpManager) then
     LFileName := HelpManager.GetHelpFile;
 
+  //NB: no exception here, see the overload above: UnderstandsContext must be
+  //able to answer "not handled" without raising.
   if LFileName = '' then
-    raise Exception.Create(HELP_FILE_NOT_SET);
+    Exit;
 
   if HelpContext <> 0 then
   begin
@@ -652,7 +751,11 @@ initialization
   AHTMLFileExt[1] := '.htm';
 
 finalization
-  if Assigned(Markdown_HelpViewer.HelpManager) then
+  //NB: Markdown_HelpViewer is set to nil by its own destructor, so it must be
+  //checked before dereferencing it: the interface may already have been
+  //released when this unit is finalized.
+  if Assigned(Markdown_HelpViewer) and
+    Assigned(Markdown_HelpViewer.HelpManager) then
     Markdown_HelpViewer.InternalShutDown;
   Markdown_HelpViewerIntf := nil;
 

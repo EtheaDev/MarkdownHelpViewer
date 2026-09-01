@@ -1,11 +1,11 @@
-{******************************************************************************}
+﻿{******************************************************************************}
 {                                                                              }
 {       Markdown Help Viewer: Settings Class                                   }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
 {                                                                              }
 {       Copyright (c) 2023-2026 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
-{       Contributors: Nicol� Boccignone, Emanuele Biglia                       }
+{       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
 {                                                                              }
 {       https://github.com/EtheaDev/MarkdownHelpViewer                         }
 {                                                                              }
@@ -489,16 +489,18 @@ begin
   FWindowWidth := AValue;
 end;
 
+//NB: no "> 0" filter here. A window can legitimately sit at 0 or at a negative
+//coordinate (a monitor placed to the left of, or above, the primary one), and
+//discarding those values silently kept the previous position. A position that
+//is no longer on any monitor is handled by TMainForm.UpdateWindowPos.
 procedure TViewerSettings.SetWindowLeft(const AValue: Integer);
 begin
-  if AValue > 0 then
-    FWindowLeft := AValue;
+  FWindowLeft := AValue;
 end;
 
 procedure TViewerSettings.SetWindowTop(const AValue: Integer);
 begin
-  if AValue > 0 then
-    FWindowTop := AValue;
+  FWindowTop := AValue;
 end;
 
 procedure TViewerSettings.UpdateSettings(const AHTMLFontName: string;
@@ -542,7 +544,9 @@ begin
   FIniFile.WriteString(VCL_STYLE, 'VCLStyleName', FVCLStyleName);
   FIniFile.WriteInteger(VCL_STYLE, 'ThemeSelection', Ord(FThemeSelection));
 
-  FIniFile.WriteInteger(PDF_SETTINGS, 'Orientation', Ord(PDFPageSettings.PrintOrientation));
+  //NB: the key name must match the one used by ReadSettings ('PrintOrientation'),
+  //otherwise the page orientation is never restored.
+  FIniFile.WriteInteger(PDF_SETTINGS, 'PrintOrientation', Ord(PDFPageSettings.PrintOrientation));
   FIniFile.WriteInteger(PDF_SETTINGS, 'PaperSize', Ord(PDFPageSettings.PaperSize));
   FIniFile.WriteInteger(PDF_SETTINGS, 'MarginTop', PDFPageSettings.MarginTop);
   FIniFile.WriteInteger(PDF_SETTINGS, 'MarginBottom', PDFPageSettings.MarginBottom);

@@ -14,146 +14,146 @@ Lang:=RUS
 <PARAMS/>
 </METADATA>
 <ROWDATA>
-<ROW OriginalValue="Check for updates" Translation="&#1055;&#1088;&#1086;&#1074;&#1077;&#1088;&#1080;&#1090;&#1100; &#1085;&#1072;&#1083;&#1080;&#1095;&#1080;&#1077; &#1086;&#1073;&#1085;&#1086;&#1074;&#1083;&#1077;&#1085;&#1080;&#1081;" Count="8" Status="*"/>
-<ROW OriginalValue="Submit issue..." Translation="&#1057;&#1086;&#1086;&#1073;&#1097;&#1080;&#1090;&#1100; &#1086; &#1087;&#1088;&#1086;&#1073;&#1083;&#1077;&#1084;&#1077;..." Count="8" Status="*"/>
-<ROW OriginalValue="CLOSE" Translation="&#1047;&#1040;&#1050;&#1056;&#1067;&#1058;&#1068;" Count="8" Status="*"/>
-<ROW OriginalValue="Version" Translation="&#1042;&#1077;&#1088;&#1089;&#1080;&#1103;" Count="8" Status="*"/>
-<ROW OriginalValue="&lt;a href=&quot;https://github.com/EtheaDev/MarkdownHelpViewer&quot;&gt;https://github.com/EtheaDev/MarkdownHelpViewer&lt;/a&gt;" Translation="&lt;a href=&quot;https://github.com/EtheaDev/MarkdownHelpViewer&quot;&gt;https://github.com/EtheaDev/MarkdownHelpViewer&lt;/a&gt;" Count="8" Status="*"/>
-<ROW OriginalValue="Author:" Translation="&#1040;&#1074;&#1090;&#1086;&#1088;:" Count="8" Status="*"/>
-<ROW OriginalValue="Carlo Barazzetta" Translation="Carlo Barazzetta" Count="8" Status="*"/>
+<ROW OriginalValue="Check for updates" Translation="&#1055;&#1088;&#1086;&#1074;&#1077;&#1088;&#1080;&#1090;&#1100; &#1085;&#1072;&#1083;&#1080;&#1095;&#1080;&#1077; &#1086;&#1073;&#1085;&#1086;&#1074;&#1083;&#1077;&#1085;&#1080;&#1081;" Count="9" Status="*"/>
+<ROW OriginalValue="Submit issue..." Translation="&#1057;&#1086;&#1086;&#1073;&#1097;&#1080;&#1090;&#1100; &#1086; &#1087;&#1088;&#1086;&#1073;&#1083;&#1077;&#1084;&#1077;..." Count="9" Status="*"/>
+<ROW OriginalValue="CLOSE" Translation="&#1047;&#1040;&#1050;&#1056;&#1067;&#1058;&#1068;" Count="9" Status="*"/>
+<ROW OriginalValue="Version" Translation="&#1042;&#1077;&#1088;&#1089;&#1080;&#1103;" Count="9" Status="*"/>
+<ROW OriginalValue="&lt;a href=&quot;https://github.com/EtheaDev/MarkdownHelpViewer&quot;&gt;https://github.com/EtheaDev/MarkdownHelpViewer&lt;/a&gt;" Translation="&lt;a href=&quot;https://github.com/EtheaDev/MarkdownHelpViewer&quot;&gt;https://github.com/EtheaDev/MarkdownHelpViewer&lt;/a&gt;" Count="9" Status="*"/>
+<ROW OriginalValue="Author:" Translation="&#1040;&#1074;&#1090;&#1086;&#1088;:" Count="9" Status="*"/>
+<ROW OriginalValue="Carlo Barazzetta" Translation="Carlo Barazzetta" Count="9" Status="*"/>
 <ROW OriginalValue="https://github.com/EtheaDev/MarkdownHelpViewer " Translation="https://github.com/EtheaDev/MarkdownHelpViewer " Count="4" Status="*"/>
-<ROW OriginalValue="Copyright &#169; 2023-2025 all rights reserved." Translation="&#169; 2023-2025 &#1042;&#1089;&#1077; &#1087;&#1088;&#1072;&#1074;&#1072; &#1079;&#1072;&#1097;&#1080;&#1097;&#1077;&#1085;&#1099;." Count="8" Status="*"/>
-<ROW OriginalValue="Contributors:" Translation="&#1059;&#1095;&#1072;&#1089;&#1090;&#1085;&#1080;&#1082;&#1080;:" Count="8" Status="*"/>
-<ROW OriginalValue="Nicol&#242; Boccignone, Emanuele Biglia" Translation="Nicolo Boccignone, Emanuele Biglia" Count="8" Status="*"/>
-<ROW OriginalValue="Other libraries from Ethea:" Translation="&#1044;&#1088;&#1091;&#1075;&#1080;&#1077; &#1073;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082;&#1080; &#1086;&#1090; Ethea:" Count="8" Status="*"/>
-<ROW OriginalValue="SVGIconImageList" Translation="SVGIconImageList" Count="8" Status="*"/>
+<ROW OriginalValue="Copyright &#169; 2023-2025 all rights reserved." Translation="&#169; 2023-2025 &#1042;&#1089;&#1077; &#1087;&#1088;&#1072;&#1074;&#1072; &#1079;&#1072;&#1097;&#1080;&#1097;&#1077;&#1085;&#1099;." Count="9" Status="*"/>
+<ROW OriginalValue="Contributors:" Translation="&#1059;&#1095;&#1072;&#1089;&#1090;&#1085;&#1080;&#1082;&#1080;:" Count="9" Status="*"/>
+<ROW OriginalValue="Nicol&#242; Boccignone, Emanuele Biglia" Translation="Nicolo Boccignone, Emanuele Biglia" Count="9" Status="*"/>
+<ROW OriginalValue="Other libraries from Ethea:" Translation="&#1044;&#1088;&#1091;&#1075;&#1080;&#1077; &#1073;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082;&#1080; &#1086;&#1090; Ethea:" Count="9" Status="*"/>
+<ROW OriginalValue="SVGIconImageList" Translation="SVGIconImageList" Count="9" Status="*"/>
 <ROW OriginalValue="https://github.com/EtheaDev/SVGIconImageList/ " Translation="https://github.com/EtheaDev/SVGIconImageList/ " Count="4" Status="*"/>
-<ROW OriginalValue="StyledComponents" Translation="StyledComponents" Count="8" Status="*"/>
+<ROW OriginalValue="StyledComponents" Translation="StyledComponents" Count="9" Status="*"/>
 <ROW OriginalValue="https://github.com/EtheaDev/StyledComponents " Translation="https://github.com/EtheaDev/StyledComponents " Count="4" Status="*"/>
-<ROW OriginalValue="Delphi MarkdownProcessor" Translation="Delphi MarkdownProcessor" Count="8" Status="*"/>
+<ROW OriginalValue="Delphi MarkdownProcessor" Translation="Delphi MarkdownProcessor" Count="9" Status="*"/>
 <ROW OriginalValue="https://github.com/EtheaDev/MarkdownProcessor " Translation="https://github.com/EtheaDev/MarkdownProcessor " Count="4" Status="*"/>
-<ROW OriginalValue="Third parties libraries:" Translation="&#1041;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082;&#1080; &#1089;&#1090;&#1086;&#1088;&#1086;&#1085;&#1085;&#1080;&#1093; &#1088;&#1072;&#1079;&#1088;&#1072;&#1073;&#1086;&#1090;&#1095;&#1080;&#1082;&#1086;&#1074;:" Count="8" Status="*"/>
-<ROW OriginalValue="OpenSLL Library: Cryptography and SSL/TLS Toolkit" Translation="OpenSSL Library: Cryptography and SSL/TLS Toolkit" Count="8" Status="*"/>
-<ROW OriginalValue="Copyright &#169; 1998-2018 The OpenSSL Project.  All rights reserved." Translation="&#169; 1998-2018 The OpenSSL Project. &#1042;&#1089;&#1077; &#1087;&#1088;&#1072;&#1074;&#1072; &#1079;&#1072;&#1097;&#1080;&#1097;&#1077;&#1085;&#1099;." Count="8" Status="*"/>
-<ROW OriginalValue="Delphi Markdown" Translation="Delphi Markdown" Count="8" Status="*"/>
+<ROW OriginalValue="Third parties libraries:" Translation="&#1041;&#1080;&#1073;&#1083;&#1080;&#1086;&#1090;&#1077;&#1082;&#1080; &#1089;&#1090;&#1086;&#1088;&#1086;&#1085;&#1085;&#1080;&#1093; &#1088;&#1072;&#1079;&#1088;&#1072;&#1073;&#1086;&#1090;&#1095;&#1080;&#1082;&#1086;&#1074;:" Count="9" Status="*"/>
+<ROW OriginalValue="OpenSLL Library: Cryptography and SSL/TLS Toolkit" Translation="OpenSSL Library: Cryptography and SSL/TLS Toolkit" Count="9" Status="*"/>
+<ROW OriginalValue="Copyright &#169; 1998-2018 The OpenSSL Project.  All rights reserved." Translation="&#169; 1998-2018 The OpenSSL Project. &#1042;&#1089;&#1077; &#1087;&#1088;&#1072;&#1074;&#1072; &#1079;&#1072;&#1097;&#1080;&#1097;&#1077;&#1085;&#1099;." Count="9" Status="*"/>
+<ROW OriginalValue="Delphi Markdown" Translation="Delphi Markdown" Count="9" Status="*"/>
 <ROW OriginalValue="https://github.com/grahamegrieve/delphi-markdown " Translation="https://github.com/grahamegrieve/delphi-markdown " Count="4" Status="*"/>
-<ROW OriginalValue="Copyright (c) 2011+, Health Intersections Pty Ltd All rights reserved" Translation="&#169; 2011+ Health Intersections Pty Ltd &#1042;&#1089;&#1077; &#1087;&#1088;&#1072;&#1074;&#1072; &#1079;&#1072;&#1097;&#1080;&#1097;&#1077;&#1085;&#1099;." Count="8" Status="*"/>
+<ROW OriginalValue="Copyright (c) 2011+, Health Intersections Pty Ltd All rights reserved" Translation="&#169; 2011+ Health Intersections Pty Ltd &#1042;&#1089;&#1077; &#1087;&#1088;&#1072;&#1074;&#1072; &#1079;&#1072;&#1097;&#1080;&#1097;&#1077;&#1085;&#1099;." Count="9" Status="*"/>
 <ROW OriginalValue="Synopse/SynPDF https://github.com/synopse/SynPDF " Translation="Synopse/SynPDF https://github.com/synopse/SynPDF " Count="4" Status="*"/>
-<ROW OriginalValue="Copyright &#169; Synopse: all right reserved." Translation="&#169; Synopse: &#1042;&#1089;&#1077; &#1087;&#1088;&#1072;&#1074;&#1072; &#1079;&#1072;&#1097;&#1080;&#1097;&#1077;&#1085;&#1099;." Count="8" Status="*"/>
+<ROW OriginalValue="Copyright &#169; Synopse: all right reserved." Translation="&#169; Synopse: &#1042;&#1089;&#1077; &#1087;&#1088;&#1072;&#1074;&#1072; &#1079;&#1072;&#1097;&#1080;&#1097;&#1077;&#1085;&#1099;." Count="9" Status="*"/>
 <ROW OriginalValue="HtmlToPdf https://github.com/MuzioValerio/HtmlToPdf " Translation="HtmlToPdf https://github.com/MuzioValerio/HtmlToPdf " Count="4" Status="*"/>
-<ROW OriginalValue="Copyright &#169; Muzio Valerio." Translation="&#169; Muzio Valerio." Count="8" Status="*"/>
-<ROW OriginalValue="- Image32 Library - http://www.angusj.com/delphi/image32/Docs/_Body.htm" Translation="- Image32 Library - http://www.angusj.com/delphi/image32/Docs/_Body.htm" Count="8" Status="*"/>
+<ROW OriginalValue="Copyright &#169; Muzio Valerio." Translation="&#169; Muzio Valerio." Count="9" Status="*"/>
+<ROW OriginalValue="- Image32 Library - http://www.angusj.com/delphi/image32/Docs/_Body.htm" Translation="- Image32 Library - http://www.angusj.com/delphi/image32/Docs/_Body.htm" Count="9" Status="*"/>
 <ROW OriginalValue="Copyright &#169;2019-2023 Angus Johnson." Translation="&#1042;&#1089;&#1077; &#1087;&#1088;&#1072;&#1074;&#1072; &#1079;&#1072;&#1097;&#1080;&#1097;&#1077;&#1085;&#1099; &#169;2019&#8211;2023 Angus Johnson" Count="4" Status="*"/>
 <ROW OriginalValue="HTMLViewer - https://github.com/BerndGabriel/HtmlViewer " Translation="HTMLViewer - https://github.com/BerndGabriel/HtmlViewer " Count="4" Status="*"/>
-<ROW OriginalValue="Copyright (c) 1995 - 2008 by L. David Baldwin" Translation="&#169; 1995 - 2008 by L. David Baldwin" Count="8" Status="*"/>
-<ROW OriginalValue="Copyright (c) 1995 - 2023 by Anders Melander (DitherUnit.pas)" Translation="&#169; 1995 - 2023 by Anders Melander (DitherUnit.pas)" Count="8" Status="*"/>
-<ROW OriginalValue="Copyright (c) 1995 - 2023 by Ron Collins (HtmlGif1.pas)" Translation="&#169; 1995 - 2023 by Ron Collins (HtmlGif1.pas)" Count="8" Status="*"/>
-<ROW OriginalValue="Copyright (c) 2008 - 2009 by Sebastian Zierer (Delphi 2009 Port)" Translation="&#169; 2008 - 2009 by Sebastian Zierer (Delphi 2009 Port)" Count="8" Status="*"/>
-<ROW OriginalValue="Copyright (c) 2008 - 2010 by Arvid Winkelsdorf (Fixes)" Translation="&#169; 2008 - 2010 by Arvid Winkelsdorf (&#1048;&#1089;&#1087;&#1088;&#1072;&#1074;&#1083;&#1077;&#1085;&#1080;&#1103;)" Count="8" Status="*"/>
-<ROW OriginalValue="Copyright (c) 2009 - 2023 by HtmlViewer Team" Translation="&#169; 2009 - 2023 by HtmlViewer Team" Count="8" Status="*"/>
-<ROW OriginalValue="Markdown HelpViewer" Translation="Markdown HelpViewer" Count="8" Status="*"/>
-<ROW OriginalValue="About" Translation="&#1054; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1077;" Count="16" Status="*"/>
-<ROW OriginalValue="Show Application Information" Translation="&#1055;&#1086;&#1082;&#1072;&#1079;&#1072;&#1090;&#1100; &#1080;&#1085;&#1092;&#1086;&#1088;&#1084;&#1072;&#1094;&#1080;&#1102; &#1086; &#1087;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1080;" Count="16" Status="*"/>
-<ROW OriginalValue="Export..." Translation="&#1069;&#1082;&#1089;&#1087;&#1086;&#1088;&#1090;..." Count="16" Status="*"/>
-<ROW OriginalValue="Export to HTML help files" Translation="&#1069;&#1082;&#1089;&#1087;&#1086;&#1088;&#1090; &#1074; HTML-&#1092;&#1072;&#1081;&#1083;&#1099; &#1087;&#1086;&#1084;&#1086;&#1097;&#1080;" Count="16" Status="*"/>
+<ROW OriginalValue="Copyright (c) 1995 - 2008 by L. David Baldwin" Translation="&#169; 1995 - 2008 by L. David Baldwin" Count="9" Status="*"/>
+<ROW OriginalValue="Copyright (c) 1995 - 2023 by Anders Melander (DitherUnit.pas)" Translation="&#169; 1995 - 2023 by Anders Melander (DitherUnit.pas)" Count="9" Status="*"/>
+<ROW OriginalValue="Copyright (c) 1995 - 2023 by Ron Collins (HtmlGif1.pas)" Translation="&#169; 1995 - 2023 by Ron Collins (HtmlGif1.pas)" Count="9" Status="*"/>
+<ROW OriginalValue="Copyright (c) 2008 - 2009 by Sebastian Zierer (Delphi 2009 Port)" Translation="&#169; 2008 - 2009 by Sebastian Zierer (Delphi 2009 Port)" Count="9" Status="*"/>
+<ROW OriginalValue="Copyright (c) 2008 - 2010 by Arvid Winkelsdorf (Fixes)" Translation="&#169; 2008 - 2010 by Arvid Winkelsdorf (&#1048;&#1089;&#1087;&#1088;&#1072;&#1074;&#1083;&#1077;&#1085;&#1080;&#1103;)" Count="9" Status="*"/>
+<ROW OriginalValue="Copyright (c) 2009 - 2023 by HtmlViewer Team" Translation="&#169; 2009 - 2023 by HtmlViewer Team" Count="9" Status="*"/>
+<ROW OriginalValue="Markdown HelpViewer" Translation="Markdown HelpViewer" Count="9" Status="*"/>
+<ROW OriginalValue="About" Translation="&#1054; &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1077;" Count="18" Status="*"/>
+<ROW OriginalValue="Show Application Information" Translation="&#1055;&#1086;&#1082;&#1072;&#1079;&#1072;&#1090;&#1100; &#1080;&#1085;&#1092;&#1086;&#1088;&#1084;&#1072;&#1094;&#1080;&#1102; &#1086; &#1087;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1080;" Count="18" Status="*"/>
+<ROW OriginalValue="Export..." Translation="&#1069;&#1082;&#1089;&#1087;&#1086;&#1088;&#1090;..." Count="18" Status="*"/>
+<ROW OriginalValue="Export to HTML help files" Translation="&#1069;&#1082;&#1089;&#1087;&#1086;&#1088;&#1090; &#1074; HTML-&#1092;&#1072;&#1081;&#1083;&#1099; &#1087;&#1086;&#1084;&#1086;&#1097;&#1080;" Count="18" Status="*"/>
 <ROW OriginalValue="&amp;Open..." Translation="&amp;&#1054;&#1090;&#1082;&#1088;&#1099;&#1090;&#1100;..." Count="10" Status="*"/>
-<ROW OriginalValue="Open an existing Markdown or HTML file..." Translation="&#1054;&#1090;&#1082;&#1088;&#1099;&#1090;&#1100; &#1089;&#1091;&#1097;&#1077;&#1089;&#1090;&#1074;&#1091;&#1102;&#1097;&#1080;&#1081; Markdown &#1080;&#1083;&#1080; HTML &#1092;&#1072;&#1081;&#1083;..." Count="16" Status="*"/>
-<ROW OriginalValue="Hide" Translation="&#1057;&#1082;&#1088;&#1099;&#1090;&#1100;" Count="16" Status="*"/>
-<ROW OriginalValue="Hide Content/Search Panel" Translation="&#1057;&#1082;&#1088;&#1099;&#1090;&#1100; &#1087;&#1072;&#1085;&#1077;&#1083;&#1100; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1080;&#1084;&#1086;&#1075;&#1086;/&#1087;&#1086;&#1080;&#1089;&#1082;&#1072;" Count="16" Status="*"/>
-<ROW OriginalValue="Home" Translation="&#1043;&#1083;&#1072;&#1074;&#1085;&#1072;&#1103;" Count="16" Status="*"/>
-<ROW OriginalValue="Back to Home File" Translation="&#1042;&#1077;&#1088;&#1085;&#1091;&#1090;&#1100;&#1089;&#1103; &#1082; &#1089;&#1090;&#1072;&#1088;&#1090;&#1086;&#1074;&#1086;&#1081; &#1089;&#1090;&#1088;&#1072;&#1085;&#1080;&#1094;&#1077;" Count="16" Status="*"/>
-<ROW OriginalValue="&amp;Next" Translation="&amp;&#1042;&#1087;&#1077;&#1088;&#1077;&#1076;" Count="16" Status="*"/>
-<ROW OriginalValue="Next Opened File" Translation="&#1057;&#1083;&#1077;&#1076;&#1091;&#1102;&#1097;&#1080;&#1081; &#1086;&#1090;&#1082;&#1088;&#1099;&#1090;&#1099;&#1081; &#1092;&#1072;&#1081;&#1083;" Count="16" Status="*"/>
-<ROW OriginalValue="&amp;Previous" Translation="&amp;&#1053;&#1072;&#1079;&#1072;&#1076;" Count="16" Status="*"/>
-<ROW OriginalValue="Previous Opened File" Translation="&#1055;&#1088;&#1077;&#1076;&#1099;&#1076;&#1091;&#1097;&#1080;&#1081; &#1086;&#1090;&#1082;&#1088;&#1099;&#1090;&#1099;&#1081; &#1092;&#1072;&#1081;&#1083;" Count="16" Status="*"/>
-<ROW OriginalValue="Print" Translation="&#1055;&#1077;&#1095;&#1072;&#1090;&#1100;" Count="8" Status="*"/>
-<ROW OriginalValue="Print file in PDF" Translation="&#1055;&#1077;&#1095;&#1072;&#1090;&#1100; &#1092;&#1072;&#1081;&#1083;&#1072; &#1074; &#1092;&#1086;&#1088;&#1084;&#1072;&#1090;&#1077; PDF" Count="8" Status="*"/>
-<ROW OriginalValue="Refresh" Translation="&#1054;&#1073;&#1085;&#1086;&#1074;&#1080;&#1090;&#1100;" Count="16" Status="*"/>
-<ROW OriginalValue="Refresh content (reloading file)" Translation="&#1054;&#1073;&#1085;&#1086;&#1074;&#1080;&#1090;&#1100; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1080;&#1084;&#1086;&#1077; (&#1087;&#1077;&#1088;&#1077;&#1079;&#1072;&#1075;&#1088;&#1091;&#1079;&#1080;&#1090;&#1100; &#1092;&#1072;&#1081;&#1083;)" Count="16" Status="*"/>
-<ROW OriginalValue="Save PDF" Translation="&#1057;&#1086;&#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100; PDF" Count="16" Status="*"/>
-<ROW OriginalValue="Save current file in PDF format..." Translation="&#1057;&#1086;&#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100; &#1090;&#1077;&#1082;&#1091;&#1097;&#1080;&#1081; &#1092;&#1072;&#1081;&#1083; &#1074; &#1092;&#1086;&#1088;&#1084;&#1072;&#1090;&#1077; PDF..." Count="16" Status="*"/>
-<ROW OriginalValue="Search" Translation="&#1055;&#1086;&#1080;&#1089;&#1082;" Count="24" Status="*"/>
-<ROW OriginalValue="Search keyword into files" Translation="&#1048;&#1089;&#1082;&#1072;&#1090;&#1100; &#1082;&#1083;&#1102;&#1095;&#1077;&#1074;&#1086;&#1077; &#1089;&#1083;&#1086;&#1074;&#1086; &#1074; &#1092;&#1072;&#1081;&#1083;&#1072;&#1093;" Count="16" Status="*"/>
-<ROW OriginalValue="Settings" Translation="&#1053;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1080;" Count="24" Status="*"/>
-<ROW OriginalValue="Show Settings" Translation="&#1055;&#1086;&#1082;&#1072;&#1079;&#1072;&#1090;&#1100; &#1085;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1080;" Count="16" Status="*"/>
-<ROW OriginalValue="Show" Translation="&#1055;&#1086;&#1082;&#1072;&#1079;&#1072;&#1090;&#1100;" Count="8" Status="*"/>
-<ROW OriginalValue="Show Content/Search Panel" Translation="&#1055;&#1086;&#1082;&#1072;&#1079;&#1072;&#1090;&#1100; &#1087;&#1072;&#1085;&#1077;&#1083;&#1100; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1080;&#1084;&#1086;&#1075;&#1086;/&#1087;&#1086;&#1080;&#1089;&#1082;&#1072;" Count="8" Status="*"/>
-<ROW OriginalValue="View" Translation="&#1055;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088;" Count="32" Status="*"/>
-<ROW OriginalValue="View File" Translation="&#1055;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088;&#1077;&#1090;&#1100; &#1092;&#1072;&#1081;&#1083;" Count="32" Status="*"/>
-<ROW OriginalValue="Insert file name to search:" Translation="&#1042;&#1074;&#1077;&#1076;&#1080;&#1090;&#1077; &#1080;&#1084;&#1103; &#1092;&#1072;&#1081;&#1083;&#1072; &#1076;&#1083;&#1103; &#1087;&#1086;&#1080;&#1089;&#1082;&#1072;:" Count="9" Status="*"/>
-<ROW OriginalValue="Input the keyword to search into files in the working folder:" Translation="&#1042;&#1074;&#1077;&#1076;&#1080;&#1090;&#1077; &#1082;&#1083;&#1102;&#1095;&#1077;&#1074;&#1086;&#1077; &#1089;&#1083;&#1086;&#1074;&#1086; &#1076;&#1083;&#1103; &#1087;&#1086;&#1080;&#1089;&#1082;&#1072; &#1074; &#1092;&#1072;&#1081;&#1083;&#1072;&#1093; &#1088;&#1072;&#1073;&#1086;&#1095;&#1077;&#1081; &#1087;&#1072;&#1087;&#1082;&#1080;:" Count="9" Status="*"/>
-<ROW OriginalValue="Search for file:" Translation="&#1055;&#1086;&#1080;&#1089;&#1082; &#1092;&#1072;&#1081;&#1083;&#1072;:" Count="9" Status="*"/>
-<ROW OriginalValue="Input keyword to search in files:" Translation="&#1042;&#1074;&#1077;&#1076;&#1080;&#1090;&#1077; &#1082;&#1083;&#1102;&#1095;&#1077;&#1074;&#1086;&#1077; &#1089;&#1083;&#1086;&#1074;&#1086; &#1076;&#1083;&#1103; &#1087;&#1086;&#1080;&#1089;&#1082;&#1072; &#1074; &#1092;&#1072;&#1081;&#1083;&#1072;&#1093;:" Count="9" Status="*"/>
-<ROW OriginalValue="Select file to view:" Translation="&#1042;&#1099;&#1073;&#1077;&#1088;&#1080;&#1090;&#1077; &#1092;&#1072;&#1081;&#1083; &#1076;&#1083;&#1103; &#1087;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088;&#1072;:" Count="16" Status="*"/>
-<ROW OriginalValue="Markdown Tranformation Dialect" Translation="&#1044;&#1080;&#1072;&#1083;&#1077;&#1082;&#1090; &#1087;&#1088;&#1077;&#1086;&#1073;&#1088;&#1072;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103; Markdown" Count="8" Status="*"/>
-<ROW OriginalValue="DaringFireball" Translation="DaringFireball" Count="16" Status="*"/>
-<ROW OriginalValue="CommonMark" Translation="CommonMark" Count="16" Status="*"/>
-<ROW OriginalValue="Transformation:" Translation="&#1055;&#1088;&#1077;&#1086;&#1073;&#1088;&#1072;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;:" Count="8" Status="*"/>
-<ROW OriginalValue="Markdown Help Viewer" Translation="Markdown Help Viewer" Count="8" Status="*"/>
-<ROW OriginalValue="Working Dir" Translation="&#1056;&#1072;&#1073;&#1086;&#1095;&#1072;&#1103; &#1087;&#1072;&#1087;&#1082;&#1072;" Count="8" Status="*"/>
-<ROW OriginalValue="List of Files into Working Directory" Translation="&#1057;&#1087;&#1080;&#1089;&#1086;&#1082; &#1092;&#1072;&#1081;&#1083;&#1086;&#1074; &#1074; &#1088;&#1072;&#1073;&#1086;&#1095;&#1077;&#1081; &#1087;&#1072;&#1087;&#1082;&#1077;" Count="8" Status="*"/>
-<ROW OriginalValue="Content/Index" Translation="&#1057;&#1086;&#1076;&#1077;&#1088;&#1078;&#1072;&#1085;&#1080;&#1077;/&#1054;&#1075;&#1083;&#1072;&#1074;&#1083;&#1077;&#1085;&#1080;&#1077;" Count="8" Status="*"/>
-<ROW OriginalValue="Markdown Content/Index" Translation="Markdown &#1057;&#1086;&#1076;&#1077;&#1088;&#1078;&#1072;&#1085;&#1080;&#1077;/&#1048;&#1085;&#1076;&#1077;&#1082;&#1089;" Count="8" Status="*"/>
-<ROW OriginalValue="Colored icons" Translation="&#1062;&#1074;&#1077;&#1090;&#1085;&#1099;&#1077; &#1079;&#1085;&#1072;&#1095;&#1082;&#1080;" Count="8" Status="*"/>
-<ROW OriginalValue="Download from WEB" Translation="&#1047;&#1072;&#1075;&#1088;&#1091;&#1078;&#1072;&#1090;&#1100; &#1080;&#1079; &#1080;&#1085;&#1090;&#1077;&#1088;&#1085;&#1077;&#1090;&#1072;" Count="8" Status="*"/>
-<ROW OriginalValue="Font name" Translation="&#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077; &#1096;&#1088;&#1080;&#1092;&#1090;&#1072;" Count="8" Status="*"/>
-<ROW OriginalValue="Size" Translation="&#1056;&#1072;&#1079;&#1084;&#1077;&#1088;" Count="8" Status="*"/>
-<ROW OriginalValue="12" Translation="12" Count="8" Status="*"/>
-<ROW OriginalValue="HTML Text (default)" Translation="HTML-&#1090;&#1077;&#1082;&#1089;&#1090; (&#1087;&#1086; &#1091;&#1084;&#1086;&#1083;&#1095;&#1072;&#1085;&#1080;&#1102;)" Count="8" Status="*"/>
-<ROW OriginalValue="Bottom margin" Translation="&#1053;&#1080;&#1078;&#1085;&#1077;&#1077; &#1087;&#1086;&#1083;&#1077;" Count="9" Status="*"/>
-<ROW OriginalValue="Left margin" Translation="&#1051;&#1077;&#1074;&#1086;&#1077; &#1087;&#1086;&#1083;&#1077;" Count="9" Status="*"/>
-<ROW OriginalValue="Right margin" Translation="&#1055;&#1088;&#1072;&#1074;&#1086;&#1077; &#1087;&#1086;&#1083;&#1077;" Count="9" Status="*"/>
-<ROW OriginalValue="Top margin" Translation="&#1042;&#1077;&#1088;&#1093;&#1085;&#1077;&#1077; &#1087;&#1086;&#1083;&#1077;" Count="9" Status="*"/>
-<ROW OriginalValue="Markdown processor options" Translation="&#1055;&#1072;&#1088;&#1072;&#1084;&#1077;&#1090;&#1088;&#1099; &#1087;&#1088;&#1086;&#1094;&#1077;&#1089;&#1089;&#1086;&#1088;&#1072; Markdown" Count="8" Status="*"/>
-<ROW OriginalValue="Back" Translation="&#1053;&#1072;&#1079;&#1072;&#1076;" Count="6" Status="*"/>
-<ROW OriginalValue="Preview" Translation="&#1058;&#1077;&#1084;&#1072;" Count="14" Status="*"/>
-<ROW OriginalValue="Theme" Translation="&#1058;&#1077;&#1084;&#1072;" Count="22" Status="*"/>
+<ROW OriginalValue="Open an existing Markdown or HTML file..." Translation="&#1054;&#1090;&#1082;&#1088;&#1099;&#1090;&#1100; &#1089;&#1091;&#1097;&#1077;&#1089;&#1090;&#1074;&#1091;&#1102;&#1097;&#1080;&#1081; Markdown &#1080;&#1083;&#1080; HTML &#1092;&#1072;&#1081;&#1083;..." Count="18" Status="*"/>
+<ROW OriginalValue="Hide" Translation="&#1057;&#1082;&#1088;&#1099;&#1090;&#1100;" Count="18" Status="*"/>
+<ROW OriginalValue="Hide Content/Search Panel" Translation="&#1057;&#1082;&#1088;&#1099;&#1090;&#1100; &#1087;&#1072;&#1085;&#1077;&#1083;&#1100; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1080;&#1084;&#1086;&#1075;&#1086;/&#1087;&#1086;&#1080;&#1089;&#1082;&#1072;" Count="18" Status="*"/>
+<ROW OriginalValue="Home" Translation="&#1043;&#1083;&#1072;&#1074;&#1085;&#1072;&#1103;" Count="18" Status="*"/>
+<ROW OriginalValue="Back to Home File" Translation="&#1042;&#1077;&#1088;&#1085;&#1091;&#1090;&#1100;&#1089;&#1103; &#1082; &#1089;&#1090;&#1072;&#1088;&#1090;&#1086;&#1074;&#1086;&#1081; &#1089;&#1090;&#1088;&#1072;&#1085;&#1080;&#1094;&#1077;" Count="18" Status="*"/>
+<ROW OriginalValue="&amp;Next" Translation="&amp;&#1042;&#1087;&#1077;&#1088;&#1077;&#1076;" Count="18" Status="*"/>
+<ROW OriginalValue="Next Opened File" Translation="&#1057;&#1083;&#1077;&#1076;&#1091;&#1102;&#1097;&#1080;&#1081; &#1086;&#1090;&#1082;&#1088;&#1099;&#1090;&#1099;&#1081; &#1092;&#1072;&#1081;&#1083;" Count="18" Status="*"/>
+<ROW OriginalValue="&amp;Previous" Translation="&amp;&#1053;&#1072;&#1079;&#1072;&#1076;" Count="18" Status="*"/>
+<ROW OriginalValue="Previous Opened File" Translation="&#1055;&#1088;&#1077;&#1076;&#1099;&#1076;&#1091;&#1097;&#1080;&#1081; &#1086;&#1090;&#1082;&#1088;&#1099;&#1090;&#1099;&#1081; &#1092;&#1072;&#1081;&#1083;" Count="18" Status="*"/>
+<ROW OriginalValue="Print" Translation="&#1055;&#1077;&#1095;&#1072;&#1090;&#1100;" Count="9" Status="*"/>
+<ROW OriginalValue="Print file in PDF" Translation="&#1055;&#1077;&#1095;&#1072;&#1090;&#1100; &#1092;&#1072;&#1081;&#1083;&#1072; &#1074; &#1092;&#1086;&#1088;&#1084;&#1072;&#1090;&#1077; PDF" Count="9" Status="*"/>
+<ROW OriginalValue="Refresh" Translation="&#1054;&#1073;&#1085;&#1086;&#1074;&#1080;&#1090;&#1100;" Count="18" Status="*"/>
+<ROW OriginalValue="Refresh content (reloading file)" Translation="&#1054;&#1073;&#1085;&#1086;&#1074;&#1080;&#1090;&#1100; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1080;&#1084;&#1086;&#1077; (&#1087;&#1077;&#1088;&#1077;&#1079;&#1072;&#1075;&#1088;&#1091;&#1079;&#1080;&#1090;&#1100; &#1092;&#1072;&#1081;&#1083;)" Count="18" Status="*"/>
+<ROW OriginalValue="Save PDF" Translation="&#1057;&#1086;&#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100; PDF" Count="18" Status="*"/>
+<ROW OriginalValue="Save current file in PDF format..." Translation="&#1057;&#1086;&#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100; &#1090;&#1077;&#1082;&#1091;&#1097;&#1080;&#1081; &#1092;&#1072;&#1081;&#1083; &#1074; &#1092;&#1086;&#1088;&#1084;&#1072;&#1090;&#1077; PDF..." Count="18" Status="*"/>
+<ROW OriginalValue="Search" Translation="&#1055;&#1086;&#1080;&#1089;&#1082;" Count="27" Status="*"/>
+<ROW OriginalValue="Search keyword into files" Translation="&#1048;&#1089;&#1082;&#1072;&#1090;&#1100; &#1082;&#1083;&#1102;&#1095;&#1077;&#1074;&#1086;&#1077; &#1089;&#1083;&#1086;&#1074;&#1086; &#1074; &#1092;&#1072;&#1081;&#1083;&#1072;&#1093;" Count="18" Status="*"/>
+<ROW OriginalValue="Settings" Translation="&#1053;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1080;" Count="27" Status="*"/>
+<ROW OriginalValue="Show Settings" Translation="&#1055;&#1086;&#1082;&#1072;&#1079;&#1072;&#1090;&#1100; &#1085;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1080;" Count="18" Status="*"/>
+<ROW OriginalValue="Show" Translation="&#1055;&#1086;&#1082;&#1072;&#1079;&#1072;&#1090;&#1100;" Count="9" Status="*"/>
+<ROW OriginalValue="Show Content/Search Panel" Translation="&#1055;&#1086;&#1082;&#1072;&#1079;&#1072;&#1090;&#1100; &#1087;&#1072;&#1085;&#1077;&#1083;&#1100; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1080;&#1084;&#1086;&#1075;&#1086;/&#1087;&#1086;&#1080;&#1089;&#1082;&#1072;" Count="9" Status="*"/>
+<ROW OriginalValue="View" Translation="&#1055;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088;" Count="36" Status="*"/>
+<ROW OriginalValue="View File" Translation="&#1055;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088;&#1077;&#1090;&#1100; &#1092;&#1072;&#1081;&#1083;" Count="36" Status="*"/>
+<ROW OriginalValue="Insert file name to search:" Translation="&#1042;&#1074;&#1077;&#1076;&#1080;&#1090;&#1077; &#1080;&#1084;&#1103; &#1092;&#1072;&#1081;&#1083;&#1072; &#1076;&#1083;&#1103; &#1087;&#1086;&#1080;&#1089;&#1082;&#1072;:" Count="10" Status="*"/>
+<ROW OriginalValue="Input the keyword to search into files in the working folder:" Translation="&#1042;&#1074;&#1077;&#1076;&#1080;&#1090;&#1077; &#1082;&#1083;&#1102;&#1095;&#1077;&#1074;&#1086;&#1077; &#1089;&#1083;&#1086;&#1074;&#1086; &#1076;&#1083;&#1103; &#1087;&#1086;&#1080;&#1089;&#1082;&#1072; &#1074; &#1092;&#1072;&#1081;&#1083;&#1072;&#1093; &#1088;&#1072;&#1073;&#1086;&#1095;&#1077;&#1081; &#1087;&#1072;&#1087;&#1082;&#1080;:" Count="10" Status="*"/>
+<ROW OriginalValue="Search for file:" Translation="&#1055;&#1086;&#1080;&#1089;&#1082; &#1092;&#1072;&#1081;&#1083;&#1072;:" Count="10" Status="*"/>
+<ROW OriginalValue="Input keyword to search in files:" Translation="&#1042;&#1074;&#1077;&#1076;&#1080;&#1090;&#1077; &#1082;&#1083;&#1102;&#1095;&#1077;&#1074;&#1086;&#1077; &#1089;&#1083;&#1086;&#1074;&#1086; &#1076;&#1083;&#1103; &#1087;&#1086;&#1080;&#1089;&#1082;&#1072; &#1074; &#1092;&#1072;&#1081;&#1083;&#1072;&#1093;:" Count="10" Status="*"/>
+<ROW OriginalValue="Select file to view:" Translation="&#1042;&#1099;&#1073;&#1077;&#1088;&#1080;&#1090;&#1077; &#1092;&#1072;&#1081;&#1083; &#1076;&#1083;&#1103; &#1087;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088;&#1072;:" Count="18" Status="*"/>
+<ROW OriginalValue="Markdown Tranformation Dialect" Translation="&#1044;&#1080;&#1072;&#1083;&#1077;&#1082;&#1090; &#1087;&#1088;&#1077;&#1086;&#1073;&#1088;&#1072;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103; Markdown" Count="9" Status="*"/>
+<ROW OriginalValue="DaringFireball" Translation="DaringFireball" Count="18" Status="*"/>
+<ROW OriginalValue="CommonMark" Translation="CommonMark" Count="18" Status="*"/>
+<ROW OriginalValue="Transformation:" Translation="&#1055;&#1088;&#1077;&#1086;&#1073;&#1088;&#1072;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;:" Count="9" Status="*"/>
+<ROW OriginalValue="Markdown Help Viewer" Translation="Markdown Help Viewer" Count="9" Status="*"/>
+<ROW OriginalValue="Working Dir" Translation="&#1056;&#1072;&#1073;&#1086;&#1095;&#1072;&#1103; &#1087;&#1072;&#1087;&#1082;&#1072;" Count="9" Status="*"/>
+<ROW OriginalValue="List of Files into Working Directory" Translation="&#1057;&#1087;&#1080;&#1089;&#1086;&#1082; &#1092;&#1072;&#1081;&#1083;&#1086;&#1074; &#1074; &#1088;&#1072;&#1073;&#1086;&#1095;&#1077;&#1081; &#1087;&#1072;&#1087;&#1082;&#1077;" Count="9" Status="*"/>
+<ROW OriginalValue="Content/Index" Translation="&#1057;&#1086;&#1076;&#1077;&#1088;&#1078;&#1072;&#1085;&#1080;&#1077;/&#1054;&#1075;&#1083;&#1072;&#1074;&#1083;&#1077;&#1085;&#1080;&#1077;" Count="9" Status="*"/>
+<ROW OriginalValue="Markdown Content/Index" Translation="Markdown &#1057;&#1086;&#1076;&#1077;&#1088;&#1078;&#1072;&#1085;&#1080;&#1077;/&#1048;&#1085;&#1076;&#1077;&#1082;&#1089;" Count="9" Status="*"/>
+<ROW OriginalValue="Colored icons" Translation="&#1062;&#1074;&#1077;&#1090;&#1085;&#1099;&#1077; &#1079;&#1085;&#1072;&#1095;&#1082;&#1080;" Count="9" Status="*"/>
+<ROW OriginalValue="Download from WEB" Translation="&#1047;&#1072;&#1075;&#1088;&#1091;&#1078;&#1072;&#1090;&#1100; &#1080;&#1079; &#1080;&#1085;&#1090;&#1077;&#1088;&#1085;&#1077;&#1090;&#1072;" Count="9" Status="*"/>
+<ROW OriginalValue="Font name" Translation="&#1053;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077; &#1096;&#1088;&#1080;&#1092;&#1090;&#1072;" Count="9" Status="*"/>
+<ROW OriginalValue="Size" Translation="&#1056;&#1072;&#1079;&#1084;&#1077;&#1088;" Count="9" Status="*"/>
+<ROW OriginalValue="12" Translation="12" Count="9" Status="*"/>
+<ROW OriginalValue="HTML Text (default)" Translation="HTML-&#1090;&#1077;&#1082;&#1089;&#1090; (&#1087;&#1086; &#1091;&#1084;&#1086;&#1083;&#1095;&#1072;&#1085;&#1080;&#1102;)" Count="9" Status="*"/>
+<ROW OriginalValue="Bottom margin" Translation="&#1053;&#1080;&#1078;&#1085;&#1077;&#1077; &#1087;&#1086;&#1083;&#1077;" Count="10" Status="*"/>
+<ROW OriginalValue="Left margin" Translation="&#1051;&#1077;&#1074;&#1086;&#1077; &#1087;&#1086;&#1083;&#1077;" Count="10" Status="*"/>
+<ROW OriginalValue="Right margin" Translation="&#1055;&#1088;&#1072;&#1074;&#1086;&#1077; &#1087;&#1086;&#1083;&#1077;" Count="10" Status="*"/>
+<ROW OriginalValue="Top margin" Translation="&#1042;&#1077;&#1088;&#1093;&#1085;&#1077;&#1077; &#1087;&#1086;&#1083;&#1077;" Count="10" Status="*"/>
+<ROW OriginalValue="Markdown processor options" Translation="&#1055;&#1072;&#1088;&#1072;&#1084;&#1077;&#1090;&#1088;&#1099; &#1087;&#1088;&#1086;&#1094;&#1077;&#1089;&#1089;&#1086;&#1088;&#1072; Markdown" Count="9" Status="*"/>
+<ROW OriginalValue="Back" Translation="&#1053;&#1072;&#1079;&#1072;&#1076;" Count="7" Status="*"/>
+<ROW OriginalValue="Preview" Translation="&#1058;&#1077;&#1084;&#1072;" Count="16" Status="*"/>
+<ROW OriginalValue="Theme" Translation="&#1058;&#1077;&#1084;&#1072;" Count="25" Status="*"/>
 <ROW OriginalValue="Font" Translation="&#1064;&#1088;&#1080;&#1092;&#1090;" Count="12" Status="*"/>
-<ROW OriginalValue="PDF layout" Translation="&#1052;&#1072;&#1082;&#1077;&#1090; PDF" Count="14" Status="*"/>
-<ROW OriginalValue="Orientation" Translation="&#1054;&#1088;&#1080;&#1077;&#1085;&#1090;&#1072;&#1094;&#1080;&#1103;" Count="8" Status="*"/>
-<ROW OriginalValue="Portrait" Translation="&#1050;&#1085;&#1080;&#1078;&#1085;&#1072;&#1103;" Count="8" Status="*"/>
-<ROW OriginalValue="Landscape" Translation="&#1040;&#1083;&#1100;&#1073;&#1086;&#1084;&#1085;&#1072;&#1103;" Count="8" Status="*"/>
-<ROW OriginalValue="Page size" Translation="&#1056;&#1072;&#1079;&#1084;&#1077;&#1088; &#1089;&#1090;&#1088;&#1072;&#1085;&#1080;&#1094;&#1099;" Count="8" Status="*"/>
-<ROW OriginalValue="A4" Translation="A4" Count="8" Status="*"/>
-<ROW OriginalValue="A5" Translation="A5" Count="8" Status="*"/>
-<ROW OriginalValue="A3" Translation="A3" Count="8" Status="*"/>
-<ROW OriginalValue="A2" Translation="A2" Count="8" Status="*"/>
-<ROW OriginalValue="A1" Translation="A1" Count="8" Status="*"/>
-<ROW OriginalValue="A0" Translation="A0" Count="8" Status="*"/>
-<ROW OriginalValue="Letter" Translation="Letter" Count="8" Status="*"/>
-<ROW OriginalValue="Legal" Translation="Legal" Count="8" Status="*"/>
-<ROW OriginalValue="Dialect:" Translation="&#1044;&#1080;&#1072;&#1083;&#1077;&#1082;&#1090;:" Count="8" Status="*"/>
-<ROW OriginalValue="Images loading options" Translation="&#1055;&#1072;&#1088;&#1072;&#1084;&#1077;&#1090;&#1088;&#1099; &#1079;&#1072;&#1075;&#1088;&#1091;&#1079;&#1082;&#1080; &#1080;&#1079;&#1086;&#1073;&#1088;&#1072;&#1078;&#1077;&#1085;&#1080;&#1081;" Count="8" Status="*"/>
-<ROW OriginalValue="Rescaling to viewer size" Translation="&#1052;&#1072;&#1089;&#1096;&#1090;&#1072;&#1073;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; &#1087;&#1086;&#1076; &#1088;&#1072;&#1079;&#1084;&#1077;&#1088; &#1086;&#1082;&#1085;&#1072;" Count="8" Status="*"/>
-<ROW OriginalValue="Selected Theme" Translation="&#1042;&#1099;&#1073;&#1088;&#1072;&#1085;&#1085;&#1072;&#1103; &#1090;&#1077;&#1084;&#1072;" Count="8" Status="*"/>
-<ROW OriginalValue="Show Captions" Translation="&#1055;&#1086;&#1082;&#1072;&#1079;&#1099;&#1074;&#1072;&#1090;&#1100; &#1087;&#1086;&#1076;&#1087;&#1080;&#1089;&#1080;" Count="8" Status="*"/>
-<ROW OriginalValue="Same as Windows" Translation="&#1050;&#1072;&#1082; &#1074; Windows" Count="8" Status="*"/>
-<ROW OriginalValue="Force Dark" Translation="Force Dark" Count="8" Status="*"/>
-<ROW OriginalValue="Force Light" Translation="Force Light" Count="8" Status="*"/>
-<ROW OriginalValue="Toolbar" Translation="&#1055;&#1072;&#1085;&#1077;&#1083;&#1100; &#1080;&#1085;&#1089;&#1090;&#1088;&#1091;&#1084;&#1077;&#1085;&#1090;&#1086;&#1074;" Count="8" Status="*"/>
-<ROW OriginalValue="Language:" Translation="&#1071;&#1079;&#1099;&#1082;:" Count="8" Status="*"/>
-<ROW OriginalValue="User interface" Translation="&#1048;&#1085;&#1090;&#1077;&#1088;&#1092;&#1077;&#1081;&#1089; &#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1103;" Count="8" Status="*"/>
-<ROW OriginalValue="Show selection in Viewer" Translation="&#1055;&#1086;&#1082;&#1072;&#1079;&#1099;&#1074;&#1072;&#1090;&#1100; &#1074;&#1099;&#1073;&#1086;&#1088; &#1074; &#1087;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088;&#1097;&#1080;&#1082;&#1077;" Count="6" Status="*"/>
-<ROW OriginalValue="Buttons" Translation="&#1050;&#1085;&#1086;&#1087;&#1082;&#1080;" Count="5" Status="*"/>
-<ROW OriginalValue="Rounded buttons" Translation="&#1057;&#1082;&#1088;&#1091;&#1075;&#1083;&#1105;&#1085;&#1085;&#1099;&#1077; &#1082;&#1085;&#1086;&#1087;&#1082;&#1080;" Count="10" Status="*"/>
-<ROW OriginalValue="https://github.com/EtheaDev/MarkdownHelpViewer" Translation="https://github.com/EtheaDev/MarkdownHelpViewer" Count="4" Status="*"/>
-<ROW OriginalValue="https://github.com/EtheaDev/SVGIconImageList/" Translation="https://github.com/EtheaDev/SVGIconImageList/" Count="4" Status="*"/>
-<ROW OriginalValue="https://github.com/EtheaDev/StyledComponents" Translation="https://github.com/EtheaDev/StyledComponents" Count="4" Status="*"/>
-<ROW OriginalValue="https://github.com/EtheaDev/MarkdownProcessor" Translation="https://github.com/EtheaDev/MarkdownProcessor" Count="4" Status="*"/>
-<ROW OriginalValue="https://github.com/grahamegrieve/delphi-markdown" Translation="https://github.com/grahamegrieve/delphi-markdown" Count="4" Status="*"/>
-<ROW OriginalValue="Synopse/SynPDF https://github.com/synopse/SynPDF" Translation="Synopse/SynPDF https://github.com/synopse/SynPDF" Count="4" Status="*"/>
-<ROW OriginalValue="HtmlToPdf https://github.com/MuzioValerio/HtmlToPdf" Translation="HtmlToPdf https://github.com/MuzioValerio/HtmlToPdf" Count="4" Status="*"/>
-<ROW OriginalValue="Copyright &#169;2019-2025 Angus Johnson." Translation="&#169; 2019-2023 Angus Johnson." Count="4" Status="*"/>
-<ROW OriginalValue="HTMLViewer - https://github.com/BerndGabriel/HtmlViewer" Translation="HTMLViewer - https://github.com/BerndGabriel/HtmlViewer" Count="4" Status="*"/>
-<ROW OriginalValue="Buttons Width" Translation="&#1064;&#1080;&#1088;&#1080;&#1085;&#1072; &#1082;&#1085;&#1086;&#1087;&#1086;&#1082;" Count="4" Status="*"/>
-<ROW OriginalValue="Open..." Translation="&amp;&#1054;&#1090;&#1082;&#1088;&#1099;&#1090;&#1100;..." Count="6" Status="*"/>
-<ROW OriginalValue="Automatic check" Translation="&#1040;&#1074;&#1090;&#1086;&#1084;&#1072;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1072;&#1103; &#1087;&#1088;&#1086;&#1074;&#1077;&#1088;&#1082;&#1072;" Count="3" Status="@"/>
-<ROW OriginalValue="Interval in days:" Translation="&#1048;&#1085;&#1090;&#1077;&#1088;&#1074;&#1072;&#1083; &#1074; &#1076;&#1085;&#1103;&#1093;:" Count="3" Status="@"/>
-<ROW OriginalValue="Updates" Translation="&#1054;&#1073;&#1085;&#1086;&#1074;&#1083;&#1077;&#1085;&#1080;&#1103;" Count="4" Status="@"/>
-<ROW OriginalValue="Allow unsafe HTML (script, iframe...)" Translation="&#1056;&#1072;&#1079;&#1088;&#1077;&#1096;&#1080;&#1090;&#1100; &#1085;&#1077;&#1073;&#1077;&#1079;&#1086;&#1087;&#1072;&#1089;&#1085;&#1099;&#1081; HTML (&#1089;&#1082;&#1088;&#1080;&#1087;&#1090;, iframe...)" Count="1" Status="@"/>
-<ROW OriginalValue="When enabled, native HTML in the markdown (e.g. &lt;script&gt;, &lt;iframe&gt;, &lt;object&gt;) is passed through to the preview instead of being neutralized. Leave off unless you trust the file." Translation="&#1055;&#1088;&#1080; &#1074;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1080;&#1080; &#1088;&#1086;&#1076;&#1085;&#1099;&#1081; HTML &#1074; markdown (&#1085;&#1072;&#1087;&#1088;&#1080;&#1084;&#1077;&#1088;&lt;script&gt;, , &lt;iframe&gt;&lt;object&gt;, ) &#1087;&#1077;&#1088;&#1077;&#1076;&#1072;&#1105;&#1090;&#1089;&#1103; &#1074; &#1087;&#1088;&#1077;&#1076;&#1087;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088; &#1074;&#1084;&#1077;&#1089;&#1090;&#1086; &#1085;&#1077;&#1081;&#1090;&#1088;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;. &#1054;&#1089;&#1090;&#1072;&#1074;&#1100;&#1090;&#1077; &#1077;&#1075;&#1086;, &#1077;&#1089;&#1083;&#1080; &#1085;&#1077; &#1076;&#1086;&#1074;&#1077;&#1088;&#1103;&#1077;&#1090;&#1077; &#1076;&#1077;&#1083;&#1091;." Count="1" Status="@"/>
-<ROW OriginalValue="HTML Rendering Options" Translation="&#1054;&#1087;&#1094;&#1080;&#1080; &#1088;&#1077;&#1085;&#1076;&#1077;&#1088;&#1080;&#1085;&#1075;&#1072; HTML" Count="1" Status="@"/>
-<ROW OriginalValue="HTML Stylesheet (.css)" Translation="&#1058;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072; &#1089;&#1090;&#1080;&#1083;&#1077;&#1081; HTML (.css)" Count="1" Status="@"/>
-<ROW OriginalValue="General" Translation="&#1055;&#1088;&#1077;&#1076;&#1074;&#1072;&#1088;&#1080;&#1090;&#1077;&#1083;&#1100;&#1085;&#1099;&#1081; &#1087;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088;" Count="2" Status="*"/>
+<ROW OriginalValue="PDF layout" Translation="&#1052;&#1072;&#1082;&#1077;&#1090; PDF" Count="16" Status="*"/>
+<ROW OriginalValue="Orientation" Translation="&#1054;&#1088;&#1080;&#1077;&#1085;&#1090;&#1072;&#1094;&#1080;&#1103;" Count="9" Status="*"/>
+<ROW OriginalValue="Portrait" Translation="&#1050;&#1085;&#1080;&#1078;&#1085;&#1072;&#1103;" Count="9" Status="*"/>
+<ROW OriginalValue="Landscape" Translation="&#1040;&#1083;&#1100;&#1073;&#1086;&#1084;&#1085;&#1072;&#1103;" Count="9" Status="*"/>
+<ROW OriginalValue="Page size" Translation="&#1056;&#1072;&#1079;&#1084;&#1077;&#1088; &#1089;&#1090;&#1088;&#1072;&#1085;&#1080;&#1094;&#1099;" Count="9" Status="*"/>
+<ROW OriginalValue="A4" Translation="A4" Count="9" Status="*"/>
+<ROW OriginalValue="A5" Translation="A5" Count="9" Status="*"/>
+<ROW OriginalValue="A3" Translation="A3" Count="9" Status="*"/>
+<ROW OriginalValue="A2" Translation="A2" Count="9" Status="*"/>
+<ROW OriginalValue="A1" Translation="A1" Count="9" Status="*"/>
+<ROW OriginalValue="A0" Translation="A0" Count="9" Status="*"/>
+<ROW OriginalValue="Letter" Translation="Letter" Count="9" Status="*"/>
+<ROW OriginalValue="Legal" Translation="Legal" Count="9" Status="*"/>
+<ROW OriginalValue="Dialect:" Translation="&#1044;&#1080;&#1072;&#1083;&#1077;&#1082;&#1090;:" Count="9" Status="*"/>
+<ROW OriginalValue="Images loading options" Translation="&#1055;&#1072;&#1088;&#1072;&#1084;&#1077;&#1090;&#1088;&#1099; &#1079;&#1072;&#1075;&#1088;&#1091;&#1079;&#1082;&#1080; &#1080;&#1079;&#1086;&#1073;&#1088;&#1072;&#1078;&#1077;&#1085;&#1080;&#1081;" Count="9" Status="*"/>
+<ROW OriginalValue="Rescaling to viewer size" Translation="&#1052;&#1072;&#1089;&#1096;&#1090;&#1072;&#1073;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; &#1087;&#1086;&#1076; &#1088;&#1072;&#1079;&#1084;&#1077;&#1088; &#1086;&#1082;&#1085;&#1072;" Count="9" Status="*"/>
+<ROW OriginalValue="Selected Theme" Translation="&#1042;&#1099;&#1073;&#1088;&#1072;&#1085;&#1085;&#1072;&#1103; &#1090;&#1077;&#1084;&#1072;" Count="9" Status="*"/>
+<ROW OriginalValue="Show Captions" Translation="&#1055;&#1086;&#1082;&#1072;&#1079;&#1099;&#1074;&#1072;&#1090;&#1100; &#1087;&#1086;&#1076;&#1087;&#1080;&#1089;&#1080;" Count="9" Status="*"/>
+<ROW OriginalValue="Same as Windows" Translation="&#1050;&#1072;&#1082; &#1074; Windows" Count="9" Status="*"/>
+<ROW OriginalValue="Force Dark" Translation="Force Dark" Count="9" Status="*"/>
+<ROW OriginalValue="Force Light" Translation="Force Light" Count="9" Status="*"/>
+<ROW OriginalValue="Toolbar" Translation="&#1055;&#1072;&#1085;&#1077;&#1083;&#1100; &#1080;&#1085;&#1089;&#1090;&#1088;&#1091;&#1084;&#1077;&#1085;&#1090;&#1086;&#1074;" Count="9" Status="*"/>
+<ROW OriginalValue="Language:" Translation="&#1071;&#1079;&#1099;&#1082;:" Count="9" Status="*"/>
+<ROW OriginalValue="User interface" Translation="&#1048;&#1085;&#1090;&#1077;&#1088;&#1092;&#1077;&#1081;&#1089; &#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1103;" Count="9" Status="*"/>
+<ROW OriginalValue="Show selection in Viewer" Translation="&#1055;&#1086;&#1082;&#1072;&#1079;&#1099;&#1074;&#1072;&#1090;&#1100; &#1074;&#1099;&#1073;&#1086;&#1088; &#1074; &#1087;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088;&#1097;&#1080;&#1082;&#1077;" Count="7" Status="*"/>
+<ROW OriginalValue="Buttons" Translation="&#1050;&#1085;&#1086;&#1087;&#1082;&#1080;" Count="6" Status="*"/>
+<ROW OriginalValue="Rounded buttons" Translation="&#1057;&#1082;&#1088;&#1091;&#1075;&#1083;&#1105;&#1085;&#1085;&#1099;&#1077; &#1082;&#1085;&#1086;&#1087;&#1082;&#1080;" Count="12" Status="*"/>
+<ROW OriginalValue="https://github.com/EtheaDev/MarkdownHelpViewer" Translation="https://github.com/EtheaDev/MarkdownHelpViewer" Count="5" Status="*"/>
+<ROW OriginalValue="https://github.com/EtheaDev/SVGIconImageList/" Translation="https://github.com/EtheaDev/SVGIconImageList/" Count="5" Status="*"/>
+<ROW OriginalValue="https://github.com/EtheaDev/StyledComponents" Translation="https://github.com/EtheaDev/StyledComponents" Count="5" Status="*"/>
+<ROW OriginalValue="https://github.com/EtheaDev/MarkdownProcessor" Translation="https://github.com/EtheaDev/MarkdownProcessor" Count="5" Status="*"/>
+<ROW OriginalValue="https://github.com/grahamegrieve/delphi-markdown" Translation="https://github.com/grahamegrieve/delphi-markdown" Count="5" Status="*"/>
+<ROW OriginalValue="Synopse/SynPDF https://github.com/synopse/SynPDF" Translation="Synopse/SynPDF https://github.com/synopse/SynPDF" Count="5" Status="*"/>
+<ROW OriginalValue="HtmlToPdf https://github.com/MuzioValerio/HtmlToPdf" Translation="HtmlToPdf https://github.com/MuzioValerio/HtmlToPdf" Count="5" Status="*"/>
+<ROW OriginalValue="Copyright &#169;2019-2025 Angus Johnson." Translation="&#169; 2019-2023 Angus Johnson." Count="5" Status="*"/>
+<ROW OriginalValue="HTMLViewer - https://github.com/BerndGabriel/HtmlViewer" Translation="HTMLViewer - https://github.com/BerndGabriel/HtmlViewer" Count="5" Status="*"/>
+<ROW OriginalValue="Buttons Width" Translation="&#1064;&#1080;&#1088;&#1080;&#1085;&#1072; &#1082;&#1085;&#1086;&#1087;&#1086;&#1082;" Count="5" Status="*"/>
+<ROW OriginalValue="Open..." Translation="&amp;&#1054;&#1090;&#1082;&#1088;&#1099;&#1090;&#1100;..." Count="8" Status="*"/>
+<ROW OriginalValue="Automatic check" Translation="&#1040;&#1074;&#1090;&#1086;&#1084;&#1072;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1072;&#1103; &#1087;&#1088;&#1086;&#1074;&#1077;&#1088;&#1082;&#1072;" Count="4" Status="@"/>
+<ROW OriginalValue="Interval in days:" Translation="&#1048;&#1085;&#1090;&#1077;&#1088;&#1074;&#1072;&#1083; &#1074; &#1076;&#1085;&#1103;&#1093;:" Count="4" Status="@"/>
+<ROW OriginalValue="Updates" Translation="&#1054;&#1073;&#1085;&#1086;&#1074;&#1083;&#1077;&#1085;&#1080;&#1103;" Count="6" Status="@"/>
+<ROW OriginalValue="Allow unsafe HTML (script, iframe...)" Translation="&#1056;&#1072;&#1079;&#1088;&#1077;&#1096;&#1080;&#1090;&#1100; &#1085;&#1077;&#1073;&#1077;&#1079;&#1086;&#1087;&#1072;&#1089;&#1085;&#1099;&#1081; HTML (&#1089;&#1082;&#1088;&#1080;&#1087;&#1090;, iframe...)" Count="2" Status="@"/>
+<ROW OriginalValue="When enabled, native HTML in the markdown (e.g. &lt;script&gt;, &lt;iframe&gt;, &lt;object&gt;) is passed through to the preview instead of being neutralized. Leave off unless you trust the file." Translation="&#1055;&#1088;&#1080; &#1074;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1080;&#1080; &#1088;&#1086;&#1076;&#1085;&#1099;&#1081; HTML &#1074; markdown (&#1085;&#1072;&#1087;&#1088;&#1080;&#1084;&#1077;&#1088;&lt;script&gt;, , &lt;iframe&gt;&lt;object&gt;, ) &#1087;&#1077;&#1088;&#1077;&#1076;&#1072;&#1105;&#1090;&#1089;&#1103; &#1074; &#1087;&#1088;&#1077;&#1076;&#1087;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088; &#1074;&#1084;&#1077;&#1089;&#1090;&#1086; &#1085;&#1077;&#1081;&#1090;&#1088;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;. &#1054;&#1089;&#1090;&#1072;&#1074;&#1100;&#1090;&#1077; &#1077;&#1075;&#1086;, &#1077;&#1089;&#1083;&#1080; &#1085;&#1077; &#1076;&#1086;&#1074;&#1077;&#1088;&#1103;&#1077;&#1090;&#1077; &#1076;&#1077;&#1083;&#1091;." Count="2" Status="@"/>
+<ROW OriginalValue="HTML Rendering Options" Translation="&#1054;&#1087;&#1094;&#1080;&#1080; &#1088;&#1077;&#1085;&#1076;&#1077;&#1088;&#1080;&#1085;&#1075;&#1072; HTML" Count="2" Status="@"/>
+<ROW OriginalValue="HTML Stylesheet (.css)" Translation="&#1058;&#1072;&#1073;&#1083;&#1080;&#1094;&#1072; &#1089;&#1090;&#1080;&#1083;&#1077;&#1081; HTML (.css)" Count="2" Status="@"/>
+<ROW OriginalValue="General" Translation="&#1055;&#1088;&#1077;&#1076;&#1074;&#1072;&#1088;&#1080;&#1090;&#1077;&#1083;&#1100;&#1085;&#1099;&#1081; &#1087;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088;" Count="4" Status="*"/>
 </ROWDATA>
 </DATAPACKET>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--stat:#=21
+<!--stat:#=24
 *=4
 @=17
 Lang:=FRA
@@ -14,26 +14,29 @@ Lang:=FRA
 <PARAMS/>
 </METADATA>
 <ROWDATA>
-<ROW OriginalValue="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" Translation="Confirmer l&#8217;exportation d&#8217;un seul fichier [Oui] ou de %d fichiers [Oui &#224; tous] au format HTML ?" Count="10" Status="@"/>
-<ROW OriginalValue="Incorrect message received" Translation="Message incorrect re&#231;u" Count="7" Status="@"/>
+<ROW OriginalValue="Confirm export of single file [Yes] or %d files [Yes to All] in HTML format?" Translation="Confirmer l&#8217;exportation d&#8217;un seul fichier [Oui] ou de %d fichiers [Oui &#224; tous] au format HTML ?" Count="11" Status="@"/>
+<ROW OriginalValue="Incorrect message received" Translation="Message incorrect re&#231;u" Count="8" Status="@"/>
 <ROW OriginalValue="File &quot;%s&quot; succesfully saved. Do you want to open it now?" Translation="Le fichier &quot;%s&quot; a &#233;t&#233; enregistr&#233; avec succ&#232;s. Voulez-vous l&#8217;ouvrir maintenant?" Count="1" Status="*"/>
-<ROW OriginalValue="HTML output folder" Translation="Dossier de sortie HTML" Count="10" Status="@"/>
-<ROW OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="Mot-cl&#233; &quot;%s&quot; introuvable dans les fichiers du dossier de travail : &quot;%s&quot;" Count="10" Status="*"/>
-<ROW OriginalValue="CONFIRMATION" Translation="CONFIRMATION" Count="10" Status="@"/>
-<ROW OriginalValue="ERROR!" Translation="ERREUR!" Count="10" Status="@"/>
-<ROW OriginalValue="INFORMATION" Translation="INFORMATION" Count="10" Status="@"/>
-<ROW OriginalValue="UNEXPECTED ERROR!" Translation="ERREUR INATTENDUE!" Count="10" Status="*"/>
-<ROW OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Le fichier &quot;%s&quot; a &#233;t&#233; enregistr&#233; avec succ&#232;s. Voulez-vous l&#8217;ouvrir maintenant?" Count="9" Status="*"/>
-<ROW OriginalValue="Closing application to change GUI language" Translation="Fermeture de l&#8217;application pour changer la langue de l&#8217;interface graphique" Count="6" Status="@"/>
-<ROW OriginalValue="Check for updates" Translation="Rechercher des mises &#224; jour" Count="3" Status="@"/>
-<ROW OriginalValue="Download of installer stopped!" Translation="Le t&#233;l&#233;chargement de l&#8217;installateur s&#8217;est arr&#234;t&#233; !" Count="3" Status="@"/>
-<ROW OriginalValue="Error downloading!" Translation="Erreur de t&#233;l&#233;chargement !" Count="3" Status="@"/>
-<ROW OriginalValue="Error checking if a new update for the application is available: %s" Translation="Erreur lors de la v&#233;rification de la disponibilit&#233; d&#8217;une nouvelle mise &#224; jour de l&#8217;application : %s" Count="3" Status="@"/>
-<ROW OriginalValue="A new version is available:" Translation="Une nouvelle version est disponible :" Count="3" Status="@"/>
-<ROW OriginalValue="Current version: %s - Available version: %s" Translation="Version actuelle : %s - Version disponible : %s" Count="3" Status="@"/>
-<ROW OriginalValue="Do you want to dowload and install the new version?" Translation="Voulez-vous t&#233;l&#233;charger et installer la nouvelle version ?" Count="3" Status="@"/>
-<ROW OriginalValue="No updates available." Translation="Aucune mise &#224; jour disponible." Count="3" Status="@"/>
-<ROW OriginalValue="You have already the latest version: %s" Translation="Vous avez d&#233;j&#224; la derni&#232;re version : %s" Count="3" Status="@"/>
-<ROW OriginalValue="Stop download!" Translation="Arr&#234;tez le t&#233;l&#233;chargement !" Count="3" Status="@"/>
+<ROW OriginalValue="HTML output folder" Translation="Dossier de sortie HTML" Count="11" Status="@"/>
+<ROW OriginalValue="Keyword &quot;%s&quot; not found in files into working folder: &quot;%s&quot;" Translation="Mot-cl&#233; &quot;%s&quot; introuvable dans les fichiers du dossier de travail : &quot;%s&quot;" Count="11" Status="*"/>
+<ROW OriginalValue="CONFIRMATION" Translation="CONFIRMATION" Count="11" Status="@"/>
+<ROW OriginalValue="ERROR!" Translation="ERREUR!" Count="11" Status="@"/>
+<ROW OriginalValue="INFORMATION" Translation="INFORMATION" Count="11" Status="@"/>
+<ROW OriginalValue="UNEXPECTED ERROR!" Translation="ERREUR INATTENDUE!" Count="11" Status="*"/>
+<ROW OriginalValue="File &quot;%s&quot; successfully saved. Do you want to open it now?" Translation="Le fichier &quot;%s&quot; a &#233;t&#233; enregistr&#233; avec succ&#232;s. Voulez-vous l&#8217;ouvrir maintenant?" Count="10" Status="*"/>
+<ROW OriginalValue="Closing application to change GUI language" Translation="Fermeture de l&#8217;application pour changer la langue de l&#8217;interface graphique" Count="7" Status="@"/>
+<ROW OriginalValue="Check for updates" Translation="Rechercher des mises &#224; jour" Count="4" Status="@"/>
+<ROW OriginalValue="Download of installer stopped!" Translation="Le t&#233;l&#233;chargement de l&#8217;installateur s&#8217;est arr&#234;t&#233; !" Count="4" Status="@"/>
+<ROW OriginalValue="Error downloading!" Translation="Erreur de t&#233;l&#233;chargement !" Count="4" Status="@"/>
+<ROW OriginalValue="Error checking if a new update for the application is available: %s" Translation="Erreur lors de la v&#233;rification de la disponibilit&#233; d&#8217;une nouvelle mise &#224; jour de l&#8217;application : %s" Count="4" Status="@"/>
+<ROW OriginalValue="A new version is available:" Translation="Une nouvelle version est disponible :" Count="4" Status="@"/>
+<ROW OriginalValue="Current version: %s - Available version: %s" Translation="Version actuelle : %s - Version disponible : %s" Count="4" Status="@"/>
+<ROW OriginalValue="Do you want to dowload and install the new version?" Translation="Voulez-vous t&#233;l&#233;charger et installer la nouvelle version ?" Count="4" Status="@"/>
+<ROW OriginalValue="No updates available." Translation="Aucune mise &#224; jour disponible." Count="4" Status="@"/>
+<ROW OriginalValue="You have already the latest version: %s" Translation="Vous avez d&#233;j&#224; la derni&#232;re version : %s" Count="4" Status="@"/>
+<ROW OriginalValue="Stop download!" Translation="Arr&#234;tez le t&#233;l&#233;chargement !" Count="4" Status="@"/>
+<ROW OriginalValue="The document contains a link which is not a web page:" Count="1" Status="!"/>
+<ROW OriginalValue="%s" Count="1" Status="!"/>
+<ROW OriginalValue="Do you want to open it with the associated application?" Count="1" Status="!"/>
 </ROWDATA>
 </DATAPACKET>
