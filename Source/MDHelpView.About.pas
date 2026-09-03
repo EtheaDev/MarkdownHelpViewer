@@ -43,8 +43,11 @@ resourcestring
   Title_MDHViewer = 'Markdown Help Viewer';
 
 const
-  HELP_URL = 'https://github.com/EtheaDev/MarkdownHelpViewer';
-  GIT_HUB_URL = 'https://github.com/EtheaDev/MarkdownHelpViewer';
+  //NB: HELP_URL is the documentation site, GITHUB_URL is the repository.
+  //They are deliberately distinct: the Issues button and the new-version
+  //check must go to GitHub, the web help to the project site.
+  HELP_URL = 'https://ethea.it/docs/markdowntools/';
+  GITHUB_URL = 'https://github.com/EtheaDev/MarkdownHelpViewer';
   SETUP_FILENAME = 'MarkDownHelpViewerSetup.exe';
 type
   TFrmAbout = class(TFormHook)
@@ -119,6 +122,25 @@ uses
 var
  _HttpClient: TGitHubHttpClient;
 
+//Shared client of the main thread, created on first use and always configured
+//with the project URL.
+//NB: this used to be created only inside AcceptNewSetup, the *manual* check.
+//Once the automatic check moved to a background task with its own client,
+//nothing created _HttpClient any more, so opening the About box straight from
+//the automatic check reached DownloadAndInstallSetup with _HttpClient still
+//nil: the first field assignment inside DownloadLatestSetup then raised an
+//Access Violation in System._UStrAsg.
+//Setting GitHubProjectURL here matters too: the download needs it just as the
+//check does, and on a freshly created client it would be empty, producing the
+//malformed URL '/releases/latest/download/<setup>'.
+function GitHubClient: TGitHubHttpClient;
+begin
+  if not Assigned(_HttpClient) then
+    _HttpClient := TGitHubHttpClient.Create(nil);
+  _HttpClient.GitHubProjectURL := GITHUB_URL;
+  Result := _HttpClient;
+end;
+
 function GetCurrentVersion(const AApplicationExeName: TFileName): string;
 var
   LMajorVersion, LMinorVersion, LRelease: integer;
@@ -161,10 +183,8 @@ begin
     Screen.Cursor := crHourGlass;
     try try
       LCurrentVersion := GetCurrentVersion(Application.ExeName);
-      if not Assigned(_HttpClient) then
-        _HttpClient := TGitHubHttpClient.Create(nil);
-      Result := _HttpClient.IsNewVersionAvailable(
-        LCurrentVersion, GIT_HUB_URL, LNewVersion);
+      Result := GitHubClient.IsNewVersionAvailable(
+        LCurrentVersion, GITHUB_URL, LNewVersion);
       Break;  
     except
       on E: ECheckNewVersionException do
@@ -215,7 +235,7 @@ begin
       try
         try
           LAvailable := LClient.IsNewVersionAvailable(LCurrentVersion,
-            GIT_HUB_URL, LNewVersion);
+            GITHUB_URL, LNewVersion);
         except
           //No network, proxy, timeout, unexpected answer: an automatic check
           //stays silent. The user can always check manually from the About box.
@@ -299,7 +319,7 @@ end;
 procedure TFrmAbout.btnIssuesClick(Sender: TObject);
 begin
    ShellExecute(Handle, 'open',
-    PChar(HELP_URL+'/issues'),
+    PChar(GITHUB_URL+'/issues'),
     nil, nil, SW_SHOW);
 end;
 
@@ -322,6 +342,11 @@ begin
   else
   begin
     btnCheckUpdates.Caption := CHECK_FOR_UPDATE_BTN;
+    //NB: re-arm the guard. FormActivate starts the download whenever
+    //FStopDownload is False, and OnActivate fires every time the form regains
+    //focus - right after an error dialog, for instance - so leaving it False
+    //here restarted a failed download over and over.
+    FStopDownload := True;
   end;
 end;
 
@@ -332,7 +357,7 @@ begin
   UpdateGUI(True);
   try
     //Start Download
-    var LSize := _HttpClient.DownloadLatestSetup(
+    var LSize := GitHubClient.DownloadLatestSetup(
       SETUP_FILENAME,
       HttpClientReceiveData,
       AOutFileName);
@@ -367,6 +392,13 @@ var
   FileVersionStr: string;
 begin
   TitleLabel.Font.Height := Round(TitleLabel.Font.Height * 1.6);
+  //NB: the link under the logo is the documentation site, and it is now built
+  //from HELP_URL instead of being hard-coded in the DFM caption. The caption
+  //duplicated the constant - and in most of these projects it held the GitHub
+  //repository URL, which both left HELP_URL unused and let the two drift
+  //apart silently. TLinkLabel has AutoSize True by default (see
+  //TCustomLinkLabel.Create), so the label resizes to whatever URL it is given.
+  LinkLabel1.Caption := Format('<a href="%s">%s</a>', [HELP_URL, HELP_URL]);
 
   FileVersionStr := MDHelpView.Misc.GetVersionString(GetModuleLocation(), '%d.%d.%d');
   {$IFDEF WIN32}

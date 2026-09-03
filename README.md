@@ -1,6 +1,6 @@
 ﻿# Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**Latest Version 2.5.5 - 01 Sep 2026**
+**Latest Version 2.5.6 - 03 Sep 2026**
 
 **An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications**
 
@@ -135,6 +135,11 @@ Then the interface searches in the same folder of default file (specified into A
 - At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)
 
 ## Release Notes ##
+03 Sep 2026: ver. 2.5.6
+- Fixed an Access Violation when downloading a new setup right after the automatic version check: the shared HTTP client was created only by the manual check, so the automatic path reached the download with no client at all.
+- A missing setup file name or project URL is now reported with a clear message instead of an assertion, which is compiled out of release builds.
+- Web help and repository are now kept distinct: the documentation points to https://ethea.it/docs/markdowntools/, while the Issues button and the new-version check point to GitHub.
+
 01 Sep 2026: ver. 2.5.5
 - TMarkdownViewer component: .html/.htm files are now recognized and rendered as HTML instead of being shown as source; fixed double rendering when loading a document, and the scroll position is now really preserved.
 - Help interface: GetHelpFile('') returns the base file (DisplayTopic and GetHelpStrings were broken) and the query methods no longer raise exceptions when Application.HelpFile is empty.
