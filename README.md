@@ -1,6 +1,6 @@
 ﻿# Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**Latest Version 2.5.7 - 22 Sep 2026**
+**Latest Version 2.6.0 - 22 Sep 2026**
 
 **An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications**
 
@@ -135,6 +135,11 @@ Then the interface searches in the same folder of default file (specified into A
 - At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)
 
 ## Release Notes ##
+22 Sep 2026: ver. 2.6.0
+- Latest Stable version
+- Fixed rendering remote Images in 64bit version.
+- 2.5.x versions deprecated!
+
 22 Sep 2026: ver. 2.5.7
 - Fixed "Runtime error 217" on startup on any computer without RAD Studio installed: the viewer failed before showing any window, giving no clue about the cause.
 - Warning: versions 2.5.5 and 2.5.6 cannot start on a machine without MidasLib.dll: please update to this version.
