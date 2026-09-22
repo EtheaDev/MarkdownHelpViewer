@@ -4,7 +4,7 @@
 {                                                                              }
 {       Copyright (c) 2023-2026 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
-{       Contributors: Nicol� Boccignone, Emanuele Biglia                       }
+{       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
 {                                                                              }
 {       https://github.com/EtheaDev/MarkdownHelpViewer                         }
 {                                                                              }

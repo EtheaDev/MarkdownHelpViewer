@@ -27,6 +27,8 @@
 program MDHelpViewer;
 
 uses
+  //Links Midas statically for the translation engine
+  MidasLib,
   Vcl.Forms,
   Vcl.Themes,
   Vcl.Styles,

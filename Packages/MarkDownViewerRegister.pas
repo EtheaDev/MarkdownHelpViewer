@@ -86,7 +86,7 @@ uses
 const
   HELP_URL = 'https://ethea.it/docs/markdowntools/';
   //NB: keep aligned with the FileVersion of the .dproj files
-  PROJECT_VER = '2.5.6';
+  PROJECT_VER = '2.5.7';
 var
   AMarkdownFileExt: TArray<String>;
   AHTMLFileExt: TArray<String>;

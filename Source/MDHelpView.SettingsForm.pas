@@ -5,7 +5,7 @@
 {                                                                              }
 {       Copyright (c) 2023-2026 (Ethea S.r.l.)                                 }
 {       Author: Carlo Barazzetta                                               }
-{       Contributors: Nicol� Boccignone, Emanuele Biglia                       }
+{       Contributors: Nicolò Boccignone, Emanuele Biglia                       }
 {                                                                              }
 {       https://github.com/EtheaDev/MarkdownHelpViewer                         }
 {                                                                              }
@@ -298,6 +298,9 @@ begin
     StyleSynEdit.Text := ASettings.CustomCSS
   else
     StyleSynEdit.Text := GetMarkdownDefaultCSS;
+  //NB: assigning Text wraps the change in an undo block (SynSetText), so the
+  //first Ctrl+Z in the CSS editor wiped the stylesheet just loaded.
+  StyleSynEdit.ClearUndo;
   StyleSynEdit.Modified := False;
 
   UIComboBox.ItemIndex := ord(ASettings.GUILanguage);
