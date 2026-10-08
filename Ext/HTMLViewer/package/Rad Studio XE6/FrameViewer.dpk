@@ -26,7 +26,7 @@ package FrameViewer;
 {$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'THtmlViewer, TFrameViewer, and TFrameBrowser'}
-{$LIBSUFFIX 'XE6'}
+{$LIBSUFFIX '200'}
 {$RUNONLY}
 {$IMPLICITBUILD ON}
 

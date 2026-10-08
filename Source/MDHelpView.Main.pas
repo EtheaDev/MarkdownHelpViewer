@@ -43,6 +43,11 @@ uses
   Vcl.StyledComponentsHooks,
   Vcl.StyledMessagesHooks,
   {$ENDIF}
+  {$IF CompilerVersion >= 36}
+  Vcl.Edge,
+  Winapi.WebView2,
+  MarkDownEdgeViewerComponents,
+  {$IFEND}
   MDHelpView.FormsHookTrx;
 
 type
@@ -96,8 +101,6 @@ type
     Sep4: TToolButton;
     acViewSearch: TAction;
     SVGIconImageList: TSVGIconImageList;
-    HtmlViewerIndex: THtmlViewer;
-    HtmlViewer: THtmlViewer;
     ClientPanel: TPanel;
     SVGIconImageListColored: TSVGIconImageList;
     acRefresh: TAction;
@@ -175,6 +178,18 @@ type
     FShowToolbarCaptions: Boolean;
     FUseColoredIcons: Boolean;
     FVCLStyleName: string;
+    //The HTMLViewer viewers, created at runtime: from Delphi 12 the IDE has not
+    //THtmlViewer installed (FrameViewer is optional)
+    HtmlViewer: THtmlViewer;
+    HtmlViewerIndex: THtmlViewer;
+    {$IF CompilerVersion >= 36}
+    FEdgeViewer: TEdgeMarkdownViewer;
+    FEdgeViewerIndex: TEdgeMarkdownViewer;
+    FPDFFileName: TFileName;
+    {$IFEND}
+    procedure CreateHTMLViewers;
+    function CreateHTMLViewer(const AParent: TWinControl;
+      const ANoSelect: Boolean): THtmlViewer;
     procedure AdjustConstraint;
     function DialogPosRect: TRect;
     procedure LoadAndTransformFile(const AFileName: TFileName);
@@ -218,6 +233,24 @@ type
     function GetToolbarWidth: Integer;
     function GetIndexOfWorkingFolder(const AWorkingFolder: string): TFileName;
     function OpenExternalLink(const AUrl: string): Boolean;
+    //True when the documents are shown by WebView2 (Delphi 12+, WebView2
+    //available), else by HTMLViewer
+    function UseEdge: Boolean;
+    {$IF CompilerVersion >= 36}
+    //The WebView2 viewers: when WebView2 is available they replace HtmlViewer
+    //and HtmlViewerIndex (hidden), otherwise the HTMLViewer ones are used
+    procedure UpdateEdgeViewers;
+    procedure CreateEdgeViewers;
+    procedure FreeEdgeViewers;
+    function CreateEdgeViewer(const AHTMLViewer: THtmlViewer): TEdgeMarkdownViewer;
+    function EdgeViewerOf(const AHTMLViewer: THtmlViewer): TEdgeMarkdownViewer;
+    procedure UpdateEdgeViewer(const AViewer: TEdgeMarkdownViewer);
+    procedure EdgeViewerFileNameClicked(const AFileName: TFileName; out AHandled: Boolean);
+    procedure EdgeViewerURLClicked(const AURL: string; out AHandled: Boolean);
+    procedure EdgeViewerPDFCompleted(Sender: TCustomEdgeBrowser; ErrorCode: HResult;
+      IsSuccessful: Boolean);
+    procedure EdgeToPDF(const APDFFileName: TFileName);
+    {$IFEND}
     property HTMLFontSize: Integer read FHTMLFontSize write SetHTMLFontSize;
     property HTMLFontName: string read FHTMLFontName write SetHTMLFontName;
     property WorkingFolder: string read FWorkingFolder write SetWorkingFolder;
@@ -256,6 +289,7 @@ uses
   , System.StrUtils
   , SynPDF
   , MarkDownHelpViewer
+  , MarkDownViewerCommon
   , MarkDownViewerComponents
   //VCLStyles support
   {$IFNDEF NO_VCL_STYLES}
@@ -462,7 +496,8 @@ end;
 
 procedure TMainForm.ClientPanelResize(Sender: TObject);
 begin
-  if (Abs(FOldViewerResize-ClientPanel.Width) > 10) and not FLoading then
+  //Only HTMLViewer needs to reload the content to rescale the images
+  if (Abs(FOldViewerResize-ClientPanel.Width) > 10) and not FLoading and not UseEdge then
   begin
     //Reload content, forcing reloading images if size of ClientPanel changes
     FOldViewerResize := ClientPanel.Width;
@@ -512,6 +547,14 @@ begin
   SaveDialogPDF.FileName := ChangeFileExt(FCurrentFileName, '.pdf');
   if SaveDialogPDF.Execute then
   begin
+    {$IF CompilerVersion >= 36}
+    if UseEdge then
+    begin
+      //asynchronous: the file is offered when it is ready (EdgeViewerPDFCompleted)
+      EdgeToPDF(SaveDialogPDF.FileName);
+      Exit;
+    end;
+    {$IFEND}
     Screen.Cursor := crHourGlass;
     try
       HTMLToPDF(SaveDialogPDF.FileName);
@@ -669,6 +712,7 @@ begin
   FCodeHighlightEmitter := CreateCodeHighlightEmitter;
   dmResources.Settings := FViewerSettings;
 
+  CreateHTMLViewers;
   UpdateHTMLViewer(HtmlViewer);
   UpdateHTMLViewer(HtmlViewerIndex);
 
@@ -982,6 +1026,15 @@ begin
     Try
       //Safe mode by default: native HTML is neutralized unless the user opted in.
       LMarkdownProcessor.AllowUnsafe := FViewerSettings.AllowUnsafeHTML;
+      //The same extensions as the viewer components: the ones of the dialect
+      //plus the legacy ones
+      LMarkdownProcessor.Config.Extensions :=
+        TMarkdownViewerEngine.DefaultExtensions(FViewerSettings.ProcessorDialect);
+      //WebView2 typesets the formulas with KaTeX, HTMLViewer shows them as images
+      if UseEdge then
+        LMarkdownProcessor.Config.MathRendering := mmrMarkup
+      else
+        LMarkdownProcessor.Config.MathRendering := mmrCodeCogsImage;
       //Optional syntax highlighting of fenced code blocks. The form owns the
       //emitter, so we detach it before freeing the processor (TConfiguration
       //frees its codeBlockEmitter).
@@ -1040,6 +1093,9 @@ procedure TMainForm.ShowMarkdownAsHTML(const AHTMLViewer: THTMLViewer;
   const APreservePosition: Boolean);
 var
   LOldPos: Integer;
+  {$IF CompilerVersion >= 36}
+  LEdgeViewer: TEdgeMarkdownViewer;
+  {$IFEND}
 begin
   //NB: re-entrancy guard. dmResources.HtmlViewerImageRequest calls
   //Application.ProcessMessages to keep the UI responsive (and to let ESC stop
@@ -1050,6 +1106,21 @@ begin
   //an Access Violation.
   if FRendering then
     Exit;
+
+  {$IF CompilerVersion >= 36}
+  if UseEdge then
+  begin
+    LEdgeViewer := EdgeViewerOf(AHTMLViewer);
+    //relative images and links of the document
+    LEdgeViewer.ServerRoot := FWorkingFolder;
+    UpdateEdgeViewer(LEdgeViewer);
+    if APreservePosition then
+      LEdgeViewer.HtmlContent.Text := AHTMLContent
+    else
+      LEdgeViewer.LoadFromString(AHTMLContent, True);
+    Exit;
+  end;
+  {$IFEND}
 
   //NB: read the scroll position *before* Clear, which resets it to zero:
   //reading it afterwards would always restore the top of the document.
@@ -1350,6 +1421,164 @@ begin
   end;
 end;
 
+procedure TMainForm.CreateHTMLViewers;
+begin
+  HtmlViewer := CreateHTMLViewer(ClientPanel, False);
+  HtmlViewer.OnKeyDown := HtmlViewerKeyDown;
+  HtmlViewerIndex := CreateHTMLViewer(tsIndex, True);
+end;
+
+function TMainForm.CreateHTMLViewer(const AParent: TWinControl;
+  const ANoSelect: Boolean): THtmlViewer;
+begin
+  //the same properties they had in the form file
+  Result := THtmlViewer.Create(Self);
+  Result.AlignWithMargins := True;
+  Result.BorderStyle := htSingle;
+  Result.DefBackground := clWindow;
+  Result.HistoryMaxCount := 0;
+  Result.NoSelect := ANoSelect;
+  Result.PrintMarginBottom := 0.8;
+  Result.PrintMarginLeft := 0.8;
+  Result.PrintMarginRight := 0.8;
+  Result.PrintMarginTop := 0.8;
+  Result.PrintScale := 1;
+  Result.Align := alClient;
+  Result.Parent := AParent;
+end;
+
+function TMainForm.UseEdge: Boolean;
+begin
+  {$IF CompilerVersion >= 36}
+  Result := Assigned(FEdgeViewer);
+  {$ELSE}
+  Result := False;
+  {$IFEND}
+end;
+
+{$IF CompilerVersion >= 36}
+procedure TMainForm.UpdateEdgeViewers;
+begin
+  //WebView2 or HTMLViewer, as chosen in the settings ("Use WebView2")
+  if FViewerSettings.UseWebView2 then
+  begin
+    if not Assigned(FEdgeViewer) then
+      CreateEdgeViewers;
+  end
+  else if Assigned(FEdgeViewer) then
+    FreeEdgeViewers;
+end;
+
+procedure TMainForm.FreeEdgeViewers;
+begin
+  FreeAndNil(FEdgeViewer);
+  FreeAndNil(FEdgeViewerIndex);
+  HtmlViewer.Visible := True;
+  HtmlViewerIndex.Visible := True;
+end;
+
+procedure TMainForm.CreateEdgeViewers;
+begin
+  //WebView2Loader.dll (next to the executable) and the WebView2 runtime are
+  //required: without them the documents are shown by HTMLViewer
+  if not TEdgeMarkdownViewer.EdgeAvailable then
+    Exit;
+  FEdgeViewer := CreateEdgeViewer(HtmlViewer);
+  FEdgeViewerIndex := CreateEdgeViewer(HtmlViewerIndex);
+end;
+
+function TMainForm.CreateEdgeViewer(const AHTMLViewer: THtmlViewer): TEdgeMarkdownViewer;
+begin
+  Result := TEdgeMarkdownViewer.Create(Self);
+  Result.AlignWithMargins := AHTMLViewer.AlignWithMargins;
+  Result.Margins.Assign(AHTMLViewer.Margins);
+  Result.BoundsRect := AHTMLViewer.BoundsRect;
+  Result.Align := AHTMLViewer.Align;
+  //the links are handled by the form, as with HTMLViewer
+  Result.AutoLoadOnHotSpotClick := False;
+  Result.OnFileNameClicked := EdgeViewerFileNameClicked;
+  Result.OnURLClicked := EdgeViewerURLClicked;
+  Result.OnPrintToPDFCompleted := EdgeViewerPDFCompleted;
+  Result.Parent := AHTMLViewer.Parent;
+  AHTMLViewer.Visible := False;
+  UpdateEdgeViewer(Result);
+end;
+
+function TMainForm.EdgeViewerOf(const AHTMLViewer: THtmlViewer): TEdgeMarkdownViewer;
+begin
+  if AHTMLViewer = HtmlViewerIndex then
+    Result := FEdgeViewerIndex
+  else
+    Result := FEdgeViewer;
+end;
+
+procedure TMainForm.UpdateEdgeViewer(const AViewer: TEdgeMarkdownViewer);
+begin
+  //the page uses the font of the settings and the colors of the VCL style
+  AViewer.DefFontName := FViewerSettings.HTMLFontName;
+  AViewer.DefFontSize := FViewerSettings.HTMLFontSize;
+  AViewer.DefBackground := StyleServices.GetSystemColor(clWindow);
+  AViewer.DefFontColor := StyleServices.GetSystemColor(clWindowText);
+  AViewer.DefHotSpotColor := HtmlViewer.DefHotSpotColor;
+end;
+
+procedure TMainForm.EdgeViewerFileNameClicked(const AFileName: TFileName;
+  out AHandled: Boolean);
+var
+  LFileName: TFileName;
+begin
+  //A file of the help (as HtmlViewerHotSpotClick)
+  LFileName := AFileName;
+  AHandled := FileExists(LFileName) or FileWithExtExists(LFileName, AMarkdownFileExt);
+  if AHandled then
+    LoadAndTransformFile(LFileName);
+end;
+
+procedure TMainForm.EdgeViewerURLClicked(const AURL: string; out AHandled: Boolean);
+begin
+  //An external link: confirmed when it is not a web or mail address
+  AHandled := OpenExternalLink(AURL);
+end;
+
+procedure TMainForm.EdgeToPDF(const APDFFileName: TFileName);
+var
+  LSettings: ICoreWebView2PrintSettings;
+
+  function CmToInches(const AHundredthsOfCm: Integer): Double;
+  begin
+    Result := AHundredthsOfCm / 100 / 2.54;
+  end;
+
+begin
+  FPDFFileName := APDFFileName;
+  LSettings := FEdgeViewer.CreatePrintSettings;
+  if Assigned(LSettings) then
+  begin
+    //margins of the settings: hundredths of cm (WebView2: inches)
+    LSettings.Set_MarginLeft(CmToInches(FViewerSettings.PDFPageSettings.MarginLeft));
+    LSettings.Set_MarginTop(CmToInches(FViewerSettings.PDFPageSettings.MarginTop));
+    LSettings.Set_MarginRight(CmToInches(FViewerSettings.PDFPageSettings.MarginRight));
+    LSettings.Set_MarginBottom(CmToInches(FViewerSettings.PDFPageSettings.MarginBottom));
+    if FViewerSettings.PDFPageSettings.PrintOrientation = TPrinterOrientation.poLandscape then
+      LSettings.Set_Orientation(COREWEBVIEW2_PRINT_ORIENTATION_LANDSCAPE)
+    else
+      LSettings.Set_Orientation(COREWEBVIEW2_PRINT_ORIENTATION_PORTRAIT);
+    LSettings.Set_ShouldPrintHeaderAndFooter(0);
+  end;
+  Screen.Cursor := crHourGlass;
+  if not FEdgeViewer.PrintToPDF(APDFFileName, LSettings) then
+    Screen.Cursor := crDefault;
+end;
+
+procedure TMainForm.EdgeViewerPDFCompleted(Sender: TCustomEdgeBrowser;
+  ErrorCode: HResult; IsSuccessful: Boolean);
+begin
+  Screen.Cursor := crDefault;
+  if IsSuccessful then
+    FileSavedAskToOpen(FPDFFileName);
+end;
+{$IFEND}
+
 procedure TMainForm.HTMLToPDF(const APDFFileName: TFileName);
 var
   lHtmlToPdf: TvmHtmlToPdfGDI;
@@ -1505,6 +1734,7 @@ begin
   PageControl.Visible := FViewerSettings.PageControlVisible;
   PageControl.Width := Round(FViewerSettings.PageControlSize * Self.ScaleFactor);
 
+  FillDialectItems(ProcessorDialectComboBox.Items);
   ProcessorDialectComboBox.ItemIndex := ord(FViewerSettings.ProcessorDialect);
   HTMLFontSize := FViewerSettings.HTMLFontSize;
   HTMLFontName := FViewerSettings.HTMLFontName;
@@ -1512,6 +1742,11 @@ begin
   ShowToolbarCaptions := FViewerSettings.ShowToolbarCaptions;
   paTop.Repaint;
   UseColoredIcons := FViewerSettings.UseColoredIcons;
+
+  {$IF CompilerVersion >= 36}
+  //the viewers of the documents: WebView2 or HTMLViewer
+  UpdateEdgeViewers;
+  {$IFEND}
 
   TransformTo(HtmlViewer, FMdContent, FHtmlContent, True, True);
 
@@ -1558,17 +1793,25 @@ begin
   end;
 
   //set visible ProcessorDialectLabel and ProcessorDialectComboBox
-  if DialectSelectionVisible then
+  //(only when it changes: UpdateGui is called by every update of the actions)
+  if ProcessorDialectComboBox.Visible <> DialectSelectionVisible then
   begin
-    ToolBar.Margins.Right := ProcessorDialectComboBox.Width + Round(10 * ScaleFactor);
-    ProcessorDialectComboBox.Visible := True;
-    ProcessorDialectLabel.Visible := True;
-  end
-  else
-  begin
-    ToolBar.Margins.Right := 0;
-    ProcessorDialectComboBox.Visible := False;
-    ProcessorDialectLabel.Visible := False;
+    if DialectSelectionVisible then
+    begin
+      ToolBar.Margins.Right := ProcessorDialectComboBox.Width + Round(10 * ScaleFactor);
+      ProcessorDialectComboBox.Visible := True;
+      ProcessorDialectLabel.Visible := True;
+    end
+    else
+    begin
+      ToolBar.Margins.Right := 0;
+      ProcessorDialectComboBox.Visible := False;
+      ProcessorDialectLabel.Visible := False;
+    end;
+    //NB: the label is painted by paTop and the toolbar, enlarged over it, does
+    //not paint that area: without a repaint the hidden label stays on screen
+    paTop.Invalidate;
+    ToolBar.Invalidate;
   end;
 end;
 

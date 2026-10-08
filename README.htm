@@ -1,7 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
 <style type="text/css">
-body{
-  font-family: Arial, Helvetica, sans-serif;
-}
+:root{color-scheme:dark;}
+body{font-family:"Arial",sans-serif;font-size:12pt;color:#FFFFFF;background-color:#191D22;}
+a{color:#0000FF;}
+.markdown-alert>:last-child{margin-bottom:0;}
+.markdown-alert-title{margin-top:0;}
+@media print{body{color:#000;background-color:#fff;}}
+</style>
+<script>
+document.addEventListener("click",function(e){var a=e.target.closest("a");if(a){var h=a.getAttribute("href");if(h&&h.charAt(0)==="#"){e.preventDefault();var t=document.getElementById(decodeURIComponent(h.substring(1)));if(t)t.scrollIntoView();}}});
+window.addEventListener("scroll",function(){if(window.chrome&&chrome.webview)chrome.webview.postMessage("scrollY:"+Math.round(window.scrollY)+":"+Math.max(0,Math.round(document.documentElement.scrollHeight-window.innerHeight)));});
+</script>
+</head>
+<body>
+<style type="text/css">
 img{
   max-width: 100%;
   height: auto;
@@ -28,80 +43,186 @@ table{
   border:1px solid;
   border-collapse:collapse;
 }
-th{  padding:5px;
+th{
+  padding:5px;
   border:1px solid;
 }
 td{
   padding:5px;
   border:1px solid;
 }
+mark{
+  background-color: #fff3a0;
+  color: #000;
+}
+kbd{
+  font-family: "Consolas", monospace;
+  border: 1px solid #bbb;
+  padding: 0 4px;
+}
+div.math{
+  text-align: center;
+}
+pre.mermaid{
+  border: none;
+  padding: 0;
+}
+.markdown-alert{
+  padding: 0.5em 1em;
+  margin-bottom: 1em;
+  border-left: 4px solid #d0d7de;
+}
+.markdown-alert-title{
+  font-weight: bold;
+}
+.markdown-alert-note{
+  border-left: 4px solid #0969da;
+}
+.markdown-alert-note .markdown-alert-title{
+  color: #0969da;
+}
+.markdown-alert-tip{
+  border-left: 4px solid #1a7f37;
+}
+.markdown-alert-tip .markdown-alert-title{
+  color: #1a7f37;
+}
+.markdown-alert-important{
+  border-left: 4px solid #8250df;
+}
+.markdown-alert-important .markdown-alert-title{
+  color: #8250df;
+}
+.markdown-alert-warning{
+  border-left: 4px solid #9a6700;
+}
+.markdown-alert-warning .markdown-alert-title{
+  color: #9a6700;
+}
+.markdown-alert-caution{
+  border-left: 4px solid #cf222e;
+}
+.markdown-alert-caution .markdown-alert-title{
+  color: #cf222e;
+}
 </style>
-<h1>Markdown Help Viewer <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg" alt="License"/></a></h1>
-<p><strong>Latest Version 2.6.0 - 22 Sep 2026</strong></p>
-<p><strong>An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications</strong></p>
-<ul>
-<li><p>A &ldquo;Setup&rdquo; of the pre-built <strong>&ldquo;Markdown Help Viewer&rdquo;</strong> ready to use.</p>
-</li>
-<li><p>A unit (MarkdownHelpViewer.pas) to add the interface to Delphi Help System of your Delphi Application (from XE6 version to latest)</p>
-</li>
-<li><p>A VCL Visual Component (TMarkdownViewer) to automatically show Markdown file formatted in HTML (from XE6 version to latest)</p>
-</li>
-<li><p>A simple demo to show how to integrate the Help in your application, as exaplained <a href="./Demo/Help/README.md">here&hellip;</a></p>
-</li>
-<li><p>For editing and prepare the Help manual of your application we suggest to use the Editor contained into
-<a href="https://github.com/EtheaDev/MarkdownShellExtensions">&ldquo;Markdown Shell Extensions&rdquo;</a> project.</p>
-</li>
-</ul>
-<p><img src="/Setup/SupportingDelphi.jpg" alt="Delphi Support"/></p>
+<h1 id="markdown-help-viewer-windows-app-and-delphi-component">Markdown Help Viewer (Windows App and Delphi Component)</h1>
+<!-- raw HTML omitted -->
+<p><a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-green.svg" alt="License: Apache" /></a>
+<a href="https://github.com/EtheaDev/MarkdownHelpViewer/releases"><img src="https://img.shields.io/github/v/release/EtheaDev/MarkdownHelpViewer?label=release&amp;color=blue" alt="Latest release" /></a>
+<a href="https://www.embarcadero.com/products/delphi"><img src="https://img.shields.io/badge/Delphi-XE6%2B-e62329.svg" alt="Delphi XE6+" /></a>
+<a href="https://docwiki.embarcadero.com/RADStudio/en/Main_Page"><img src="https://img.shields.io/badge/Platform-VCL-8a2be2.svg" alt="Platform: VCL" /></a>
+<a href="https://spec.commonmark.org/0.31.2/"><img src="https://img.shields.io/badge/CommonMark-0.31.2%20652%2F652-1f6feb.svg" alt="CommonMark 0.31.2" /></a>
+<a href="https://github.github.com/gfm/"><img src="https://img.shields.io/badge/GFM-0.29%2024%2F24-24292f.svg" alt="GFM 0.29" /></a>
+<a href="https://katex.org/"><img src="https://img.shields.io/badge/Math-35%2F35-008080.svg" alt="Math formulas" /></a>
+<a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts"><img src="https://img.shields.io/badge/Alerts-20%2F20-d29922.svg" alt="GitHub alerts" /></a>
+<a href="https://katex.org/"><img src="https://img.shields.io/badge/KaTeX-0.16.11-008080.svg" alt="KaTeX 0.16.11" /></a>
+<a href="https://mermaid.js.org/"><img src="https://img.shields.io/badge/Mermaid-11.17.2-ff3670.svg" alt="Mermaid 11.17.2" /></a>
+<a href="https://developer.microsoft.com/microsoft-edge/webview2/"><img src="https://img.shields.io/badge/WebView2-Edge-0078d4.svg" alt="Microsoft Edge WebView2" /></a>
+<a href="https://www.microsoft.com/windows"><img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078d6.svg" alt="Windows 10 and 11" /></a></p>
+<p><img src="/Setup/SupportingDelphi.jpg" alt="Delphi Support" /></p>
 <p>Related links: <a href="https://www.embarcadero.com/">embarcadero.com</a> - <a href="https://learndelphi.org/">learndelphi.org</a></p>
-<h2>Documentation</h2>
-<p>Follow the <a href="https://ethea.it/docs/markdowntools/">Project Site</a> to known how to use this Viewer and the Delphi component and other tools related to Markdown format like the Markdown Text Editor.</p>
-<h3>Features</h3>
+<hr />
+<p><strong>An integrated help system based on files in Markdown format (and also html), for any Windows applications</strong></p>
 <ul>
-<li><p>Supports Windows 10 and 11 (for 32 bits and 64 bits).</p>
+<li>
+<p>A “Setup” of the pre-built <strong>“Markdown Help Viewer”</strong> ready to use.</p>
 </li>
-<li><p>Themes (Dark and Light) according to user preferences of Windows Theme</p>
+<li>
+<p>A unit (MarkdownHelpViewer.pas) to add the interface to Delphi Help System of your Delphi Application (from XE6 version to latest)</p>
 </li>
-<li><p>Auto-detect Index file in the working folder</p>
+<li>
+<p>Two VCL Visual Components to automatically show Markdown files formatted in HTML:</p>
+<ul>
+<li><strong>TEdgeMarkdownViewer</strong> (from Delphi 12): based on TEdgeBrowser (Microsoft Edge WebView2), it shows also math formulas and mermaid diagrams</li>
+<li><strong>TMarkdownViewer</strong> (from XE6 to Delphi 11, optional from Delphi 12): based on HTMLViewer</li>
+</ul>
 </li>
-<li><p>Very easy to integrate into Delphi Application, also in &ldquo;embedded&rdquo; mode.</p>
+<li>
+<p>A simple demo to show how to integrate the Help in your application, as exaplained <a href="./Demo/Help/README.md">here…</a></p>
 </li>
-<li><p>Automatic check and download when a new version is available</p>
+<li>
+<p>For editing and prepare the Help manual of your application we suggest to use the Editor contained into
+<a href="https://github.com/EtheaDev/MarkdownShellExtensions">“Markdown Shell Extensions”</a> project.</p>
 </li>
 </ul>
-<h3>Setup using the Installer</h3>
+<h3 id="documentation">Documentation</h3>
+<p>Follow the <a href="https://ethea.it/docs/markdowntools/">Project Site</a> to know all the markdown tools and the Delphi components: Markdown Processor, Markdown Text Editor and Markdown Help Viewer.</p>
+<h3 id="features">Features</h3>
+<ul>
+<li>
+<p>Supports Windows 10 and 11 (for 32 bits and 64 bits).</p>
+</li>
+<li>
+<p>Uses the latest, empowered version of the <a href="https://github.com/EtheaDev/MarkdownProcessor">Markdown Processor</a> (2.0): CommonMark 0.31.2 and GitHub Flavored Markdown compliant engine. The default dialect is now <strong>GitHub</strong> (GFM + math formulas, alerts and mermaid diagrams, plus subscript, superscript, insert, mark, smart typography, heading ids and wiki links); CommonMark, GFM, DaringFireball and TxtMark are still available.</p>
+</li>
+<li>
+<p>The documents are shown with <strong>Microsoft Edge WebView2</strong> (TEdgeBrowser): math formulas (KaTeX), mermaid diagrams, GitHub alerts, modern CSS. When WebView2 is not available (or disabled in the Settings: “Use WebView2 (Edge) when available”) the viewer falls back to HTMLViewer.</p>
+</li>
+<li>
+<p>Math formulas and mermaid diagrams (also charts: pie, bar and line charts) are drawn also <strong>without an Internet connection</strong>: KaTeX and mermaid.js are installed with the viewer (Scripts folder).</p>
+</li>
+<li>
+<p>Themes (Dark and Light) according to user preferences of Windows Theme</p>
+</li>
+<li>
+<p>Auto-detect Index file in the working folder</p>
+</li>
+<li>
+<p>Very easy to integrate into Delphi Application, also in “embedded” mode.</p>
+</li>
+<li>
+<p>Automatic check and download when a new version is available</p>
+</li>
+</ul>
+<h3 id="setup-using-the-installer">Setup using the Installer</h3>
 <p>Click to download the <a href="https://github.com/EtheaDev/MarkdownHelpViewer/releases/latest/download/MarkDownHelpViewerSetup.exe">MarkDownHelpViewerSetup.exe</a> located also in the Release area. The Installer works both for 32 and 64 bit system. Warning: this setup installs only the viewer.</p>
-<p><img src="./Images/Setup.png" alt="Markdown Setup_Program"/></p>
-<h3>Manual installation of Packages</h3>
+<p>The viewer uses the WebView2 runtime of Microsoft Edge, already present in Windows 11 and in the updated Windows 10 systems: if it is missing, the documents are shown with the internal HTML viewer.</p>
+<p><img src="./Images/Setup.png" alt="Markdown Setup_Program" /></p>
+<h3 id="manual-installation-of-packages">Manual installation of Packages</h3>
 <p>If you want to use the Delphi Component you need to manual Build and Install the packages.</p>
-<p>Open the correct group-project file for your Delphi version, located into Packages folder (for example: Packages\D13\MarkDownHelpViewerGroup.groupproj).</p>
-<p>Then Build the run-time packages:</p>
+<p>Open the correct group-project file for your Delphi version, located into Packages folder (for example: Packages\D13\MarkDownViewerGroup.groupproj), or run the build script of your version (for example: Packages\BuildAllPackagesD13.ps1).</p>
+<p><strong>Delphi 12 and 13</strong>: Build the run-time packages:</p>
+<ul>
+<li>MarkdownProcessorXXX.bpl</li>
+<li>MarkDownViewerXXX.bpl (TEdgeMarkdownViewer: no dependency from HTMLViewer)</li>
+</ul>
+<p>and Install the design-time package:</p>
+<ul>
+<li>dclMarkDownViewerXXX.bpl</li>
+</ul>
+<p>The component <strong>TEdgeMarkdownViewer</strong> is ready to use. If you still need the old TMarkdownViewer (HTMLViewer), build also the optional packages FrameViewerXXX.bpl and MarkDownViewerHTMLXXX.bpl and install dclMarkDownViewerHTMLXXX.bpl (they are not in the group project).</p>
+<p><strong>From XE6 to Delphi 11</strong>: Build the run-time packages:</p>
 <ul>
 <li>FrameViewerXXX.bpl</li>
+<li>MarkdownProcessorXXX.bpl</li>
 <li>MarkDownViewerXXX.bpl</li>
 </ul>
 <p>and Install the design-time package:</p>
 <ul>
 <li>dclMarkDownViewerXXX.bpl</li>
 </ul>
-<p>The component TMarkdownViewer is ready to use.</p>
+<p>The component <strong>TMarkdownViewer</strong> is ready to use.</p>
 <p>Remember also to add those Search Path:</p>
 <ul>
 <li>{MarkdownViewerInstallDir}\Source</li>
-<li>{MarkdownViewerInstallDir}\Components</li>
-<li>{MarkdownViewerInstallDir}\AppInterface</li>
-<li>{MarkdownViewerInstallDir}\Ext\HTMLViewer\Source</li>
+<li>{MarkdownViewerInstallDir}\Source\Components</li>
+<li>{MarkdownViewerInstallDir}\Source\AppInterface</li>
+<li>{MarkdownViewerInstallDir}\Ext\HTMLViewer\Source (only for TMarkdownViewer)</li>
 <li>{MarkdownViewerInstallDir}\Ext\MarkdownProcessor\source</li>
 </ul>
-<h3>Manual Build of the Viewer</h3>
+<h3 id="deploy-an-application-with-tedgemarkdownviewer">Deploy an application with TEdgeMarkdownViewer</h3>
+<p>TEdgeMarkdownViewer (and the Markdown Help Viewer itself) uses the Microsoft Edge WebView2 runtime through <strong>WebView2Loader.dll</strong>, which must be distributed together with your application (next to the executable, in the 32 or 64 bit version of the executable): it is in the Bin32 and Bin64 folders of this project (from the Microsoft WebView2 SDK, see Setup\LICENSE-WebView2.txt). Use <code>TEdgeMarkdownViewer.EdgeAvailable</code> to check at runtime that both the loader and the WebView2 runtime are available.</p>
+<p>Math formulas (KaTeX) and mermaid diagrams are drawn by JavaScript libraries: to show them also without an Internet connection, distribute the <strong>Scripts</strong> folder of this project (KaTeX 0.16.11 and mermaid 11.17.2, MIT License) next to your executable or in its parent folder, where TEdgeMarkdownViewer finds it automatically (or set the <code>ScriptsFolder</code> property). Without it the libraries are loaded from the jsDelivr CDN (the same versions).</p>
+<h3 id="manual-build-of-the-viewer">Manual Build of the Viewer</h3>
 <p>If you want to manual Build the Viewer, you can Build:</p>
 <p><strong>{MarkdownViewerInstallDir}\Source\MDHelpViewer.dproj</strong></p>
-<h3>Markdown Help Viewer in action</h3>
+<h3 id="markdown-help-viewer-in-action">Markdown Help Viewer in action</h3>
 <p>A useful Viewer for instant preview of Markdown formatted content help files (with auto-detection of Windows-Theme):</p>
-<p><img src="./Images/ContentPageDark.png" alt="Markdown Help Viewer"/></p>
-<p>The Viewer is &ldquo;localized&rdquo; for some languages. In this example the GUI with Italian language:</p>
-<p><img src="./Images/ContentPageIta.png" alt="Markdown Help Viewer Italian"/></p>
-<h3>Step to activate this Help into MarkdownHelpViewerDemo Application</h3>
+<p><img src="./Images/ContentPageDark.png" alt="Markdown Help Viewer" /></p>
+<p>The Viewer is “localized” for some languages. In this example the GUI with Italian language:</p>
+<p><img src="./Images/ContentPageIta.png" alt="Markdown Help Viewer Italian" /></p>
+<h3 id="step-to-activate-this-help-into-markdownhelpviewerdemo-application">Step to activate this Help into MarkdownHelpViewerDemo Application</h3>
 <p>Use MarkdownHelpViewer.pas (located into AppInterface folder) in dpr:</p>
 <div style="font-family: Arial, 'Courier New', monospace; font-size: 12pt;  background-color: #191D22; color: #FFFFFF;">
 <pre><code><span>  MarkdownHelpViewer </span><span style="color: #569CD6; font-weight: bold; ">in</span><span> </span><span style="color: #CE9178; ">'..\..\AppInterface\MarkDownHelpViewer.pas'</span><span style="color: #D4D4D4; ">,</span>
@@ -113,9 +234,7 @@ td{
 </code></pre>
 </div>
 <p>If you have installed the viewer using the provided Setup, the installation folder of the Viewer is registere into:</p>
-<p><code>
-HKEY_CLASSES_ROOT\Applications\MDHelpViewer.exe\Shell\Open\Command
-</code>
+<p><code>HKEY_CLASSES_ROOT\Applications\MDHelpViewer.exe\Shell\Open\Command</code>
 so the interface can launch the viewer automatically.</p>
 <p>If you don't want to use the provided Setup you can register the location of the Viewer built by yourself and deployed to a specific location, for example:</p>
 <div style="font-family: Arial, 'Courier New', monospace; font-size: 12pt;  background-color: #191D22; color: #FFFFFF;">
@@ -128,7 +247,7 @@ so the interface can launch the viewer automatically.</p>
 <span style="color: #C586C0; font-style: italic; ">{$ENDIF}</span>
 </code></pre>
 </div>
-<h3>Rules to open the correct file using HelpContext or HelpTopic</h3>
+<h3 id="rules-to-open-the-correct-file-using-helpcontext-or-helptopic">Rules to open the correct file using HelpContext or HelpTopic</h3>
 <p>To test the application you can lauch the Home.md help using the menu About/Help: in the OnClick handler invoke the help:</p>
 <div style="font-family: Arial, 'Courier New', monospace; font-size: 12pt;  background-color: #191D22; color: #FFFFFF;">
 <pre><code><span style="color: #569CD6; font-weight: bold; ">procedure</span><span> TfmMain</span><span style="color: #D4D4D4; ">.</span><span>HelpMenuItemClick</span><span style="color: #D4D4D4; ">(</span><span>Sender</span><span style="color: #D4D4D4; ">:</span><span> TObject</span><span style="color: #D4D4D4; ">);</span>
@@ -138,15 +257,30 @@ so the interface can launch the viewer automatically.</p>
 </code></pre>
 </div>
 <p>In any Delphi component, you can define HelpType (htKeyword or htContext) and the specify HelpKeyword (string) or HelpContext (Integer).</p>
-<p>When the user press &ldquo;F1&rdquo; inside the application, the HelpSystem is invoked with HelpKeyword or HelpContext.</p>
+<p>When the user press “F1” inside the application, the HelpSystem is invoked with HelpKeyword or HelpContext.</p>
 <p>Then the interface searches in the same folder of default file (specified into Application.HelpFile) the specific file using those rules:</p>
-<h4>Rules of precedence:</h4>
+<h4 id="rules-of-precedence">Rules of precedence:</h4>
 <ul>
 <li>first search a file named as the Keyword or the Context with any markdown extension (eg. 1000.md, MainForm.md)</li>
 <li>Then, try the Help Name and the Keyword (eg.Home1000.md, HomeMainForm.md)</li>
 <li>At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)</li>
 </ul>
-<h2>Release Notes</h2>
+<h2 id="release-notes">Release Notes</h2>
+<p>08 Oct 2026: ver. 3.0.0 (major version)</p>
+<ul>
+<li>Uses the new Markdown Processor 2.0: CommonMark 0.31.2 and GitHub Flavored Markdown compliant engine, with math formulas, GitHub alerts, mermaid diagrams and the legacy extensions (subscript, superscript, insert, mark, smart typography, heading ids, wiki links)</li>
+<li>New default dialect: <strong>GitHub</strong>. The dialect saved by the previous versions as CommonMark (the old default) is automatically converted to GitHub; the dialect is now stored by name in the settings</li>
+<li>Viewer based on Microsoft Edge WebView2 (TEdgeBrowser): math formulas with KaTeX, mermaid diagrams, alerts, PDF export with WebView2. Fallback to HTMLViewer when WebView2 is not available, or when “Use WebView2 (Edge) when available” is disabled in the Settings</li>
+<li><strong>WebView2Loader.dll</strong> must be distributed with the viewer (installed by the Setup)</li>
+<li>Math formulas and mermaid diagrams (also charts: pie, bar and line charts) work also without an Internet connection: KaTeX 0.16.11 and mermaid 11.17.2 are distributed in the <strong>Scripts</strong> folder (installed by the Setup). TEdgeMarkdownViewer finds it automatically next to the executable or in its parent folder (new class function FindScriptsFolder and property EffectiveScriptsFolder), otherwise it loads the same versions from CDN</li>
+<li>TEdgeMarkdownViewer: new method SaveAsHTMLPage (saves the full page, asking the file name), property DocumentFileName (the file of the document, set by LoadFromFile) and event OnSaveAs (the “Save as” of WebView2)</li>
+<li>New component <strong>TEdgeMarkdownViewer</strong> (Delphi 12 and 13), with the same Markdown properties of TMarkdownViewer and of TMarkdownToHTML: ProcessorDialect, Extensions, AllowUnsafe, MathRendering, CssStyle, MarkdownContent, HtmlContent</li>
+<li>TMarkdownViewer: new Extensions and MathRendering properties, default dialect GitHub; the Markdown conversion is made by the TMarkdownToHTML engine of the Markdown Processor</li>
+<li>Packages: from Delphi 12 MarkDownViewer contains TEdgeMarkdownViewer and does not require FrameViewer; optional packages MarkDownViewerHTML / dclMarkDownViewerHTML for TMarkdownViewer. Group projects renamed MarkDownViewerGroup.groupproj</li>
+<li>The dialect combo boxes list all the dialects (DaringFireball, CommonMark, TxtMark, GFM, GitHub)</li>
+<li>Demo: the embedded help viewer is created at runtime (TEdgeMarkdownViewer from Delphi 12, TMarkdownViewer before)</li>
+<li>Fixed the translations of the Settings menu</li>
+</ul>
 <p>22 Sep 2026: ver. 2.6.0</p>
 <ul>
 <li>Latest Stable version</li>
@@ -155,14 +289,14 @@ so the interface can launch the viewer automatically.</p>
 </ul>
 <p>22 Sep 2026: ver. 2.5.7</p>
 <ul>
-<li>Fixed &ldquo;Runtime error 217&rdquo; on startup on any computer without RAD Studio installed: the viewer failed before showing any window, giving no clue about the cause.</li>
+<li>Fixed “Runtime error 217” on startup on any computer without RAD Studio installed: the viewer failed before showing any window, giving no clue about the cause.</li>
 <li>Warning: versions 2.5.5 and 2.5.6 cannot start on a machine without MidasLib.dll: please update to this version.</li>
 </ul>
 <p>03 Sep 2026: ver. 2.5.6</p>
 <ul>
 <li>Fixed an Access Violation when downloading a new setup right after the automatic version check: the shared HTTP client was created only by the manual check, so the automatic path reached the download with no client at all.</li>
 <li>A missing setup file name or project URL is now reported with a clear message instead of an assertion, which is compiled out of release builds.</li>
-<li>Web help and repository are now kept distinct: the documentation points to https://ethea.it/docs/markdowntools/, while the Issues button and the new-version check point to GitHub.</li>
+<li>Web help and repository are now kept distinct: the documentation points to <a href="https://ethea.it/docs/markdowntools/">https://ethea.it/docs/markdowntools/</a>, while the Issues button and the new-version check point to GitHub.</li>
 </ul>
 <p>01 Sep 2026: ver. 2.5.5</p>
 <ul>
@@ -181,7 +315,7 @@ so the interface can launch the viewer automatically.</p>
 <p>06 Jul 2026: ver. 2.5.4</p>
 <ul>
 <li>Added a configurable HTML stylesheet (CSS) in Settings (Preview page), with CSS syntax highlighting.</li>
-<li>Added the &ldquo;Allow unsafe HTML&rdquo; option in Settings (off by default): lets native HTML (script, iframe, object&hellip;) in the markdown pass through to the output instead of being escaped.</li>
+<li>Added the “Allow unsafe HTML” option in Settings (off by default): lets native HTML (script, iframe, object…) in the markdown pass through to the output instead of being escaped.</li>
 <li>TMarkdownViewer component: new AllowUnsafe property (default False), passed to the markdown processor.</li>
 <li>The Settings dialog can now be closed with the Esc key.</li>
 <li>Updated the GUI translation files (XML).</li>
@@ -210,12 +344,12 @@ so the interface can launch the viewer automatically.</p>
 </ul>
 <p>11 Apr 2026: ver. 2.4.1</p>
 <ul>
-<li>Used new &ldquo;modern&rdquo; Styles available in Delphi 13.</li>
+<li>Used new “modern” Styles available in Delphi 13.</li>
 <li>Added FrameViewer Package in package groups</li>
 </ul>
 <p>20 Feb 2026: ver. 2.4.0</p>
 <ul>
-<li>Fixed position for &ldquo;View&rdquo; Button in multimonitor environment</li>
+<li>Fixed position for “View” Button in multimonitor environment</li>
 <li>Changed Open Dialog with modern Layout</li>
 <li>Removed .txt files support</li>
 </ul>
@@ -270,7 +404,7 @@ so the interface can launch the viewer automatically.</p>
 </ul>
 <p>19 Mar 2024: ver. 2.1.2</p>
 <ul>
-<li>Added property &ldquo;AutoLoadOnHotSpotClick&rdquo; to TMarkdownViewer</li>
+<li>Added property “AutoLoadOnHotSpotClick” to TMarkdownViewer</li>
 <li>Fixed resize Font changing Monitor-DPI</li>
 <li>Fixed Toolbar switching Captions On/Off</li>
 <li>Reset scrollbar position to top after loading new file</li>
@@ -296,7 +430,7 @@ so the interface can launch the viewer automatically.</p>
 <li>Updated Markdown library with best support for CommonMark transformation:</li>
 </ul>
 <ol>
-<li>Subscript <sub>text</sub> and Superscript <sup>text</sup></li>
+<li>Subscript <!-- raw HTML omitted -->text<!-- raw HTML omitted --> and Superscript <!-- raw HTML omitted -->text<!-- raw HTML omitted --></li>
 <li>Formulas (using [Google Chart API])</li>
 <li><mark>Markers</mark></li>
 <li><a href="https://www.markdownguide.org/basic-syntax/#reference-style-links">Reference-style Links</a></li>
@@ -309,18 +443,18 @@ so the interface can launch the viewer automatically.</p>
 </ul>
 <p>30 Jun 2023: ver. 1.2.0</p>
 <ul>
-<li>Restored &ldquo;Settings&rdquo; function on Viewer</li>
+<li>Restored “Settings” function on Viewer</li>
 <li>Fixed Component loading content from MarkdownContent property</li>
 <li>Fixed Component loading images using FileName (now searches in same folder)</li>
 </ul>
 <p>29 Jun 2023: ver. 1.1.0</p>
 <ul>
 <li>Refactoring Folder/Source position (some files moved)</li>
-<li>Renamed &ldquo;Markdown&rdquo; identifier to &ldquo;Markdown&rdquo;</li>
+<li>Renamed “Markdown” identifier to “Markdown”</li>
 <li>Added Packages for other Delphi versions</li>
-<li>Added &ldquo;refresh&rdquo; button to reload file content</li>
+<li>Added “refresh” button to reload file content</li>
 <li>Fix Resize performance</li>
-<li>Added &ldquo;RegisterMDViewerServerRoot&rdquo; to automate loading content into the Component</li>
+<li>Added “RegisterMDViewerServerRoot” to automate loading content into the Component</li>
 <li>Updated Component MarkdownViewer for autoloading content</li>
 </ul>
 <p>23 Jun 2023: ver. 1.0.0</p>
@@ -331,40 +465,46 @@ so the interface can launch the viewer automatically.</p>
 <li>Settings available for easy customization of GUI</li>
 <li>Unit MarkdownHelpViewer.pas for Delphi Applications</li>
 </ul>
-<h2>Markdown Help Viewer in depth</h2>
-<p>Learn more about &ldquo;MarkDown Help Viewer&rdquo; within our <a href="https://github.com/EtheaDev/MarkdownHelpViewer/wiki/MarkDown-Help-Viewer-in-Depth">wiki</a>. Dive deeper into everything related to this tool, its features, and how to make the most of it.</p>
-<h2>License</h2>
-<p>Licensed under the <a href="https://opensource.org/licenses/Apache-2.0">Apache License, Version 2.0</a> (the &ldquo;License&rdquo;);</p>
-<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an &ldquo;AS IS&rdquo; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
-<h3>Other libraries from Ethea:</h3>
-<p><strong>SVGIconImageList</strong> - https://github.com/EtheaDev/SVGIconImageList/</p>
-<p><strong>StyledComponents</strong> - https://github.com/EtheaDev/StyledComponents</p>
-<p><strong>Delphi MarkdownProcessor</strong> - https://github.com/EtheaDev/MarkdownProcessor</p>
-<h3>Third parties libraries:</h3>
+<h2 id="markdown-help-viewer-in-depth">Markdown Help Viewer in depth</h2>
+<p>Learn more about “MarkDown Help Viewer” within our <a href="https://github.com/EtheaDev/MarkdownHelpViewer/wiki/MarkDown-Help-Viewer-in-Depth">wiki</a>. Dive deeper into everything related to this tool, its features, and how to make the most of it.</p>
+<h2 id="license">License</h2>
+<p>Licensed under the <a href="https://opensource.org/licenses/Apache-2.0">Apache License, Version 2.0</a> (the “License”);</p>
+<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
+<h3 id="other-libraries-from-ethea">Other libraries from Ethea:</h3>
+<p><strong>SVGIconImageList</strong> - <a href="https://github.com/EtheaDev/SVGIconImageList/">https://github.com/EtheaDev/SVGIconImageList/</a></p>
+<p><strong>StyledComponents</strong> - <a href="https://github.com/EtheaDev/StyledComponents">https://github.com/EtheaDev/StyledComponents</a></p>
+<p><strong>Delphi MarkdownProcessor</strong> - <a href="https://github.com/EtheaDev/MarkdownProcessor">https://github.com/EtheaDev/MarkdownProcessor</a></p>
+<h3 id="third-parties-libraries">Third parties libraries:</h3>
 <p><strong>OpenSLL Library</strong>: Cryptography and SSL/TLS Toolkit</p>
 <p>Copyright © 1998-2018 The OpenSSL Project.  All rights reserved.</p>
-<p><strong>Delphi Markdown</strong> - https://github.com/grahamegrieve/delphi-markdown</p>
+<p><strong>Delphi Markdown</strong> - <a href="https://github.com/grahamegrieve/delphi-markdown">https://github.com/grahamegrieve/delphi-markdown</a></p>
 <p>Copyright (c) 2011+, Health Intersections Pty Ltd All rights reserved</p>
-<p><strong>Delphi Preview Handler</strong> - https://github.com/RRUZ/delphi-preview-handler</p>
+<p><strong>Delphi Preview Handler</strong> - <a href="https://github.com/RRUZ/delphi-preview-handler">https://github.com/RRUZ/delphi-preview-handler</a></p>
 <p>The Initial Developer of the Original Code is Rodrigo Ruz V.
 Portions created by Rodrigo Ruz V. are Copyright © 2011-2023 Rodrigo Ruz V.</p>
-<p><strong>Synopse/SynPDF</strong> - https://github.com/synopse/SynPDF</p>
+<p><strong>KaTeX</strong> - <a href="https://katex.org/">https://katex.org/</a></p>
+<p>Copyright (c) 2013-2020 Khan Academy and other contributors (MIT License)</p>
+<p><strong>Mermaid</strong> - <a href="https://mermaid.js.org/">https://mermaid.js.org/</a></p>
+<p>Copyright (c) 2014-2022 Knut Sveidqvist (MIT License)</p>
+<p><strong>Synopse/SynPDF</strong> - <a href="https://github.com/synopse/SynPDF">https://github.com/synopse/SynPDF</a></p>
 <p>Copyright © Synopse: all right reserved.</p>
-<p><strong>HtmlToPdf</strong> - https://github.com/MuzioValerio/HtmlToPdf</p>
+<p><strong>HtmlToPdf</strong> - <a href="https://github.com/MuzioValerio/HtmlToPdf">https://github.com/MuzioValerio/HtmlToPdf</a></p>
 <p>Copyright © Muzio Valerio.</p>
-<p><strong>Image32 Library</strong> - http://www.angusj.com/delphi/image32/Docs/_Body.htm</p>
+<p><strong>Image32 Library</strong> - <a href="http://www.angusj.com/delphi/image32/Docs/_Body.htm">http://www.angusj.com/delphi/image32/Docs/_Body.htm</a></p>
 <p>Copyright ©2019-2023 Angus Johnson.</p>
-<p><strong>HTMLViewer</strong> - https://github.com/BerndGabriel/HtmlViewer</p>
+<p><strong>HTMLViewer</strong> - <a href="https://github.com/BerndGabriel/HtmlViewer">https://github.com/BerndGabriel/HtmlViewer</a></p>
 <p>Copyright (c) 1995 - 2008 by L. David Baldwin</p>
 <p>Copyright (c) 1995 - 2023 by Anders Melander (DitherUnit.pas)</p>
 <p>Copyright (c) 1995 - 2023 by Ron Collins (HtmlGif1.pas)</p>
 <p>Copyright (c) 2008 - 2009 by Sebastian Zierer (Delphi 2009 Port)</p>
 <p>Copyright (c) 2008 - 2010 by Arvid Winkelsdorf (Fixes)</p>
 <p>Copyright (c) 2009 - 2023 by HtmlViewer Team</p>
-<h1>External projects</h1>
-<p><strong><em>To simpilfy compilation of projects they are added into ext folder</em></strong></p>
+<h1 id="external-projects">External projects</h1>
+<p><em><strong>To simpilfy compilation of projects they are added into ext folder</strong></em></p>
 <p><a href="https://github.com/EtheaDev/SVGIconImageList">SVGIconImageList</a></p>
 <p><a href="https://github.com/BerndGabriel/HtmlViewer">HtmlViewer</a></p>
 <p><a href="https://github.com/RRUZ/vcl-styles-utils">vcl-styles-utils</a></p>
 <p><a href="https://github.com/EtheaDev/MarkdownProcessor">markdownProcessor</a></p>
 <p><a href="https://github.com/EtheaDev/StyledComponents">StyledComponents</a></p>
+</body>
+</html>

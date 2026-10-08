@@ -1,0 +1,76 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{54A64ADC-3D98-4F3D-8615-A29BB33BB8A2}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="MarkdownProcessor.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="dclMarkdownProcessor.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="MarkdownProcessor">
+        <MSBuild Projects="MarkdownProcessor.dproj"/>
+    </Target>
+    <Target Name="MarkdownProcessor:Clean">
+        <MSBuild Projects="MarkdownProcessor.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MarkdownProcessor:Make">
+        <MSBuild Projects="MarkdownProcessor.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="dclMarkdownProcessor">
+        <MSBuild Projects="dclMarkdownProcessor.dproj"/>
+    </Target>
+    <Target Name="dclMarkdownProcessor:Clean">
+        <MSBuild Projects="dclMarkdownProcessor.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dclMarkdownProcessor:Make">
+        <MSBuild Projects="dclMarkdownProcessor.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="MarkdownProcessor;dclMarkdownProcessor"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="MarkdownProcessor:Clean;dclMarkdownProcessor:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="MarkdownProcessor:Make;dclMarkdownProcessor:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+    <ItemGroup Condition="'$(BuildGroup)'=='ALL_Win64'">
+        <BuildGroupProject Include="MarkdownProcessor.dproj">
+            <ProjectGuid>{45138FDC-1038-455D-9BA1-81FBEBE0A1AD}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="dclMarkdownProcessor.dproj">
+            <ProjectGuid>{50C6FD0C-C0D8-4396-BD62-A09DBE95FC96}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+    </ItemGroup>
+    <ItemGroup Condition="'$(BuildGroup)'=='ALL_Win32'">
+        <BuildGroupProject Include="MarkdownProcessor.dproj">
+            <ProjectGuid>{45138FDC-1038-455D-9BA1-81FBEBE0A1AD}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="dclMarkdownProcessor.dproj">
+            <ProjectGuid>{50C6FD0C-C0D8-4396-BD62-A09DBE95FC96}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+    </ItemGroup>
+</Project>

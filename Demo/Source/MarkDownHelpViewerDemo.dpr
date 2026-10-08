@@ -1,4 +1,4 @@
-{******************************************************************************}
+﻿{******************************************************************************}
 {                                                                              }
 {       Markdown Help Viewer: Demo                                             }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
@@ -31,8 +31,7 @@ uses
   SysUtils,
   MarkdownHelpViewer in '..\..\Source\AppInterface\MarkDownHelpViewer.pas',
   MainForm in 'MainForm.pas' {fmMain},
-  DemoAbout in 'DemoAbout.pas' {FrmAbout},
-  MarkDownViewerComponents in '..\..\Source\Components\MarkDownViewerComponents.pas';
+  DemoAbout in 'DemoAbout.pas' {FrmAbout};
 
 {$R *.res}
 

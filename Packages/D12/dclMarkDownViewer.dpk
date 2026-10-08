@@ -1,7 +1,7 @@
-package dclMarkDownViewer;
+﻿package dclMarkDownViewer;
 
 {$R *.res}
-{$R 'MarkDownHelpViewer.dcr'}
+{$R '..\EdgeMarkDownViewer.dcr'}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
 {$ASSERTIONS ON}
@@ -36,6 +36,7 @@ requires
   MarkDownViewer;
 
 contains
-  MarkDownViewerRegister in '..\MarkDownViewerRegister.pas';
+  MarkDownViewerDesign in '..\MarkDownViewerDesign.pas',
+  MarkDownEdgeViewerRegister in '..\MarkDownEdgeViewerRegister.pas';
 
 end.

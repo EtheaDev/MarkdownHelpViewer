@@ -11,7 +11,7 @@ object FrmAbout: TFrmAbout
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  Position = poDefault
+  Position = poMainFormCenter
   OnClose = FormClose
   OnCreate = FormCreate
   DesignSize = (

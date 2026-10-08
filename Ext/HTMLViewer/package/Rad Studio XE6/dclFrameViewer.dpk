@@ -26,7 +26,7 @@ package dclFrameViewer;
 {$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'THtmlViewer, TFrameViewer, and TFrameBrowser'}
-{$LIBSUFFIX 'XE6'}
+{$LIBSUFFIX '200'}
 {$DESIGNONLY}
 {$IMPLICITBUILD ON}
 

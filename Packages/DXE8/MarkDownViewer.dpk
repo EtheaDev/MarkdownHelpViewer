@@ -1,7 +1,6 @@
-package MarkDownViewer;
+﻿package MarkDownViewer;
 
 {$R *.res}
-{$R 'MarkDownHelpViewer.dcr'}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
 {$ASSERTIONS ON}
@@ -27,7 +26,7 @@ package MarkDownViewer;
 {$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'Ethea Markdown Help Viewer Components'}
-{$LIBSUFFIX 'DXE8'}
+{$LIBSUFFIX '220'}
 {$RUNONLY}
 {$IMPLICITBUILD ON}
 
@@ -35,17 +34,12 @@ requires
   rtl,
   vclimg,
   vcl,
-  FrameViewer;
+  FrameViewer,
+  MarkdownProcessor;
 
 contains
+  MarkDownViewerCommon in '..\..\Source\Components\MarkDownViewerCommon.pas',
   MarkDownViewerComponents in '..\..\Source\Components\MarkDownViewerComponents.pas',
-  MDCodeHighlightEmitter in '..\..\Source\Components\MDCodeHighlightEmitter.pas',
-  MarkdownCommonMark in '..\..\Ext\MarkdownProcessor\source\MarkdownCommonMark.pas',
-  MarkdownDaringFireball in '..\..\Ext\MarkdownProcessor\source\MarkdownDaringFireball.pas',
-  MarkdownMathCode in '..\..\Ext\MarkdownProcessor\source\MarkdownMathCode.pas',
-  MarkdownProcessor in '..\..\Ext\MarkdownProcessor\source\MarkdownProcessor.pas',
-  MarkdownTables in '..\..\Ext\MarkdownProcessor\source\MarkdownTables.pas',
-  MarkdownTxtMark in '..\..\Ext\MarkdownProcessor\source\MarkdownTxtMark.pas',
-  MarkdownUtils in '..\..\Ext\MarkdownProcessor\source\MarkdownUtils.pas';
+  MDCodeHighlightEmitter in '..\..\Source\Components\MDCodeHighlightEmitter.pas';
 
 end.

@@ -1,31 +1,53 @@
-﻿# Markdown Help Viewer [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
+﻿# Markdown Help Viewer (Windows App and Delphi Component)
 
-**Latest Version 2.6.0 - 22 Sep 2026**
+<!-- badges -->
+[![License: Apache](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
+[![Latest release](https://img.shields.io/github/v/release/EtheaDev/MarkdownHelpViewer?label=release&color=blue)](https://github.com/EtheaDev/MarkdownHelpViewer/releases)
+[![Delphi XE6+](https://img.shields.io/badge/Delphi-XE6%2B-e62329.svg)](https://www.embarcadero.com/products/delphi)
+[![Platform: VCL](https://img.shields.io/badge/Platform-VCL-8a2be2.svg)](https://docwiki.embarcadero.com/RADStudio/en/Main_Page)
+[![CommonMark 0.31.2](https://img.shields.io/badge/CommonMark-0.31.2%20652%2F652-1f6feb.svg)](https://spec.commonmark.org/0.31.2/)
+[![GFM 0.29](https://img.shields.io/badge/GFM-0.29%2024%2F24-24292f.svg)](https://github.github.com/gfm/)
+[![Math formulas](https://img.shields.io/badge/Math-35%2F35-008080.svg)](https://katex.org/)
+[![GitHub alerts](https://img.shields.io/badge/Alerts-20%2F20-d29922.svg)](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts)
+[![KaTeX 0.16.11](https://img.shields.io/badge/KaTeX-0.16.11-008080.svg)](https://katex.org/)
+[![Mermaid 11.17.2](https://img.shields.io/badge/Mermaid-11.17.2-ff3670.svg)](https://mermaid.js.org/)
+[![Microsoft Edge WebView2](https://img.shields.io/badge/WebView2-Edge-0078d4.svg)](https://developer.microsoft.com/microsoft-edge/webview2/)
+[![Windows 10 and 11](https://img.shields.io/badge/Windows-10%20%7C%2011-0078d6.svg)](https://www.microsoft.com/windows)
 
-**An integrated help system based on files in Markdown format (and also html), for Delphi and Windows applications**
+![Delphi Support](/Setup/SupportingDelphi.jpg)
+
+Related links: [embarcadero.com][3] - [learndelphi.org][4]
+
+---
+
+**An integrated help system based on files in Markdown format (and also html), for any Windows applications**
 
 - A "Setup" of the pre-built **"Markdown Help Viewer"** ready to use.
 
 - A unit (MarkdownHelpViewer.pas) to add the interface to Delphi Help System of your Delphi Application (from XE6 version to latest)
 
-- A VCL Visual Component (TMarkdownViewer) to automatically show Markdown file formatted in HTML (from XE6 version to latest)
+- Two VCL Visual Components to automatically show Markdown files formatted in HTML:
+  - **TEdgeMarkdownViewer** (from Delphi 12): based on TEdgeBrowser (Microsoft Edge WebView2), it shows also math formulas and mermaid diagrams
+  - **TMarkdownViewer** (from XE6 to Delphi 11, optional from Delphi 12): based on HTMLViewer
 
 - A simple demo to show how to integrate the Help in your application, as exaplained [here...](./Demo/Help/README.md)
 
 - For editing and prepare the Help manual of your application we suggest to use the Editor contained into
 ["Markdown Shell Extensions"](https://github.com/EtheaDev/MarkdownShellExtensions) project.
 
-![Delphi Support](/Setup/SupportingDelphi.jpg)
+### Documentation
 
-Related links: [embarcadero.com][3] - [learndelphi.org][4]
-
-## Documentation
-
-Follow the [Project Site](https://ethea.it/docs/markdowntools/) to known how to use this Viewer and the Delphi component and other tools related to Markdown format like the Markdown Text Editor.
+Follow the [Project Site](https://ethea.it/docs/markdowntools/) to know all the markdown tools and the Delphi components: Markdown Processor, Markdown Text Editor and Markdown Help Viewer.
 
 ### Features
 
 - Supports Windows 10 and 11 (for 32 bits and 64 bits).
+
+- Uses the latest, empowered version of the [Markdown Processor](https://github.com/EtheaDev/MarkdownProcessor) (2.0): CommonMark 0.31.2 and GitHub Flavored Markdown compliant engine. The default dialect is now **GitHub** (GFM + math formulas, alerts and mermaid diagrams, plus subscript, superscript, insert, mark, smart typography, heading ids and wiki links); CommonMark, GFM, DaringFireball and TxtMark are still available.
+
+- The documents are shown with **Microsoft Edge WebView2** (TEdgeBrowser): math formulas (KaTeX), mermaid diagrams, GitHub alerts, modern CSS. When WebView2 is not available (or disabled in the Settings: "Use WebView2 (Edge) when available") the viewer falls back to HTMLViewer.
+
+- Math formulas and mermaid diagrams (also charts: pie, bar and line charts) are drawn also **without an Internet connection**: KaTeX and mermaid.js are installed with the viewer (Scripts folder).
 
 - Themes (Dark and Light) according to user preferences of Windows Theme
 
@@ -39,29 +61,47 @@ Follow the [Project Site](https://ethea.it/docs/markdowntools/) to known how to 
 
 Click to download the [MarkDownHelpViewerSetup.exe][1] located also in the Release area. The Installer works both for 32 and 64 bit system. Warning: this setup installs only the viewer.
 
+The viewer uses the WebView2 runtime of Microsoft Edge, already present in Windows 11 and in the updated Windows 10 systems: if it is missing, the documents are shown with the internal HTML viewer.
+
 ![Markdown Setup_Program](./Images/Setup.png)
 
 ### Manual installation of Packages
 
 If you want to use the Delphi Component you need to manual Build and Install the packages.
 
-Open the correct group-project file for your Delphi version, located into Packages folder (for example: Packages\D13\MarkDownHelpViewerGroup.groupproj).
+Open the correct group-project file for your Delphi version, located into Packages folder (for example: Packages\D13\MarkDownViewerGroup.groupproj), or run the build script of your version (for example: Packages\BuildAllPackagesD13.ps1).
 
-Then Build the run-time packages:
+**Delphi 12 and 13**: Build the run-time packages:
+- MarkdownProcessorXXX.bpl
+- MarkDownViewerXXX.bpl (TEdgeMarkdownViewer: no dependency from HTMLViewer)
+
+and Install the design-time package:
+- dclMarkDownViewerXXX.bpl
+
+The component **TEdgeMarkdownViewer** is ready to use. If you still need the old TMarkdownViewer (HTMLViewer), build also the optional packages FrameViewerXXX.bpl and MarkDownViewerHTMLXXX.bpl and install dclMarkDownViewerHTMLXXX.bpl (they are not in the group project).
+
+**From XE6 to Delphi 11**: Build the run-time packages:
 - FrameViewerXXX.bpl
+- MarkdownProcessorXXX.bpl
 - MarkDownViewerXXX.bpl
 
 and Install the design-time package:
 - dclMarkDownViewerXXX.bpl
 
-The component TMarkdownViewer is ready to use.
+The component **TMarkdownViewer** is ready to use.
 
 Remember also to add those Search Path:
 - {MarkdownViewerInstallDir}\Source
-- {MarkdownViewerInstallDir}\Components
-- {MarkdownViewerInstallDir}\AppInterface
-- {MarkdownViewerInstallDir}\Ext\HTMLViewer\Source
+- {MarkdownViewerInstallDir}\Source\Components
+- {MarkdownViewerInstallDir}\Source\AppInterface
+- {MarkdownViewerInstallDir}\Ext\HTMLViewer\Source (only for TMarkdownViewer)
 - {MarkdownViewerInstallDir}\Ext\MarkdownProcessor\source
+
+### Deploy an application with TEdgeMarkdownViewer
+
+TEdgeMarkdownViewer (and the Markdown Help Viewer itself) uses the Microsoft Edge WebView2 runtime through **WebView2Loader.dll**, which must be distributed together with your application (next to the executable, in the 32 or 64 bit version of the executable): it is in the Bin32 and Bin64 folders of this project (from the Microsoft WebView2 SDK, see Setup\LICENSE-WebView2.txt). Use `TEdgeMarkdownViewer.EdgeAvailable` to check at runtime that both the loader and the WebView2 runtime are available.
+
+Math formulas (KaTeX) and mermaid diagrams are drawn by JavaScript libraries: to show them also without an Internet connection, distribute the **Scripts** folder of this project (KaTeX 0.16.11 and mermaid 11.17.2, MIT License) next to your executable or in its parent folder, where TEdgeMarkdownViewer finds it automatically (or set the `ScriptsFolder` property). Without it the libraries are loaded from the jsDelivr CDN (the same versions).
 
 ### Manual Build of the Viewer
 
@@ -135,6 +175,20 @@ Then the interface searches in the same folder of default file (specified into A
 - At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)
 
 ## Release Notes ##
+08 Oct 2026: ver. 3.0.0 (major version)
+- Uses the new Markdown Processor 2.0: CommonMark 0.31.2 and GitHub Flavored Markdown compliant engine, with math formulas, GitHub alerts, mermaid diagrams and the legacy extensions (subscript, superscript, insert, mark, smart typography, heading ids, wiki links)
+- New default dialect: **GitHub**. The dialect saved by the previous versions as CommonMark (the old default) is automatically converted to GitHub; the dialect is now stored by name in the settings
+- Viewer based on Microsoft Edge WebView2 (TEdgeBrowser): math formulas with KaTeX, mermaid diagrams, alerts, PDF export with WebView2. Fallback to HTMLViewer when WebView2 is not available, or when "Use WebView2 (Edge) when available" is disabled in the Settings
+- **WebView2Loader.dll** must be distributed with the viewer (installed by the Setup)
+- Math formulas and mermaid diagrams (also charts: pie, bar and line charts) work also without an Internet connection: KaTeX 0.16.11 and mermaid 11.17.2 are distributed in the **Scripts** folder (installed by the Setup). TEdgeMarkdownViewer finds it automatically next to the executable or in its parent folder (new class function FindScriptsFolder and property EffectiveScriptsFolder), otherwise it loads the same versions from CDN
+- TEdgeMarkdownViewer: new method SaveAsHTMLPage (saves the full page, asking the file name), property DocumentFileName (the file of the document, set by LoadFromFile) and event OnSaveAs (the "Save as" of WebView2)
+- New component **TEdgeMarkdownViewer** (Delphi 12 and 13), with the same Markdown properties of TMarkdownViewer and of TMarkdownToHTML: ProcessorDialect, Extensions, AllowUnsafe, MathRendering, CssStyle, MarkdownContent, HtmlContent
+- TMarkdownViewer: new Extensions and MathRendering properties, default dialect GitHub; the Markdown conversion is made by the TMarkdownToHTML engine of the Markdown Processor
+- Packages: from Delphi 12 MarkDownViewer contains TEdgeMarkdownViewer and does not require FrameViewer; optional packages MarkDownViewerHTML / dclMarkDownViewerHTML for TMarkdownViewer. Group projects renamed MarkDownViewerGroup.groupproj
+- The dialect combo boxes list all the dialects (DaringFireball, CommonMark, TxtMark, GFM, GitHub)
+- Demo: the embedded help viewer is created at runtime (TEdgeMarkdownViewer from Delphi 12, TMarkdownViewer before)
+- Fixed the translations of the Settings menu
+
 22 Sep 2026: ver. 2.6.0
 - Latest Stable version
 - Fixed rendering remote Images in 64bit version.
@@ -322,6 +376,14 @@ Copyright (c) 2011+, Health Intersections Pty Ltd All rights reserved
 
 The Initial Developer of the Original Code is Rodrigo Ruz V.
 Portions created by Rodrigo Ruz V. are Copyright © 2011-2023 Rodrigo Ruz V.
+
+**KaTeX** - https://katex.org/
+
+Copyright (c) 2013-2020 Khan Academy and other contributors (MIT License)
+
+**Mermaid** - https://mermaid.js.org/
+
+Copyright (c) 2014-2022 Knut Sveidqvist (MIT License)
 
 **Synopse/SynPDF** - https://github.com/synopse/SynPDF
 

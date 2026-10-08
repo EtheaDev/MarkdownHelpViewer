@@ -1,0 +1,57 @@
+﻿package MarkdownProcessor;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS OFF}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE RELEASE}
+{$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'Ethea Markdown Processor Library'}
+{$LIBSUFFIX '230'}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl;
+
+contains
+  MarkdownProcessor in '..\..\source\MarkdownProcessor.pas',
+  MarkdownUtils in '..\..\source\MarkdownUtils.pas',
+  MarkdownDaringFireball in '..\..\source\MarkdownDaringFireball.pas',
+  MarkdownTxtMark in '..\..\source\MarkdownTxtMark.pas',
+  MarkdownCommonMark in '..\..\source\MarkdownCommonMark.pas',
+  MarkdownTables in '..\..\source\MarkdownTables.pas',
+  MarkdownMathCode in '..\..\source\MarkdownMathCode.pas',
+  MarkdownAST in '..\..\source\MarkdownAST.pas',
+  MarkdownTextUtils in '..\..\source\MarkdownTextUtils.pas',
+  MarkdownEntities in '..\..\source\MarkdownEntities.pas',
+  MarkdownLinkRefs in '..\..\source\MarkdownLinkRefs.pas',
+  MarkdownBlockParser in '..\..\source\MarkdownBlockParser.pas',
+  MarkdownInlineParser in '..\..\source\MarkdownInlineParser.pas',
+  MarkdownHtmlRenderer in '..\..\source\MarkdownHtmlRenderer.pas',
+  MarkdownGFM in '..\..\source\MarkdownGFM.pas',
+  MarkdownMath in '..\..\source\MarkdownMath.pas',
+  MarkdownAlerts in '..\..\source\MarkdownAlerts.pas',
+  MarkdownLegacyExt in '..\..\source\MarkdownLegacyExt.pas',
+  MarkdownProcessorComponents in '..\..\source\MarkdownProcessorComponents.pas';
+
+end.

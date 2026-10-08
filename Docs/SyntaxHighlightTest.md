@@ -1,4 +1,4 @@
-# Syntax Highlighting Test
+﻿# Syntax Highlighting Test
 
 This file is used to verify the coloring of fenced code blocks in the HTML preview
 of **MDTextEditor**. Each block uses the language name after the triple backticks

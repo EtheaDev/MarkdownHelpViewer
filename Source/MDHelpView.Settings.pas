@@ -52,6 +52,7 @@ const
   PDF_SETTINGS = 'PDFPageSettins';
   DEFAULT_CHECK_DAYS = 7;
 
+
 type
   TThemeSelection = (tsAsWindows, tsDarkTheme, tsLightTheme);
   TThemeType = (ttLight, ttDark);
@@ -101,6 +102,7 @@ type
     FUseColoredIcons: Boolean;
     FDownloadFromWEB: Boolean;
     FAllowUnsafeHTML: Boolean;
+    FUseWebView2: Boolean;
     FCustomCSS: string;
     FButtonDrawRounded: Boolean;
     FToolbarDrawRounded: Boolean;
@@ -136,6 +138,10 @@ type
     //pass through to the output; default False (safe mode). Unrelated to
     //DownloadFromWEB (remote image loading).
     property AllowUnsafeHTML: Boolean read FAllowUnsafeHTML write FAllowUnsafeHTML;
+    //When True (default) the documents are shown with Microsoft Edge WebView2
+    //(math formulas, mermaid diagrams) if available (Delphi 12+ build, WebView2
+    //runtime installed), otherwise with HTMLViewer
+    property UseWebView2: Boolean read FUseWebView2 write FUseWebView2;
     //User-defined stylesheet prepended to the generated HTML. Empty = built-in
     //default (GetMarkdownDefaultCSS). Stored Base64-encoded in the INI (multi-line).
     property CustomCSS: string read FCustomCSS write FCustomCSS;
@@ -199,6 +205,7 @@ uses
 //  , uLogExcept
   , MDHelpView.Registry
   , MDHelpView.Misc
+  , MarkDownViewerCommon
 //  , SynEdit
   , Winapi.Messages
   ;
@@ -421,11 +428,12 @@ begin
   HTMLFontSize := FIniFile.ReadInteger(HTML_VIEWER, 'HTMLFontSize', 10);
   HTMLFontName := FIniFile.ReadString(HTML_VIEWER, 'HTMLFontName', 'Arial');
   RescalingImage := FIniFile.ReadBool(HTML_VIEWER, 'RescalingImage', True);
-  ProcessorDialect := TMarkdownProcessorDialect(
-    FIniFile.ReadInteger(HTML_VIEWER, 'ProcessorDialect', ord(mdCommonMark)));
+  ProcessorDialect := DialectFromIniValue(
+    FIniFile.ReadString(HTML_VIEWER, 'ProcessorDialect', ''));
   ShowDialectSelection := FIniFile.ReadBool(HTML_VIEWER, 'ShowDialectSelection', False);
   DownloadFromWEB := FIniFile.ReadBool(HTML_VIEWER, 'DownloadFromWEB', True);
   AllowUnsafeHTML := FIniFile.ReadBool(HTML_VIEWER, 'AllowUnsafeHTML', False);
+  UseWebView2 := FIniFile.ReadBool(HTML_VIEWER, 'UseWebView2', True);
   CustomCSS := DecodeIniText(FIniFile.ReadString(HTML_VIEWER, 'CustomCSS', ''));
   CurrentFileName := FIniFile.ReadString(HTML_VIEWER, 'CurrentFileName', '');
   CurrentIndexFileName := FIniFile.ReadString(HTML_VIEWER, 'CurrentIndexFileName', '');
@@ -534,9 +542,10 @@ begin
   FIniFile.WriteString(HTML_VIEWER, 'HTMLFontName', FHTMLFontName);
   FIniFile.WriteBool(HTML_VIEWER, 'RescalingImage', FRescalingImage);
   FIniFile.WriteBool(HTML_VIEWER, 'ShowDialectSelection', FShowDialectSelection);
-  FIniFile.WriteInteger(HTML_VIEWER, 'ProcessorDialect', Ord(FProcessorDialect));
+  FIniFile.WriteString(HTML_VIEWER, 'ProcessorDialect', DialectToIniValue(FProcessorDialect));
   FIniFile.WriteBool(HTML_VIEWER, 'DownloadFromWEB', FDownloadFromWEB);
   FIniFile.WriteBool(HTML_VIEWER, 'AllowUnsafeHTML', FAllowUnsafeHTML);
+  FIniFile.WriteBool(HTML_VIEWER, 'UseWebView2', FUseWebView2);
   FIniFile.WriteString(HTML_VIEWER, 'CustomCSS', EncodeIniText(FCustomCSS));
   FIniFile.WriteString(HTML_VIEWER, 'CurrentFileName', CurrentFileName);
   FIniFile.WriteString(HTML_VIEWER, 'CurrentIndexFileName', CurrentIndexFileName);

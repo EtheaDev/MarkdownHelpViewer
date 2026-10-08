@@ -1,7 +1,7 @@
-package dclMarkDownViewer;
+﻿package dclMarkDownViewer;
 
 {$R *.res}
-{$R 'MarkDownHelpViewer.dcr'}
+{$R '..\MarkDownViewer.dcr'}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
 {$ASSERTIONS ON}
@@ -27,7 +27,7 @@ package dclMarkDownViewer;
 {$DEFINE RELEASE}
 {$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'Ethea Markdown Help Viewer Components'}
-{$LIBSUFFIX 'DXE8'}
+{$LIBSUFFIX '220'}
 {$DESIGNONLY}
 {$IMPLICITBUILD ON}
 
@@ -36,6 +36,7 @@ requires
   MarkDownViewer;
 
 contains
+  MarkDownViewerDesign in '..\MarkDownViewerDesign.pas',
   MarkDownViewerRegister in '..\MarkDownViewerRegister.pas';
 
 end.

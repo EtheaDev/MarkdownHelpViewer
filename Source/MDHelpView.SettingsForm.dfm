@@ -248,7 +248,7 @@ object MDSettingsForm: TMDSettingsForm
           Left = 5
           Top = 20
           Width = 263
-          Height = 130
+          Height = 155
           Align = alTop
           Caption = 'Markdown processor options'
           TabOrder = 0
@@ -267,9 +267,6 @@ object MDSettingsForm: TMDSettingsForm
             Height = 23
             Style = csDropDownList
             TabOrder = 1
-            Items.Strings = (
-              'DaringFireball'
-              'CommonMark')
           end
           object ShowDialectSelectionCheckBox: TCheckBox
             Left = 15
@@ -292,6 +289,20 @@ object MDSettingsForm: TMDSettingsForm
             ParentShowHint = False
             ShowHint = True
             TabOrder = 2
+          end
+          object UseWebView2CheckBox: TCheckBox
+            Left = 15
+            Top = 124
+            Width = 240
+            Height = 17
+            Hint =
+              'Show the documents with Microsoft Edge WebView2 (math formulas a' +
+              'nd mermaid diagrams), when available. Disable it to use the int' +
+              'ernal HTML viewer.'
+            Caption = 'Use WebView2 (Edge) when available'
+            ParentShowHint = False
+            ShowHint = True
+            TabOrder = 3
           end
         end
         object RenderingGroupBox: TGroupBox

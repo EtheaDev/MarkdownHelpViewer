@@ -1,4 +1,4 @@
-{******************************************************************************}
+﻿{******************************************************************************}
 {                                                                              }
 {       Markdown Help Viewer: Demo Main Form                                   }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }
@@ -31,10 +31,21 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Data.DB, Vcl.DBCtrls,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, Datasnap.DBClient,
-  Vcl.ComCtrls, Vcl.Mask, MarkDownViewerComponents, Vcl.Buttons, HTMLUn2,
-  HtmlView;
+  Vcl.ComCtrls, Vcl.Mask, Vcl.Buttons,
+  {$IF CompilerVersion >= 36}
+  MarkDownEdgeViewerComponents;
+  {$ELSE}
+  MarkDownViewerComponents;
+  {$IFEND}
 
 type
+  //The viewer of the embedded help: WebView2 from Delphi 12, else HTMLViewer
+  {$IF CompilerVersion >= 36}
+  TDemoMarkdownViewer = TEdgeMarkdownViewer;
+  {$ELSE}
+  TDemoMarkdownViewer = TMarkdownViewer;
+  {$IFEND}
+
   TfmMain = class(TForm)
     MainMenu: TMainMenu;
     FileMenu: TMenuItem;
@@ -101,7 +112,6 @@ type
     EmbeddedHelpPanel: TPanel;
     RightSplitter: TSplitter;
     HelpTitleLabel: TLabel;
-    MarkdownViewer: TMarkdownViewer;
     procedure MenuItemClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure HelpMenuItemClick(Sender: TObject);
@@ -111,7 +121,10 @@ type
     procedure ShowHelpEmbeddedClick(Sender: TObject);
     procedure PageControlChange(Sender: TObject);
   private
+    FMarkdownViewer: TDemoMarkdownViewer;
+    procedure CreateMarkdownViewer;
     procedure ShowEmbeddedHelp;
+  protected
   public
     { Public declarations }
   end;
@@ -125,7 +138,11 @@ implementation
 
 uses
   UITypes
+  {$IF CompilerVersion >= 36}
+  , Winapi.EdgeUtils
+  {$IFEND}
   , MarkdownHelpViewer
+  , MarkDownViewerCommon
   , DemoAbout;
 
 procedure TfmMain.AboutMenuItemClick(Sender: TObject);
@@ -152,11 +169,12 @@ begin
 
   //Register "ServerRoot" folder for any MarkdownViewer
   RegisterMDViewerServerRoot(ExtractFilePath(Application.ExeName)+'..\Help');
+  //The viewer of the embedded help is created at runtime
+  CreateMarkdownViewer;
 
   HelpTitleLabel.Font.Style := [fsBold];
-  EmbeddedHelpPanel.Width := 400;
 
-  Caption := Application.Title;
+  Caption := Application.Title + ' - Copyright © 2023-2026 Ethea S.r.l.';
   TitleLabel.Font.Height := Round(TitleLabel.Font.Height * 1.5);
   ClientDataSet.Open;
   DBImage.DataField := 'Graphic';
@@ -183,9 +201,29 @@ begin
   ShowEmbeddedHelp;
 end;
 
+procedure TfmMain.CreateMarkdownViewer;
+begin
+  FMarkdownViewer := TDemoMarkdownViewer.Create(Self);
+  FMarkdownViewer.AlignWithMargins := True;
+  FMarkdownViewer.Align := alClient;
+  {$IF CompilerVersion >= 36}
+  //WebView2 needs WebView2Loader.dll and the WebView2 runtime: the 32 and 64 bit
+  //executables of the demo share the Bin folder, so the loader of the platform
+  //is in Bin\Win32 or Bin\Win64
+  SetWebView2Path(ExtractFilePath(Application.ExeName)+
+    {$IFDEF WIN64}'Win64'{$ELSE}'Win32'{$ENDIF}+'\WebView2Loader.dll');
+  if not TEdgeMarkdownViewer.EdgeAvailable then
+    HelpTitleLabel.Caption := 'Instant Help: WebView2 not available'+sLineBreak+
+      '(WebView2Loader.dll not found or WebView2 runtime not installed)';
+  {$ELSE}
+  FMarkdownViewer.RescalingImage := True;
+  {$IFEND}
+  FMarkdownViewer.Parent := EmbeddedHelpPanel;
+end;
+
 procedure TfmMain.ShowEmbeddedHelp;
 begin
-  MarkdownViewer.HelpKeyword := PageControl.ActivePage.HelpKeyword;
+  FMarkdownViewer.HelpKeyword := PageControl.ActivePage.HelpKeyword;
 end;
 
 procedure TfmMain.ShowHelpEmbeddedClick(Sender: TObject);

@@ -101,6 +101,7 @@ type
     DownloadFromWebCheckBox: TCheckBox;
     RescalingImageCheckBox: TCheckBox;
     AllowUnsafeHTMLCheckBox: TCheckBox;
+    UseWebView2CheckBox: TCheckBox;
     procedure ExitFromSettings(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -143,6 +144,7 @@ uses
   , MarkdownUtils
   , SynHighlighterCss
   , MarkDownViewerComponents
+  , MarkDownViewerCommon
   , MDHelpView.Registry
   , MDHelpView.Messages
   , MDHelpView.Main;
@@ -289,8 +291,12 @@ begin
   HTMLUpDown.Position := ASettings.HTMLFontSize;
 
   ShowDialectSelectionCheckBox.Checked := ASettings.ShowDialectSelection;
+  FillDialectItems(ProcessorDialectComboBox.Items);
   ProcessorDialectComboBox.ItemIndex := ord(ASettings.ProcessorDialect);
   AllowUnsafeHTMLCheckBox.Checked := ASettings.AllowUnsafeHTML;
+  UseWebView2CheckBox.Checked := ASettings.UseWebView2;
+  //WebView2 is used only by the executables built with Delphi 12 or later
+  UseWebView2CheckBox.Visible := {$IF CompilerVersion >= 36}True{$ELSE}False{$IFEND};
 
   //Load the HTML default stylesheet: the user's custom CSS if set, otherwise
   //the built-in default (so the user always edits starting from it).
@@ -359,6 +365,7 @@ begin
   ASettings.ShowDialectSelection := ShowDialectSelectionCheckBox.Checked;
   ASettings.ProcessorDialect := TMarkdownProcessorDialect(ProcessorDialectComboBox.ItemIndex);
   ASettings.AllowUnsafeHTML := AllowUnsafeHTMLCheckBox.Checked;
+  ASettings.UseWebView2 := UseWebView2CheckBox.Checked;
 
   //Save the stylesheet only when it differs from the built-in default; when it
   //matches, store empty so the viewer keeps inheriting future default changes.

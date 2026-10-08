@@ -1,0 +1,124 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{F83FF37F-5213-4E1A-B153-BDE020C3DB2C}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\Ext\HTMLViewer\package\Rad Studio 11\FrameViewer.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\Ext\MarkdownProcessor\Packages\D11\MarkdownProcessor.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="MarkDownViewer.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="dclMarkDownViewer.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="FrameViewer">
+        <MSBuild Projects="..\..\Ext\HTMLViewer\package\Rad Studio 11\FrameViewer.dproj"/>
+    </Target>
+    <Target Name="FrameViewer:Clean">
+        <MSBuild Projects="..\..\Ext\HTMLViewer\package\Rad Studio 11\FrameViewer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FrameViewer:Make">
+        <MSBuild Projects="..\..\Ext\HTMLViewer\package\Rad Studio 11\FrameViewer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="MarkdownProcessor">
+        <MSBuild Projects="..\..\Ext\MarkdownProcessor\Packages\D11\MarkdownProcessor.dproj"/>
+    </Target>
+    <Target Name="MarkdownProcessor:Clean">
+        <MSBuild Projects="..\..\Ext\MarkdownProcessor\Packages\D11\MarkdownProcessor.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MarkdownProcessor:Make">
+        <MSBuild Projects="..\..\Ext\MarkdownProcessor\Packages\D11\MarkdownProcessor.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="MarkDownViewer">
+        <MSBuild Projects="MarkDownViewer.dproj"/>
+    </Target>
+    <Target Name="MarkDownViewer:Clean">
+        <MSBuild Projects="MarkDownViewer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MarkDownViewer:Make">
+        <MSBuild Projects="MarkDownViewer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="dclMarkDownViewer">
+        <MSBuild Projects="dclMarkDownViewer.dproj"/>
+    </Target>
+    <Target Name="dclMarkDownViewer:Clean">
+        <MSBuild Projects="dclMarkDownViewer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="dclMarkDownViewer:Make">
+        <MSBuild Projects="dclMarkDownViewer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="FrameViewer;MarkdownProcessor;MarkDownViewer;dclMarkDownViewer"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="FrameViewer:Clean;MarkdownProcessor:Clean;MarkDownViewer:Clean;dclMarkDownViewer:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="FrameViewer:Make;MarkdownProcessor:Make;MarkDownViewer:Make;dclMarkDownViewer:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+    <ItemGroup Condition="'$(BuildGroup)'=='ALL_Win64'">
+        <BuildGroupProject Include="..\..\Ext\HTMLViewer\package\Rad Studio 11\FrameViewer.dproj">
+            <ProjectGuid>{15BC5068-9022-44E8-AEF7-829827C76317}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\Ext\MarkdownProcessor\Packages\D11\MarkdownProcessor.dproj">
+            <ProjectGuid>{57B68FF3-AD19-4AAE-B216-E6289E995189}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="MarkDownViewer.dproj">
+            <ProjectGuid>{C2A76300-DCB2-4EBF-9483-77877E6249CE}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="dclMarkDownViewer.dproj">
+            <ProjectGuid>{B98B5387-3B10-482B-A99D-1330D890821F}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win64</Platforms>
+            <Enabled>False</Enabled>
+        </BuildGroupProject>
+    </ItemGroup>
+    <ItemGroup Condition="'$(BuildGroup)'=='ALL_Win32'">
+        <BuildGroupProject Include="..\..\Ext\HTMLViewer\package\Rad Studio 11\FrameViewer.dproj">
+            <ProjectGuid>{15BC5068-9022-44E8-AEF7-829827C76317}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="..\..\Ext\MarkdownProcessor\Packages\D11\MarkdownProcessor.dproj">
+            <ProjectGuid>{57B68FF3-AD19-4AAE-B216-E6289E995189}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="MarkDownViewer.dproj">
+            <ProjectGuid>{C2A76300-DCB2-4EBF-9483-77877E6249CE}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+        <BuildGroupProject Include="dclMarkDownViewer.dproj">
+            <ProjectGuid>{B98B5387-3B10-482B-A99D-1330D890821F}</ProjectGuid>
+            <Configurations>Release</Configurations>
+            <Platforms>Win32</Platforms>
+            <Enabled>True</Enabled>
+        </BuildGroupProject>
+    </ItemGroup>
+</Project>

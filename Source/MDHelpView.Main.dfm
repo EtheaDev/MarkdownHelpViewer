@@ -39,27 +39,6 @@ object MainForm: TMainForm
     object tsIndex: TTabSheet
       Hint = 'Markdown Content/Index'
       Caption = 'Content/Index'
-      object HtmlViewerIndex: THtmlViewer
-        AlignWithMargins = True
-        Left = 3
-        Top = 3
-        Width = 286
-        Height = 336
-        BorderStyle = htSingle
-        DefBackground = clWindow
-        HistoryMaxCount = 0
-        NoSelect = True
-        PrintMarginBottom = 0.800000000000000000
-        PrintMarginLeft = 0.800000000000000000
-        PrintMarginRight = 0.800000000000000000
-        PrintMarginTop = 0.800000000000000000
-        PrintScale = 1.000000000000000000
-        Text = ''
-        Align = alClient
-        TabOrder = 0
-        Touch.InteractiveGestures = [igPan]
-        Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia]
-      end
     end
     object tsFiles: TTabSheet
       Hint = 'List of Files into Working Directory'
@@ -216,7 +195,7 @@ object MainForm: TMainForm
       50)
     object ProcessorDialectLabel: TLabel
       Left = 655
-      Top = 6
+      Top = 2
       Width = 127
       Height = 15
       Anchors = [akTop, akRight]
@@ -227,7 +206,7 @@ object MainForm: TMainForm
     end
     object ProcessorDialectComboBox: TComboBox
       Left = 655
-      Top = 20
+      Top = 22
       Width = 127
       Height = 23
       Hint = 'Markdown Tranformation Dialect'
@@ -236,9 +215,6 @@ object MainForm: TMainForm
       TabOrder = 0
       Visible = False
       OnSelect = ProcessorDialectComboBoxSelect
-      Items.Strings = (
-        'DaringFireball'
-        'CommonMark')
     end
     object ToolBar: TToolBar
       AlignWithMargins = True
@@ -336,28 +312,6 @@ object MainForm: TMainForm
     BevelOuter = bvNone
     TabOrder = 2
     OnResize = ClientPanelResize
-    object HtmlViewer: THtmlViewer
-      AlignWithMargins = True
-      Left = 3
-      Top = 3
-      Width = 470
-      Height = 360
-      BorderStyle = htSingle
-      DefBackground = clWindow
-      HistoryMaxCount = 0
-      NoSelect = False
-      PrintMarginBottom = 0.800000000000000000
-      PrintMarginLeft = 0.800000000000000000
-      PrintMarginRight = 0.800000000000000000
-      PrintMarginTop = 0.800000000000000000
-      PrintScale = 1.000000000000000000
-      Text = ''
-      Align = alClient
-      TabOrder = 0
-      OnKeyDown = HtmlViewerKeyDown
-      Touch.InteractiveGestures = [igPan]
-      Touch.InteractiveGestureOptions = [igoPanSingleFingerHorizontal, igoPanSingleFingerVertical, igoPanInertia]
-    end
   end
   object OpenDialog: TFileOpenDialog
     FavoriteLinks = <>

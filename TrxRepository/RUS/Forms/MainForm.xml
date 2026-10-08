@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--stat:#=71
+<!--stat:#=70
 *=0
-@=71
+@=70
 ?=0
 0=0
 :stat-->  <DATAPACKET Version="2.0">
@@ -40,7 +40,6 @@
 <ROW Type="F" ComponentName="btSearchView" PropertyName="Caption" OriginalValue="View" Translation="&#1055;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088;" Status="@" Deleted="FALSE" ClassName="TButton" OriginalStr="View" TranslationStr="&#1055;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088;"/>
 <ROW Type="F" ComponentName="btSearchView" PropertyName="Hint" OriginalValue="View File" Translation="&#1055;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088;&#1077;&#1090;&#1100; &#1092;&#1072;&#1081;&#1083;" Status="@" Deleted="FALSE" ClassName="TButton" OriginalStr="View File" TranslationStr="&#1055;&#1088;&#1086;&#1089;&#1084;&#1086;&#1090;&#1088;&#1077;&#1090;&#1100; &#1092;&#1072;&#1081;&#1083;"/>
 <ROW Type="F" ComponentName="ProcessorDialectLabel" PropertyName="Caption" OriginalValue="Transformation:" Translation="&#1055;&#1088;&#1077;&#1086;&#1073;&#1088;&#1072;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;:" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Transformation:" TranslationStr="&#1055;&#1088;&#1077;&#1086;&#1073;&#1088;&#1072;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1077;:"/>
-<ROW Type="F" ComponentName="ProcessorDialectComboBox" PropertyName="Items" OriginalValue="DaringFireball&#013;&#010;CommonMark&#013;&#010;" Translation="DaringFireball&#013;&#010;CommonMark&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TComboBox" OriginalStr="DaringFireball&#013;&#010;CommonMark" TranslationStr="DaringFireball&#013;&#010;CommonMark"/>
 <ROW Type="F" ComponentName="ProcessorDialectComboBox" PropertyName="Hint" OriginalValue="Markdown Tranformation Dialect" Translation="&#1044;&#1080;&#1072;&#1083;&#1077;&#1082;&#1090; &#1087;&#1088;&#1077;&#1086;&#1073;&#1088;&#1072;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103; Markdown" Status="@" Deleted="FALSE" ClassName="TComboBox" OriginalStr="Markdown Tranformation Dialect" TranslationStr="&#1044;&#1080;&#1072;&#1083;&#1077;&#1082;&#1090; &#1087;&#1088;&#1077;&#1086;&#1073;&#1088;&#1072;&#1079;&#1086;&#1074;&#1072;&#1085;&#1080;&#1103; Markdown"/>
 <ROW Type="F" ComponentName="btShowHide" PropertyName="Hint" OriginalValue="Hide Content/Search Panel" Translation="&#1057;&#1082;&#1088;&#1099;&#1090;&#1100; &#1087;&#1072;&#1085;&#1077;&#1083;&#1100; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1080;&#1084;&#1086;&#1075;&#1086;/&#1087;&#1086;&#1080;&#1089;&#1082;&#1072;" Status="@" Deleted="FALSE" ClassName="TToolbutton" OriginalStr="Hide Content/Search Panel" TranslationStr="&#1057;&#1082;&#1088;&#1099;&#1090;&#1100; &#1087;&#1072;&#1085;&#1077;&#1083;&#1100; &#1089;&#1086;&#1076;&#1077;&#1088;&#1078;&#1080;&#1084;&#1086;&#1075;&#1086;/&#1087;&#1086;&#1080;&#1089;&#1082;&#1072;"/>
 <ROW Type="F" ComponentName="btOpen" PropertyName="Hint" OriginalValue="Open an existing Markdown or HTML file..." Translation="&#1054;&#1090;&#1082;&#1088;&#1099;&#1090;&#1100; &#1089;&#1091;&#1097;&#1077;&#1089;&#1090;&#1074;&#1091;&#1102;&#1097;&#1080;&#1081; Markdown &#1080;&#1083;&#1080; HTML &#1092;&#1072;&#1081;&#1083;..." Status="@" Deleted="FALSE" ClassName="TToolbutton" OriginalStr="Open an existing Markdown or HTML file..." TranslationStr="&#1054;&#1090;&#1082;&#1088;&#1099;&#1090;&#1100; &#1089;&#1091;&#1097;&#1077;&#1089;&#1090;&#1074;&#1091;&#1102;&#1097;&#1080;&#1081; Markdown &#1080;&#1083;&#1080; HTML &#1092;&#1072;&#1081;&#1083;..."/>

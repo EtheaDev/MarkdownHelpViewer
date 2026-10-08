@@ -5,7 +5,7 @@ object fmMain: TfmMain
   HelpKeyword = 'Home'
   Caption = 'Main Form'
   ClientHeight = 449
-  ClientWidth = 651
+  ClientWidth = 665
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,18 +16,17 @@ object fmMain: TfmMain
   OnCreate = FormCreate
   TextHeight = 15
   object RightSplitter: TSplitter
-    Left = 476
+    Left = 361
     Top = 41
     Width = 4
     Height = 408
     Align = alRight
     Visible = False
-    ExplicitLeft = 462
   end
   object PageControl: TPageControl
     Left = 0
     Top = 41
-    Width = 476
+    Width = 361
     Height = 408
     ActivePage = BrowseTab
     Align = alClient
@@ -40,7 +39,7 @@ object fmMain: TfmMain
       object DBGrid1: TDBGrid
         Left = 0
         Top = 0
-        Width = 468
+        Width = 353
         Height = 208
         Align = alClient
         DataSource = DataSource
@@ -91,27 +90,27 @@ object fmMain: TfmMain
       object BottomPanel: TPanel
         Left = 0
         Top = 208
-        Width = 468
+        Width = 353
         Height = 170
         Align = alBottom
         TabOrder = 1
         object DBMemo: TDBMemo
           Left = 1
           Top = 1
-          Width = 256
+          Width = 71
           Height = 168
-          Align = alLeft
+          Align = alClient
           DataField = 'Notes'
           DataSource = DataSource
           ScrollBars = ssVertical
           TabOrder = 0
         end
         object DBImage: TDBImage
-          Left = 257
+          Left = 72
           Top = 1
           Width = 280
           Height = 168
-          Align = alLeft
+          Align = alRight
           DataSource = DataSource
           Proportional = True
           Stretch = True
@@ -280,7 +279,7 @@ object fmMain: TfmMain
   object TopPanel: TPanel
     Left = 0
     Top = 0
-    Width = 651
+    Width = 665
     Height = 41
     Align = alTop
     TabOrder = 1
@@ -299,7 +298,7 @@ object fmMain: TfmMain
       Caption = 'Markdown Help Viewer Demo'
     end
     object DBNavigator1: TDBNavigator
-      Left = 284
+      Left = 298
       Top = 1
       Width = 366
       Height = 39
@@ -309,9 +308,9 @@ object fmMain: TfmMain
     end
   end
   object EmbeddedHelpPanel: TPanel
-    Left = 480
+    Left = 365
     Top = 41
-    Width = 171
+    Width = 300
     Height = 408
     Align = alRight
     TabOrder = 2
@@ -319,21 +318,11 @@ object fmMain: TfmMain
     object HelpTitleLabel: TLabel
       Left = 1
       Top = 1
-      Width = 169
+      Width = 298
       Height = 15
       Align = alTop
       Alignment = taCenter
       Caption = 'Instant Help'
-      ExplicitWidth = 64
-    end
-    object MarkdownViewer: TMarkdownViewer
-      Left = 4
-      Top = 19
-      Width = 163
-      Height = 385
-      Align = alClient
-      TabOrder = 0
-      RescalingImage = True
     end
   end
   object MainMenu: TMainMenu

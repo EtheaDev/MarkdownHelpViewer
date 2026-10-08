@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--stat:#=71
+<!--stat:#=70
 *=0
-@=71
+@=70
 ?=0
 0=0
 :stat-->  <DATAPACKET Version="2.0">
@@ -40,7 +40,6 @@
 <ROW Type="F" ComponentName="btSearchView" PropertyName="Caption" OriginalValue="View" Translation="Vista" Status="@" Deleted="FALSE" ClassName="TButton" OriginalStr="View" TranslationStr="Vista"/>
 <ROW Type="F" ComponentName="btSearchView" PropertyName="Hint" OriginalValue="View File" Translation="Ver archivo" Status="@" Deleted="FALSE" ClassName="TButton" OriginalStr="View File" TranslationStr="Ver archivo"/>
 <ROW Type="F" ComponentName="ProcessorDialectLabel" PropertyName="Caption" OriginalValue="Transformation:" Translation="Transformaci&#243;n:" Status="@" Deleted="FALSE" ClassName="TLabel" OriginalStr="Transformation:" TranslationStr="Transformaci&#243;n:"/>
-<ROW Type="F" ComponentName="ProcessorDialectComboBox" PropertyName="Items" OriginalValue="DaringFireball&#013;&#010;CommonMark&#013;&#010;" Translation="DaringFireball&#013;&#010;CommonMark&#013;&#010;" Status="@" Deleted="FALSE" ClassName="TComboBox" OriginalStr="DaringFireball&#013;&#010;CommonMark" TranslationStr="DaringFireball&#013;&#010;CommonMark"/>
 <ROW Type="F" ComponentName="ProcessorDialectComboBox" PropertyName="Hint" OriginalValue="Markdown Tranformation Dialect" Translation="Dialecto de transformaci&#243;n Markdown" Status="@" Deleted="FALSE" ClassName="TComboBox" OriginalStr="Markdown Tranformation Dialect" TranslationStr="Dialecto de transformaci&#243;n Markdown"/>
 <ROW Type="F" ComponentName="btShowHide" PropertyName="Hint" OriginalValue="Hide Content/Search Panel" Translation="Ocultar contenido/panel de b&#250;squeda" Status="@" Deleted="FALSE" ClassName="TToolbutton" OriginalStr="Hide Content/Search Panel" TranslationStr="Ocultar contenido/panel de b&#250;squeda"/>
 <ROW Type="F" ComponentName="btOpen" PropertyName="Hint" OriginalValue="Open an existing Markdown or HTML file..." Translation="Abra un archivo Markdown o HTML existente..." Status="@" Deleted="FALSE" ClassName="TToolbutton" OriginalStr="Open an existing Markdown or HTML file..." TranslationStr="Abra un archivo Markdown o HTML existente..."/>

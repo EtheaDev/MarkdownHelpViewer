@@ -39,192 +39,41 @@
 {******************************************************************************}
 unit MarkDownViewerRegister;
 
-{$WARN UNIT_PLATFORM OFF}
+{ Registration of TMarkdownViewer (HTMLViewer): package dclMarkDownViewer up to
+  Delphi 11, optional package dclMarkDownViewerHTML from Delphi 12. }
 
 interface
 
 uses
   Classes
   , DesignIntf
-  , Designer
-  , DesignEditors
-  , VCLEditors
+  , MarkDownViewerDesign
   , MarkDownViewerComponents
   ;
 
 type
-  TFolderNameProperty = class(TStringProperty)
-  private
-    function GetViewer: TCustomMarkDownViewer;
-  public
-    function GetAttributes: TPropertyAttributes; override;
-    procedure Edit; override;
-  end;
-
-  TMarkdownViewerComponentEditor = class (TComponentEditor)
-  private
-    function GetViewer: TMarkDownViewer;
-  public
-    function GetVerbCount: Integer; override;
-    function GetVerb(Index: Integer): string; override;
-    procedure ExecuteVerb(Index: Integer); override;
-    procedure Edit; override;
+  TMarkdownViewerComponentEditor = class(TMarkdownViewerEditorBase)
+  protected
+    procedure LoadFile(const AFileName: string); override;
   end;
 
 procedure Register;
 
 implementation
 
-uses
-  System.SysUtils
-  , Vcl.FileCtrl
-  , Winapi.ShellAPI
-  , Winapi.Windows
-  , Vcl.Dialogs
-  ;
-
-const
-  HELP_URL = 'https://ethea.it/docs/markdowntools/';
-  //NB: keep aligned with the FileVersion of the .dproj files
-  PROJECT_VER = '2.6.0';
-var
-  AMarkdownFileExt: TArray<String>;
-  AHTMLFileExt: TArray<String>;
-
 { TMarkdownViewerComponentEditor }
 
-function TMarkdownViewerComponentEditor.GetViewer: TMarkDownViewer;
-var
-  LComponent: TPersistent;
+procedure TMarkdownViewerComponentEditor.LoadFile(const AFileName: string);
 begin
-  Result := nil;
-  LComponent := GetComponent;
-  if LComponent is TMarkdownViewer then
-    Result := TMarkdownViewer(LComponent);
-end;
-
-procedure TMarkdownViewerComponentEditor.Edit;
-begin
-  inherited;
-end;
-
-procedure TMarkdownViewerComponentEditor.ExecuteVerb(Index: Integer);
-var
-  LOpenDialog: TOpenDialog;
-  LMarkdownMasks, LHTMLMasks: string;
-
-  function GetFileMasks(const AFileExt: array of string;
-    const ASeparator: Char = ';'): string;
-  var
-    I: Integer;
-    LExt: string;
-  begin
-    for I := Low(AFileExt) to High(AFileExt) do
-    begin
-      LExt := AFileExt[I];
-      if I > 0 then
-        Result := Result + ASeparator;
-      Result := Result + '*'+LExt;
-    end;
-  end;
-
-begin
-  inherited;
-  if Index = 0 then
-  begin
-    LOpenDialog := TOpenDialog.Create(nil);
-    try
-      LMarkdownMasks := GetFileMasks(AMarkdownFileExt);
-      LHTMLMasks := GetFileMasks(AHTMLFileExt);
-      LOpenDialog.Filter :=
-        Format('%s (%s)|%s', [MARKDOWN_FILES, LMarkdownMasks, LMarkdownMasks])+'|'+
-        Format('%s (%s)|%s', [HTML_FILES, LHTMLMasks, LHTMLMasks]);
-
-      if LOpenDialog.Execute then
-      begin
-        GetViewer.LoadFromFile(LOpenDialog.FileName);
-        Designer.Modified;
-      end;
-    finally
-      LOpenDialog.Free;
-    end;
-  end
-  else if Index = 1 then
-  ShellExecute(0, 'open',
-    PChar(HELP_URL), nil, nil, SW_SHOWNORMAL);
-end;
-
-function TMarkdownViewerComponentEditor.GetVerb(Index: Integer): string;
-begin
-  if Index = 0 then
-    Result := 'Load from file...';
-  if Index = 1 then
-    Result := Format('Ver. %s - © Ethea S.r.l. - Open Web Help...',
-      [PROJECT_VER]);
-end;
-
-function TMarkdownViewerComponentEditor.GetVerbCount: Integer;
-begin
-  Result := 2;
-end;
-
-{ TFolderNameProperty }
-
-function TFolderNameProperty.GetAttributes: TPropertyAttributes;
-begin
-  Result := [paDialog]
-end;
-
-function TFolderNameProperty.GetViewer: TCustomMarkDownViewer;
-var
-  LComponent: TPersistent;
-begin
-  LComponent := GetComponent(0);
-  if LComponent is TCustomMarkDownViewer then
-    Result := TCustomMarkDownViewer(LComponent)
-  else
-    Result := nil;
-end;
-
-procedure TFolderNameProperty.Edit;
-var
-  LViewer: TCustomMarkDownViewer;
-  LRoot: WideString;
-  LFolder: TFolderName;
-begin
-  LViewer := GetViewer;
-  if Assigned(LViewer) then
-    LRoot := LViewer.ServerRoot;
-  if SelectDirectory('Select a directory', LRoot, LFolder, [sdNewUI], LViewer) then
-  begin
-    SetValue(LFolder);
-    Designer.Modified;
-  end;
+  if GetComponent is TMarkdownViewer then
+    TMarkdownViewer(GetComponent).LoadFromFile(AFileName);
 end;
 
 procedure Register;
 begin
-  RegisterComponents('Markdown',
-    [TMarkdownViewer]);
-
-  RegisterPropertyEditor(TypeInfo(TFolderName), nil, '', TFolderNameProperty);
-
+  RegisterComponents('Markdown', [TMarkdownViewer]);
+  RegisterFolderNameEditor;
   RegisterComponentEditor(TMarkdownViewer, TMarkdownViewerComponentEditor);
 end;
 
-initialization
-  SetLength(AMarkdownFileExt, 9);
-  AMarkdownFileExt[0] := '.md';
-  AMarkdownFileExt[1] := '.mkd';
-  AMarkdownFileExt[2] := '.mdwn';
-  AMarkdownFileExt[3] := '.mdown';
-  AMarkdownFileExt[4] := '.mdtxt';
-  AMarkdownFileExt[5] := '.mdtext';
-  AMarkdownFileExt[6] := '.markdown';
-  AMarkdownFileExt[7] := '.txt';
-  AMarkdownFileExt[8] := '.text';
-
-  SetLength(AHTMLFileExt, 2);
-  AHTMLFileExt[0] := '.html';
-  AHTMLFileExt[1] := '.htm';
 end.
