@@ -1,4 +1,4 @@
-{******************************************************************************}
+﻿{******************************************************************************}
 {                                                                              }
 {       Markdown Help Viewer: Form Hook for translations                       }
 {       (Help Viewer and Help Interfaces for Markdown files)                   }

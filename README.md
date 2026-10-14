@@ -1,6 +1,5 @@
 ﻿# Markdown Help Viewer (Windows App and Delphi Component)
 
-<!-- badges -->
 [![License: Apache](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 [![Latest release](https://img.shields.io/github/v/release/EtheaDev/MarkdownHelpViewer?label=release&color=blue)](https://github.com/EtheaDev/MarkdownHelpViewer/releases)
 [![Delphi XE6+](https://img.shields.io/badge/Delphi-XE6%2B-e62329.svg)](https://www.embarcadero.com/products/delphi)
@@ -14,7 +13,7 @@
 [![Microsoft Edge WebView2](https://img.shields.io/badge/WebView2-Edge-0078d4.svg)](https://developer.microsoft.com/microsoft-edge/webview2/)
 [![Windows 10 and 11](https://img.shields.io/badge/Windows-10%20%7C%2011-0078d6.svg)](https://www.microsoft.com/windows)
 
-![Delphi Support](/Setup/SupportingDelphi.jpg)
+![Delphi Support](./Images/SupportingDelphi.jpg)
 
 Related links: [embarcadero.com][3] - [learndelphi.org][4]
 
@@ -43,13 +42,17 @@ Follow the [Project Site](https://ethea.it/docs/markdowntools/) to know all the 
 
 - Supports Windows 10 and 11 (for 32 bits and 64 bits).
 
-- Uses the latest, empowered version of the [Markdown Processor](https://github.com/EtheaDev/MarkdownProcessor) (2.0): CommonMark 0.31.2 and GitHub Flavored Markdown compliant engine. The default dialect is now **GitHub** (GFM + math formulas, alerts and mermaid diagrams, plus subscript, superscript, insert, mark, smart typography, heading ids and wiki links); CommonMark, GFM, DaringFireball and TxtMark are still available.
+- Uses the latest, empowered version of the [Markdown Processor](https://github.com/EtheaDev/MarkdownProcessor) (2.1): CommonMark 0.31.2 and GitHub Flavored Markdown compliant engine. The default dialect is now **GitHub** (GFM + math formulas, alerts and mermaid diagrams, plus subscript, superscript, insert, mark, smart typography, heading ids, wiki links and videos); CommonMark, GFM, DaringFireball and TxtMark are still available.
 
 - The documents are shown with **Microsoft Edge WebView2** (TEdgeBrowser): math formulas (KaTeX), mermaid diagrams, GitHub alerts, modern CSS. When WebView2 is not available (or disabled in the Settings: "Use WebView2 (Edge) when available") the viewer falls back to HTMLViewer.
 
 - Math formulas and mermaid diagrams (also charts: pie, bar and line charts) are drawn also **without an Internet connection**: KaTeX and mermaid.js are installed with the viewer (Scripts folder).
 
-- Themes (Dark and Light) according to user preferences of Windows Theme
+- **Videos** in the documents (`.mp4`, `.webm`...), written as an image of the video file: `![Demo](video/demo.mp4)`. WebView2 plays them; HTMLViewer shows a link that opens the player of the system.
+
+- Images, videos and links are resolved as a browser does: write their path relative to the document, with `/` (`images/logo.png`, `../images/logo.png`).
+
+- Themes (Dark and Light) according to user preferences of Windows Theme, with the VCL styles: **Light**: Sky, Windows Modern, Windows11 Impressive Light, Windows11 Modern Light, Windows11 Polar Light; **Dark**: Glow, Windows Modern SlateGray, Windows11 Impressive Dark, Windows11 Modern Dark, Windows11 Polar Dark
 
 - Auto-detect Index file in the working folder
 
@@ -175,6 +178,19 @@ Then the interface searches in the same folder of default file (specified into A
 - At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)
 
 ## Release Notes ##
+14 Oct 2026: ver. 3.1.0
+- Uses the Markdown Processor 2.1: **videos** in the documents, written as an image of the video file (`![Demo](video/demo.mp4)`: `.mp4`, `.m4v`, `.webm`, `.ogv`, `.mov`). WebView2 plays them; HTMLViewer shows a link that opens the video with the player of the system
+- Images, videos and links resolved as a browser does, both with WebView2 and with HTMLViewer: paths relative to the document with `/` and percent-encoded characters (`../images/my%20image.png`) and `file:///` URLs
+- WebView2: fixed the relative paths that go up from the folder of the document (`../Pictures/image.png`), which were not found
+- HTMLViewer: a Windows path (`C:\folder\image.png`), which is not a valid URL and is not shown by WebView2, is no longer shown also by HTMLViewer: write the path relative to the document
+- WebView2: "Print" and "Save as" propose the name of the document instead of the data: URL of the page; "Save as" of the Viewer is the same as "Export in HTML"
+- TEdgeMarkdownViewer: new method PrintPage (prints on a printer without dialogs, with header and footer: date, title, file name of the document and page number); the page has the title of the document (DocumentFileName)
+- TMarkdownViewer and TEdgeMarkdownViewer: the links of the document are resolved as a browser does (relative, percent-encoded, `file:///`), and a link to a local video opens the player of the system; new functions URLToLocalFileName and OpenVideoFile (unit MarkDownViewerCommon)
+- MarkDown Support Test.md (Docs folder): new section "Video", with a short video
+- Viewer: new VCL styles Windows11 Impressive, Windows11 Modern and Windows11 Polar (Light and Dark) and Windows Modern SlateGray; the obsolete Windows10 styles have been removed. Available styles: Sky, Windows Modern, Windows11 Impressive Light, Windows11 Modern Light, Windows11 Polar Light (light) and Glow, Windows Modern SlateGray, Windows11 Impressive Dark, Windows11 Modern Dark, Windows11 Polar Dark (dark)
+- Viewer: on Windows 11 the default style "Windows11 Modern Light/Dark" was not available; on Windows 10 the default style is "Windows Modern" (light) or "Windows Modern SlateGray" (dark); a style saved by a previous version and no longer available is replaced by the default one, without errors
+- Settings, Theme page: all the styles linked into the application are offered, classified as light or dark automatically (also a style added by who builds the viewer)
+
 08 Oct 2026: ver. 3.0.0 (major version)
 - Uses the new Markdown Processor 2.0: CommonMark 0.31.2 and GitHub Flavored Markdown compliant engine, with math formulas, GitHub alerts, mermaid diagrams and the legacy extensions (subscript, superscript, insert, mark, smart typography, heading ids, wiki links)
 - New default dialect: **GitHub**. The dialect saved by the previous versions as CommonMark (the old default) is automatically converted to GitHub; the dialect is now stored by name in the settings
@@ -312,7 +328,7 @@ Then the interface searches in the same folder of default file (specified into A
 - Uses AnimatedStyledDialogs for messages
 - Updated Markdown library with best support for CommonMark transformation:
 
-1. Subscript <sub>text</sub> and Superscript <sup>text</sup>
+1. Subscript `<sub>text</sub>` and Superscript `<sup>text</sup>`
 1. Formulas (using [Google Chart API])
 1. ==Markers==
 1. [Reference-style Links]
@@ -346,7 +362,7 @@ Then the interface searches in the same folder of default file (specified into A
 
 ## Markdown Help Viewer in depth
 
-Learn more about "MarkDown Help Viewer" within our [wiki](https://github.com/EtheaDev/MarkdownHelpViewer/wiki/MarkDown-Help-Viewer-in-Depth). Dive deeper into everything related to this tool, its features, and how to make the most of it. 
+Everything about "MarkDown Help Viewer", its features and how to make the most of it, is explained in the [Markdown Help Viewer in depth](https://ethea.it/docs/markdowntools/MarkdownHelpViewer/MarkDown-Help-Viewer-in-depth) page of the Project Site.
 
 ## License
 

@@ -113,7 +113,7 @@ const
     'Vuoi scaricare ed installare la nuova versione?',
     'A new version is available:'+sLineBreak+
     'Current version: %s - Available version: %s'+sLineBreak+
-    'Do you want to dowload and install the new version?'); end;
+    'Do you want to download and install the new version?'); end;
 
   function NEW_VERSION_NOT_AVAILABLE: string;
   begin Result := GetMsgMultiLanguage(UN,'NEW_VERSION_NOT_AVAILABLE',

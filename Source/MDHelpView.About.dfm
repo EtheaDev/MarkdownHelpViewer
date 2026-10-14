@@ -209,7 +209,7 @@ object FrmAbout: TFrmAbout
       'Author:'
       'Carlo Barazzetta'
       'https://github.com/EtheaDev/MarkdownHelpViewer'
-      'Copyright '#169' 2023-2025 all rights reserved.'
+      'Copyright '#169' 2023-2026 all rights reserved.'
       'Contributors:'
       'Nicol'#242' Boccignone, Emanuele Biglia'
       ''

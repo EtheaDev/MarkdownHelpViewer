@@ -1,4 +1,4 @@
-// -------------------------------------------------------------------------------------------------
+﻿// -------------------------------------------------------------------------------------------------
 // This file contains class for HTML to PDF conversion using great components HTMLVIEW and SynPdf.
 // Thanks for authors of these components: HTMLVIEW - L. David Baldwin and SynPdf - Arnaud Bouchez.
 // The orignal class was written by Pawel Stroinski on 2010/07/07 and is public domain.

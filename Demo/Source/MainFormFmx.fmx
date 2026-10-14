@@ -465,7 +465,7 @@ object MainForm: TMainForm
       ''
       '[StyledComponents](https://github.com/EtheaDev/StyledComponents)'
       ''
-      '![Delphi Support](/Setup/SupportingDelphi.jpg)'
+      '![Delphi Support](/Images/SupportingDelphi.jpg)'
       ''
       'Related links: [embarcadero.com][3] - [learndelphi.org][4]'
       ''

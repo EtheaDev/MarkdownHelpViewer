@@ -247,6 +247,7 @@ type
     procedure UpdateEdgeViewer(const AViewer: TEdgeMarkdownViewer);
     procedure EdgeViewerFileNameClicked(const AFileName: TFileName; out AHandled: Boolean);
     procedure EdgeViewerURLClicked(const AURL: string; out AHandled: Boolean);
+    procedure EdgeViewerSaveAs(Sender: TObject);
     procedure EdgeViewerPDFCompleted(Sender: TCustomEdgeBrowser; ErrorCode: HResult;
       IsSuccessful: Boolean);
     procedure EdgeToPDF(const APDFFileName: TFileName);
@@ -284,6 +285,7 @@ uses
   , MDHelpView.SettingsForm
   , MDHelpView.About
   , MDHelpView.Misc
+  , MDHelpView.Registry
   , Vcl.Themes
   , Winapi.ShellAPI
   , System.StrUtils
@@ -878,25 +880,20 @@ begin
     Exit;
   end;
 
-  if not FileExists(LFileName) then
-    LFileName := FWorkingFolder+LFileName;
-  if not FileExists(LFileName) then
-  begin
-    if FileWithExtExists(LFileName, AMarkdownFileExt) then
-    begin
-      LoadAndTransformFile(LFileName);
-      Handled := True;
-    end
-    else
-    begin
-      Handled := OpenExternalLink(ASource);
-    end;
-  end
-  else
+  //The local file as a browser resolves the URL (relative, percent-encoded,
+  //file:///): a video with its player, a file of the help, else an external
+  //link
+  if URLToLocalFileName(FWorkingFolder, ASource, LFileName) and
+    OpenVideoFile(LFileName) then
+    Handled := True
+  else if URLToLocalFileName(FWorkingFolder, ASource, LFileName) and
+    (FileExists(LFileName) or FileWithExtExists(LFileName, AMarkdownFileExt)) then
   begin
     LoadAndTransformFile(LFileName);
     Handled := True;
-  end;
+  end
+  else
+    Handled := OpenExternalLink(ASource);
 end;
 
 procedure TMainForm.HtmlViewerKeyDown(Sender: TObject; var Key: Word;
@@ -1113,6 +1110,11 @@ begin
     LEdgeViewer := EdgeViewerOf(AHTMLViewer);
     //relative images and links of the document
     LEdgeViewer.ServerRoot := FWorkingFolder;
+    //the name proposed by "Save as" and "Print" of WebView2
+    if AHTMLViewer = HTMLViewer then
+      LEdgeViewer.DocumentFileName := FCurrentFileName
+    else
+      LEdgeViewer.DocumentFileName := FMdIndexFileName;
     UpdateEdgeViewer(LEdgeViewer);
     if APreservePosition then
       LEdgeViewer.HtmlContent.Text := AHTMLContent
@@ -1499,6 +1501,7 @@ begin
   Result.OnFileNameClicked := EdgeViewerFileNameClicked;
   Result.OnURLClicked := EdgeViewerURLClicked;
   Result.OnPrintToPDFCompleted := EdgeViewerPDFCompleted;
+  Result.OnSaveAs := EdgeViewerSaveAs;
   Result.Parent := AHTMLViewer.Parent;
   AHTMLViewer.Visible := False;
   UpdateEdgeViewer(Result);
@@ -1527,8 +1530,11 @@ procedure TMainForm.EdgeViewerFileNameClicked(const AFileName: TFileName;
 var
   LFileName: TFileName;
 begin
-  //A file of the help (as HtmlViewerHotSpotClick)
+  //A video with its player, a file of the help (as HtmlViewerHotSpotClick)
   LFileName := AFileName;
+  AHandled := OpenVideoFile(LFileName);
+  if AHandled then
+    Exit;
   AHandled := FileExists(LFileName) or FileWithExtExists(LFileName, AMarkdownFileExt);
   if AHandled then
     LoadAndTransformFile(LFileName);
@@ -1538,6 +1544,14 @@ procedure TMainForm.EdgeViewerURLClicked(const AURL: string; out AHandled: Boole
 begin
   //An external link: confirmed when it is not a web or mail address
   AHandled := OpenExternalLink(AURL);
+end;
+
+procedure TMainForm.EdgeViewerSaveAs(Sender: TObject);
+begin
+  //The "Save as" of WebView2 (context menu, Ctrl+S): as "Export in HTML"
+  acExportHTML.Update;
+  if acExportHTML.Enabled then
+    acExportHTML.Execute;
 end;
 
 procedure TMainForm.EdgeToPDF(const APDFFileName: TFileName);
@@ -1838,8 +1852,20 @@ begin
   if AVCLStyleName <> '' then
   begin
     FVCLStyleName := AVCLStyleName;
-    if StyleServices.Enabled then
-      TStyleManager.SetStyle(AVCLStyleName);
+    //NB: TrySetStyle with False instead of SetStyle, which raises when the
+    //style is not linked into the viewer (e.g. a style saved by an older
+    //version): fall back to the default one, light or dark like the Windows
+    //theme, and "Windows Modern" only as a last resort
+    if StyleServices.Enabled and
+      not TStyleManager.TrySetStyle(FVCLStyleName, False) then
+    begin
+      FVCLStyleName := DefaultStyleName;
+      if not TStyleManager.TrySetStyle(FVCLStyleName, False) then
+      begin
+        FVCLStyleName := 'Windows Modern';
+        TStyleManager.TrySetStyle(FVCLStyleName, False);
+      end;
+    end;
 
     UpdateIconsColorByStyle;
   end;
