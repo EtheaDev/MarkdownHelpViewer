@@ -178,6 +178,12 @@ Then the interface searches in the same folder of default file (specified into A
 - At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)
 
 ## Release Notes ##
+21 Oct 2026: ver. 3.1.1
+- WebView2: fixed the click on a link to another document of the help (for example `[Installation](100.md)`): the document was shown, then a warning asked to open the file with the associated application
+- A link to a local file that does not exist does nothing again (no warning)
+- Fixed the preview left blank by an empty fenced code block with a language (for example `` ```delphi `` followed at once by `` ``` ``): the exporter of the syntax highlighting stopped the conversion
+- TMarkdownViewer and TEdgeMarkdownViewer: a link handled by OnFileNameClicked no longer reaches OnURLClicked too, and a local file is never given to OnURLClicked
+
 14 Oct 2026: ver. 3.1.0
 - Uses the Markdown Processor 2.1: **videos** in the documents, written as an image of the video file (`![Demo](video/demo.mp4)`: `.mp4`, `.m4v`, `.webm`, `.ogv`, `.mov`). WebView2 plays them; HTMLViewer shows a link that opens the video with the player of the system
 - Images, videos and links resolved as a browser does, both with WebView2 and with HTMLViewer: paths relative to the document with `/` and percent-encoded characters (`../images/my%20image.png`) and `file:///` URLs

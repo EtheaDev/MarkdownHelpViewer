@@ -252,6 +252,13 @@ end;
 <li>At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)</li>
 </ul>
 <h2 id="release-notes">Release Notes</h2>
+<p>21 Oct 2026: ver. 3.1.1</p>
+<ul>
+<li>WebView2: fixed the click on a link to another document of the help (for example <code>[Installation](100.md)</code>): the document was shown, then a warning asked to open the file with the associated application</li>
+<li>A link to a local file that does not exist does nothing again (no warning)</li>
+<li>Fixed the preview left blank by an empty fenced code block with a language (for example <code>```delphi</code> followed at once by <code>```</code>): the exporter of the syntax highlighting stopped the conversion</li>
+<li>TMarkdownViewer and TEdgeMarkdownViewer: a link handled by OnFileNameClicked no longer reaches OnURLClicked too, and a local file is never given to OnURLClicked</li>
+</ul>
 <p>14 Oct 2026: ver. 3.1.0</p>
 <ul>
 <li>Uses the Markdown Processor 2.1: <strong>videos</strong> in the documents, written as an image of the video file (<code>![Demo](video/demo.mp4)</code>: <code>.mp4</code>, <code>.m4v</code>, <code>.webm</code>, <code>.ogv</code>, <code>.mov</code>). WebView2 plays them; HTMLViewer shows a link that opens the video with the player of the system</li>

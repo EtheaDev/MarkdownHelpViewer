@@ -46,13 +46,13 @@
         <SanitizedProjectName>MDHelpViewer</SanitizedProjectName>
         <DCC_UnitSearchPath>Components;..\Ext\HTMLViewer\Source;..\Ext\MarkdownProcessor\Source;..\Ext\SVGIconImageList\Source;..\Ext\SVGIconImageList\Image32\Source;..\Ext\SynPDF;..\Ext\VclStyleUtils\Common;..\Ext\VclStyleUtils\DDetours\Source;..\Ext\StyledComponents\source;..\Ext\ISMultiLanguage\src\Engine;..\Ext\SynEdit\Source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=Ethea S.r.l.;FileDescription=Markdown Help Viewer;FileVersion=3.1.0.0;InternalName=;LegalCopyright=Copyright (c) Ethea S.r.l.;LegalTrademarks=;OriginalFilename=;ProgramID=;ProductName=MarkdownHelpViewer;ProductVersion=3.1;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Ethea S.r.l.;FileDescription=Markdown Help Viewer;FileVersion=3.1.1.0;InternalName=;LegalCopyright=Copyright (c) Ethea S.r.l.;LegalTrademarks=;OriginalFilename=;ProgramID=;ProductName=MarkdownHelpViewer;ProductVersion=3.1.1;Comments=</VerInfo_Keys>
         <Custom_Styles>Glow|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Glow.vsf;Sky|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Sky.vsf;&quot;Windows Modern|VCLSTYLE|$(BDSCOMMONDIR)\Styles\WindowsModern.vsf&quot;;&quot;Windows Modern SlateGray|VCLSTYLE|$(BDSCOMMONDIR)\Styles\WindowsModernSlateGray.vsf&quot;;&quot;Windows11 Impressive Dark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_Impressive_Dark.vsf&quot;;&quot;Windows11 Impressive Light|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_Impressive_Light.vsf&quot;;&quot;Windows11 Modern Dark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows_Modern_Dark_SE.vsf&quot;;&quot;Windows11 Modern Light|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_Modern_Light.vsf&quot;;&quot;Windows11 Polar Dark|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_Polar_Dark.vsf&quot;;&quot;Windows11 Polar Light|VCLSTYLE|$(BDSCOMMONDIR)\Styles\Windows11_Polar_Light.vsf&quot;</Custom_Styles>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_MajorVer>3</VerInfo_MajorVer>
         <DCC_Define>STYLEDCOMPONENTS;SKIA;NO_VCL_STYLES;MD_SYNTAX_HIGHLIGHTING;$(DCC_Define)</DCC_Define>
         <VerInfo_MinorVer>1</VerInfo_MinorVer>
-        <VerInfo_Release>0</VerInfo_Release>
+        <VerInfo_Release>1</VerInfo_Release>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <BT_BuildType>Debug</BT_BuildType>

@@ -69,7 +69,7 @@ uses
 const
   HELP_URL = 'https://ethea.it/docs/markdowntools/';
   //NB: keep aligned with the FileVersion of the .dproj files
-  PROJECT_VER = '3.1.0';
+  PROJECT_VER = '3.1.1';
   MARKDOWN_FILES_DESC = 'Markdown text files';
   HTML_FILES_DESC = 'HTML text files';
 
