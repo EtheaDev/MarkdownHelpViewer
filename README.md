@@ -178,6 +178,9 @@ Then the interface searches in the same folder of default file (specified into A
 - At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)
 
 ## Release Notes ##
+22 Oct 2026: ver. 3.1.2
+- Uses the Markdown Processor 2.1.1: fixed a stack overflow with long documents (many lines or many paragraphs) in the DaringFireball and TxtMark dialects
+
 21 Oct 2026: ver. 3.1.1
 - WebView2: fixed the click on a link to another document of the help (for example `[Installation](100.md)`): the document was shown, then a warning asked to open the file with the associated application
 - A link to a local file that does not exist does nothing again (no warning)
