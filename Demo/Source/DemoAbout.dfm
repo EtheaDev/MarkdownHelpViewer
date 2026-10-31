@@ -916,36 +916,6 @@ object FrmAbout: TFrmAbout
     Height = 165
     Anchors = [akLeft, akTop, akBottom]
     Color = clBtnFace
-    Lines.Strings = (
-      'Author:'
-      'Carlo Barazzetta'
-      'https://github.com/EtheaDev/MarkdownHelpViewer'
-      'Copyright '#169' 2023-2025 all rights reserved.'
-      ''
-      'Delphi Markdown'
-      'https://github.com/grahamegrieve/delphi-markdown'
-      
-        'Copyright (c) 2011+, Health Intersections Pty Ltd All rights res' +
-        'erved.'
-      ''
-      'Synopse/SynPDF https://github.com/synopse/SynPDF'
-      'Copyright '#169' Synopse: all right reserved.'
-      ''
-      'HtmlToPdf https://github.com/MuzioValerio/HtmlToPdf'
-      'Copyright '#169' Muzio Valerio.'
-      ''
-      
-        '- Image32 Library - http://www.angusj.com/delphi/image32/Docs/_B' +
-        'ody.htm'
-      'Copyright '#169'2019-2023 Angus Johnson.'
-      ''
-      'HTMLViewer - https://github.com/BerndGabriel/HtmlViewer'
-      'Copyright (c) 1995 - 2008 by L. David Baldwin'
-      'Copyright (c) 1995 - 2023 by Anders Melander (DitherUnit.pas)'
-      'Copyright (c) 1995 - 2023 by Ron Collins (HtmlGif1.pas)'
-      'Copyright (c) 2008 - 2009 by Sebastian Zierer (Delphi 2009 Port)'
-      'Copyright (c) 2008 - 2010 by Arvid Winkelsdorf (Fixes)'
-      'Copyright (c) 2009 - 2023 by HtmlViewer Team')
     ReadOnly = True
     ScrollBars = ssVertical
     TabOrder = 1

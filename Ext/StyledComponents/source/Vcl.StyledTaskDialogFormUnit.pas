@@ -138,6 +138,8 @@ type
     FDialogBtnDrawType: TStyledButtonDrawType;
     FDialogBtnRadius: Integer;
     FDialogBtnRoundedCorners: TRoundedCorners;
+    FDialogBtnShadowSize: Integer;
+    FDialogBtnBorderWidth: Integer;
     FCommonButtons: TTaskDialogCommonButtons;
     FDefaultButton: TTaskDialogCommonButton;
     FUseMessageDefaultButton: Boolean;
@@ -194,6 +196,7 @@ type
     procedure InitDlgButtonsWithFamily(const AFamily: TStyledButtonFamily);
     procedure UpdateButtonsVisibility;
     procedure UpdateButtonsSize;
+    procedure UpdateButtonsStyle;
     procedure SetFooterIcon(const AValue: TTaskDialogIcon);
     procedure SetCustomMainIcon(const AValue: TIcon);
     procedure SetCustomFooterIcon(const AValue: TIcon);
@@ -209,6 +212,8 @@ type
     procedure SetProgressBar(const AValue: TTaskDialogProgressBar);
     procedure SetReferenceForm(const AValue: TCustomForm);
     procedure CenterOverReferenceForm;
+    function GetDialogBtnFamily: TStyledButtonFamily;
+    procedure SetDialogBtnFamily(const AValue: TStyledButtonFamily);
   protected
     procedure WndProc(var Message: TMessage); override;
     procedure TimerEvent(Sender: TObject);
@@ -271,6 +276,8 @@ type
     property RadioButtons: TTaskDialogButtons read FRadioButtons write SetRadioButtons;
     /// <summary>Standard common buttons to display (Ok, Cancel, Yes, No, etc.)</summary>
     property CommonButtons: TTaskDialogCommonButtons read FCommonButtons write FCommonButtons default [tcbOk, tcbCancel];
+    /// <summary>The StyleFamily attribute for Dialog Buttons</summary>
+    property DialogBtnFamily: TStyledButtonFamily read GetDialogBtnFamily write SetDialogBtnFamily;
     /// <summary>The default button that receives focus</summary>
     property DefaultButton: TTaskDialogCommonButton read FDefaultButton write FDefaultButton default TTaskDialogCommonButton.tcbOk;
     /// <summary>Default button when using message dialog style</summary>
@@ -647,6 +654,14 @@ begin
   end;
 end;
 
+function TStyledTaskDialogForm.GetDialogBtnFamily: TStyledButtonFamily;
+begin
+  if FDialogBtnFamily <> '' then
+    Result := FDialogBtnFamily
+  else
+    Result := DEFAULT_CLASSIC_FAMILY;
+end;
+
 function TStyledTaskDialogForm.GetExpanded: Boolean;
 begin
   Result := FTaskDialog.Expanded;
@@ -667,6 +682,16 @@ begin
       LButton.AutoClick := FAutoClick;
       LButton.AutoClickDelay := FAutoClickDelay;
     end;
+  end;
+end;
+
+procedure TStyledTaskDialogForm.SetDialogBtnFamily(
+  const AValue: TStyledButtonFamily);
+begin
+  if (AValue <> '') and (AValue <> FDialogBtnFamily) then
+  begin
+    FDialogBtnFamily := AValue;
+    UpdateButtonsStyle;
   end;
 end;
 
@@ -1067,6 +1092,43 @@ begin
   end;
 end;
 
+procedure TStyledTaskDialogForm.UpdateButtonsStyle;
+var
+  I: Integer;
+  LTaskDialogButtonItem: TTaskDialogBaseButtonItem;
+  LStyledButton: TStyledButton;
+begin
+  for I := FButtons.Count -1 downto 0 do
+  begin
+    LTaskDialogButtonItem := FButtons[I];
+    if Assigned(LTaskDialogButtonItem) then
+    begin
+      case LTaskDialogButtonItem.ModalResult of
+        mrYes: LStyledButton := YesButton;
+        mrNo: LStyledButton := NoButton;
+        mrOk: LStyledButton := OKButton;
+        mrCancel: LStyledButton := CancelButton;
+        mrAbort: LStyledButton := AbortButton;
+        mrRetry: LStyledButton := RetryButton;
+        mrIgnore: LStyledButton := IgnoreButton;
+        mrAll: LStyledButton := AllButton;
+        mrNoToAll: LStyledButton := NoToAllButton;
+        mrYesToAll: LStyledButton := YesToAllButton;
+        mrClose: LStyledButton := CloseButton;
+        mrHelp: LStyledButton := HelpButton;
+      else
+        begin
+          LStyledButton := nil;
+        end;
+      end;
+      if Assigned(LStyledButton) then
+      begin
+        LStyledButton.SetButtonStyle(FDialogBtnFamily, LTaskDialogButtonItem.ModalResult);
+      end;
+    end;
+  end;
+end;
+
 function TStyledTaskDialogForm.UsingCommandLinks: Boolean;
 begin
   Result := (tfUseCommandLinks in FTaskDialog.Flags);
@@ -1110,6 +1172,8 @@ begin
       LStyledButton.StyleDrawType := FDialogBtnDrawType;
       LStyledButton.StyleRadius := FDialogBtnRadius;
       LStyledButton.StyleRoundedCorners := FDialogBtnRoundedCorners;
+      LStyledButton.StyleShadowSize := FDialogBtnShadowSize;
+      LStyledButton.StyleBorderWidth := FDialogBtnBorderWidth;
     end
     else
     begin
@@ -1252,8 +1316,7 @@ begin
   UpdateButtonsVisibility;
   UpdateButtonsSize;
 
-  if FDialogBtnFamily <> '' then
-    InitDlgButtonsWithFamily(FDialogBtnFamily);
+  InitDlgButtonsWithFamily(DialogBtnFamily);
 
   MainIcon := FTaskDialog.MainIcon;
   CustomMainIcon := FTaskDialog.CustomMainIcon;
@@ -1373,6 +1436,8 @@ begin
   FDialogBtnDrawType := btRoundRect;
   FDialogBtnRadius := DEFAULT_RADIUS;
   FDialogBtnRoundedCorners := ALL_ROUNDED_CORNERS;
+  FDialogBtnShadowSize := DEFAULT_SHADOW_SIZE;
+  FDialogBtnBorderWidth := DEFAULT_BORDER_WIDTH;
 end;
 
 procedure TStyledTaskDialogForm.DefaultDialogSize(out AClientWidth, AClientHeight, AImageSize: Integer);
@@ -1724,6 +1789,8 @@ procedure TStyledTaskDialogForm.InitDlgButtonsWithFamily(const AFamily: TStyledB
       AButton.StyleDrawType := FDialogBtnDrawType;
       AButton.StyleRadius := FDialogBtnRadius;
       AButton.StyleRoundedCorners := FDialogBtnRoundedCorners;
+      AButton.StyleShadowSize := FDialogBtnShadowSize;
+      AButton.StyleBorderWidth := FDialogBtnBorderWidth;
     end;
   end;
 
@@ -1938,10 +2005,13 @@ begin
     //Assign all events of TaskDialog
     LForm.OnTimer := ATaskDialog.OnTimer;
     LForm.FDialogType := ADialogType;
-    LForm.FDialogBtnFamily := ADialogBtnFamily;
+    if ADialogBtnFamily <> '' then
+      LForm.FDialogBtnFamily := ADialogBtnFamily;
     LForm.FDialogBtnDrawType := ATaskDialog.DialogButtonsDrawType;
     LForm.FDialogBtnRadius := ATaskDialog.DialogButtonsRadius;
     LForm.FDialogBtnRoundedCorners := ATaskDialog.DialogButtonsRoundedCorners;
+    LForm.FDialogBtnShadowSize := ATaskDialog.DialogButtonsShadowSize;
+    LForm.FDialogBtnBorderWidth := ATaskDialog.DialogButtonsBorderWidth;
     LForm.FButtonsWidth := ATaskDialog.ButtonsWidth;
     LForm.FButtonsHeight := ATaskDialog.ButtonsHeight;
     LForm.FAutoClickDelay := ATaskDialog.AutoClickDelay;

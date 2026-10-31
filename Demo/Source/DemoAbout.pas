@@ -67,6 +67,8 @@ implementation
 uses
   ShellApi, MainForm;
 
+{$I ..\..\Source\MarkdownHelpViewer.Credits.inc}
+
 {$R *.dfm}
 
 function GetAboutForm: TFrmAbout;
@@ -128,6 +130,7 @@ end;
 
 procedure TFrmAbout.FormCreate(Sender: TObject);
 begin
+  MemoCopyRights.Lines.Text := CreditsText;
   TitleLabel.Font.Height := Round(TitleLabel.Font.Height * 1.6);
 end;
 

@@ -47,7 +47,8 @@ echo.
 msbuild.exe "Source\MDHelpViewer.dproj" /target:Clean;Build /p:Platform=Win64 /p:config=Release /v:minimal /p:DCC_Hints=false
 if errorlevel 1 (
   echo.
-  echo ERROR building MDHelpViewer ^(Delphi13/Win64/Release^)
+  powershell -NoProfile -Command "Write-Host 'ERROR ' -ForegroundColor Red -NoNewline"
+  echo building MDHelpViewer ^(Delphi13/Win64/Release^)
   if "%FROM_EXPLORER%" == "1" (
     echo.
     echo Press ENTER to exit...
@@ -60,8 +61,8 @@ echo.
 echo Adding the digital signature to: D:\ETHEA\MarkDownHelpViewer\Bin64\MDHelpViewer.exe
 call D:\ETHEA\Certificate\SignFileWithSectico.bat D:\ETHEA\MarkDownHelpViewer\Bin64\MDHelpViewer.exe
 if errorlevel 1 (
-  echo.
-  echo ERROR signing: D:\ETHEA\MarkDownHelpViewer\Bin64\MDHelpViewer.exe
+  powershell -NoProfile -Command "Write-Host 'ERROR ' -ForegroundColor Red -NoNewline"
+  echo signing: D:\ETHEA\MarkDownHelpViewer\Bin64\MDHelpViewer.exe
   if "%FROM_EXPLORER%" == "1" (
     echo.
     echo Press ENTER to continue...
@@ -77,7 +78,8 @@ echo.
 msbuild.exe "Source\MDHelpViewer.dproj" /target:Clean;Build /p:Platform=Win32 /p:config=Release /v:minimal /p:DCC_Hints=false
 if errorlevel 1 (
   echo.
-  echo ERROR building MDHelpViewer ^(Delphi13/Win32/Release^)
+  powershell -NoProfile -Command "Write-Host 'ERROR ' -ForegroundColor Red -NoNewline"
+  echo building MDHelpViewer ^(Delphi13/Win32/Release^)
   if "%FROM_EXPLORER%" == "1" (
     echo.
     echo Press ENTER to exit...
@@ -90,8 +92,8 @@ echo.
 echo Adding the digital signature to: D:\ETHEA\MarkDownHelpViewer\Bin32\MDHelpViewer.exe
 call D:\ETHEA\Certificate\SignFileWithSectico.bat D:\ETHEA\MarkDownHelpViewer\Bin32\MDHelpViewer.exe
 if errorlevel 1 (
-  echo.
-  echo ERROR signing: D:\ETHEA\MarkDownHelpViewer\Bin32\MDHelpViewer.exe
+  powershell -NoProfile -Command "Write-Host 'ERROR ' -ForegroundColor Red -NoNewline"
+  echo signing: D:\ETHEA\MarkDownHelpViewer\Bin32\MDHelpViewer.exe
   if "%FROM_EXPLORER%" == "1" (
     echo.
     echo Press ENTER to continue...
@@ -107,7 +109,8 @@ echo.
 "C:\Program Files (x86)\Inno Setup 6\iscc.exe" "D:\ETHEA\MarkDownHelpViewer\Setup\MarkDownHelpViewerSetup.iss"
 if errorlevel 1 (
   echo.
-  echo ERROR building "D:\ETHEA\MarkDownHelpViewer\Setup\MarkDownHelpViewerSetup.iss" with InnoSetup
+  powershell -NoProfile -Command "Write-Host 'ERROR ' -ForegroundColor Red -NoNewline"
+  echo building "D:\ETHEA\MarkDownHelpViewer\Setup\MarkDownHelpViewerSetup.iss" with InnoSetup
   if "%FROM_EXPLORER%" == "1" (
     echo.
     echo Press ENTER to exit...
@@ -120,8 +123,8 @@ echo.
 echo Adding the digital signature to: D:\ETHEA\MarkDownHelpViewer\Setup\Output\MarkDownHelpViewerSetup.exe
 call D:\ETHEA\Certificate\SignFileWithSectico.bat D:\ETHEA\MarkDownHelpViewer\Setup\Output\MarkDownHelpViewerSetup.exe
 if errorlevel 1 (
-  echo.
-  echo ERROR signing: D:\ETHEA\MarkDownHelpViewer\Setup\Output\MarkDownHelpViewerSetup.exe
+  powershell -NoProfile -Command "Write-Host 'ERROR ' -ForegroundColor Red -NoNewline"
+  echo signing: D:\ETHEA\MarkDownHelpViewer\Setup\Output\MarkDownHelpViewerSetup.exe
   if "%FROM_EXPLORER%" == "1" (
     echo.
     echo Press ENTER to continue...
@@ -130,7 +133,7 @@ if errorlevel 1 (
 )
 
 echo.
-echo Done.
+echo Building MDHelpViewer with Delphi 13 done.
 if "%FROM_EXPLORER%" == "1" (
   echo.
   echo Press ENTER to exit...
