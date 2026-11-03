@@ -178,6 +178,9 @@ Then the interface searches in the same folder of default file (specified into A
 - At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)
 
 ## Release Notes ##
+03 Nov 2026: ver. 3.1.4
+- The highlighting of the code blocks (`MDCodeHighlightEmitter`) uses Ethea SynEdit 3.0.0 (https://github.com/EtheaDev/SynEdit), the EtheaDev fork of pyscripter/SynEdit with every unit under the `SynEdit.` scope
+
 31 Oct 2026: ver. 3.1.3
 - Uses the Markdown Processor 2.1.2: with HTMLViewer (TMarkdownViewer) the math formulas have the size of the text (they were three times larger)
 - About box: credits and licenses of the third party libraries updated (same list as the README and the setup), the copyright ends with the year of the release

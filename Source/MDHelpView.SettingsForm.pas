@@ -39,7 +39,7 @@ uses
   {$IFDEF STYLEDCOMPONENTS}
   Vcl.StyledComponentsHooks, Vcl.ButtonStylesAttributes, Vcl.StyledButtonGroup,
   {$ENDIF}
-  MDHelpView.FormsHookTrx, SynEdit;
+  MDHelpView.FormsHookTrx, SynEdit.Core;
 
 type
   TMDSettingsForm = class(TFormHook)
@@ -142,7 +142,7 @@ uses
 {$ENDIF}
   MarkdownProcessor
   , MarkdownUtils
-  , SynHighlighterCss
+  , SynEdit.Highlighter.Css
   , MarkDownViewerComponents
   , MarkDownViewerCommon
   , MDHelpView.Registry
