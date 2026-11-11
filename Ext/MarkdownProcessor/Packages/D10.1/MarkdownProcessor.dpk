@@ -28,7 +28,7 @@
 {$DESCRIPTION 'Ethea Markdown Processor Library'}
 {$LIBSUFFIX '240'}
 {$RUNONLY}
-{$IMPLICITBUILD ON}
+{$IMPLICITBUILD OFF}
 
 requires
   rtl;

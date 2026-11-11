@@ -28,7 +28,7 @@
 {$DESCRIPTION 'Ethea Markdown Viewer Component (HTMLViewer)'}
 {$LIBSUFFIX AUTO}
 {$RUNONLY}
-{$IMPLICITBUILD ON}
+{$IMPLICITBUILD OFF}
 
 requires
   rtl,

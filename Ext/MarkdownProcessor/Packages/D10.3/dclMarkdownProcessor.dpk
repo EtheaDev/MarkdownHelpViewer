@@ -29,7 +29,7 @@
 {$DESCRIPTION 'Ethea Markdown Processor Library (design-time)'}
 {$LIBSUFFIX '260'}
 {$DESIGNONLY}
-{$IMPLICITBUILD ON}
+{$IMPLICITBUILD OFF}
 
 requires
   DesignIDE,

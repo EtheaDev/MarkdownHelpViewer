@@ -28,7 +28,7 @@
 {$DESCRIPTION 'Ethea Markdown Help Viewer Components'}
 {$LIBSUFFIX AUTO}
 {$RUNONLY}
-{$IMPLICITBUILD ON}
+{$IMPLICITBUILD OFF}
 
 requires
   rtl,
@@ -39,6 +39,7 @@ requires
 
 contains
   MarkDownViewerCommon in '..\..\Source\Components\MarkDownViewerCommon.pas',
+  MarkDownHTMLPage in '..\..\Source\Components\MarkDownHTMLPage.pas',
   MarkDownEdgeViewerComponents in '..\..\Source\Components\MarkDownEdgeViewerComponents.pas',
   MDCodeHighlightEmitter in '..\..\Source\Components\MDCodeHighlightEmitter.pas';
 

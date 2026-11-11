@@ -1,7 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>README</title>
 <style type="text/css">
-body{
-  font-family: Arial, sans-serif;
-}
+:root{color-scheme:light;}
+body{font-family:"Arial",sans-serif;font-size:12pt;color:#000000;background-color:#FFFFFF;}
+a{color:#0000FF;}
+.markdown-alert>:last-child{margin-bottom:0;}
+.markdown-alert-title{margin-top:0;}
+@media print{body{color:#000;background-color:#fff;}}
+</style>
+<script>
+document.addEventListener("click",function(e){var a=e.target.closest("a");if(a){var h=a.getAttribute("href");if(h&&h.charAt(0)==="#"){e.preventDefault();var t=document.getElementById(decodeURIComponent(h.substring(1)));if(t)t.scrollIntoView();}}});
+window.addEventListener("scroll",function(){if(window.chrome&&chrome.webview)chrome.webview.postMessage("scrollY:"+Math.round(window.scrollY)+":"+Math.max(0,Math.round(document.documentElement.scrollHeight-window.innerHeight)));});
+</script>
+</head>
+<body>
+<style type="text/css">
 img{
   max-width: 100%;
   height: auto;
@@ -218,30 +234,38 @@ pre.mermaid{
 <p><img src="./Images/ContentPageIta.png" alt="Markdown Help Viewer Italian" /></p>
 <h3 id="step-to-activate-this-help-into-markdownhelpviewerdemo-application">Step to activate this Help into MarkdownHelpViewerDemo Application</h3>
 <p>Use MarkdownHelpViewer.pas (located into AppInterface folder) in dpr:</p>
-<pre><code class="language-Delphi">  MarkdownHelpViewer in '..\..\AppInterface\MarkDownHelpViewer.pas',
+<div style="font-family: Arial, 'Courier New', monospace; font-size: 12pt;  background-color: #FFFFFF; color: #000000;">
+<pre><code><span>  MarkdownHelpViewer </span><span style="color: #0000FF; font-weight: bold; ">in</span><span> </span><span style="color: #A31515; ">'..\..\AppInterface\MarkDownHelpViewer.pas'</span><span style="color: #555555; ">,</span>
 </code></pre>
+</div>
 <p>then specify the default file of the help:</p>
-<pre><code class="language-Delphi">  Application.HelpFile := ExtractFilePath(Application.ExeName)+'..\Help\Home.md';
+<div style="font-family: Arial, 'Courier New', monospace; font-size: 12pt;  background-color: #FFFFFF; color: #000000;">
+<pre><code><span>  Application</span><span style="color: #555555; ">.</span><span>HelpFile </span><span style="color: #555555; ">:=</span><span> ExtractFilePath</span><span style="color: #555555; ">(</span><span>Application</span><span style="color: #555555; ">.</span><span>ExeName</span><span style="color: #555555; ">)+</span><span style="color: #A31515; ">'..\Help\Home.md'</span><span style="color: #555555; ">;</span>
 </code></pre>
+</div>
 <p>If you have installed the viewer using the provided Setup, the installation folder of the Viewer is registere into:</p>
 <p><code>HKEY_CLASSES_ROOT\Applications\MDHelpViewer.exe\Shell\Open\Command</code>
 so the interface can launch the viewer automatically.</p>
 <p>If you don't want to use the provided Setup you can register the location of the Viewer built by yourself and deployed to a specific location, for example:</p>
-<pre><code class="language-Delphi">{$IFDEF WIN32}
-  RegisterMDViewerLocation(ExtractFilePath(Application.ExeName)+
-    '..\..\Bin32\MDHelpViewer.exe');
-{$ELSE}
-  RegisterMDViewerLocation(ExtractFilePath(Application.ExeName)+
-    '..\..\Bin64\MDHelpViewer.exe');
-{$ENDIF}
+<div style="font-family: Arial, 'Courier New', monospace; font-size: 12pt;  background-color: #FFFFFF; color: #000000;">
+<pre><code><span style="color: #800080; font-style: italic; ">{$IFDEF WIN32}</span>
+<span>  RegisterMDViewerLocation</span><span style="color: #555555; ">(</span><span>ExtractFilePath</span><span style="color: #555555; ">(</span><span>Application</span><span style="color: #555555; ">.</span><span>ExeName</span><span style="color: #555555; ">)+</span>
+<span>    </span><span style="color: #A31515; ">'..\..\Bin32\MDHelpViewer.exe'</span><span style="color: #555555; ">);</span>
+<span style="color: #800080; font-style: italic; ">{$ELSE}</span>
+<span>  RegisterMDViewerLocation</span><span style="color: #555555; ">(</span><span>ExtractFilePath</span><span style="color: #555555; ">(</span><span>Application</span><span style="color: #555555; ">.</span><span>ExeName</span><span style="color: #555555; ">)+</span>
+<span>    </span><span style="color: #A31515; ">'..\..\Bin64\MDHelpViewer.exe'</span><span style="color: #555555; ">);</span>
+<span style="color: #800080; font-style: italic; ">{$ENDIF}</span>
 </code></pre>
+</div>
 <h3 id="rules-to-open-the-correct-file-using-helpcontext-or-helptopic">Rules to open the correct file using HelpContext or HelpTopic</h3>
 <p>To test the application you can lauch the Home.md help using the menu About/Help: in the OnClick handler invoke the help:</p>
-<pre><code class="language-Delphi">procedure TfmMain.HelpMenuItemClick(Sender: TObject);
-begin
-  Application.HelpKeyword('home');
-end;
+<div style="font-family: Arial, 'Courier New', monospace; font-size: 12pt;  background-color: #FFFFFF; color: #000000;">
+<pre><code><span style="color: #0000FF; font-weight: bold; ">procedure</span><span> TfmMain</span><span style="color: #555555; ">.</span><span>HelpMenuItemClick</span><span style="color: #555555; ">(</span><span>Sender</span><span style="color: #555555; ">:</span><span> TObject</span><span style="color: #555555; ">);</span>
+<span style="color: #0000FF; font-weight: bold; ">begin</span>
+<span>  Application</span><span style="color: #555555; ">.</span><span>HelpKeyword</span><span style="color: #555555; ">(</span><span style="color: #A31515; ">'home'</span><span style="color: #555555; ">);</span>
+<span style="color: #0000FF; font-weight: bold; ">end</span><span style="color: #555555; ">;</span>
 </code></pre>
+</div>
 <p>In any Delphi component, you can define HelpType (htKeyword or htContext) and the specify HelpKeyword (string) or HelpContext (Integer).</p>
 <p>When the user press “F1” inside the application, the HelpSystem is invoked with HelpKeyword or HelpContext.</p>
 <p>Then the interface searches in the same folder of default file (specified into Application.HelpFile) the specific file using those rules:</p>
@@ -252,6 +276,10 @@ end;
 <li>At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)</li>
 </ul>
 <h2 id="release-notes">Release Notes</h2>
+<p>11 Nov 2026: ver. 3.1.5</p>
+<ul>
+<li>Compatibility with Delphi 13.2</li>
+</ul>
 <p>03 Nov 2026: ver. 3.1.4</p>
 <ul>
 <li>The highlighting of the code blocks (<code>MDCodeHighlightEmitter</code>) uses Ethea SynEdit 3.0.0 (<a href="https://github.com/EtheaDev/SynEdit">https://github.com/EtheaDev/SynEdit</a>), the EtheaDev fork of pyscripter/SynEdit with every unit under the <code>SynEdit.</code> scope</li>
@@ -541,3 +569,5 @@ Copyright (c) 2014-2022 Knut Sveidqvist (MIT License)</li>
 <p><a href="https://github.com/RRUZ/vcl-styles-utils">vcl-styles-utils</a></p>
 <p><a href="https://github.com/EtheaDev/MarkdownProcessor">markdownProcessor</a></p>
 <p><a href="https://github.com/EtheaDev/StyledComponents">StyledComponents</a></p>
+</body>
+</html>

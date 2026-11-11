@@ -61,6 +61,7 @@
         <VerInfo_MajorVer>2</VerInfo_MajorVer>
         <VerInfo_MinorVer>1</VerInfo_MinorVer>
         <VerInfo_Release>2</VerInfo_Release>
+        <DCC_OutputNeverBuildDcps>true</DCC_OutputNeverBuildDcps>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <BT_BuildType>Debug</BT_BuildType>

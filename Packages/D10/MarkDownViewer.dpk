@@ -28,7 +28,7 @@
 {$DESCRIPTION 'Ethea Markdown Help Viewer Components'}
 {$LIBSUFFIX '230'}
 {$RUNONLY}
-{$IMPLICITBUILD ON}
+{$IMPLICITBUILD OFF}
 
 requires
   rtl,

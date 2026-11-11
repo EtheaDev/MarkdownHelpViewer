@@ -29,7 +29,7 @@
 {$DESCRIPTION 'Ethea Markdown Help Viewer Components'}
 {$LIBSUFFIX AUTO}
 {$DESIGNONLY}
-{$IMPLICITBUILD ON}
+{$IMPLICITBUILD OFF}
 
 requires
   DesignIDE,

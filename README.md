@@ -178,6 +178,9 @@ Then the interface searches in the same folder of default file (specified into A
 - At least, try the Help Name and the Keyword with underscore (eg.Home_1000.md, Home_MainForm.md)
 
 ## Release Notes ##
+11 Nov 2026: ver. 3.1.5
+- Compatibility with Delphi 13.2
+
 03 Nov 2026: ver. 3.1.4
 - The highlighting of the code blocks (`MDCodeHighlightEmitter`) uses Ethea SynEdit 3.0.0 (https://github.com/EtheaDev/SynEdit), the EtheaDev fork of pyscripter/SynEdit with every unit under the `SynEdit.` scope
 

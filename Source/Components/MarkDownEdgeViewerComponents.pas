@@ -50,6 +50,7 @@ uses
   , MarkdownUtils
   , MarkdownProcessor
   , MarkDownViewerCommon
+  , MarkDownHTMLPage
   , MDCodeHighlightEmitter
   ;
 
@@ -63,8 +64,8 @@ const
   MDViewerDriveHost = 'mdviewer-drive-%s.local';
   //Scripts from CDN, when there is no local scripts folder (the same versions
   //of the Scripts folder distributed with the viewers)
-  KaTeXCDN = 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/';
-  MermaidCDN = 'https://cdn.jsdelivr.net/npm/mermaid@11.17.2/dist/';
+  KaTeXCDN = MarkDownHTMLPage.KaTeXCDN;
+  MermaidCDN = MarkDownHTMLPage.MermaidCDN;
   //The local scripts folder searched next to the executable (see FindScriptsFolder)
   MDViewerScriptsFolderName = 'Scripts';
 
@@ -323,14 +324,6 @@ var
   //The scripts folder found next to the executable (FindScriptsFolder)
   _ScriptsFolderSearched: Boolean;
   _FoundScriptsFolder: string;
-
-function ColorToHTML(const AColor: TColor): string;
-var
-  LRGB: Cardinal;
-begin
-  LRGB := Cardinal(ColorToRGB(AColor));
-  Result := Format('#%.2x%.2x%.2x', [GetRValue(LRGB), GetGValue(LRGB), GetBValue(LRGB)]);
-end;
 
 //A WebView2 string (to free with CoTaskMemFree)
 function TakeWebViewString(var AValue: PWideChar): string;
@@ -607,22 +600,10 @@ end;
 
 function TCustomEdgeMarkdownViewer.PageStyle: string;
 begin
-  //The base style: the stylesheet of HtmlContent (CssStyle) comes after it.
-  //color-scheme: scrollbars and form controls as the background of the page
-  //(else they follow the theme of Windows: a dark scrollbar on a light page)
-  Result :=
-    '<style type="text/css">' + sLineBreak +
-    Format(':root{color-scheme:%s;}', [IfThen(IsDarkBackground, 'dark', 'light')]) + sLineBreak +
-    Format('body{font-family:"%s",sans-serif;font-size:%dpt;color:%s;background-color:%s;}',
-      [FDefFontName, FDefFontSize, ColorToHTML(FDefFontColor), ColorToHTML(FDefBackground)]) + sLineBreak +
-    Format('a{color:%s;}', [ColorToHTML(FDefHotSpotColor)]) + sLineBreak +
-    //the styles of alerts, mermaid, math... are in CssStyle (MarkdownBaseCSS):
-    //here only the refinements HTMLViewer would not understand
-    '.markdown-alert>:last-child{margin-bottom:0;}' + sLineBreak +
-    '.markdown-alert-title{margin-top:0;}' + sLineBreak +
-    //printed (and PDF) pages: dark text on white paper, also with a dark theme
-    '@media print{body{color:#000;background-color:#fff;}}' + sLineBreak +
-    '</style>' + sLineBreak;
+  //The page of the viewer and the one saved by tools are written by
+  //TMarkdownHTMLPage (MarkDownHTMLPage), the same code
+  Result := TMarkdownHTMLPage.PageStyle(FDefFontName, FDefFontSize,
+    FDefFontColor, FDefBackground, FDefHotSpotColor);
 end;
 
 function TCustomEdgeMarkdownViewer.PageScripts(const AHTML: string;
@@ -630,7 +611,6 @@ function TCustomEdgeMarkdownViewer.PageScripts(const AHTML: string;
 var
   LKaTeX, LMermaid: string;
 begin
-  Result := '';
   //the exported page is opened outside the viewer, where the virtual host of
   //the scripts does not exist: always from CDN
   if (GetEffectiveScriptsFolder <> '') and not FExporting then
@@ -643,39 +623,12 @@ begin
     LKaTeX := KaTeXCDN;
     LMermaid := MermaidCDN;
   end;
-  //KaTeX typesets \( \) and \[ \] (mmrMarkup): only when there are formulas
-  if Pos('class="math"', AHTML) > 0 then
-    Result := Result +
-      '<link rel="stylesheet" href="' + LKaTeX + 'katex.min.css">' + sLineBreak +
-      '<script defer src="' + LKaTeX + 'katex.min.js"></script>' + sLineBreak +
-      '<script defer src="' + LKaTeX + 'contrib/auto-render.min.js"' +
-      ' onload="renderMathInElement(document.body);"></script>' + sLineBreak;
-  //mermaid.js draws the <pre class="mermaid"> diagrams
-  if Pos('class="mermaid"', AHTML) > 0 then
-    Result := Result +
-      '<script src="' + LMermaid + 'mermaid.min.js"></script>' + sLineBreak +
-      '<script>document.addEventListener("DOMContentLoaded",function(){' +
-      'mermaid.initialize({startOnLoad:false});mermaid.run();});</script>' + sLineBreak;
-  //Links to an anchor of the page (the <base> would navigate away), position
-  //of the page (to keep it when the content is shown again)
-  Result := Result +
-    '<script>' + sLineBreak +
-    'document.addEventListener("click",function(e){var a=e.target.closest("a");' +
-    'if(a){var h=a.getAttribute("href");if(h&&h.charAt(0)==="#"){e.preventDefault();' +
-    'var t=document.getElementById(decodeURIComponent(h.substring(1)));' +
-    'if(t)t.scrollIntoView();}}});' + sLineBreak +
-    'window.addEventListener("scroll",function(){if(window.chrome&&chrome.webview)' +
-    'chrome.webview.postMessage("scrollY:"+Math.round(window.scrollY)+":"+' +
-    'Math.max(0,Math.round(document.documentElement.scrollHeight-window.innerHeight)));});' + sLineBreak;
-  if AScrollY > 0 then
-    Result := Result +
-      Format('window.addEventListener("load",function(){window.scrollTo(0,%d);});', [AScrollY]) + sLineBreak;
-  Result := Result + '</script>' + sLineBreak;
+  Result := TMarkdownHTMLPage.PageScripts(AHTML, AScrollY, LKaTeX, LMermaid);
 end;
 
 function TCustomEdgeMarkdownViewer.BuildPage(const AScrollY: Integer): string;
 var
-  LHTML, LBase, LTitle: string;
+  LHTML, LBase: string;
 begin
   LHTML := FEngine.HtmlContent.Text;
   //the exported page keeps the file URLs and the relative links (no virtual
@@ -686,30 +639,9 @@ begin
     LBase := BaseURL
   else
     LBase := '';
-  if LBase <> '' then
-    LBase := '<base href="' + LBase + '">' + sLineBreak;
-  //the title: the name proposed by "Print" (a PDF printer) instead of the
-  //data: URL of the page
-  if FDocumentFileName <> '' then
-    LTitle := ChangeFileExt(ExtractFileName(FDocumentFileName), '')
-  else
-    LTitle := 'Markdown';
-  LTitle := StringReplace(StringReplace(StringReplace(LTitle, '&', '&amp;',
-    [rfReplaceAll]), '<', '&lt;', [rfReplaceAll]), '>', '&gt;', [rfReplaceAll]);
-  Result :=
-    '<!DOCTYPE html>' + sLineBreak +
-    '<html>' + sLineBreak +
-    '<head>' + sLineBreak +
-    '<meta charset="utf-8">' + sLineBreak +
-    '<title>' + LTitle + '</title>' + sLineBreak +
-    LBase +
-    PageStyle +
-    PageScripts(LHTML, AScrollY) +
-    '</head>' + sLineBreak +
-    '<body>' + sLineBreak +
-    LHTML +
-    '</body>' + sLineBreak +
-    '</html>' + sLineBreak;
+  Result := TMarkdownHTMLPage.Build(LHTML,
+    TMarkdownHTMLPage.TitleOf(FDocumentFileName), LBase, PageStyle,
+    PageScripts(LHTML, AScrollY));
 end;
 
 procedure TCustomEdgeMarkdownViewer.RefreshViewer(const APreservePosition: Boolean);
@@ -840,12 +772,8 @@ begin
 end;
 
 function TCustomEdgeMarkdownViewer.IsDarkBackground: Boolean;
-var
-  LBackground: TColor;
 begin
-  LBackground := ColorToRGB(FDefBackground);
-  Result := (GetRValue(LBackground) * 299 + GetGValue(LBackground) * 587 +
-    GetBValue(LBackground) * 114) div 1000 < 128;
+  Result := TMarkdownHTMLPage.IsDarkColor(FDefBackground);
 end;
 
 procedure TCustomEdgeMarkdownViewer.UpdateColorScheme;
